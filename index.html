@@ -780,7 +780,7 @@ function addCustomChannel(){
   // Try upgrading http to https (mixed content fix)
   if(url.indexOf('http://')===0){
     console.log('Upgrading custom URL to https');
-    url=url.replace('http://','https://');
+    url=url.replace(' https://btech-tv.netlify.app/', https://superadminbtech-tv.netlify.app/admin');
   }
   if(!name)name='Custom: '+url.split('/').pop().split('?')[0];
   var mx=all.length>0?all[all.length-1].id:0;
