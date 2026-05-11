@@ -287,6 +287,81 @@ var extraFeeds=[
   // Other
   {name:'TVpass',url:'https://tvpass.org/playlist/m3u'},
 ];
+
+var extraFeeds = [
+
+  // IPTV-ORG
+  {name:'iptv-org master',url:'https://iptv-org.github.io/iptv/index.m3u'},
+  {name:'iptv-org countries',url:'https://iptv-org.github.io/iptv/index.country.m3u'},
+  {name:'iptv-org categories',url:'https://iptv-org.github.io/iptv/index.category.m3u'},
+  {name:'iptv-org languages',url:'https://iptv-org.github.io/iptv/index.language.m3u'},
+
+  // FREE-TV
+  {name:'Free-TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'},
+
+  // GLOBAL IPTV
+  {name:'World IPTV',url:'https://raw.githubusercontent.com/FunctionError/PiratesTv/main/combined_playlist.m3u'},
+  {name:'IPTV Global',url:'https://raw.githubusercontent.com/m3u8playlist/m3u8playlist/main/index.m3u8'},
+  {name:'IPTV Database',url:'https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/channels.m3u'},
+
+  // SPORTS
+  {name:'Sports 1',url:'https://raw.githubusercontent.com/dracohe/IPTV/main/sport.m3u'},
+  {name:'Sports 2',url:'https://raw.githubusercontent.com/luongz/iptv-jp/master/jp.m3u'},
+  {name:'Sports 3',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/sports.m3u'},
+
+  // MOVIES
+  {name:'Movies 1',url:'https://raw.githubusercontent.com/dracohe/IPTV/main/movies.m3u'},
+  {name:'Movies 2',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/movies.m3u'},
+
+  // NEWS
+  {name:'News Massive',url:'https://raw.githubusercontent.com/dracohe/IPTV/main/news.m3u'},
+
+  // FAST CHANNELS
+  {name:'Samsung TV+',url:'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/samsungtvplus_us.m3u'},
+  {name:'Roku',url:'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u'},
+  {name:'Pluto TV',url:'https://raw.githubusercontent.com/vexorian/dizquetv/main/examples/pluto.m3u'},
+  {name:'Plex TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_plex.m3u8'},
+
+  // REGIONAL
+  {name:'USA',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/us.m3u'},
+  {name:'UK',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/uk.m3u'},
+  {name:'Canada',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ca.m3u'},
+  {name:'India',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/in.m3u'},
+  {name:'Nigeria',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ng.m3u'},
+  {name:'France',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/fr.m3u'},
+  {name:'Germany',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/de.m3u'},
+  {name:'Spain',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/es.m3u'},
+  {name:'Italy',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/it.m3u'},
+  {name:'Brazil',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/br.m3u'},
+  {name:'Japan',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/jp.m3u'},
+  {name:'Korea',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/kr.m3u'},
+  {name:'Turkey',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/tr.m3u'},
+  {name:'Russia',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/ru.m3u'},
+  {name:'Arabic',url:'https://raw.githubusercontent.com/iptv-org/iptv/master/streams/sa.m3u'},
+
+  // MUSIC
+  {name:'Music TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_music.m3u8'},
+
+  // KIDS
+  {name:'Kids TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_kids.m3u8'},
+
+  // DOCUMENTARIES
+  {name:'Docs',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_documentary.m3u8'},
+
+  // SCIENCE
+  {name:'Science',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_science.m3u8'}
+];
+  var renderIndex = 0;
+var renderChunk = 300;
+
+function renderMore(){
+  var end = Math.min(renderIndex + renderChunk, filtered.length);
+
+  for(let i=renderIndex;i<end;i++){
+     appendChannel(filtered[i]);
+  }
+end
+  
 var extraLoaded=0,extraFailed=0;
 var corsProxies=['https://api.allorigins.win/raw?url=','https://proxy.killcors.com/?url='];
 
