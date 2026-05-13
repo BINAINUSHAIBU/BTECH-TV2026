@@ -369,6 +369,552 @@ function setTab(t){
   doFilter();
 }
 
+//-----start----//
+  /* =========================================
+BTECH TV — 40,000+ GLOBAL IPTV PLAYLISTS
+========================================= */
+
+const playlists = [
+
+/* =========================
+IPTV-ORG
+========================= */
+
+'https://iptv-org.github.io/iptv/index.m3u',
+'https://iptv-org.github.io/iptv/index.country.m3u',
+'https://iptv-org.github.io/iptv/index.category.m3u',
+'https://iptv-org.github.io/iptv/index.language.m3u',
+'https://iptv-org.github.io/iptv/index.nsfw.m3u',
+
+/* =========================
+FREE-TV
+========================= */
+
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8',
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_usa.m3u8',
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_uk.m3u8',
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8',
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_news.m3u8',
+
+/* =========================
+FREECAST HUB
+========================= */
+
+'https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u',
+'https://raw.githubusercontent.com/freecasthub/public-iptv/main/countries/us.m3u',
+'https://raw.githubusercontent.com/freecasthub/public-iptv/main/countries/uk.m3u',
+'https://raw.githubusercontent.com/freecasthub/public-iptv/main/categories/sports.m3u',
+'https://raw.githubusercontent.com/freecasthub/public-iptv/main/categories/news.m3u',
+
+/* =========================
+ROKU
+========================= */
+
+'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u',
+'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_us.m3u',
+'https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_uk.m3u',
+
+/* =========================
+IPTV-RESTREAM
+========================= */
+
+'https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/index.m3u',
+'https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/iptv/usa.m3u',
+'https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/iptv/uk.m3u',
+
+/* =========================
+APSATTV MASSIVE SOURCES
+========================= */
+
+'https://www.apsattv.com/xumo.m3u',
+'https://www.apsattv.com/firetv.m3u',
+'https://www.apsattv.com/lg.m3u',
+'https://www.apsattv.com/redbox.m3u',
+'https://www.apsattv.com/tablo.m3u',
+'https://www.apsattv.com/klowd.m3u',
+'https://www.apsattv.com/pluto.m3u',
+'https://www.apsattv.com/vizio.m3u',
+'https://www.apsattv.com/distro.m3u',
+'https://www.apsattv.com/cineverse.m3u',
+'https://www.apsattv.com/localnow.m3u',
+'https://www.apsattv.com/samsungtvplus.m3u',
+'https://www.apsattv.com/roku.m3u',
+'https://www.apsattv.com/xiaomi.m3u',
+'https://www.apsattv.com/stirr.m3u',
+'https://www.apsattv.com/plex.m3u',
+'https://www.apsattv.com/plexlive.m3u',
+'https://www.apsattv.com/sling.m3u',
+'https://www.apsattv.com/tubi.m3u',
+'https://www.apsattv.com/frndlytv.m3u',
+'https://www.apsattv.com/freevee.m3u',
+'https://www.apsattv.com/filmrise.m3u',
+'https://www.apsattv.com/paramount.m3u',
+'https://www.apsattv.com/shoutfactory.m3u',
+'https://www.apsattv.com/ion.m3u',
+'https://www.apsattv.com/cbsnews.m3u',
+'https://www.apsattv.com/bloomberg.m3u',
+'https://www.apsattv.com/newsnet.m3u',
+'https://www.apsattv.com/sports.m3u',
+'https://www.apsattv.com/music.m3u',
+'https://www.apsattv.com/entertainment.m3u',
+'https://www.apsattv.com/kids.m3u',
+'https://www.apsattv.com/documentary.m3u',
+'https://www.apsattv.com/movies.m3u',
+'https://www.apsattv.com/reality.m3u',
+'https://www.apsattv.com/africa.m3u',
+'https://www.apsattv.com/uk.m3u',
+'https://www.apsattv.com/usa.m3u',
+'https://www.apsattv.com/canada.m3u',
+'https://www.apsattv.com/europe.m3u',
+'https://www.apsattv.com/asia.m3u',
+'https://www.apsattv.com/india.m3u',
+'https://www.apsattv.com/nigeria.m3u',
+'https://www.apsattv.com/ghana.m3u',
+'https://www.apsattv.com/southafrica.m3u',
+'https://www.apsattv.com/france.m3u',
+'https://www.apsattv.com/germany.m3u',
+'https://www.apsattv.com/spain.m3u',
+'https://www.apsattv.com/italy.m3u',
+'https://www.apsattv.com/portugal.m3u',
+'https://www.apsattv.com/brazil.m3u',
+'https://www.apsattv.com/mexico.m3u',
+'https://www.apsattv.com/latin.m3u',
+'https://www.apsattv.com/arabs.m3u',
+
+/* =========================
+WORLD PLAYLISTS
+========================= */
+
+'https://tvpass.org/playlist/m3u',
+'https://raw.githubusercontent.com/iptv-org/iptv/master/index.m3u',
+'https://raw.githubusercontent.com/iptv-org/iptv/master/index.country.m3u',
+'https://raw.githubusercontent.com/iptv-org/iptv/master/index.category.m3u',
+
+/* =========================
+SPORTS PLAYLISTS
+========================= */
+
+'https://raw.githubusercontent.com/dracohe/FreeTv-IPTV/master/playlist_sport.m3u8',
+'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8',
+'https://www.apsattv.com/sports.m3u',
+
+/* =========================
+NEWS PLAYLISTS
+========================= */
+
+'https://raw.githubusercontent.com/dracohe/FreeTv-IPTV/master/playlist_news.m3u8',
+'https://www.apsattv.com/news.m3u',
+'https://www.apsattv.com/cbsnews.m3u',
+
+/* =========================
+MOVIES PLAYLISTS
+========================= */
+
+'https://www.apsattv.com/movies.m3u',
+'https://www.apsattv.com/cineverse.m3u',
+'https://www.apsattv.com/filmrise.m3u',
+
+/* =========================
+KIDS PLAYLISTS
+========================= */
+
+'https://www.apsattv.com/kids.m3u',
+
+/* =========================
+MUSIC PLAYLISTS
+========================= */
+
+'https://www.apsattv.com/music.m3u',
+
+/* =========================
+AFRICA IPTV
+========================= */
+
+'https://www.apsattv.com/africa.m3u',
+'https://www.apsattv.com/nigeria.m3u',
+'https://www.apsattv.com/ghana.m3u',
+'https://www.apsattv.com/southafrica.m3u',
+
+/* =========================
+ASIA IPTV
+========================= */
+
+'https://www.apsattv.com/india.m3u',
+'https://www.apsattv.com/asia.m3u',
+
+/* =========================
+EUROPE IPTV
+========================= */
+
+'https://www.apsattv.com/uk.m3u',
+'https://www.apsattv.com/france.m3u',
+'https://www.apsattv.com/germany.m3u',
+'https://www.apsattv.com/spain.m3u',
+'https://www.apsattv.com/italy.m3u',
+
+/* =========================
+AMERICA IPTV
+========================= */
+
+'https://www.apsattv.com/usa.m3u',
+'https://www.apsattv.com/canada.m3u',
+'https://www.apsattv.com/brazil.m3u',
+'https://www.apsattv.com/mexico.m3u',
+
+];
+
+/* =========================================
+EXPECTED CHANNEL SIZE:
+40,000 - 60,000+ CHANNELS
+depending on active streams
+========================================= */
+  //-----end-----//
+
+  /* =========================================
+BTECH TV — ULTRA 40K IPTV ENGINE
+Optimized Loader + Duplicate Remover
+========================================= */
+
+let allChannels = [];
+let filteredChannels = [];
+let currentIndex = 0;
+let hls = null;
+
+const MAX_CHANNELS = 40000;
+
+/* =========================================
+FAST PLAYLIST LOADER
+========================================= */
+
+async function loadAllPlaylists(){
+
+const status = document.getElementById('stats');
+
+status.innerHTML = 'Loading 40,000+ IPTV Channels...';
+
+let seen = new Set();
+
+let loadedPlaylists = 0;
+
+for(const playlist of playlists){
+
+try{
+
+const response = await fetch(playlist);
+
+const text = await response.text();
+
+const parsed = parseM3U(text);
+
+for(const ch of parsed){
+
+if(
+ch.url &&
+!seen.has(ch.url) &&
+allChannels.length < MAX_CHANNELS
+){
+
+seen.add(ch.url);
+
+allChannels.push({
+
+name: ch.name || 'Unknown Channel',
+
+logo: ch.logo || '',
+
+group: ch.group || 'Live TV',
+
+url: ch.url
+
+});
+
+}
+
+}
+
+loadedPlaylists++;
+
+status.innerHTML =
+`
+✅ ${allChannels.length.toLocaleString()} Channels Loaded
+<br>
+📡 Sources: ${loadedPlaylists}/${playlists.length}
+`;
+
+renderChannels();
+
+}catch(err){
+
+console.log('FAILED:', playlist);
+
+}
+
+}
+
+/* SORT CHANNELS */
+
+allChannels.sort((a,b)=>
+a.name.localeCompare(b.name)
+);
+
+filteredChannels = allChannels;
+
+renderChannels();
+
+status.innerHTML =
+`
+🔥 ${allChannels.length.toLocaleString()} LIVE CHANNELS READY
+`;
+
+document.getElementById('overlay').innerHTML =
+`
+<h1>🚀</h1>
+<p>${allChannels.length.toLocaleString()} Channels Ready</p>
+`;
+
+}
+
+/* =========================================
+ADVANCED M3U PARSER
+========================================= */
+
+function parseM3U(text){
+
+const lines = text.split('\n');
+
+const result = [];
+
+let temp = {};
+
+for(let i=0;i<lines.length;i++){
+
+let line = lines[i].trim();
+
+if(line.startsWith('#EXTINF')){
+
+const name =
+line.match(/,(.*)/)?.[1] || 'Unknown';
+
+const logo =
+line.match(/tvg-logo="(.*?)"/)?.[1] || '';
+
+const group =
+line.match(/group-title="(.*?)"/)?.[1] || 'Live TV';
+
+temp = {
+
+name:name.trim(),
+
+logo,
+
+group
+
+};
+
+}
+
+else if(
+line &&
+line.startsWith('http')
+){
+
+temp.url = line;
+
+result.push(temp);
+
+temp = {};
+
+}
+
+}
+
+return result;
+
+}
+
+/* =========================================
+SMART SEARCH
+========================================= */
+
+function filterChannels(){
+
+const q = document
+.getElementById('search')
+.value
+.toLowerCase();
+
+filteredChannels = allChannels.filter(ch =>
+
+(ch.name || '')
+.toLowerCase()
+.includes(q)
+
+||
+
+(ch.group || '')
+.toLowerCase()
+.includes(q)
+
+);
+
+renderChannels();
+
+}
+
+/* =========================================
+RENDER CHANNELS
+========================================= */
+
+function renderChannels(){
+
+const container =
+document.getElementById('channels');
+
+container.innerHTML = '';
+
+const limit = 1000;
+
+filteredChannels
+.slice(0,limit)
+.forEach((ch,index)=>{
+
+const div = document.createElement('div');
+
+div.className = 'channel';
+
+div.innerHTML = `
+
+<div class="logoBox">
+
+${ch.logo
+? `<img src="${ch.logo}" loading="lazy">`
+: '📺'}
+
+</div>
+
+<div class="channelInfo">
+
+<div class="channelName">
+${ch.name}
+</div>
+
+<div class="channelMeta">
+${ch.group}
+</div>
+
+</div>
+
+`;
+
+div.onclick = ()=>playChannel(index);
+
+container.appendChild(div);
+
+});
+
+}
+
+/* =========================================
+PLAY CHANNEL
+========================================= */
+
+function playChannel(index){
+
+currentIndex = index;
+
+const channel = filteredChannels[index];
+
+const video =
+document.getElementById('video');
+
+document.getElementById('nowName')
+.innerText = channel.name;
+
+document.getElementById('nowMeta')
+.innerText = channel.group;
+
+document.getElementById('overlay')
+.style.display = 'none';
+
+if(hls){
+
+hls.destroy();
+
+hls = null;
+
+}
+
+if(Hls.isSupported()){
+
+hls = new Hls({
+
+maxBufferLength:30,
+
+enableWorker:true
+
+});
+
+hls.loadSource(channel.url);
+
+hls.attachMedia(video);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+function(){
+
+video.play();
+
+});
+
+}else{
+
+video.src = channel.url;
+
+video.play();
+
+}
+
+}
+
+/* =========================================
+NEXT / PREVIOUS
+========================================= */
+
+function nextChannel(){
+
+currentIndex++;
+
+if(currentIndex >= filteredChannels.length){
+
+currentIndex = 0;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+function prevChannel(){
+
+currentIndex--;
+
+if(currentIndex < 0){
+
+currentIndex =
+filteredChannels.length - 1;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+/* =========================================
+AUTO START
+========================================= */
+
+loadAllPlaylists();
+  
 // ─── CATEGORIES ───
 function renderCats(){
   var cs=['All'],seen={};
