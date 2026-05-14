@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Sports Channel Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1220;
+  color: #fff;
+}
+
+header {
+  background: #111827;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 { font-size: 18px; }
+
+.search input {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  width: 200px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: calc(100vh - 60px);
+}
+
+.sidebar {
+  background: #0f172a;
+  overflow-y: auto;
+  padding: 10px;
+  border-right: 1px solid #1f2937;
+}
+
+.channel {
+  background: #1e293b;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+.channel:hover {
+  background: #273449;
+}
+
+.badge {
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.free { background: #22c55e; }
+.premium { background: #ef4444; }
+
+.locked {
+  opacity: 0.6;
+}
+
+.main {
+  padding: 15px;
+}
+
+.player {
+  width: 100%;
+  height: 60vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.info {
+  background: #111827;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.pay {
+  background: #f59e0b;
+  color: black;
+}
+
+.watch {
+  background: #22c55e;
+  color: white;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📺 Live Sports Channels</h1>
+  <div class="search">
+    <input type="text" id="search" placeholder="Search channels...">
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="channelList"></div>
+
+  <!-- MAIN PLAYER -->
+  <div class="main">
+    <div class="player" id="player">
+      Select a channel to watch
+    </div>
+
+    <div class="info" id="info">
+      Channel info will appear here
+    </div>
+  </div>
+
+</div>
+
+<script>
+const channels = [
+  { id: 1, name: "Sky Sports Premier League", type: "premium", stream: "LIVE STREAM 1" },
+  { id: 2, name: "ESPN Sports HD", type: "free", stream: "LIVE STREAM 2" },
+  { id: 3, name: "BeIN Sports HD", type: "premium", stream: "LIVE STREAM 3" },
+  { id: 4, name: "SuperSport Football", type: "free", stream: "LIVE STREAM 4" },
+  { id: 5, name: "NBA TV Live", type: "premium", stream: "LIVE STREAM 5" },
+
+];
+
+let unlocked = {};
+
+function render(list) {
+  const container = document.getElementById("channelList");
+  container.innerHTML = "";
+
+  list.forEach(ch => {
+    const isLocked = ch.type === "premium" && !unlocked[ch.id];
+
+    container.innerHTML += `
+      <div class="channel ${isLocked ? "locked" : ""}" onclick="openChannel(${ch.id})">
+        ${ch.name}
+        <span class="badge ${ch.type === "free" ? "free" : "premium"}">
+          ${ch.type.toUpperCase()}
+        </span>
+      </div>
+    `;
+  });
+}
+
+function openChannel(id) {
+  const ch = channels.find(c => c.id === id);
+  const player = document.getElementById("player");
+  const info = document.getElementById("info");
+
+  const isLocked = ch.type === "premium" && !unlocked[id];
+
+  if (isLocked) {
+    player.innerHTML = "🔒 Premium Channel Locked";
+    info.innerHTML = `
+      <b>${ch.name}</b><br>
+      This is a premium channel.<br>
+      <button class="btn pay" onclick="unlock(${id})">Pay to Unlock</button>
+    `;
+    return;
+  }
+
+  player.innerHTML = "▶ Playing: " + ch.stream;
+  info.innerHTML = `
+    <b>${ch.name}</b><br>
+    Status: LIVE
+  `;
+}
+
+function unlock(id) {
+  // simulate payment success (replace with Paystack/Flutterwave later)
+  unlocked[id] = true;
+  alert("Payment Successful! Channel Unlocked");
+  render(channels);
+}
+
+document.getElementById("search").addEventListener("input", e => {
+  const value = e.target.value.toLowerCase();
+  const filtered = channels.filter(c => c.name.toLowerCase().includes(value));
+  render(filtered);
+});
+
+render(channels);
+</script>
+
+</body>
+</html>

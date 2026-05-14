@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BTECH TV User Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#fff;
+}
+
+/* DASHBOARD */
+
+.dashboard-container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#111827;
+padding:20px;
+}
+
+.sidebar h2{
+text-align:center;
+color:#00d4ff;
+margin-bottom:30px;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar ul li{
+margin:10px 0;
+}
+
+.sidebar ul li a{
+display:block;
+padding:14px;
+background:#1e293b;
+color:white;
+text-decoration:none;
+border-radius:10px;
+transition:0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li.active a{
+background:#00d4ff;
+color:#000;
+}
+
+/* MAIN */
+
+.dashboard-main{
+flex:1;
+padding:25px;
+}
+
+/* HEADER */
+
+.dashboard-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.dashboard-header h1{
+font-size:28px;
+}
+
+/* SEARCH */
+
+.search-box{
+margin-bottom:25px;
+}
+
+.search-box input{
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+font-size:16px;
+}
+
+/* STATS */
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.stat-card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+}
+
+.stat-card h3{
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.stat-card p{
+font-size:28px;
+font-weight:bold;
+color:#00d4ff;
+}
+
+/* CHANNEL GRID */
+
+.channel-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+/* CHANNEL CARD */
+
+.channel-card{
+background:#1e293b;
+border-radius:15px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.channel-card:hover{
+transform:translateY(-5px);
+}
+
+.channel-image{
+height:150px;
+background:#334155;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+font-weight:bold;
+color:#00d4ff;
+}
+
+.channel-info{
+padding:15px;
+}
+
+.channel-info h3{
+margin-bottom:10px;
+}
+
+.channel-info p{
+margin-bottom:8px;
+color:#cbd5e1;
+}
+
+/* BADGES */
+
+.badge{
+display:inline-block;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+margin-right:5px;
+}
+
+.free{
+background:#16a34a;
+}
+
+.paid{
+background:#dc2626;
+}
+
+.locked{
+background:#f59e0b;
+}
+
+.unlocked{
+background:#2563eb;
+}
+
+/* BUTTONS */
+
+.watch-btn{
+display:block;
+width:100%;
+padding:12px;
+border:none;
+background:#00d4ff;
+color:#000;
+font-weight:bold;
+cursor:pointer;
+border-radius:10px;
+margin-top:10px;
+}
+
+.watch-btn:hover{
+opacity:0.9;
+}
+
+/* PLAYER MODAL */
+
+.player-modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.player-box{
+width:90%;
+max-width:1000px;
+background:#111827;
+padding:20px;
+border-radius:15px;
+}
+
+.player-box video{
+width:100%;
+height:500px;
+background:black;
+border-radius:10px;
+}
+
+.close-btn{
+background:red;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+cursor:pointer;
+margin-bottom:15px;
+}
+
+@media(max-width:768px){
+
+.sidebar{
+display:none;
+}
+
+.dashboard-main{
+padding:15px;
+}
+
+.player-box video{
+height:250px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<h2>BTECH TV</h2>
+
+<ul>
+
+<li class="active">
+<a href="#">Dashboard</a>
+</li>
+
+<li>
+<a href="#">All Channels</a>
+</li>
+
+<li>
+<a href="#">Free Channels</a>
+</li>
+
+<li>
+<a href="#">Premium Channels</a>
+</li>
+
+<li>
+<a href="live_sport.html">Live Sports</a>
+</li>
+
+<li>
+<a href="#">Movies</a>
+</li>
+
+<li>
+<a href="#">Kids</a>
+</li>
+
+<li>
+<a href="#">News</a>
+</li>
+
+<li>
+<a href="#">My Subscription</a>
+</li>
+
+<li>
+<a href="#">Settings</a>
+</li>
+
+</ul>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="dashboard-main">
+
+<header class="dashboard-header">
+
+<h1>User Channel Dashboard</h1>
+
+<p>Welcome Back 👋</p>
+
+</header>
+
+<!-- SEARCH -->
+
+<div class="search-box">
+
+<input 
+type="text" 
+id="searchInput"
+placeholder="Search channels..."
+onkeyup="searchChannels()"
+>
+
+</div>
+
+<!-- STATS -->
+
+<section class="stats-grid">
+
+<div class="stat-card">
+<h3>Total Channels</h3>
+<p id="totalChannels">20,000</p>
+</div>
+
+<div class="stat-card">
+<h3>Free Channels</h3>
+<p id="freeChannels">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Premium Channels</h3>
+<p id="premiumChannels">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Locked Channels</h3>
+<p id="lockedChannels">0</p>
+</div>
+
+</section>
+
+<!-- CHANNELS -->
+
+<section class="channel-grid" id="channelGrid">
+</section>
+
+</main>
+
+</div>
+
+<!-- VIDEO PLAYER -->
+
+<div class="player-modal" id="playerModal">
+
+<div class="player-box">
+
+<button class="close-btn" onclick="closePlayer()">
+Close
+</button>
+
+<h2 id="playerTitle"></h2>
+
+<video id="videoPlayer" controls autoplay></video>
+
+</div>
+
+</div>
+
+<script>
+
+/* CHANNEL DATA */
+
+const channels = [];
+
+const categories = [
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Music",
+"Entertainment"
+];
+
+for(let i=1;i<=20000;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:categories[
+Math.floor(Math.random()*categories.length)
+],
+
+type:Math.random()>0.5
+? "Free"
+: "Pay To View",
+
+status:Math.random()>0.7
+? "Locked"
+: "Unlocked",
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+/* RENDER CHANNELS */
+
+function renderChannels(list){
+
+const grid =
+document.getElementById("channelGrid");
+
+grid.innerHTML = "";
+
+/* SHOW FIRST 100 */
+
+list.slice(0,100).forEach(channel=>{
+
+grid.innerHTML += `
+
+<div class="channel-card">
+
+<div class="channel-image">
+${channel.category}
+</div>
+
+<div class="channel-info">
+
+<h3>${channel.name}</h3>
+
+<p>${channel.category}</p>
+
+<span class="
+badge
+${channel.type==="Free"
+? "free"
+: "paid"}
+">
+${channel.type}
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+? "locked"
+: "unlocked"}
+">
+${channel.status}
+</span>
+
+<button 
+class="watch-btn"
+onclick="watchChannel(${channel.id})"
+>
+
+Watch Channel
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* UPDATE STATS */
+
+document.getElementById("freeChannels").innerText =
+channels.filter(c=>c.type==="Free").length
+.toLocaleString();
+
+document.getElementById("premiumChannels").innerText =
+channels.filter(c=>c.type==="Pay To View").length
+.toLocaleString();
+
+document.getElementById("lockedChannels").innerText =
+channels.filter(c=>c.status==="Locked").length
+.toLocaleString();
+
+}
+
+/* SEARCH */
+
+function searchChannels(){
+
+const value =
+document.getElementById("searchInput")
+.value.toLowerCase();
+
+const filtered =
+channels.filter(channel=>
+channel.name.toLowerCase().includes(value)
+);
+
+renderChannels(filtered);
+
+}
+
+/* WATCH CHANNEL */
+
+function watchChannel(id){
+
+const channel =
+channels.find(c=>c.id===id);
+
+if(channel.status==="Locked"){
+
+alert(
+"This channel is locked. Subscribe to watch."
+);
+
+return;
+
+}
+
+document.getElementById("playerModal")
+.style.display = "flex";
+
+document.getElementById("playerTitle")
+.innerText = channel.name;
+
+const video =
+document.getElementById("videoPlayer");
+
+/* HLS PLAYER */
+
+if(Hls.isSupported()){
+
+const hls = new Hls();
+
+hls.loadSource(channel.streamUrl);
+
+hls.attachMedia(video);
+
+hls.on(Hls.Events.MANIFEST_PARSED,function(){
+
+video.play();
+
+});
+
+}else{
+
+video.src = channel.streamUrl;
+
+video.play();
+
+}
+
+}
+
+/* CLOSE PLAYER */
+
+function closePlayer(){
+
+document.getElementById("playerModal")
+.style.display = "none";
+
+document.getElementById("videoPlayer")
+.pause();
+
+}
+
+/* INIT */
+
+renderChannels(channels);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!-- PAYMENT MODAL -->
+
+<div class="modal" id="paymentModal">
+
+<div class="modal-box">
+
+<h2 id="planTitle">
+Subscription Plan
+</h2>
+
+<p id="planPrice">
+₦0
+</p>
+
+<p>
+Continue to secure payment gateway.
+</p>
+
+<!-- PAYSTACK BUTTON -->
+
+<button
+class="pay-btn paystack-btn"
+onclick="payWithPaystack()"
+>
+
+Pay With Paystack
+
+</button>
+
+<!-- FLUTTERWAVE BUTTON -->
+
+<button
+class="pay-btn flutterwave-btn"
+onclick="payWithFlutterwave()"
+>
+
+Pay With Flutterwave
+
+</button>
+
+<button
+class="close-btn"
+onclick="closeModal()"
+>
+
+Close
+
+</button>
+
+</div>
+
+</div>
+
+<!-- PAYSTACK -->
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<!-- FLUTTERWAVE -->
+
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+
+<script>
+
+/* CURRENT PLAN */
+
+let currentPlan = "";
+let currentPrice = 0;
+
+/* OPEN SUBSCRIPTION */
+
+function subscribe(plan, price){
+
+document.getElementById("paymentModal")
+.style.display = "flex";
+
+document.getElementById("planTitle")
+.innerText = plan;
+
+document.getElementById("planPrice")
+.innerText = price;
+
+currentPlan = plan;
+
+/* REMOVE ₦ SIGN */
+
+currentPrice =
+parseInt(
+price.replace("₦","")
+.replace(",","")
+);
+
+}
+
+/* CLOSE MODAL */
+
+function closeModal(){
+
+document.getElementById("paymentModal")
+.style.display = "none";
+
+}
+
+/* PAYSTACK PAYMENT */
+
+function payWithPaystack(){
+
+let handler = PaystackPop.setup({
+
+key: "pk_test_xxxxxxxxxxxxxxxxx",
+
+email: "user@btechtv.com",
+
+amount: currentPrice * 100,
+
+currency: "NGN",
+
+ref: "BTECHTV_" + Math.floor(
+(Math.random() * 1000000000) + 1
+),
+
+metadata: {
+
+custom_fields: [
+
+{
+
+display_name: "Subscription Plan",
+
+variable_name: "subscription_plan",
+
+value: currentPlan
+
+}
+
+]
+
+},
+
+callback: function(response){
+
+alert(
+"Payment Successful! Reference: "
++ response.reference
+);
+
+/* UNLOCK CHANNELS HERE */
+
+window.location.href =
+"premium-dashboard.html";
+
+},
+
+onClose: function(){
+
+alert("Payment Cancelled");
+
+}
+
+});
+
+handler.openIframe();
+
+}
+
+/* FLUTTERWAVE PAYMENT */
+
+function payWithFlutterwave(){
+
+FlutterwaveCheckout({
+
+public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxx",
+
+tx_ref: "BTECHTV_" + Date.now(),
+
+amount: currentPrice,
+
+currency: "NGN",
+
+payment_options: "card, banktransfer, ussd",
+
+customer: {
+
+email: "user@btechtv.com",
+
+phone_number: "08000000000",
+
+name: "BTECH TV User"
+
+},
+
+customizations: {
+
+title: "BTECH TV Subscription",
+
+description:
+currentPlan + " Subscription Payment",
+
+logo:
+"https://yourlogo.com/logo.png"
+
+},
+
+callback: function(data){
+
+alert(
+"Flutterwave Payment Successful"
+);
+
+/* REDIRECT */
+
+window.location.href =
+"premium-dashboard.html";
+
+},
+
+onclose: function(){
+
+console.log("Payment Closed");
+
+}
+
+});
+
+}
+
+</script>
+
+<style>
+
+/* MODAL */
+
+.modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.92);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+/* BOX */
+
+.modal-box{
+background:#111827;
+padding:35px;
+border-radius:18px;
+width:90%;
+max-width:450px;
+text-align:center;
+color:white;
+}
+
+/* TITLE */
+
+.modal-box h2{
+margin-bottom:15px;
+color:#00d4ff;
+font-size:28px;
+}
+
+/* PRICE */
+
+.modal-box p{
+margin-bottom:18px;
+font-size:16px;
+color:#cbd5e1;
+}
+
+/* BUTTON */
+
+.pay-btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+transition:0.3s;
+}
+
+/* PAYSTACK */
+
+.paystack-btn{
+background:#00c3f7;
+color:black;
+}
+
+/* FLUTTERWAVE */
+
+.flutterwave-btn{
+background:#f59e0b;
+color:black;
+}
+
+/* CLOSE */
+
+.close-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:18px;
+background:red;
+color:white;
+}
+
+/* HOVER */
+
+.pay-btn:hover,
+.close-btn:hover{
+opacity:0.9;
+}
+
+</style>
+<script>
+function payWithFlutterwave() {
+  FlutterwaveCheckout({
+    public_key: "YOUR_FLUTTERWAVE_PUBLIC_KEY",
+    tx_ref: "TX-" + Date.now(),
+    amount: 1000, // amount in NGN
+    currency: "NGN",
+    payment_options: "card,banktransfer,ussd",
+    
+    customer: {
+      email: "user@example.com",
+      name: "Channel User"
+    },
+
+    customizations: {
+      title: "BTECH TV Subscription",
+      description: "Pay to unlock premium channels",
+      logo: "https://your-logo-url.com/logo.png"
+    },
+
+    callback: function (data) {
+      console.log("Payment successful:", data);
+      verifyPayment(data.transaction_id);
+    },
+
+    onclose: function () {
+      alert("Payment cancelled");
+    }
+  });
+}
+
+// Optional backend verification
+function verifyPayment(transactionId) {
+  fetch("http://localhost:5000/flutterwave-verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ transactionId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Channel Unlocked Successfully!");
+      localStorage.setItem("access", "true");
+    } else {
+      alert("Verification failed");
+    }
+  });
+}
+</script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script>
+function payWithFlutterwave() {
+  FlutterwaveCheckout({
+    public_key: "YOUR_FLUTTERWAVE_PUBLIC_KEY",
+    tx_ref: "TX-" + Date.now(),
+    amount: 1000, // amount in NGN
+    currency: "NGN",
+    payment_options: "card,banktransfer,ussd",
+    
+    customer: {
+      email: "user@example.com",
+      name: "Channel User"
+    },
+
+    customizations: {
+      title: "BTECH TV Subscription",
+      description: "Pay to unlock premium channels",
+      logo: "https://your-logo-url.com/logo.png"
+    },
+
+    callback: function (data) {
+      console.log("Payment successful:", data);
+      verifyPayment(data.transaction_id);
+    },
+
+    onclose: function () {
+      alert("Payment cancelled");
+    }
+  });
+}
+
+// Optional backend verification
+function verifyPayment(transactionId) {
+  fetch("http://localhost:5000/flutterwave-verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ transactionId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Channel Unlocked Successfully!");
+      localStorage.setItem("access", "true");
+    } else {
+      alert("Verification failed");
+    }
+  });
+}
+</script>
+<script>
+function payWithFlutterwave() {
+  FlutterwaveCheckout({
+    public_key: "YOUR_FLUTTERWAVE_PUBLIC_KEY",
+    tx_ref: "TX-" + Date.now(),
+    amount: 1000, // amount in NGN
+    currency: "NGN",
+    payment_options: "card,banktransfer,ussd",
+    
+    customer: {
+      email: "user@example.com",
+      name: "Channel User"
+    },
+
+    customizations: {
+      title: "BTECH TV Subscription",
+      description: "Pay to unlock premium channels",
+      logo: "https://your-logo-url.com/logo.png"
+    },
+
+    callback: function (data) {
+      console.log("Payment successful:", data);
+      verifyPayment(data.transaction_id);
+    },
+
+    onclose: function () {
+      alert("Payment cancelled");
+    }
+  });
+}
+
+// Optional backend verification
+function verifyPayment(transactionId) {
+  fetch("http://localhost:5000/flutterwave-verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ transactionId })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Channel Unlocked Successfully!");
+      localStorage.setItem("access", "true");
+    } else {
+      alert("Verification failed");
+    }
+  });
+}
+</script>

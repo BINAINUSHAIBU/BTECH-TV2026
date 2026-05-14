@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BTECH TV Premium Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#fff;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:260px;
+background:#111827;
+padding:20px;
+}
+
+.sidebar h2{
+text-align:center;
+color:#f59e0b;
+margin-bottom:30px;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar ul li{
+margin-bottom:12px;
+}
+
+.sidebar ul li a{
+display:block;
+padding:14px;
+background:#1e293b;
+color:white;
+text-decoration:none;
+border-radius:10px;
+transition:0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li.active a{
+background:#f59e0b;
+color:black;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:25px;
+}
+
+/* HEADER */
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.header h1{
+font-size:30px;
+color:#f59e0b;
+}
+
+/* SEARCH */
+
+.search-box{
+margin-bottom:25px;
+}
+
+.search-box input{
+width:100%;
+padding:15px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+font-size:16px;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+}
+
+.card h3{
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.card p{
+font-size:28px;
+font-weight:bold;
+color:#f59e0b;
+}
+
+/* CHANNEL GRID */
+
+.channel-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+/* CHANNEL CARD */
+
+.channel-card{
+background:#1e293b;
+border-radius:15px;
+overflow:hidden;
+transition:0.3s;
+}
+
+.channel-card:hover{
+transform:translateY(-5px);
+}
+
+.channel-banner{
+height:150px;
+background:#334155;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:bold;
+color:#f59e0b;
+}
+
+.channel-info{
+padding:15px;
+}
+
+.channel-info h3{
+margin-bottom:10px;
+}
+
+.channel-info p{
+margin-bottom:8px;
+color:#cbd5e1;
+}
+
+/* BADGES */
+
+.badge{
+display:inline-block;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+margin-right:5px;
+}
+
+.premium{
+background:#f59e0b;
+color:black;
+}
+
+.vip{
+background:#dc2626;
+color:white;
+}
+
+.live{
+background:#16a34a;
+color:white;
+}
+
+/* BUTTONS */
+
+.watch-btn{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#f59e0b;
+color:black;
+font-weight:bold;
+margin-top:12px;
+font-size:15px;
+}
+
+.watch-btn:hover{
+opacity:0.9;
+}
+
+/* PLAYER */
+
+.player-modal{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.player-box{
+width:90%;
+max-width:1000px;
+background:#111827;
+padding:20px;
+border-radius:15px;
+}
+
+.player-box video{
+width:100%;
+height:500px;
+background:black;
+border-radius:10px;
+}
+
+.close-btn{
+background:red;
+border:none;
+padding:10px 15px;
+border-radius:8px;
+color:white;
+cursor:pointer;
+margin-bottom:15px;
+}
+
+@media(max-width:768px){
+
+.sidebar{
+display:none;
+}
+
+.main{
+padding:15px;
+}
+
+.player-box video{
+height:250px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<h2>BTECH PREMIUM</h2>
+
+<ul>
+
+<li>
+<a href="#">Dashboard</a>
+</li>
+
+<li>
+<a href="#">All Channels</a>
+</li>
+
+<li>
+<a href="#">Free Channels</a>
+</li>
+
+<li class="active">
+<a href="#">Premium Channels</a>
+</li>
+
+<li>
+<a href="vip_sport-channel.html">VIP Sports</a>
+</li>
+
+<li>
+<a href="#">Premium Movies</a>
+</li>
+
+<li>
+<a href="live_event.html">Live Events</a>
+</li>
+
+<li>
+<a href="#">Subscription</a>
+</li>
+
+<li>
+<a href="#">Settings</a>
+</li>
+
+</ul>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<div class="header">
+
+<h1>Premium Channel Dashboard</h1>
+
+<p>VIP IPTV Premium Access</p>
+
+</div>
+
+<!-- SEARCH -->
+
+<div class="search-box">
+
+<input
+type="text"
+placeholder="Search premium channels..."
+id="searchInput"
+onkeyup="searchChannels()"
+>
+
+</div>
+
+<!-- STATS -->
+
+<section class="stats">
+
+<div class="card">
+<h3>Total Premium Channels</h3>
+<p id="premiumCount">0</p>
+</div>
+
+<div class="card">
+<h3>VIP Channels</h3>
+<p id="vipCount">0</p>
+</div>
+
+<div class="card">
+<h3>Live Channels</h3>
+<p id="liveCount">0</p>
+</div>
+
+<div class="card">
+<h3>Sports Channels</h3>
+<p id="sportsCount">0</p>
+</div>
+
+</section>
+
+<!-- CHANNEL GRID -->
+
+<section class="channel-grid" id="channelGrid">
+</section>
+
+</main>
+
+</div>
+
+<!-- VIDEO PLAYER -->
+
+<div class="player-modal" id="playerModal">
+
+<div class="player-box">
+
+<button class="close-btn" onclick="closePlayer()">
+Close
+</button>
+
+<h2 id="playerTitle"></h2>
+
+<video id="videoPlayer" controls autoplay></video>
+
+</div>
+
+</div>
+
+<script>
+
+/* PREMIUM CHANNELS */
+
+const premiumChannels = [];
+
+const categories = [
+"Sports",
+"Movies",
+"VIP",
+"Entertainment",
+"Live Events",
+"News"
+];
+
+/* GENERATE PREMIUM CHANNELS */
+
+for(let i=1;i<=6800;i++){
+
+premiumChannels.push({
+
+id:i,
+
+name:`PREMIUM Channel ${i}`,
+
+category:categories[
+Math.floor(Math.random()*categories.length)
+],
+
+quality:
+Math.random()>0.5
+? "VIP"
+: "LIVE",
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+/* RENDER */
+
+function renderChannels(list){
+
+const grid =
+document.getElementById("channelGrid");
+
+grid.innerHTML = "";
+
+/* SHOW FIRST 120 */
+
+list.slice(0,120).forEach(channel=>{
+
+grid.innerHTML += `
+
+<div class="channel-card">
+
+<div class="channel-banner">
+${channel.category}
+</div>
+
+<div class="channel-info">
+
+<h3>${channel.name}</h3>
+
+<p>${channel.category}</p>
+
+<span class="badge premium">
+Premium
+</span>
+
+<span class="
+badge
+${channel.quality==="VIP"
+? "vip"
+: "live"}
+">
+
+${channel.quality}
+
+</span>
+
+<button
+class="watch-btn"
+onclick="watchChannel(${channel.id})"
+>
+
+Watch Premium
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* STATS */
+
+document.getElementById("premiumCount")
+.innerText =
+premiumChannels.length.toLocaleString();
+
+document.getElementById("vipCount")
+.innerText =
+premiumChannels.filter(c=>c.quality==="VIP")
+.length.toLocaleString();
+
+document.getElementById("liveCount")
+.innerText =
+premiumChannels.filter(c=>c.quality==="LIVE")
+.length.toLocaleString();
+
+document.getElementById("sportsCount")
+.innerText =
+premiumChannels.filter(c=>c.category==="Sports")
+.length.toLocaleString();
+
+}
+
+/* SEARCH */
+
+function searchChannels(){
+
+const value =
+document.getElementById("searchInput")
+.value.toLowerCase();
+
+const filtered =
+premiumChannels.filter(channel=>
+channel.name.toLowerCase().includes(value)
+);
+
+renderChannels(filtered);
+
+}
+
+/* WATCH */
+
+function watchChannel(id){
+
+const channel =
+premiumChannels.find(c=>c.id===id);
+
+document.getElementById("playerModal")
+.style.display = "flex";
+
+document.getElementById("playerTitle")
+.innerText = channel.name;
+
+const video =
+document.getElementById("videoPlayer");
+
+if(Hls.isSupported()){
+
+const hls = new Hls();
+
+hls.loadSource(channel.streamUrl);
+
+hls.attachMedia(video);
+
+hls.on(Hls.Events.MANIFEST_PARSED,function(){
+
+video.play();
+
+});
+
+}else{
+
+video.src = channel.streamUrl;
+
+video.play();
+
+}
+
+}
+
+/* CLOSE */
+
+function closePlayer(){
+
+document.getElementById("playerModal")
+.style.display = "none";
+
+document.getElementById("videoPlayer")
+.pause();
+
+}
+
+/* INIT */
+
+renderChannels(premiumChannels);
+
+</script>
+
+</body>
+</html>

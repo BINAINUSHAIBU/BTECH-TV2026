@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Total Channels Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #fff;
+}
+
+header {
+    padding: 20px;
+    background: #111827;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.card {
+    background: #1f2937;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.03);
+}
+
+.title {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+.value {
+    font-size: 28px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.free { color: #22c55e; }
+.premium { color: #f59e0b; }
+.locked { color: #ef4444; }
+.total { color: #38bdf8; }
+
+.channels-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.channels-table th, .channels-table td {
+    padding: 12px;
+    border-bottom: 1px solid #374151;
+    text-align: left;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.free-badge { background: #16a34a; }
+.premium-badge { background: #f59e0b; }
+.locked-badge { background: #ef4444; }
+
+.container {
+    padding: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>📡 Total Channels Dashboard</header>
+
+<div class="dashboard">
+
+    <div class="card">
+        <div class="title">Total Channels</div>
+        <div class="value total" id="totalChannels">0</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Free Channels</div>
+        <div class="value free" id="freeChannels">0</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Premium Channels</div>
+        <div class="value premium" id="premiumChannels">0</div>
+    </div>
+
+    <div class="card">
+        <div class="title">Locked Channels</div>
+        <div class="value locked" id="lockedChannels">0</div>
+    </div>
+
+</div>
+
+<div class="container">
+
+<h3>Channel List</h3>
+
+<table class="channels-table">
+    <thead>
+        <tr>
+            <th>Channel Name</th>
+            <th>Category</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody id="channelTable">
+    </tbody>
+</table>
+
+</div>
+
+<script>
+// Sample channel data (replace with API later)
+const channels = [
+    {name:"ESPN HD", category:"Sports", status:"Premium"},
+    {name:"BBC News", category:"News", status:"Free"},
+    {name:"Sky Sports", category:"Sports", status:"Locked"},
+    {name:"Cartoon Network", category:"Kids", status:"Free"},
+    {name:"NBA TV", category:"Sports", status:"Premium"},
+    {name:"CNN Live", category:"News", status:"Locked"},
+    {name:"Discovery", category:"Documentary", status:"Free"},
+];
+
+// Count logic
+let total = channels.length;
+let free = channels.filter(c => c.status === "Free").length;
+let premium = channels.filter(c => c.status === "Premium").length;
+let locked = channels.filter(c => c.status === "Locked").length;
+
+// Update UI
+document.getElementById("totalChannels").innerText = total;
+document.getElementById("freeChannels").innerText = free;
+document.getElementById("premiumChannels").innerText = premium;
+document.getElementById("lockedChannels").innerText = locked;
+
+// Render table
+const table = document.getElementById("channelTable");
+
+channels.forEach(ch => {
+    let badgeClass = "";
+    if(ch.status === "Free") badgeClass = "free-badge";
+    if(ch.status === "Premium") badgeClass = "premium-badge";
+    if(ch.status === "Locked") badgeClass = "locked-badge";
+
+    table.innerHTML += `
+        <tr>
+            <td>${ch.name}</td>
+            <td>${ch.category}</td>
+            <td><span class="badge ${badgeClass}">${ch.status}</span></td>
+        </tr>
+    `;
+});
+</script>
+
+</body>
+</html>

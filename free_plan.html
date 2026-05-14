@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Plan Channel Dashboard</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+}
+
+.header {
+  background: #111827;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h2 {
+  margin: 0;
+  color: #38bdf8;
+}
+
+.container {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #1e293b;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.category {
+  padding: 10px;
+  margin: 5px 0;
+  background: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.category:hover {
+  background: #38bdf8;
+  color: black;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Player */
+.player {
+  background: black;
+  height: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border-bottom: 2px solid #334155;
+}
+
+/* Channel list */
+.channels {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+  height: 55%;
+}
+
+.channel {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.channel:hover {
+  background: #38bdf8;
+  color: black;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 6px;
+  font-size: 10px;
+  background: #22c55e;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h2>📺 Free Plan Dashboard</h2>
+  <input type="text" placeholder="Search channels..." onkeyup="searchChannel(this.value)" />
+</div>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="category" onclick="filterCategory('all')">🌐 All Channels</div>
+    <div class="category" onclick="filterCategory('sports')">⚽ Sports</div>
+    <div class="category" onclick="filterCategory('news')">📰 News</div>
+    <div class="category" onclick="filterCategory('movies')">🎬 Movies</div>
+    <div class="category" onclick="filterCategory('kids')">🧸 Kids</div>
+    <div class="category" onclick="filterCategory('music')">🎵 Music</div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <div class="player" id="player">
+      ▶ Select a channel to play
+    </div>
+
+    <div class="channels" id="channelList"></div>
+
+  </div>
+</div>
+
+<script>
+const channels = [
+  { name: "BBC News", category: "news" },
+  { name: "Al Jazeera", category: "news" },
+  { name: "ESPN Free", category: "sports" },
+  { name: "Sky Sports Lite", category: "sports" },
+  { name: "Movie Hub Free", category: "movies" },
+  { name: "Kids World", category: "kids" },
+  { name: "Cartoon Fun", category: "kids" },
+  { name: "Music Live", category: "music" },
+  { name: "Afro Beats TV", category: "music" }
+];
+
+let currentFilter = "all";
+
+function renderChannels(list) {
+  const box = document.getElementById("channelList");
+  box.innerHTML = "";
+
+  list.forEach(ch => {
+    box.innerHTML += `
+      <div class="channel" onclick="playChannel('${ch.name}')">
+        <div>${ch.name}</div>
+        <div class="badge">${ch.category.toUpperCase()}</div>
+      </div>
+    `;
+  });
+}
+
+function playChannel(name) {
+  document.getElementById("player").innerHTML =
+    "▶ Now Playing: <b>" + name + "</b>";
+}
+
+function filterCategory(cat) {
+  currentFilter = cat;
+
+  if (cat === "all") {
+    renderChannels(channels);
+  } else {
+    renderChannels(channels.filter(c => c.category === cat));
+  }
+}
+
+function searchChannel(query) {
+  const filtered = channels.filter(c =>
+    c.name.toLowerCase().includes(query.toLowerCase())
+  );
+  renderChannels(filtered);
+}
+
+// init
+renderChannels(channels);
+</script>
+
+</body>
+</html>

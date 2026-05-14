@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Educational TV Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b1320;
+  color: #fff;
+}
+
+header {
+  background: #2563eb;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 300px;
+  background: #111827;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.channel {
+  background: #1f2937;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.channel:hover {
+  background: #374151;
+}
+
+.free { color: #22c55e; float: right; }
+.lock { color: #facc15; float: right; }
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+video {
+  width: 100%;
+  max-height: 450px;
+  background: black;
+  border-radius: 10px;
+}
+
+.card {
+  margin-top: 20px;
+  background: #1f2937;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pay {
+  background: #22c55e;
+  color: #000;
+}
+
+.admin {
+  background: #3b82f6;
+  color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎓 Educational TV Channel Dashboard</header>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h3>📚 Learning Channels</h3>
+
+    <div class="channel" onclick="play('math.mp4','Mathematics Class')">
+      ➗ Math Lessons <span class="free">FREE</span>
+    </div>
+
+    <div class="channel" onclick="play('science.mp4','Science Class')">
+      🔬 Science Lab <span class="free">FREE</span>
+    </div>
+
+    <div class="channel" onclick="play('english.mp4','English Learning')">
+      📖 English Studies <span class="lock">LOCKED</span>
+    </div>
+
+    <div class="channel" onclick="play('history.mp4','World History')">
+      🌍 History Channel <span class="lock">LOCKED</span>
+    </div>
+
+    <div class="channel" onclick="play('coding.mp4','Coding for Kids')">
+      💻 Coding School <span class="free">FREE</span>
+    </div>
+  </div>
+
+  <!-- Main Player -->
+  <div class="main">
+
+    <video id="player" controls>
+      <source src="" type="video/mp4">
+    </video>
+
+    <div class="card">
+      <h3 id="title">Select a Channel</h3>
+      <p id="desc">Start learning by selecting an educational channel.</p>
+
+      <button class="pay" onclick="unlock()">🔓 Unlock Premium Courses</button>
+      <button class="admin" onclick="admin()">⚙ Admin Dashboard</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let currentLocked = false;
+
+function play(src, title){
+  document.getElementById("player").src = src;
+  document.getElementById("title").innerText = title;
+
+  if(title.includes("English") || title.includes("History")){
+    currentLocked = true;
+    document.getElementById("desc").innerText =
+      "This is a PREMIUM educational channel. Subscribe to access full lessons.";
+  } else {
+    currentLocked = false;
+    document.getElementById("desc").innerText =
+      "Now playing FREE educational content 📘";
+  }
+}
+
+function unlock(){
+  alert("Redirecting to Paystack / Flutterwave payment gateway...");
+}
+
+function admin(){
+  alert("Admin Panel: Manage courses, upload lessons, set FREE or PREMIUM status");
+}
+</script>
+
+</body>
+</html>

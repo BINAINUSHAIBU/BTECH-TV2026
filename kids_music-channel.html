@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kids Music Channel Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #fff;
+}
+
+header {
+  background: #ff4da6;
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 280px;
+  background: #111827;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.channel {
+  background: #1f2937;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.channel:hover {
+  background: #374151;
+}
+
+.lock {
+  color: #facc15;
+  float: right;
+}
+
+.free {
+  color: #22c55e;
+  float: right;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+video {
+  width: 100%;
+  max-height: 420px;
+  background: black;
+  border-radius: 10px;
+}
+
+.card {
+  margin-top: 20px;
+  background: #1f2937;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pay {
+  background: #22c55e;
+  color: #000;
+}
+
+.admin {
+  background: #3b82f6;
+  color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎵 Kids Music Channel Dashboard</header>
+
+<div class="container">
+
+  <!-- Sidebar Channels -->
+  <div class="sidebar">
+    <h3>Channels</h3>
+
+    <div class="channel" onclick="playChannel('kids1.mp4')">
+      🎶 Baby Songs <span class="free">FREE</span>
+    </div>
+
+    <div class="channel" onclick="playChannel('kids2.mp4')">
+      🧸 Nursery Rhymes <span class="lock">LOCKED</span>
+    </div>
+
+    <div class="channel" onclick="playChannel('kids3.mp4')">
+      🎤 Cartoon Music <span class="free">FREE</span>
+    </div>
+
+    <div class="channel" onclick="playChannel('kids4.mp4')">
+      🎧 Learning Songs <span class="lock">LOCKED</span>
+    </div>
+  </div>
+
+  <!-- Main Player -->
+  <div class="main">
+
+    <video id="player" controls>
+      <source src="" type="video/mp4">
+    </video>
+
+    <div class="card">
+      <h3>Channel Info</h3>
+      <p id="info">Select a channel to play</p>
+
+      <button class="pay" onclick="unlockChannel()">🔓 Pay to Unlock</button>
+      <button class="admin" onclick="adminPanel()">⚙ Admin Panel</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+let locked = true;
+
+function playChannel(src){
+  document.getElementById("player").src = src;
+
+  if(src.includes("kids2") || src.includes("kids4")){
+    locked = true;
+    document.getElementById("info").innerText = "This channel is LOCKED. Please subscribe to watch.";
+  } else {
+    locked = false;
+    document.getElementById("info").innerText = "Now playing FREE Kids Music Channel 🎶";
+  }
+}
+
+function unlockChannel(){
+  alert("Redirecting to payment gateway (Paystack / Flutterwave)");
+  // integrate Paystack/Flutterwave here
+}
+
+function adminPanel(){
+  alert("Admin Panel: Manage Kids Music Channels, Upload Songs, Set Free/Locked status");
+}
+</script>
+
+</body>
+</html>
