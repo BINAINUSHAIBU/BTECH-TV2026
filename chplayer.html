@@ -1,1 +1,193 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HD IPTV Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0b0f1a;
+color:white;
+}
+
+/* TOP NAV */
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#11182a;
+padding:10px 20px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.menu a{
+color:white;
+margin:0 10px;
+text-decoration:none;
+}
+
+.dropdown {
+position: relative;
+display:inline-block;
+}
+
+.dropdown-content {
+display:none;
+position:absolute;
+background:#1b2438;
+min-width:150px;
+box-shadow:0 5px 10px rgba(0,0,0,0.4);
+z-index:1;
+}
+
+.dropdown:hover .dropdown-content {
+display:block;
+}
+
+.dropdown-content a{
+display:block;
+padding:10px;
+color:white;
+text-decoration:none;
+}
+
+.dropdown-content a:hover{
+background:#2b3a5a;
+}
+
+/* LAYOUT */
+.container{
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+background:#11182a;
+padding:10px;
+overflow-y:auto;
+}
+
+.sidebar h3{
+color:#00bfff;
+}
+
+.channel{
+padding:10px;
+margin:5px 0;
+background:#1b2438;
+cursor:pointer;
+border-radius:5px;
+}
+
+.channel:hover{
+background:#2b3a5a;
+}
+
+/* PLAYER */
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.player{
+flex:1;
+background:black;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+video{
+width:100%;
+height:100%;
+}
+
+/* SEARCH */
+.search{
+padding:10px;
+background:#11182a;
+}
+
+input{
+width:100%;
+padding:10px;
+border:none;
+border-radius:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+<div><b>📺 BTECH IPTV HD</b></div>
+
+<div class="menu">
+<a href="#">Home</a>
+
+<div class="dropdown">
+<a href="#">Categories ⬇</a>
+<div class="dropdown-content">
+<a href="#">Live TV</a>
+<a href="#">Sports</a>
+<a href="#">Movies</a>
+<a href="#">Kids</a>
+</div>
+</div>
+
+<a href="#">Dashboard</a>
+<a href="#">Settings</a>
+</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="container">
+
+<!-- SIDEBAR CHANNELS -->
+<div class="sidebar">
+<h3>ALL CHANNELS</h3>
+
+<div class="channel" onclick="play('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">BBC News HD</div>
+<div class="channel" onclick="play('https://test-streams.mux.dev/test_001/stream.m3u8')">Sports HD</div>
+<div class="channel" onclick="play('https://test-streams.mux.dev/test_002/stream.m3u8')">Movies HD</div>
+<div class="channel" onclick="play('https://test-streams.mux.dev/test_003/stream.m3u8')">Kids Channel</div>
+<div class="channel" onclick="play('https://test-streams.mux.dev/test_004/stream.m3u8')">Music TV</div>
+
+</div>
+
+<!-- PLAYER AREA -->
+<div class="main">
+
+<div class="search">
+<input type="text" placeholder="Search channels...">
+</div>
+
+<div class="player">
+<video id="videoPlayer" controls autoplay></video>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function play(url){
+let video = document.getElementById("videoPlayer");
+video.src = url;
+video.play();
+}
+</script>
+
+</body>
+</html>
