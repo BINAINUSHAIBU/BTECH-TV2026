@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>User IPTV Dashboard</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+}
+
+/* Layout */
+.dashboard{
+display:flex;
+height:100vh;
+}
+
+/* Sidebar Vertical */
+.sidebar{
+width:240px;
+background:#111827;
+padding:20px;
+overflow-y:auto;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+margin-bottom:30px;
+color:#00ff99;
+}
+
+.side-link{
+display:block;
+padding:14px;
+margin-bottom:10px;
+text-decoration:none;
+color:white;
+border-radius:8px;
+background:#1e293b;
+}
+
+.side-link:hover{
+background:#00aa66;
+}
+
+/* Main */
+.main{
+flex:1;
+padding:20px;
+overflow:auto;
+}
+
+/* Top Horizontal Channels */
+.horizontal-channels{
+display:flex;
+gap:15px;
+overflow-x:auto;
+padding-bottom:20px;
+margin-bottom:20px;
+}
+
+.channel-box{
+min-width:180px;
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+text-align:center;
+cursor:pointer;
+}
+
+.channel-box:hover{
+background:#00aa66;
+}
+
+.channel-box img{
+width:100%;
+height:100px;
+object-fit:cover;
+border-radius:8px;
+margin-bottom:10px;
+}
+
+/* Video player */
+
+.player{
+background:#111827;
+padding:15px;
+border-radius:15px;
+margin-bottom:30px;
+}
+
+.player iframe{
+width:100%;
+height:450px;
+border:none;
+border-radius:10px;
+}
+
+/* Grid Channels */
+
+.grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#1e293b;
+padding:15px;
+border-radius:12px;
+text-align:center;
+}
+
+.card img{
+width:100%;
+height:130px;
+object-fit:cover;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.watch-btn{
+padding:10px 20px;
+border:none;
+background:#00cc66;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.watch-btn:hover{
+background:#00aa55;
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+<!-- Vertical Sidebar -->
+
+<div class="sidebar">
+
+<div class="logo">
+BTECH TV
+</div>
+
+<a class="side-link" href="#">
+🏠 Dashboard
+</a>
+
+<a class="side-link" href="#">
+📺 Live TV
+</a>
+
+<a class="side-link" href="#">
+⚽ Sports
+</a>
+
+<a class="side-link" href="#">
+🎬 Movies
+</a>
+
+<a class="side-link" href="#">
+🧒 Kids
+</a>
+
+<a class="side-link" href="#">
+📰 News
+</a>
+
+<a class="side-link" href="#">
+🔒 Locked
+</a>
+
+<a class="side-link" href="#">
+💳 Premium
+</a>
+
+<a class="side-link" href="#">
+⚙ Settings
+</a>
+
+</div>
+
+
+<!-- Main -->
+
+<div class="main">
+
+<!-- Horizontal Channels -->
+
+<div class="horizontal-channels">
+
+<div class="channel-box"
+onclick="playVideo('https://www.youtube.com/embed/jfKfPfyJRdk')">
+<img src="https://via.placeholder.com/180x100">
+ESPN Sports
+</div>
+
+<div class="channel-box"
+onclick="playVideo('https://www.youtube.com/embed/5qap5aO4i9A')">
+<img src="https://via.placeholder.com/180x100">
+Movie TV
+</div>
+
+<div class="channel-box"
+onclick="playVideo('https://www.youtube.com/embed/DLX62G4lc44')">
+<img src="https://via.placeholder.com/180x100">
+Kids TV
+</div>
+
+<div class="channel-box"
+onclick="playVideo('https://www.youtube.com/embed/gCNeDWCI0vo')">
+<img src="https://via.placeholder.com/180x100">
+News Live
+</div>
+
+</div>
+
+
+<!-- Player -->
+
+<div class="player">
+
+<h2>Now Playing</h2>
+<br>
+
+<iframe id="videoPlayer"
+src="https://www.youtube.com/embed/jfKfPfyJRdk">
+</iframe>
+
+</div>
+
+
+<!-- Grid Channels -->
+
+<h2>Popular Channels</h2>
+<br>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://via.placeholder.com/200x120">
+
+<h3>Sports HD</h3>
+<br>
+
+<button class="watch-btn"
+onclick="playVideo('https://www.youtube.com/embed/jfKfPfyJRdk')">
+
+Watch
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<img src="https://via.placeholder.com/200x120">
+
+<h3>Movie Plus</h3>
+<br>
+
+<button class="watch-btn"
+onclick="playVideo('https://www.youtube.com/embed/5qap5aO4i9A')">
+
+Watch
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<img src="https://via.placeholder.com/200x120">
+
+<h3>Kids TV</h3>
+<br>
+
+<button class="watch-btn"
+onclick="playVideo('https://www.youtube.com/embed/DLX62G4lc44')">
+
+Watch
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<img src="https://via.placeholder.com/200x120">
+
+<h3>News 24</h3>
+<br>
+
+<button class="watch-btn"
+onclick="playVideo('https://www.youtube.com/embed/gCNeDWCI0vo')">
+
+Watch
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+function playVideo(url){
+document.getElementById(
+"videoPlayer"
+).src=url;
+}
+</script>
+
+</body>
+</html>
