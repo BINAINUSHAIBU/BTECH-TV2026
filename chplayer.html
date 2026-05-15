@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>HD IPTV Dashboard</title>
+<title>ACTIVE IPTV ADMIN PANEL</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -14,51 +13,12 @@ background:#0b0f1a;
 color:white;
 }
 
-/* TOP NAV */
-.topbar{
+/* HEADER */
+header{
+background:#11182a;
+padding:15px;
 display:flex;
 justify-content:space-between;
-align-items:center;
-background:#11182a;
-padding:10px 20px;
-position:sticky;
-top:0;
-z-index:100;
-}
-
-.menu a{
-color:white;
-margin:0 10px;
-text-decoration:none;
-}
-
-.dropdown {
-position: relative;
-display:inline-block;
-}
-
-.dropdown-content {
-display:none;
-position:absolute;
-background:#1b2438;
-min-width:150px;
-box-shadow:0 5px 10px rgba(0,0,0,0.4);
-z-index:1;
-}
-
-.dropdown:hover .dropdown-content {
-display:block;
-}
-
-.dropdown-content a{
-display:block;
-padding:10px;
-color:white;
-text-decoration:none;
-}
-
-.dropdown-content a:hover{
-background:#2b3a5a;
 }
 
 /* LAYOUT */
@@ -69,37 +29,44 @@ height:100vh;
 
 /* SIDEBAR */
 .sidebar{
-width:220px;
+width:260px;
 background:#11182a;
-padding:10px;
+padding:15px;
 overflow-y:auto;
 }
 
-.sidebar h3{
+.sidebar h2{
 color:#00bfff;
 }
 
-.channel{
+input, select, button{
+width:100%;
 padding:10px;
-margin:5px 0;
-background:#1b2438;
-cursor:pointer;
+margin-top:10px;
+border:none;
 border-radius:5px;
 }
 
-.channel:hover{
-background:#2b3a5a;
+button{
+background:#00bfff;
+color:white;
+cursor:pointer;
 }
 
-/* PLAYER */
+button:hover{
+background:#0090cc;
+}
+
+/* MAIN */
 .main{
 flex:1;
 display:flex;
 flex-direction:column;
 }
 
+/* PLAYER */
 .player{
-flex:1;
+height:300px;
 background:black;
 display:flex;
 align-items:center;
@@ -109,19 +76,40 @@ justify-content:center;
 video{
 width:100%;
 height:100%;
+background:black;
 }
 
-/* SEARCH */
-.search{
+/* TABLE */
+.table-area{
+flex:1;
+overflow-y:auto;
 padding:10px;
-background:#11182a;
 }
 
-input{
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:10px;
+border-bottom:1px solid #2b3a5a;
+}
+
+tr:hover{
+background:#1b2438;
+cursor:pointer;
+}
+
+/* ACTIVE */
+.active{
+background:#00bfff33 !important;
+}
+
+.searchbar{
 width:100%;
 padding:10px;
-border:none;
-border-radius:5px;
+margin-bottom:10px;
 }
 
 </style>
@@ -129,69 +117,142 @@ border-radius:5px;
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-<div><b>📺 BTECH IPTV HD</b></div>
+<header>
+<h2>📺 ACTIVE IPTV ADMIN PANEL</h2>
+<span id="total">0 Channels</span>
+</header>
 
-<div class="menu">
-<a href="#">Home</a>
-
-<div class="dropdown">
-<a href="#">Categories ⬇</a>
-<div class="dropdown-content">
-<a href="#">Live TV</a>
-<a href="#">Sports</a>
-<a href="#">Movies</a>
-<a href="#">Kids</a>
-</div>
-</div>
-
-<a href="#">Dashboard</a>
-<a href="#">Settings</a>
-</div>
-</div>
-
-<!-- MAIN LAYOUT -->
 <div class="container">
 
-<!-- SIDEBAR CHANNELS -->
+<!-- SIDEBAR -->
 <div class="sidebar">
-<h3>ALL CHANNELS</h3>
 
-<div class="channel" onclick="play('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">BBC News HD</div>
-<div class="channel" onclick="play('https://test-streams.mux.dev/test_001/stream.m3u8')">Sports HD</div>
-<div class="channel" onclick="play('https://test-streams.mux.dev/test_002/stream.m3u8')">Movies HD</div>
-<div class="channel" onclick="play('https://test-streams.mux.dev/test_003/stream.m3u8')">Kids Channel</div>
-<div class="channel" onclick="play('https://test-streams.mux.dev/test_004/stream.m3u8')">Music TV</div>
-  <div class="channel" onclick="play('https://www.apsattv.com/xumo.m3u')">XUMO TV</div>
-<div class="channel" onclick="play('https://www.apsattv.com/lg.m3u')">LG Channels TV</div>
-<div class="channel" onclick="play('https://test-streams.mux.dev/test_004/localnow.m3u')">Local Now TV</div>
-<div class="channel" onclick="play('Redbox TV',url:'https://www.apsattv.com/redbox.m3u')">Redbox TV</div>
+<h2>Add Channel</h2>
 
-  
+<input id="name" placeholder="Channel Name">
+<input id="url" placeholder="Stream URL (M3U8)">
+<select id="category">
+<option>Sports</option>
+<option>Movies</option>
+<option>Kids</option>
+<option>News</option>
+<option>Music</option>
+</select>
+
+<button onclick="addChannel()">➕ Add Channel</button>
+
 </div>
 
-<!-- PLAYER AREA -->
+<!-- MAIN -->
 <div class="main">
 
-<div class="search">
-<input type="text" placeholder="Search channels...">
-</div>
-
+<!-- PLAYER -->
 <div class="player">
 <video id="videoPlayer" controls autoplay></video>
 </div>
 
+<!-- SEARCH -->
+<div style="padding:10px;">
+<input class="searchbar" id="search" onkeyup="render()" placeholder="Search channels...">
 </div>
 
+<!-- TABLE -->
+<div class="table-area">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Category</th>
+<th>URL</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="list"></tbody>
+</table>
+</div>
+
+</div>
 </div>
 
 <script>
-function play(url){
+
+let channels = JSON.parse(localStorage.getItem("channels")) || [];
+
+/* DEFAULT DEMO CHANNELS */
+if(channels.length === 0){
+channels = [
+{name:"BBC News HD", url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", category:"News"},
+{name:"Sports Live", url:"https://test-streams.mux.dev/test_001/stream.m3u8", category:"Sports"},
+{name:"Movie HD", url:"https://test-streams.mux.dev/test_002/stream.m3u8", category:"Movies"},
+];
+save();
+}
+
+/* PLAY CHANNEL */
+function play(url, row){
 let video = document.getElementById("videoPlayer");
 video.src = url;
 video.play();
+
+/* highlight active */
+document.querySelectorAll("tr").forEach(r => r.classList.remove("active"));
+if(row) row.classList.add("active");
 }
+
+/* ADD */
+function addChannel(){
+let name = document.getElementById("name").value;
+let url = document.getElementById("url").value;
+let category = document.getElementById("category").value;
+
+if(!name || !url) return alert("Fill all fields");
+
+channels.push({name,url,category});
+save();
+render();
+
+document.getElementById("name").value="";
+document.getElementById("url").value="";
+}
+
+/* SAVE */
+function save(){
+localStorage.setItem("channels", JSON.stringify(channels));
+}
+
+/* RENDER */
+function render(){
+
+let tbody = document.getElementById("list");
+let search = document.getElementById("search").value.toLowerCase();
+
+tbody.innerHTML = "";
+
+let filtered = channels.filter(c =>
+c.name.toLowerCase().includes(search)
+);
+
+filtered.forEach((c,i)=>{
+
+let row = document.createElement("tr");
+
+row.innerHTML = `
+<td>${c.name}</td>
+<td>${c.category}</td>
+<td style="max-width:200px;overflow:hidden;">${c.url}</td>
+<td><button>▶ Play</button></td>
+`;
+
+row.onclick = () => play(c.url, row);
+
+tbody.appendChild(row);
+});
+
+document.getElementById("total").innerText = filtered.length + " Channels";
+}
+
+render();
+
 </script>
 
 </body>
