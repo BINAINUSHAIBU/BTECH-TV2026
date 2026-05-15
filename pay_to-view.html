@@ -665,6 +665,482 @@ document.getElementById("videoPlayer")
 renderChannels(premiumChannels);
 
 </script>
+  <script>
+
+/* SETTINGS */
+
+let settings =
+JSON.parse(
+localStorage.getItem("settings")
+)||{
+
+theme:"dark",
+autoplay:true
+
+};
+
+const premiumChannels=[];
+
+const categories=[
+"Sports",
+"Movies",
+"News",
+"VIP",
+"Entertainment",
+"Documentary"
+];
+
+/* ===== GENERATE 40,000 CHANNELS ===== */
+
+for(let i=1;i<=40000;i++){
+
+premiumChannels.push({
+
+id:i,
+
+name:`PREMIUM Channel ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)],
+
+type:"Pay To View",
+
+status:
+Math.random()>0.35
+? "Unlocked"
+:"Locked",
+
+live:
+Math.random()>0.15,
+
+views:
+Math.floor(
+Math.random()*500000
+),
+
+price:
+Math.floor(
+Math.random()*8000
+)+1000,
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+/* PAGINATION */
+
+let page=0;
+let limit=100;
+
+function loadMore(){
+
+page++;
+renderChannels(
+premiumChannels,
+true
+);
+
+}
+
+/* ===== RENDER ===== */
+
+function renderChannels(
+list,
+append=false
+){
+
+const grid=
+document.getElementById(
+"channelGrid"
+);
+
+if(!append)
+grid.innerHTML="";
+
+let start=
+page*limit;
+
+let end=
+start+limit;
+
+list
+.slice(start,end)
+
+.forEach(channel=>{
+
+grid.innerHTML+=`
+
+<div class="channel-card">
+
+<div class="channel-banner">
+
+${channel.live
+?"🔴 LIVE"
+:"⚫ OFF"}
+
+<br>
+
+${channel.category}
+
+</div>
+
+<div class="channel-info">
+
+<h3>
+${channel.name}
+</h3>
+
+<p>
+₦${channel.price}
+</p>
+
+<p>
+${channel.views.toLocaleString()}
+ views
+</p>
+
+<span class="badge paid">
+
+Premium
+
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+${
+channel.status==="Locked"
+
+?
+
+`
+
+<button
+class="subscribe-btn"
+onclick="
+subscribeChannel(
+${channel.id}
+)
+">
+
+Subscribe
+
+</button>
+
+`
+
+:
+
+`
+
+<button
+class="watch-btn"
+onclick="
+watchChannel(
+${channel.id}
+)
+">
+
+Watch
+
+</button>
+
+`
+
+}
+
+<button
+class="watch-btn"
+onclick="
+favorite(
+${channel.id}
+)
+">
+
+⭐ Favorite
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* LOAD MORE */
+
+if(end<list.length){
+
+grid.innerHTML+=`
+
+<button
+class="watch-btn"
+onclick="loadMore()">
+
+Load More
+
+</button>
+
+`;
+
+}
+
+/* STATS */
+
+document.getElementById(
+"premiumChannels"
+).innerText=
+premiumChannels.length
+.toLocaleString();
+
+document.getElementById(
+"lockedChannels"
+).innerText=
+premiumChannels.filter(
+c=>c.status==="Locked"
+).length
+.toLocaleString();
+
+document.getElementById(
+"unlockedChannels"
+).innerText=
+premiumChannels.filter(
+c=>c.status==="Unlocked"
+).length
+.toLocaleString();
+
+document.getElementById(
+"sportsChannels"
+).innerText=
+premiumChannels.filter(
+c=>c.category==="Sports"
+).length
+.toLocaleString();
+
+}
+
+/* ===== SEARCH ===== */
+
+function searchChannels(){
+
+let value=
+document
+.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+let filtered=
+premiumChannels.filter(
+
+c=>
+
+c.name
+.toLowerCase()
+.includes(value)
+
+||
+
+c.category
+.toLowerCase()
+.includes(value)
+
+);
+
+page=0;
+
+renderChannels(
+filtered
+);
+
+}
+
+/* ===== FAVORITES ===== */
+
+function favorite(id){
+
+let fav=
+JSON.parse(
+localStorage.getItem(
+"favorites"
+)
+)||[];
+
+fav.push(id);
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(fav)
+);
+
+alert(
+"Saved to favorites"
+);
+
+}
+
+/* ===== SUBSCRIBE ===== */
+
+function subscribeChannel(id){
+
+let channel=
+premiumChannels.find(
+c=>c.id===id
+);
+
+alert(
+
+`Payment:
+${channel.name}
+
+Amount:
+₦${channel.price}
+
+Integrate
+Paystack/
+Flutterwave`
+
+);
+
+}
+
+/* ===== WATCH ===== */
+
+function watchChannel(id){
+
+let channel=
+premiumChannels.find(
+c=>c.id===id
+);
+
+if(
+channel.status==="Locked"
+){
+
+alert(
+"Subscribe first"
+);
+
+return;
+
+}
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display=
+"flex";
+
+document
+.getElementById(
+"playerTitle"
+)
+.innerText=
+channel.name;
+
+let video=
+document
+.getElementById(
+"videoPlayer"
+);
+
+if(
+Hls.isSupported()
+){
+
+let hls=
+new Hls();
+
+hls.loadSource(
+channel.streamUrl
+);
+
+hls.attachMedia(
+video
+);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+function(){
+
+video.play();
+
+});
+
+}
+
+else{
+
+video.src=
+channel.streamUrl;
+
+video.play();
+
+}
+
+/* HISTORY */
+
+let history=
+JSON.parse(
+localStorage.getItem(
+"history"
+)
+)||[];
+
+history.push(
+channel.name
+);
+
+localStorage.setItem(
+"history",
+JSON.stringify(history)
+);
+
+}
+
+/* CLOSE PLAYER */
+
+function closePlayer(){
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display=
+"none";
+
+document
+.getElementById(
+"videoPlayer"
+)
+.pause();
+
+}
+
+/* INIT */
+
+renderChannels(
+premiumChannels
+);
+
+</script>
 
 </body>
 </html>
