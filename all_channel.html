@@ -628,6 +628,451 @@ document.getElementById("videoPlayer")
 renderChannels(channels);
 
 </script>
+    <script>
+
+/* ========= IPTV SETTINGS ========= */
+
+let settings = JSON.parse(
+localStorage.getItem("settings")
+) || {
+
+theme:"dark",
+autoplay:true,
+showLocked:true,
+quality:"HD"
+
+};
+
+applyTheme();
+
+/* ========= CHANNEL DATA ========= */
+
+const channels=[];
+
+const categories=[
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Music",
+"Entertainment",
+"Education",
+"Documentary",
+"VIP"
+];
+
+/* GENERATE 40,000 ACTIVE CHANNELS */
+
+for(let i=1;i<=40000;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)],
+
+type:
+Math.random()>0.55
+? "Free"
+: "Pay To View",
+
+status:
+Math.random()>0.25
+? "Unlocked"
+: "Locked",
+
+live:
+Math.random()>0.10,
+
+views:
+Math.floor(Math.random()*500000),
+
+favorites:false,
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+/* ========= PAGINATION ========= */
+
+let page=0;
+let limit=100;
+
+function loadMore(){
+
+page++;
+renderChannels(channels,true);
+
+}
+
+/* ========= RENDER ========= */
+
+function renderChannels(list,append=false){
+
+const grid=
+document.getElementById(
+"channelGrid"
+);
+
+if(!append)
+grid.innerHTML="";
+
+let start=
+page*limit;
+
+let end=
+start+limit;
+
+list
+.slice(start,end)
+
+.forEach(channel=>{
+
+grid.innerHTML+=`
+
+<div class="channel-card">
+
+<div class="channel-banner">
+
+${channel.live
+? "🔴 LIVE"
+: "⚫ OFF"}
+
+<br>
+
+${channel.category}
+
+</div>
+
+<div class="channel-info">
+
+<h3>
+${channel.name}
+</h3>
+
+<p>
+
+${channel.views.toLocaleString()}
+ views
+
+</p>
+
+<span class="
+badge
+${channel.type==="Free"
+?"free":"paid"}
+">
+
+${channel.type}
+
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+<button
+class="watch-btn"
+onclick="watchChannel(
+${channel.id}
+)"
+>
+
+Watch
+
+</button>
+
+<button
+class="watch-btn"
+onclick="addFavorite(
+${channel.id}
+)"
+>
+
+⭐ Favorite
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* LOAD MORE */
+
+if(end<list.length){
+
+grid.innerHTML+=`
+
+<button
+class="watch-btn"
+onclick="loadMore()">
+
+Load More
+
+</button>
+
+`;
+
+}
+
+/* STATS */
+
+document.getElementById(
+"totalChannels"
+).innerText=
+channels.length
+.toLocaleString();
+
+document.getElementById(
+"freeChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Free"
+).length
+.toLocaleString();
+
+document.getElementById(
+"premiumChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Pay To View"
+).length
+.toLocaleString();
+
+document.getElementById(
+"lockedChannels"
+).innerText=
+channels.filter(
+c=>c.status==="Locked"
+).length
+.toLocaleString();
+
+}
+
+/* ========= SEARCH ========= */
+
+function searchChannels(){
+
+let value=
+document
+.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+let filtered=
+channels.filter(c=>
+
+c.name
+.toLowerCase()
+.includes(value)
+
+||
+
+c.category
+.toLowerCase()
+.includes(value)
+
+);
+
+page=0;
+
+renderChannels(filtered);
+
+}
+
+/* ========= FAVORITES ========= */
+
+function addFavorite(id){
+
+let fav=
+JSON.parse(
+localStorage.getItem(
+"favorites"
+)
+)||[];
+
+fav.push(id);
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(fav)
+);
+
+alert(
+"Added to favorites"
+);
+
+}
+
+/* ========= WATCH ========= */
+
+function watchChannel(id){
+
+let channel=
+channels.find(
+c=>c.id===id
+);
+
+if(
+channel.status==="Locked"
+){
+
+alert(
+"Subscribe first"
+);
+
+return;
+
+}
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display="flex";
+
+document
+.getElementById(
+"playerTitle"
+)
+.innerText=
+channel.name;
+
+let video=
+document
+.getElementById(
+"videoPlayer"
+);
+
+if(Hls.isSupported()){
+
+let hls=
+new Hls();
+
+hls.loadSource(
+channel.streamUrl
+);
+
+hls.attachMedia(
+video
+);
+
+}else{
+
+video.src=
+channel.streamUrl;
+
+}
+
+video.play();
+
+/* SAVE HISTORY */
+
+let history=
+JSON.parse(
+localStorage.getItem(
+"history"
+)
+)||[];
+
+history.push(
+channel.name
+);
+
+localStorage.setItem(
+"history",
+JSON.stringify(history)
+);
+
+}
+
+/* ========= PLAYER CLOSE ========= */
+
+function closePlayer(){
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display=
+"none";
+
+document
+.getElementById(
+"videoPlayer"
+)
+.pause();
+
+}
+
+/* ========= SETTINGS ========= */
+
+function applyTheme(){
+
+if(
+settings.theme==="light"
+){
+
+document.body.style.background=
+"#ffffff";
+
+document.body.style.color=
+"#000";
+
+}else{
+
+document.body.style.background=
+"#0f172a";
+
+}
+
+}
+
+function toggleTheme(){
+
+settings.theme=
+
+settings.theme==="dark"
+?"light"
+:"dark";
+
+localStorage.setItem(
+"settings",
+JSON.stringify(
+settings
+)
+);
+
+applyTheme();
+
+}
+
+/* ========= INIT ========= */
+
+renderChannels(channels);
+
+</script>
 
 </body>
 </html>
