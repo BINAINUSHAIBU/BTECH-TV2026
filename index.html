@@ -461,6 +461,349 @@ button.innerText = "Lock";
 });
 });
 </script>
+  <script>
+
+/* ==========================
+   BTECH IPTV ADMIN ENGINE
+========================== */
+
+let channels = [];
+
+const categories = [
+"Sports",
+"Movies",
+"News",
+"Kids",
+"Entertainment",
+"Music",
+"Documentary",
+"Education"
+];
+
+/* GENERATE 40,000 CHANNELS */
+
+for(let i=1;i<=40000;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)],
+
+type:
+Math.random()>0.65
+? "Pay To View"
+: "Free",
+
+status:
+Math.random()>0.85
+? "Locked"
+: "Unlocked",
+
+live:
+Math.random()>0.2
+
+});
+
+}
+
+/* ==========================
+   UPDATE STAT CARDS
+========================== */
+
+function updateStats(){
+
+document.querySelectorAll(
+".stat-card p"
+)[0].innerText =
+channels.length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[1].innerText =
+channels.filter(
+c=>c.type==="Free"
+).length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[2].innerText =
+channels.filter(
+c=>c.type==="Pay To View"
+).length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[3].innerText =
+channels.filter(
+c=>c.status==="Locked"
+).length.toLocaleString();
+
+}
+
+/* ==========================
+   TABLE RENDER
+========================== */
+
+let page=0;
+const limit=50;
+
+function renderTable(){
+
+const tbody =
+document.querySelector("tbody");
+
+tbody.innerHTML="";
+
+let start=
+page*limit;
+
+let end=
+start+limit;
+
+channels
+.slice(start,end)
+.forEach(channel=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+${channel.name}
+</td>
+
+<td>
+${channel.category}
+</td>
+
+<td>
+
+<span class="
+status
+${channel.type==="Free"
+?"free":"paid"}
+">
+
+${channel.type}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="
+status
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="lock-btn"
+onclick="toggleLock(${channel.id})">
+
+${channel.status==="Locked"
+?"Unlock":"Lock"}
+
+</button>
+
+<button
+class="edit-btn"
+onclick="editChannel(${channel.id})">
+
+Edit
+
+</button>
+
+<button
+class="edit-btn"
+onclick="deleteChannel(${channel.id})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+/* LOAD MORE */
+
+tbody.innerHTML += `
+
+<tr>
+
+<td colspan="5">
+
+<button
+style="
+width:100%;
+padding:15px"
+onclick="loadMore()">
+
+Load More Channels
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+/* ==========================
+   LOAD MORE
+========================== */
+
+function loadMore(){
+
+page++;
+
+renderTable();
+
+}
+
+/* ==========================
+   LOCK / UNLOCK
+========================== */
+
+function toggleLock(id){
+
+let channel =
+channels.find(
+c=>c.id===id
+);
+
+channel.status =
+channel.status==="Locked"
+? "Unlocked"
+: "Locked";
+
+renderTable();
+updateStats();
+
+}
+
+/* ==========================
+   EDIT CHANNEL
+========================== */
+
+function editChannel(id){
+
+let channel =
+channels.find(
+c=>c.id===id
+);
+
+let newName =
+prompt(
+"Rename Channel",
+channel.name
+);
+
+if(newName){
+
+channel.name =
+newName;
+
+renderTable();
+
+}
+
+}
+
+/* ==========================
+   DELETE CHANNEL
+========================== */
+
+function deleteChannel(id){
+
+channels =
+channels.filter(
+c=>c.id!==id
+);
+
+renderTable();
+updateStats();
+
+}
+
+/* ==========================
+   SEARCH BAR
+========================== */
+
+let search =
+document.createElement("input");
+
+search.placeholder =
+"Search channels";
+
+search.style =
+"width:100%;padding:12px;margin-bottom:20px";
+
+search.onkeyup =
+function(){
+
+let val =
+this.value
+.toLowerCase();
+
+channels =
+channels.filter(
+
+c=>
+
+c.name
+.toLowerCase()
+.includes(val)
+
+||
+
+c.category
+.toLowerCase()
+.includes(val)
+
+);
+
+page=0;
+
+renderTable();
+
+};
+
+document.querySelector(
+".dashboard-header"
+).appendChild(search);
+
+/* ==========================
+   INIT
+========================== */
+
+updateStats();
+renderTable();
+
+</script>
 
 </body>
 </html>
