@@ -804,6 +804,374 @@ updateStats();
 renderTable();
 
 </script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+
+/* ======================
+BTECH TV PRO SETTINGS
+====================== */
+
+const SETTINGS = {
+
+totalChannels:40000,
+showPerPage:100,
+
+autoRefresh:true,
+darkMode:true,
+
+allowFavorites:true,
+allowHistory:true,
+allowSubscriptions:true,
+
+currency:"₦",
+
+playerQuality:"Auto",
+
+categories:[
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Music",
+"Entertainment",
+"Documentary",
+"Education",
+"VIP",
+"Religion",
+"Comedy",
+"Lifestyle",
+"Business",
+"Fashion"
+]
+
+};
+
+
+/* ======================
+CHANNEL DATABASE
+====================== */
+
+const channels=[];
+
+for(let i=1;i<=SETTINGS.totalChannels;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+SETTINGS.categories[
+Math.floor(
+Math.random()*SETTINGS.categories.length
+)
+],
+
+type:
+Math.random()>0.55
+?"Free"
+:"Premium",
+
+status:
+Math.random()>0.8
+?"Locked"
+:"Unlocked",
+
+price:
+Math.floor(Math.random()*5000)+500,
+
+viewers:
+Math.floor(Math.random()*50000),
+
+favorite:false,
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+
+/* ======================
+STATS
+====================== */
+
+function updateStats(){
+
+document.getElementById(
+"totalChannels"
+).innerText=
+channels.length.toLocaleString();
+
+document.getElementById(
+"freeChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Free"
+).length.toLocaleString();
+
+document.getElementById(
+"premiumChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Premium"
+).length.toLocaleString();
+
+document.getElementById(
+"lockedChannels"
+).innerText=
+channels.filter(
+c=>c.status==="Locked"
+).length.toLocaleString();
+
+}
+
+
+/* ======================
+RENDER CHANNELS
+====================== */
+
+function renderChannels(list,page=1){
+
+const grid=
+document.getElementById(
+"channelGrid"
+);
+
+grid.innerHTML="";
+
+const start=
+(page-1)*SETTINGS.showPerPage;
+
+const end=
+start+SETTINGS.showPerPage;
+
+list.slice(start,end)
+.forEach(channel=>{
+
+grid.innerHTML+=`
+
+<div class="channel-card">
+
+<div class="channel-banner">
+
+${channel.category}
+
+</div>
+
+<div class="channel-info">
+
+<h3>${channel.name}</h3>
+
+<p>
+👥 ${channel.viewers.toLocaleString()}
+ Watching
+</p>
+
+<p>
+
+<span class="
+badge
+${channel.type==="Free"
+?"free":"paid"}
+">
+
+${channel.type}
+
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+</p>
+
+<button
+class="watch-btn"
+onclick="watchChannel(${channel.id})"
+>
+
+Watch
+
+</button>
+
+<button
+class="watch-btn"
+onclick="addFavorite(${channel.id})"
+>
+
+⭐ Favorite
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* ======================
+SEARCH
+====================== */
+
+function searchChannels(){
+
+let value=
+document.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+let filtered=
+channels.filter(c=>
+
+c.name.toLowerCase()
+.includes(value)
+
+||
+
+c.category.toLowerCase()
+.includes(value)
+
+);
+
+renderChannels(filtered);
+
+}
+
+
+/* ======================
+WATCH CHANNEL
+====================== */
+
+function watchChannel(id){
+
+let channel=
+channels.find(
+c=>c.id===id
+);
+
+if(channel.status==="Locked"){
+
+alert(
+"Subscribe to unlock"
+);
+
+return;
+
+}
+
+document.getElementById(
+"playerModal"
+).style.display="flex";
+
+document.getElementById(
+"playerTitle"
+).innerText=
+channel.name;
+
+let video=
+document.getElementById(
+"videoPlayer"
+);
+
+if(Hls.isSupported()){
+
+let hls=new Hls();
+
+hls.loadSource(
+channel.streamUrl
+);
+
+hls.attachMedia(video);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+()=>video.play()
+);
+
+}
+else{
+
+video.src=
+channel.streamUrl;
+
+video.play();
+
+}
+
+}
+
+
+/* ======================
+FAVORITES
+====================== */
+
+function addFavorite(id){
+
+let channel=
+channels.find(c=>c.id===id);
+
+channel.favorite=true;
+
+alert(
+channel.name+
+" added to favorites"
+);
+
+}
+
+
+/* ======================
+AUTO REFRESH
+====================== */
+
+if(
+SETTINGS.autoRefresh
+){
+
+setInterval(()=>{
+
+channels.forEach(c=>{
+
+c.viewers=
+Math.floor(
+Math.random()*50000
+);
+
+});
+
+updateStats();
+
+},5000);
+
+}
+
+
+/* ======================
+INIT
+====================== */
+
+updateStats();
+
+renderChannels(channels);
+
+</script>
 
 </body>
 </html>
