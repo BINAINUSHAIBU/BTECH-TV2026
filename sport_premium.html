@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IPTV PRO DASHBOARD</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0b0f1a;
+color:white;
+display:flex;
+height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:260px;
+background:#11182a;
+padding:15px;
+overflow-y:auto;
+}
+
+.sidebar h2{
+color:#00ffcc;
+text-align:center;
+}
+
+.channel{
+padding:10px;
+margin:5px 0;
+background:#1a2338;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+}
+
+.channel:hover{
+background:#00ffcc;
+color:#000;
+}
+
+/* MAIN */
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+.topbar{
+padding:15px;
+background:#0f172a;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.search{
+padding:8px;
+width:250px;
+border-radius:6px;
+border:none;
+}
+
+/* PLAYER */
+.player{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#000;
+}
+
+video{
+width:90%;
+max-height:80%;
+border-radius:10px;
+}
+
+/* STATS */
+.stats{
+display:flex;
+gap:10px;
+padding:10px;
+background:#111827;
+}
+
+.card{
+flex:1;
+background:#1a2338;
+padding:10px;
+border-radius:8px;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h2>📺 IPTV PRO</h2>
+<div id="channelList"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="topbar">
+<div>🔥 Live Sports Dashboard</div>
+<input class="search" placeholder="Search channels..." oninput="filterChannels(this.value)">
+</div>
+
+<div class="stats">
+<div class="card">
+<h3>Total Channels</h3>
+<p id="total">0</p>
+</div>
+
+<div class="card">
+<h3>Sports</h3>
+<p>Premium</p>
+</div>
+
+<div class="card">
+<h3>Status</h3>
+<p style="color:lime">ONLINE</p>
+</div>
+</div>
+
+<div class="player">
+<video id="player" controls autoplay></video>
+</div>
+
+</div>
+
+<script>
+
+// Generate 40,000 MOCK channels (scalable system demo)
+let channels = [];
+
+for(let i=1;i<=40000;i++){
+channels.push({
+name: "SPORTS CHANNEL " + i,
+url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" // demo stream
+});
+}
+
+document.getElementById("total").innerText = channels.length;
+
+const list = document.getElementById("channelList");
+
+function render(listData){
+list.innerHTML = "";
+listData.slice(0,500).forEach((ch, index)=>{ // limit UI render for performance
+let div = document.createElement("div");
+div.className = "channel";
+div.innerText = ch.name;
+
+div.onclick = ()=>{
+document.getElementById("player").src = ch.url;
+};
+
+list.appendChild(div);
+});
+}
+
+render(channels);
+
+// SEARCH
+function filterChannels(val){
+let filtered = channels.filter(c =>
+c.name.toLowerCase().includes(val.toLowerCase())
+);
+render(filtered);
+}
+
+</script>
+  <script>
+
+// ===============================
+// IPTV PRO 40,000 CHANNEL SYSTEM
+// ===============================
+
+let channels = [];
+
+const categories = [
+"SPORTS",
+"MOVIES",
+"NEWS",
+"VIP",
+"ENTERTAINMENT",
+"KIDS",
+"DOCUMENTARY",
+"MUSIC"
+];
+
+// generate 40,000 ACTIVE channels
+for (let i = 1; i <= 40000; i++) {
+
+    let cat = categories[Math.floor(Math.random() * categories.length)];
+
+    channels.push({
+        id: i,
+        name: `${cat} CHANNEL ${i}`,
+        category: cat,
+
+        type: Math.random() > 0.4 ? "FREE" : "PREMIUM",
+        status: Math.random() > 0.7 ? "LOCKED" : "UNLOCKED",
+
+        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    });
+}
+
+// ===============================
+// INIT STATS
+// ===============================
+document.getElementById("total").innerText = channels.length;
+
+// ===============================
+// RENDER CHANNELS (FAST MODE)
+// ===============================
+function render(listData) {
+
+    const list = document.getElementById("channelList");
+    list.innerHTML = "";
+
+    // render only first 400 for performance
+    listData.slice(0, 400).forEach(ch => {
+
+        let div = document.createElement("div");
+        div.className = "channel";
+
+        div.innerHTML = `
+            <b>${ch.name}</b><br>
+            <small>${ch.category} | ${ch.type} | ${ch.status}</small>
+        `;
+
+        div.onclick = () => {
+
+            if (ch.status === "LOCKED") {
+                alert("🔒 Channel Locked - Upgrade Required");
+                return;
+            }
+
+            document.getElementById("player").src = ch.url;
+        };
+
+        list.appendChild(div);
+    });
+}
+
+// ===============================
+// SEARCH SYSTEM (FAST FILTER)
+// ===============================
+function filterChannels(val) {
+
+    if (!val) return render(channels);
+
+    let filtered = channels.filter(c =>
+        c.name.toLowerCase().includes(val.toLowerCase()) ||
+        c.category.toLowerCase().includes(val.toLowerCase())
+    );
+
+    render(filtered);
+}
+
+// ===============================
+// AUTO STATS UPDATE
+// ===============================
+function updateStats() {
+
+    const sports = channels.filter(c => c.category === "SPORTS").length;
+    const premium = channels.filter(c => c.type === "PREMIUM").length;
+    const locked = channels.filter(c => c.status === "LOCKED").length;
+
+    document.querySelector(".stats").innerHTML = `
+        <div class="card">
+            <h3>Total Channels</h3>
+            <p>${channels.length.toLocaleString()}</p>
+        </div>
+
+        <div class="card">
+            <h3>Sports</h3>
+            <p>${sports.toLocaleString()}</p>
+        </div>
+
+        <div class="card">
+            <h3>Premium</h3>
+            <p>${premium.toLocaleString()}</p>
+        </div>
+
+        <div class="card">
+            <h3>Locked</h3>
+            <p>${locked.toLocaleString()}</p>
+        </div>
+    `;
+}
+
+// ===============================
+// INIT SYSTEM
+// ===============================
+render(channels);
+updateStats();
+
+</script>
+
+</body>
+</html>
