@@ -280,16 +280,6 @@ loadCategory("ALL");
 
 
 
-    // Load additional playlist sources in background
-    loadExtraPlaylists();
-  }catch(e){
-    document.getElementById('status').textContent='⚠️ API failed: '+e.message+'. Loading fallback playlists...';
-    document.getElementById('wmsg').textContent='API failed. Loading playlists directly...';
-    console.error(e);
-    // Fallback: load M3U playlists directly
-    loadExtraPlaylists();
-  }
-}
 
 </body>
 </html>
