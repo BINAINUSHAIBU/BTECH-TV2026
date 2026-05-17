@@ -278,7 +278,373 @@ document.body.style.background="#0b0f1a";
 loadCategory("ALL");
 
 </script>
+<script>
 
+let channels=[];
+let favorites=[];
+let history=[];
+let autoPlay=true;
+
+const playlists = [
+"https://iptv-org.github.io/iptv/index.m3u",
+"https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8",
+"https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u"
+];
+
+
+/* MOCK 40,000 CHANNELS */
+
+const cats=[
+"SPORTS",
+"MOVIES",
+"NEWS",
+"KIDS",
+"MUSIC",
+"AFRICA",
+"USA",
+"UK",
+"DOCUMENTARY"
+];
+
+for(let i=1;i<=40000;i++){
+
+channels.push({
+
+id:i,
+
+name:
+cats[i%cats.length]
++" CHANNEL "+i,
+
+category:
+cats[i%cats.length],
+
+premium:
+Math.random()>0.7,
+
+live:
+Math.random()>0.2,
+
+quality:
+["1080p","720p","480p"]
+[Math.floor(Math.random()*3)],
+
+url:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+
+/* COUNTERS */
+
+function updateStats(){
+
+document.getElementById("total")
+.innerText=
+channels.length.toLocaleString();
+
+}
+
+
+updateStats();
+
+
+
+/* RENDER */
+
+function render(data){
+
+let list=
+document.getElementById("channelList");
+
+list.innerHTML="";
+
+
+data.slice(0,300).forEach(ch=>{
+
+list.innerHTML+=`
+
+<div class="channel">
+
+<span>
+
+${ch.live?"🟢":"🔴"}
+
+${ch.name}
+
+</span>
+
+<span>
+
+${ch.premium?"VIP":"FREE"}
+
+</span>
+
+</div>
+
+`;
+
+});
+
+
+Array.from(
+document.querySelectorAll(".channel")
+).forEach((el,index)=>{
+
+el.onclick=()=>{
+
+playChannel(
+data[index]
+);
+
+};
+
+});
+
+
+}
+
+
+
+render(channels);
+
+
+
+/* PLAY */
+
+function playChannel(ch){
+
+if(ch.premium){
+
+let ok=
+confirm(
+"Premium channel.\nUnlock?"
+);
+
+if(!ok)return;
+
+}
+
+
+history.push(ch);
+
+localStorage.setItem(
+"history",
+JSON.stringify(history)
+);
+
+
+let video=
+document.getElementById(
+"videoPlayer"
+);
+
+video.src=
+ch.url;
+
+
+if(autoPlay)
+video.play();
+
+}
+
+
+
+/* SEARCH */
+
+function searchChannels(v){
+
+let x=
+channels.filter(c=>
+
+c.name
+.toLowerCase()
+.includes(
+v.toLowerCase()
+)
+
+);
+
+render(x);
+
+}
+
+
+
+/* CATEGORY */
+
+function loadCategory(cat){
+
+if(cat==="ALL")
+render(channels);
+
+else{
+
+render(
+
+channels.filter(
+
+c=>
+c.category===cat
+
+)
+
+);
+
+}
+
+}
+
+
+
+/* FAVORITES */
+
+function addFavorite(id){
+
+favorites.push(id);
+
+localStorage.setItem(
+
+"favorites",
+
+JSON.stringify(favorites)
+
+);
+
+}
+
+
+
+/* SETTINGS */
+
+function toggleSettings(){
+
+let s=
+document.getElementById(
+"settingsBox"
+);
+
+s.style.display=
+s.style.display==="block"
+
+?
+
+"none"
+
+:
+
+"block";
+
+}
+
+
+
+function setTheme(x){
+
+if(x==="blue"){
+
+document.body.style.background=
+"#071e36";
+
+}
+
+else{
+
+document.body.style.background=
+"#0b0f1a";
+
+}
+
+}
+
+
+
+/* ONLINE USERS */
+
+setInterval(()=>{
+
+let users=
+Math.floor(
+
+Math.random()*5000
+
+)+1000;
+
+document.title=
+
+"IPTV • "+users+
+
+" online";
+
+},5000);
+
+
+
+/* WATCH HISTORY */
+
+function showHistory(){
+
+console.log(history);
+
+}
+
+
+
+/* FAVORITES */
+
+function showFavorites(){
+
+console.log(favorites);
+
+}
+
+
+
+/* LOAD M3U PLAYLIST */
+
+async function loadPlaylist(url){
+
+try{
+
+let r=
+await fetch(url);
+
+let txt=
+await r.text();
+
+console.log(
+
+"Playlist loaded",
+
+url
+
+);
+
+}catch(e){
+
+console.log(
+
+"failed",
+
+url
+
+);
+
+}
+
+}
+
+
+
+playlists.forEach(
+
+p=>loadPlaylist(p)
+
+);
+
+</script>
 
 
 
