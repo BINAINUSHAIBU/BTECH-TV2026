@@ -1,15 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BTECH-TV PRO ULTRA MAX</title>
+
+<title>BTECH IPTV ULTRA 100K</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
 
+/* =========================================
+   ROOT
+========================================= */
+
 :root{
+
 --bg:#0b1020;
 --panel:#111827;
 --card:#1e293b;
@@ -18,9 +26,12 @@
 --text:#ffffff;
 --muted:#94a3b8;
 --success:#22c55e;
---danger:#ef4444;
---warning:#f59e0b;
+
 }
+
+/* =========================================
+   GLOBAL
+========================================= */
 
 *{
 margin:0;
@@ -32,59 +43,17 @@ font-family:Arial,sans-serif;
 body{
 background:var(--bg);
 color:var(--text);
-overflow:hidden;
-display:flex;
-flex-direction:column;
 height:100vh;
-}
-
-/* TOPBAR */
-.topbar{
-height:70px;
-background:var(--panel);
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 20px;
-border-bottom:1px solid #1f2937;
-}
-
-.logo{
-font-size:22px;
-font-weight:bold;
-color:var(--accent);
-}
-
-.menu{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.menu button{
-background:var(--card);
-color:white;
-border:none;
-padding:10px 14px;
-border-radius:10px;
-cursor:pointer;
-transition:.3s;
-}
-
-.menu button:hover{
-background:var(--hover);
-}
-
-/* MAIN */
-.container{
-flex:1;
-display:flex;
 overflow:hidden;
+display:flex;
 }
 
-/* SIDEBAR */
+/* =========================================
+   SIDEBAR
+========================================= */
+
 .sidebar{
-width:350px;
+width:360px;
 background:var(--panel);
 display:flex;
 flex-direction:column;
@@ -92,59 +61,45 @@ border-right:1px solid #1f2937;
 }
 
 .sidebar-header{
-padding:15px;
+padding:18px;
 border-bottom:1px solid #1f2937;
 }
 
-.sidebar-header h2{
-color:var(--accent);
-margin-bottom:8px;
-}
-
-.stats-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-margin-top:10px;
-}
-
-.card{
-background:var(--card);
-padding:10px;
-border-radius:10px;
-text-align:center;
-}
-
-.card h3{
-font-size:12px;
-color:var(--muted);
-margin-bottom:5px;
-}
-
-.card p{
-font-size:16px;
+.logo{
+font-size:22px;
 font-weight:bold;
+color:var(--accent);
+margin-bottom:10px;
+}
+
+.stats{
+font-size:13px;
+color:var(--muted);
 }
 
 /* SEARCH */
-.search-box{
+
+.search-area{
 padding:12px;
 display:flex;
+flex-direction:column;
 gap:10px;
 border-bottom:1px solid #1f2937;
 }
 
-.search-box input{
-flex:1;
+.search-area input,
+.search-area select{
+width:100%;
 padding:12px;
+background:var(--card);
 border:none;
-border-radius:10px;
-background:#1e293b;
-color:white;
 outline:none;
+border-radius:10px;
+color:white;
 }
 
 /* CHANNEL LIST */
+
 .channel-list{
 flex:1;
 overflow-y:auto;
@@ -155,12 +110,12 @@ padding:10px;
 display:flex;
 align-items:center;
 gap:12px;
+padding:12px;
 background:var(--card);
-padding:10px;
 border-radius:12px;
 margin-bottom:10px;
 cursor:pointer;
-transition:.3s;
+transition:.25s;
 }
 
 .channel:hover{
@@ -169,8 +124,8 @@ transform:scale(1.01);
 }
 
 .channel img{
-width:55px;
-height:55px;
+width:60px;
+height:60px;
 border-radius:10px;
 object-fit:cover;
 background:black;
@@ -195,31 +150,97 @@ color:var(--muted);
 margin-top:5px;
 }
 
-.badge{
-font-size:10px;
-padding:4px 7px;
-border-radius:8px;
-background:var(--success);
+.live{
+font-size:11px;
+color:var(--success);
 }
 
-.locked{
-background:var(--danger);
-}
+/* =========================================
+   MAIN
+========================================= */
 
-/* PLAYER AREA */
 .main{
 flex:1;
 display:flex;
 flex-direction:column;
 }
 
-.player{
-flex:1;
-position:relative;
-background:black;
+/* TOPBAR */
+
+.topbar{
+height:70px;
+background:var(--panel);
 display:flex;
 align-items:center;
+justify-content:space-between;
+padding:0 20px;
+border-bottom:1px solid #1f2937;
+}
+
+.topbar-title{
+font-size:20px;
+font-weight:bold;
+color:var(--accent);
+}
+
+.menu{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.menu button{
+padding:10px 14px;
+border:none;
+border-radius:8px;
+background:var(--card);
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+.menu button:hover{
+background:var(--hover);
+}
+
+/* STATS */
+
+.dashboard{
+display:flex;
+gap:10px;
+padding:12px;
+background:var(--panel);
+border-bottom:1px solid #1f2937;
+}
+
+.card{
+flex:1;
+background:var(--card);
+padding:15px;
+border-radius:12px;
+text-align:center;
+}
+
+.card h3{
+font-size:14px;
+margin-bottom:8px;
+color:var(--accent);
+}
+
+.card p{
+font-size:20px;
+font-weight:bold;
+}
+
+/* PLAYER */
+
+.player{
+flex:1;
+background:black;
+position:relative;
+display:flex;
 justify-content:center;
+align-items:center;
 }
 
 video{
@@ -229,20 +250,22 @@ object-fit:contain;
 background:black;
 }
 
+/* OVERLAY */
+
 .overlay{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.9);
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
-z-index:5;
+align-items:center;
+z-index:9;
 }
 
 .overlay h1{
-font-size:70px;
-margin-bottom:15px;
+font-size:60px;
+margin-bottom:10px;
 }
 
 .overlay p{
@@ -251,19 +274,20 @@ color:var(--muted);
 }
 
 /* CONTROLS */
+
 .controls{
-height:95px;
+height:100px;
 background:var(--panel);
 display:flex;
-align-items:center;
 justify-content:space-between;
+align-items:center;
 padding:0 20px;
 border-top:1px solid #1f2937;
 }
 
 .now-playing h3{
-font-size:18px;
-margin-bottom:5px;
+font-size:20px;
+margin-bottom:6px;
 }
 
 .now-playing p{
@@ -283,46 +307,25 @@ border-radius:10px;
 background:var(--card);
 color:white;
 cursor:pointer;
-transition:.3s;
 }
 
 .control-buttons button:hover{
 background:var(--hover);
 }
 
-/* EPG */
-.epg{
-height:180px;
-overflow-y:auto;
-background:#0f172a;
-border-top:1px solid #1f2937;
-padding:15px;
-}
-
-.epg h3{
-margin-bottom:12px;
-color:var(--accent);
-}
-
-.epg-item{
-padding:10px;
-background:var(--card);
-border-radius:10px;
-margin-bottom:8px;
-}
-
 /* SETTINGS */
+
 .settings{
 position:fixed;
 right:20px;
 top:80px;
-width:300px;
+width:320px;
 background:var(--panel);
 padding:20px;
-border-radius:15px;
-border:1px solid #1f2937;
+border-radius:14px;
 display:none;
-z-index:9999;
+z-index:999;
+border:1px solid #1f2937;
 }
 
 .settings h3{
@@ -332,31 +335,68 @@ color:var(--accent);
 
 .settings label{
 display:block;
-margin:12px 0 5px;
+margin-top:12px;
+margin-bottom:5px;
 font-size:13px;
 }
 
-.settings select,
-.settings input{
+.settings input,
+.settings select{
 width:100%;
 padding:10px;
+background:var(--card);
 border:none;
+outline:none;
 border-radius:8px;
-background:#1e293b;
 color:white;
 }
 
+/* EPG */
+
+.epg{
+height:180px;
+overflow-y:auto;
+background:#0f172a;
+padding:15px;
+border-top:1px solid #1f2937;
+}
+
+.epg h3{
+margin-bottom:10px;
+color:var(--accent);
+}
+
+.epg-item{
+padding:10px;
+background:var(--card);
+border-radius:8px;
+margin-bottom:8px;
+font-size:13px;
+}
+
 /* MOBILE */
+
 @media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
 .sidebar{
-position:absolute;
-z-index:999;
-height:100%;
 width:100%;
+height:45%;
+}
+
+.main{
+height:55%;
 }
 
 .menu{
 display:none;
+}
+
+.dashboard{
+flex-wrap:wrap;
 }
 
 .controls{
@@ -365,38 +405,101 @@ height:auto;
 padding:15px;
 gap:10px;
 }
+
 }
 
 </style>
 </head>
+
 <body>
 
-<!-- TOPBAR -->
-<div class="topbar">
-<div class="logo">📺 BTECH-TV PRO ULTRA MAX</div>
+<!-- =========================================
+     SIDEBAR
+========================================= -->
 
-<div class="menu">
-<button onclick="filterCategory('ALL')">ALL</button>
-<button onclick="filterCategory('SPORTS')">SPORTS</button>
-<button onclick="filterCategory('MOVIES')">MOVIES</button>
-<button onclick="filterCategory('NEWS')">NEWS</button>
-<button onclick="filterCategory('KIDS')">KIDS</button>
-<button onclick="toggleTheme()">THEME</button>
-<button onclick="toggleSettings()">SETTINGS</button>
-</div>
-</div>
-
-<div class="container">
-
-<!-- SIDEBAR -->
 <div class="sidebar">
 
 <div class="sidebar-header">
-<h2>LIVE IPTV CHANNELS</h2>
 
-<div class="stats-grid">
+<div class="logo">
+📺 BTECH IPTV ULTRA
+</div>
+
+<div class="stats" id="stats">
+Loading IPTV System...
+</div>
+
+</div>
+
+<div class="search-area">
+
+<input
+type="text"
+placeholder="Search 100K+ Channels..."
+onkeyup="searchChannels(this.value)"
+>
+
+<select onchange="filterCategory(this.value)">
+<option value="ALL">All Categories</option>
+<option value="SPORTS">Sports</option>
+<option value="MOVIES">Movies</option>
+<option value="NEWS">News</option>
+<option value="KIDS">Kids</option>
+<option value="MUSIC">Music</option>
+<option value="AFRICA">Africa</option>
+</select>
+
+</div>
+
+<div
+class="channel-list"
+id="channelList"
+></div>
+
+</div>
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<div class="topbar-title">
+🚀 IPTV PRO 100K ENGINE
+</div>
+
+<div class="menu">
+
+<button onclick="toggleSettings()">
+Settings
+</button>
+
+<button onclick="setTheme('dark')">
+Dark
+</button>
+
+<button onclick="setTheme('blue')">
+Blue
+</button>
+
+<button onclick="setTheme('green')">
+Green
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div class="dashboard">
+
 <div class="card">
-<h3>Total</h3>
+<h3>Total Channels</h3>
 <p id="totalChannels">0</p>
 </div>
 
@@ -411,418 +514,724 @@ gap:10px;
 </div>
 
 <div class="card">
-<h3>Status</h3>
-<p style="color:lime">ONLINE</p>
-</div>
-</div>
-</div>
-
-<!-- SEARCH -->
-<div class="search-box">
-<input type="text" placeholder="Advanced Search IPTV Channels..." onkeyup="searchChannels(this.value)">
+<h3>Live Status</h3>
+<p style="color:lime">
+ONLINE
+</p>
 </div>
 
-<!-- CHANNEL LIST -->
-<div class="channel-list" id="channelList"></div>
-
 </div>
-
-<!-- MAIN -->
-<div class="main">
 
 <!-- PLAYER -->
-<div class="player">
-<video id="videoPlayer" controls autoplay playsinline></video>
 
-<div class="overlay" id="overlay">
+<div class="player">
+
+<video
+id="videoPlayer"
+controls
+autoplay
+playsinline
+></video>
+
+<div
+class="overlay"
+id="overlay"
+>
+
 <h1>🚀</h1>
-<p>Loading 100,000+ IPTV Channels...</p>
+
+<p>
+Initializing IPTV Ultra Engine...
+</p>
+
 </div>
+
 </div>
 
 <!-- CONTROLS -->
+
 <div class="controls">
+
 <div class="now-playing">
-<h3 id="channelName">No Channel Selected</h3>
-<p id="channelGroup">BTECH IPTV ENGINE</p>
+
+<h3 id="channelName">
+No Channel Selected
+</h3>
+
+<p id="channelGroup">
+BTECH IPTV Streaming
+</p>
+
 </div>
 
 <div class="control-buttons">
-<button onclick="prevChannel()">◀ PREV</button>
-<button onclick="nextChannel()">NEXT ▶</button>
+
+<button onclick="prevChannel()">
+◀ Prev
+</button>
+
+<button onclick="nextChannel()">
+Next ▶
+</button>
+
 </div>
+
 </div>
 
 <!-- EPG -->
-<div class="epg" id="epgGuide">
-<h3>📺 LIVE TV GUIDE</h3>
-<div class="epg-item">Loading EPG schedule...</div>
-</div>
+
+<div class="epg">
+
+<h3>📺 LIVE EPG GUIDE</h3>
+
+<div id="epgContent"></div>
 
 </div>
+
 </div>
 
 <!-- SETTINGS -->
-<div class="settings" id="settingsBox">
-<h3>System Settings</h3>
+
+<div
+class="settings"
+id="settingsBox"
+>
+
+<h3>⚙ IPTV Settings</h3>
+
+<label>M3U Playlist URL</label>
+
+<input
+id="m3uInput"
+placeholder="https://example.com/playlist.m3u"
+>
+
+<label>Xtream Username</label>
+
+<input id="xtreamUser">
+
+<label>Xtream Password</label>
+
+<input id="xtreamPass">
 
 <label>Theme</label>
+
 <select onchange="setTheme(this.value)">
+
 <option value="dark">Dark</option>
 <option value="blue">Blue</option>
 <option value="green">Green</option>
-<option value="purple">Purple</option>
+
 </select>
 
-<label>Auto Play</label>
-<select onchange="setAutoPlay(this.value)">
-<option value="true">ON</option>
-<option value="false">OFF</option>
-</select>
-
-<label>M3U Playlist URL</label>
-<input type="text" id="m3uInput" placeholder="https://example.com/playlist.m3u">
-
-<label>Xtream API</label>
-<input type="text" id="xtreamInput" placeholder="http://server:port/get.php?...">
-
-<button style="margin-top:15px;width:100%;padding:12px;background:var(--accent);border:none;border-radius:10px;font-weight:bold;cursor:pointer" onclick="saveSettings()">
-SAVE SETTINGS
+<button
+onclick="saveSettings()"
+style="
+margin-top:15px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:var(--accent);
+font-weight:bold;
+cursor:pointer;
+"
+>
+Save Settings
 </button>
+
 </div>
 
 <script>
 
-// =========================================
-// IPTV SOURCES
-// =========================================
+/* =========================================
+   IPTV SOURCES
+========================================= */
+
 const playlists = [
-'https://iptv-org.github.io/iptv/index.m3u',
-'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'
+
+"https://iptv-org.github.io/iptv/index.m3u",
+
+"https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8"
+
 ];
 
-// =========================================
-// GLOBAL STATE
-// =========================================
+/* =========================================
+   GLOBAL STATE
+========================================= */
+
 let allChannels = [];
 let filteredChannels = [];
 let currentIndex = 0;
 let hls = null;
 let autoPlay = true;
-let darkMode = true;
+
+/* =========================================
+   LOAD PLAYLISTS
+========================================= */
+
+async function loadPlaylists(){
+
+const stats =
+document.getElementById("stats");
+
+stats.innerHTML =
+"Loading IPTV playlists...";
+
+const seen = new Set();
+
+for(const url of playlists){
+
+try{
+
+const res = await fetch(url);
+
+const text = await res.text();
+
+const parsed = parseM3U(text);
+
+parsed.forEach(ch=>{
+
+if(ch.url && !seen.has(ch.url)){
+
+seen.add(ch.url);
+
+allChannels.push({
+
+name: ch.name,
+group: ch.group,
+logo: ch.logo,
+url: ch.url,
+type: Math.random() > 0.5 ? "FREE" : "PREMIUM",
+status: Math.random() > 0.8 ? "LOCKED" : "UNLOCKED"
+
+});
+
+}
+
+});
+
+}catch(err){
+
+console.log("FAILED:", url);
+
+}
+
+}
+
+/* GENERATE 100K CHANNELS */
+
+generateVirtualChannels();
+
+filteredChannels = allChannels;
+
+updateStats();
+
+renderVirtualized();
+
+document.getElementById("overlay").style.display = "none";
+
+stats.innerHTML =
+`${allChannels.length.toLocaleString()} Channels Loaded`;
+
+}
+
+/* =========================================
+   GENERATE 100K CHANNELS
+========================================= */
+
+function generateVirtualChannels(){
 
 const categories = [
-'SPORTS',
-'MOVIES',
-'NEWS',
-'KIDS',
-'MUSIC',
-'DOCUMENTARY',
-'VIP',
-'AFRICA',
-'USA',
-'UK'
-];
 
-// =========================================
-// GENERATE 100,000 CHANNELS
-// =========================================
-function generateChannels(){
+"SPORTS",
+"MOVIES",
+"NEWS",
+"KIDS",
+"MUSIC",
+"AFRICA",
+"VIP",
+"DOCUMENTARY"
+
+];
 
 for(let i=1;i<=100000;i++){
 
-const category = categories[i % categories.length];
+const cat =
+categories[
+Math.floor(Math.random()*categories.length)
+];
 
 allChannels.push({
+
 id:i,
-name:`${category} LIVE ${i}`,
-group:category,
-logo:`https://logo.clearbit.com/youtube.com?${i}`,
-type:Math.random()>0.5 ? 'FREE' : 'PREMIUM',
-status:Math.random()>0.8 ? 'LOCKED' : 'UNLOCKED',
-url:'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
+
+name:`${cat} CHANNEL ${i}`,
+
+group:cat,
+
+type:Math.random() > 0.4 ? "FREE" : "PREMIUM",
+
+status:Math.random() > 0.7 ? "LOCKED" : "UNLOCKED",
+
+logo:`https://ui-avatars.com/api/?name=${cat}+${i}&background=111827&color=00d4ff`,
+
+url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
 });
+
 }
 
-filteredChannels = allChannels;
-updateStats();
-renderChannels();
 }
 
-// =========================================
-// FAST VIRTUAL RENDERING
-// =========================================
-function renderChannels(){
+/* =========================================
+   PARSE M3U
+========================================= */
 
-const list = document.getElementById('channelList');
-list.innerHTML = '';
+function parseM3U(text){
 
-filteredChannels.slice(0,500).forEach((channel,index)=>{
+const lines = text.split("\n");
 
-const div = document.createElement('div');
+const result = [];
 
-div.className = 'channel';
+let temp = {};
+
+for(let line of lines){
+
+line = line.trim();
+
+if(line.startsWith("#EXTINF")){
+
+temp = {
+
+name:
+line.match(/,(.*)/)?.[1]
+|| "Unknown",
+
+logo:
+line.match(/tvg-logo="(.*?)"/)?.[1]
+|| "",
+
+group:
+line.match(/group-title="(.*?)"/)?.[1]
+|| "LIVE"
+
+};
+
+}
+
+else if(line.startsWith("http")){
+
+temp.url = line;
+
+result.push(temp);
+
+temp = {};
+
+}
+
+}
+
+return result;
+
+}
+
+/* =========================================
+   FAST VIRTUAL RENDER
+========================================= */
+
+function renderVirtualized(){
+
+const list =
+document.getElementById("channelList");
+
+list.innerHTML = "";
+
+filteredChannels
+.slice(0,700)
+.forEach((channel,index)=>{
+
+const div =
+document.createElement("div");
+
+div.className = "channel";
 
 div.innerHTML = `
-<img src="${channel.logo}" loading="lazy">
+
+<img
+src="${
+channel.logo ||
+'https://via.placeholder.com/60'
+}"
+loading="lazy"
+>
 
 <div class="channel-info">
-<div class="channel-name">${channel.name}</div>
-<div class="channel-meta">
-${channel.group} | ${channel.type}
-</div>
+
+<div class="channel-name">
+${channel.name}
 </div>
 
-<div class="badge ${channel.status==='LOCKED'?'locked':''}">
+<div class="channel-meta">
+${channel.group} |
+${channel.type} |
 ${channel.status}
 </div>
-`;
 
-// CLICK PLAY
+</div>
+
+<div class="live">
+● LIVE
+</div>
+
+`;
 
 div.onclick = ()=>{
 
-if(channel.status==='LOCKED'){
-alert('🔒 Premium Locked Channel');
+if(channel.status==="LOCKED"){
+
+alert("🔒 Premium Channel Locked");
 return;
+
 }
 
 playChannel(index);
+
 };
 
 list.appendChild(div);
+
 });
+
 }
 
-// =========================================
-// PLAY CHANNEL
-// =========================================
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchChannels(query){
+
+filteredChannels =
+allChannels.filter(channel=>
+
+channel.name
+.toLowerCase()
+.includes(query.toLowerCase())
+
+||
+
+channel.group
+.toLowerCase()
+.includes(query.toLowerCase())
+
+);
+
+renderVirtualized();
+
+}
+
+/* =========================================
+   FILTER CATEGORY
+========================================= */
+
+function filterCategory(category){
+
+if(category==="ALL"){
+
+filteredChannels = allChannels;
+
+}else{
+
+filteredChannels =
+allChannels.filter(channel=>
+
+channel.group
+.toUpperCase()
+.includes(category)
+
+);
+
+}
+
+renderVirtualized();
+
+}
+
+/* =========================================
+   PLAY CHANNEL
+========================================= */
+
 function playChannel(index){
 
 currentIndex = index;
 
-const channel = filteredChannels[index];
+const channel =
+filteredChannels[index];
 
-const video = document.getElementById('videoPlayer');
+document.getElementById(
+"channelName"
+).innerText = channel.name;
+
+document.getElementById(
+"channelGroup"
+).innerText =
+`${channel.group} | ${channel.type}`;
+
+generateEPG(channel.name);
+
+const video =
+document.getElementById("videoPlayer");
 
 if(hls){
+
 hls.destroy();
+hls = null;
+
 }
 
 if(Hls.isSupported()){
 
 hls = new Hls({
+
 enableWorker:true,
 lowLatencyMode:true
+
 });
 
 hls.loadSource(channel.url);
+
 hls.attachMedia(video);
 
-hls.on(Hls.Events.MANIFEST_PARSED,()=>{
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+()=>{
+
 if(autoPlay){
+
 video.play();
+
 }
-});
+
+}
+);
 
 }else{
+
 video.src = channel.url;
+
+if(autoPlay){
+
+video.play();
+
 }
 
-// NOW PLAYING
-
-document.getElementById('channelName').innerText = channel.name;
-document.getElementById('channelGroup').innerText = channel.group;
-
-loadEPG(channel);
 }
 
-// =========================================
-// EPG GUIDE
-// =========================================
-function loadEPG(channel){
-
-const epg = document.getElementById('epgGuide');
-
-epg.innerHTML = `
-<h3>📺 ${channel.name} TV GUIDE</h3>
-
-<div class="epg-item">
-08:00 AM - Morning News
-</div>
-
-<div class="epg-item">
-10:00 AM - Live Sports Event
-</div>
-
-<div class="epg-item">
-01:00 PM - Movie Premiere
-</div>
-
-<div class="epg-item">
-04:00 PM - Entertainment Show
-</div>
-`;
 }
 
-// =========================================
-// SEARCH SYSTEM
-// =========================================
-function searchChannels(query){
+/* =========================================
+   NEXT / PREV
+========================================= */
 
-filteredChannels = allChannels.filter(channel=>
-channel.name.toLowerCase().includes(query.toLowerCase()) ||
-channel.group.toLowerCase().includes(query.toLowerCase())
-);
-
-renderChannels();
-}
-
-// =========================================
-// FILTER CATEGORY
-// =========================================
-function filterCategory(category){
-
-if(category==='ALL'){
-filteredChannels = allChannels;
-}else{
-filteredChannels = allChannels.filter(ch=>
-ch.group===category
-);
-}
-
-renderChannels();
-}
-
-// =========================================
-// NEXT / PREV
-// =========================================
 function nextChannel(){
+
 currentIndex++;
-if(currentIndex>=filteredChannels.length){
-currentIndex=0;
+
+if(currentIndex >= filteredChannels.length){
+
+currentIndex = 0;
+
 }
+
 playChannel(currentIndex);
+
 }
 
 function prevChannel(){
+
 currentIndex--;
-if(currentIndex<0){
-currentIndex=filteredChannels.length-1;
-}
-playChannel(currentIndex);
+
+if(currentIndex < 0){
+
+currentIndex =
+filteredChannels.length - 1;
+
 }
 
-// =========================================
-// STATS
-// =========================================
+playChannel(currentIndex);
+
+}
+
+/* =========================================
+   UPDATE STATS
+========================================= */
+
 function updateStats(){
 
-const sports = allChannels.filter(c=>c.group==='SPORTS').length;
-const premium = allChannels.filter(c=>c.type==='PREMIUM').length;
+const sports =
+allChannels.filter(c=>c.group==="SPORTS").length;
 
+const premium =
+allChannels.filter(c=>c.type==="PREMIUM").length;
 
-document.getElementById('totalChannels').innerText =
+document.getElementById(
+"totalChannels"
+).innerText =
 allChannels.length.toLocaleString();
 
-
-document.getElementById('sportsCount').innerText =
+document.getElementById(
+"sportsCount"
+).innerText =
 sports.toLocaleString();
 
-
-document.getElementById('premiumCount').innerText =
+document.getElementById(
+"premiumCount"
+).innerText =
 premium.toLocaleString();
+
 }
 
-// =========================================
-// THEMES
-// =========================================
+/* =========================================
+   SETTINGS
+========================================= */
+
+function toggleSettings(){
+
+const box =
+document.getElementById("settingsBox");
+
+box.style.display =
+
+box.style.display==="block"
+? "none"
+: "block";
+
+}
+
+/* =========================================
+   THEMES
+========================================= */
+
 function setTheme(theme){
 
-if(theme==='blue'){
-document.documentElement.style.setProperty('--bg','#061a33');
+localStorage.setItem("theme", theme);
+
+if(theme==="blue"){
+
+document.documentElement
+.style.setProperty("--bg","#061a33");
+
+document.documentElement
+.style.setProperty("--accent","#38bdf8");
+
 }
 
-else if(theme==='green'){
-document.documentElement.style.setProperty('--bg','#052e16');
-}
+else if(theme==="green"){
 
-else if(theme==='purple'){
-document.documentElement.style.setProperty('--bg','#2e1065');
+document.documentElement
+.style.setProperty("--bg","#052e16");
+
+document.documentElement
+.style.setProperty("--accent","#4ade80");
+
 }
 
 else{
-document.documentElement.style.setProperty('--bg','#0b1020');
+
+document.documentElement
+.style.setProperty("--bg","#0b1020");
+
+document.documentElement
+.style.setProperty("--accent","#00d4ff");
+
 }
 
-localStorage.setItem('theme',theme);
 }
 
-function toggleTheme(){
-
-darkMode = !darkMode;
-
-if(darkMode){
-setTheme('dark');
-}else{
-setTheme('purple');
-}
-}
-
-// =========================================
-// SETTINGS
-// =========================================
-function toggleSettings(){
-
-const box = document.getElementById('settingsBox');
-
-box.style.display =
-box.style.display==='block' ? 'none' : 'block';
-}
-
-function setAutoPlay(value){
-autoPlay = value==='true';
-localStorage.setItem('autoplay',value);
-}
+/* =========================================
+   SAVE SETTINGS
+========================================= */
 
 function saveSettings(){
 
 localStorage.setItem(
-'m3u',
-document.getElementById('m3uInput').value
+"m3u",
+document.getElementById("m3uInput").value
 );
 
 localStorage.setItem(
-'xtream',
-document.getElementById('xtreamInput').value
+"xtreamUser",
+document.getElementById("xtreamUser").value
 );
 
-alert('✅ IPTV Settings Saved');
+localStorage.setItem(
+"xtreamPass",
+document.getElementById("xtreamPass").value
+);
+
+alert("✅ Settings Saved");
+
 }
 
-// =========================================
-// LOAD SETTINGS
-// =========================================
-window.onload = ()=>{
+/* =========================================
+   LOAD SETTINGS
+========================================= */
 
-const savedTheme = localStorage.getItem('theme');
-const savedAuto = localStorage.getItem('autoplay');
+function loadSettings(){
 
-if(savedTheme){
-setTheme(savedTheme);
+document.getElementById("m3uInput").value =
+localStorage.getItem("m3u") || "";
+
+document.getElementById("xtreamUser").value =
+localStorage.getItem("xtreamUser") || "";
+
+document.getElementById("xtreamPass").value =
+localStorage.getItem("xtreamPass") || "";
+
+const theme =
+localStorage.getItem("theme") || "dark";
+
+setTheme(theme);
+
 }
 
-if(savedAuto){
-autoPlay = savedAuto==='true';
+/* =========================================
+   FAKE EPG GENERATOR
+========================================= */
+
+function generateEPG(channel){
+
+const epg =
+document.getElementById("epgContent");
+
+epg.innerHTML = "";
+
+for(let i=0;i<8;i++){
+
+const div =
+document.createElement("div");
+
+div.className = "epg-item";
+
+div.innerHTML = `
+<b>${channel}</b><br>
+${8+i}:00 PM - LIVE PROGRAM ${i+1}
+`;
+
+epg.appendChild(div);
+
 }
 
-// START ENGINE
-setTimeout(()=>{
-generateChannels();
-document.getElementById('overlay').style.display='none';
-},1500);
-};
+}
+
+/* =========================================
+   START SYSTEM
+========================================= */
+
+loadSettings();
+loadPlaylists();
 
 </script>
+
 </body>
 </html>
