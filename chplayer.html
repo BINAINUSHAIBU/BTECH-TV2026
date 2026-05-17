@@ -145,6 +145,50 @@ border-radius:5px;
 <a onclick="loadCategory('MOVIES')">Movies</a>
 <a onclick="loadCategory('KIDS')">Kids</a>
 <a onclick="loadCategory('NEWS')">News</a>
+  📺 IPTV PRO
+
+Total Channels:
+43,512
+
+Status:
+ONLINE
+7 Sources Loaded
+
+Now Playing:
+BBC News
+
+--------------------------------
+
+📺 ESPN
+📺 CNN
+📺 Sky Sports
+📺 Al Jazeera
+📺 Roku Movies
+📺 XUMO Action
+📺 Nigeria TV
+...
+
+--------------------------------
+VIDEO PLAYER
+--------------------------------
+  <div class="card">
+<h3>Total</h3>
+<p id="total">0</p>
+</div>
+
+<div class="card">
+<h3>Status</h3>
+<p id="status">
+Loading...
+</p>
+</div>
+
+<div class="card">
+<h3>Now Playing</h3>
+<p id="nowPlaying">
+None
+</p>
+</div>
 </div>
 </div>
 
@@ -161,6 +205,11 @@ border-radius:5px;
 
 <div class="search">
 <input type="text" placeholder="Search 40,000 channels..." oninput="searchChannels(this.value)">
+  <input
+placeholder="Search channels..."
+oninput="
+searchChannels(this.value)
+">
 </div>
 
 <div class="player">
@@ -280,7 +329,288 @@ loadCategory("ALL");
 
 </script>
 
+<script>
 
+let allChannels=[];
+let loaded=0;
+let failed=0;
+
+const feeds=[
+
+// add ALL your sources here
+{
+name:'Free-TV',
+url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'
+},
+
+{
+name:'IPTV ORG',
+url:'https://iptv-org.github.io/iptv/index.m3u'
+},
+
+{
+name:'Sports',
+url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'
+},
+
+{
+name:'Nigeria',
+url:'https://www.apsattv.com/nigeria.m3u'
+},
+
+{
+name:'Movies',
+url:'https://www.apsattv.com/movies.m3u'
+},
+
+{
+name:'XUMO',
+url:'https://www.apsattv.com/xumo.m3u'
+},
+
+{
+name:'TVPASS',
+url:'https://tvpass.org/playlist/m3u'
+}
+
+];
+
+const proxies=[
+'https://api.allorigins.win/raw?url=',
+'https://proxy.cors.sh/'
+];
+
+
+/* LOAD */
+
+async function loadFeeds(){
+
+for(let feed of feeds){
+
+try{
+
+let txt=
+await fetchPlaylist(feed.url);
+
+parseM3U(txt);
+
+loaded++;
+
+}
+catch{
+
+failed++;
+
+}
+
+updateStatus();
+
+}
+
+render(allChannels);
+
+}
+
+
+async function fetchPlaylist(url){
+
+try{
+
+let r=
+await fetch(url);
+
+if(r.ok)
+return await r.text();
+
+}catch{}
+
+for(let p of proxies){
+
+try{
+
+let r=
+await fetch(
+p+encodeURIComponent(url)
+);
+
+if(r.ok)
+return await r.text();
+
+}catch{}
+
+}
+
+throw Error();
+
+}
+
+
+
+/* PARSE */
+
+function parseM3U(txt){
+
+let lines=
+txt.split("\n");
+
+let temp={};
+
+let seen={};
+
+for(let x of lines){
+
+if(
+x.startsWith("#EXTINF")
+){
+
+temp.name=
+x.split(",")[1]
+||"Unknown";
+
+}
+
+else if(
+x.startsWith("http")
+){
+
+temp.url=x;
+
+if(
+!seen[temp.url]
+){
+
+allChannels.push(
+temp
+);
+
+seen[temp.url]=1;
+
+}
+
+temp={};
+
+}
+
+}
+
+}
+
+
+
+/* RENDER */
+
+function render(data){
+
+let box=
+document.getElementById(
+'channelList'
+);
+
+box.innerHTML='';
+
+data
+.slice(0,500)
+
+.forEach(ch=>{
+
+let div=
+document.createElement(
+'div'
+);
+
+div.className=
+'channel';
+
+div.innerHTML=
+`
+<span>
+📺 ${ch.name}
+</span>
+
+<span style="
+color:lime;
+font-size:11px">
+LIVE
+</span>
+`;
+
+div.onclick=()=>{
+
+videoPlayer.src=
+ch.url;
+
+videoPlayer.play();
+
+document.getElementById(
+'nowPlaying'
+).innerHTML=
+ch.name;
+
+};
+
+box.appendChild(div);
+
+});
+
+
+document.getElementById(
+'total'
+).innerHTML=
+allChannels.length;
+
+}
+
+
+
+/* SEARCH */
+
+function searchChannels(q){
+
+let f=
+allChannels.filter(x=>
+
+x.name
+.toLowerCase()
+
+.includes(
+
+q.toLowerCase()
+
+)
+
+);
+
+render(f);
+
+}
+
+
+
+/* STATUS */
+
+function updateStatus(){
+
+document.getElementById(
+'status'
+).innerHTML=
+
+`
+ONLINE<br>
+
+${loaded}
+ Sources<br>
+
+${allChannels.length}
+ Channels
+`;
+
+}
+
+
+
+loadFeeds();
+
+</script>
 
 
 
