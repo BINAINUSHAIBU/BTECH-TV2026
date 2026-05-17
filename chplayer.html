@@ -280,13 +280,6 @@ loadCategory("ALL");
 
 
 
-    // Start loading bulk EPG in background
-    loadBulkEPG();
-    // Auto-tune shared channel
-    if(window._shareId){
-      var found=all.find(function(c){return c.chId===window._shareId;});
-      if(found)tune(found.id);
-    }
     // Load additional playlist sources in background
     loadExtraPlaylists();
   }catch(e){
