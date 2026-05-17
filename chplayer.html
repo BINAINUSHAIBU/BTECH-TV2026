@@ -279,14 +279,7 @@ loadCategory("ALL");
 
 
 
-    
-    // Re-assign IDs after sort
-    for(var i=0;i<all.length;i++){all[i].id=i+1;}
-    document.getElementById('status').textContent='✅ '+all.length+' channels loaded via API';
-    document.getElementById('wmsg').textContent=all.length+' channels ready. Loading more...';
-    document.getElementById('np-name').textContent=all.length+' channels ready';
-    loadSavedCustom();
-    renderCats();doFilter();
+
     // Start loading bulk EPG in background
     loadBulkEPG();
     // Auto-tune shared channel
