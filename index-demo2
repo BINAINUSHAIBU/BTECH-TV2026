@@ -1,0 +1,1183 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTECH TV Admin Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#fff;
+}
+
+.dashboard-container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:250px;
+background:#111827;
+padding:20px;
+}
+
+.sidebar h2{
+color:#00d4ff;
+margin-bottom:30px;
+text-align:center;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar ul li{
+margin:15px 0;
+padding:12px;
+border-radius:10px;
+transition:0.3s;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active{
+background:#1e293b;
+}
+
+.sidebar ul li a{
+color:#fff;
+text-decoration:none;
+display:block;
+}
+
+/* MAIN */
+.dashboard-main{
+flex:1;
+padding:25px;
+} 
+
+.dashboard-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.dashboard-header h1{
+font-size:28px;
+}
+
+/* STATS */
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.stat-card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.stat-card h3{
+font-size:18px;
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.stat-card p{
+font-size:28px;
+font-weight:bold;
+color:#00d4ff;
+}
+
+/* TABLE */
+.channel-section{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+}
+
+.channel-section h2{
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th,
+table td{
+padding:15px;
+text-align:left;
+border-bottom:1px solid #334155;
+}
+
+table th{
+color:#00d4ff;
+}
+
+.status{
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:bold;
+display:inline-block;
+}
+
+.free{
+background:#16a34a;
+}
+
+.paid{
+background:#dc2626;
+}
+
+.locked{
+background:#f59e0b;
+}
+
+.unlocked{
+background:#2563eb;
+}
+
+button{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.lock-btn{
+background:#f59e0b;
+color:#fff;
+}
+
+.edit-btn{
+background:#00d4ff;
+color:#000;
+}
+
+@media(max-width:768px){
+.sidebar{
+display:none;
+}
+
+.dashboard-main{
+padding:15px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<h2>BTECH TV</h2>
+
+<ul>
+<li class="active">
+<a href='https://btech-tv.netlify.app/index_dashboard'>Dashboard</a>
+</li>
+
+<li>
+<a href='https://btech-tv.netlify.app/all_channel'>All Channels</a>
+</li>
+
+<li>
+<a href='https://btech-tv.netlify.app/free_channel'>Free Channels</a>
+</li>
+
+<li>
+<a href='https://btech-tv.netlify.app/pay_to-view'>Pay To View</a>
+</li>
+  <li>
+<a href='https://btech-tv.netlify.app/chplayer'>BTECH Super Channels</a>
+</li>
+
+
+<li>
+<a href="https://btech-tv.netlify.app/Locked_Channels.html">Locked Channels</a>
+</li>
+
+<li>
+<a href='https://btech-tv.netlify.app/user'>Users</a>
+</li>
+
+<li>
+<a href='https://btech-tv.netlify.app/subscription'>Subscription Plans</a>
+</li>
+
+<li>
+<a href="https://btech-tv.netlify.app/Settings.html">Settings</a>
+</li>
+</ul>
+</aside>
+
+<!-- MAIN -->
+<main class="dashboard-main">
+
+<header class="dashboard-header">
+<h1>BTECH TV Channel Dashboard</h1>
+</header>
+
+<!-- STATS -->
+<section class="stats-grid">
+
+<a class='stat-link' href='https://btech-tv.netlify.app/index_dashboard'>
+  <div class="stat-card">
+    <h3>Total Channels</h3>
+    <p>20,000</p>
+  </div>
+</a>
+
+<a class='stat-link' href='https://btech-tv.netlify.app/free_channel'>
+  <div class="stat-card">
+    <h3>Free Channels</h3>
+    <p>12,500</p>
+  </div>
+</a>
+
+<a class='stat-link' href='https://btech-tv.netlify.app/pay_to-view'>
+  <div class="stat-card">
+    <h3>Pay To View</h3>
+    <p>6,800</p>
+  </div>
+</a>
+
+<a href="https://btech-tv.netlify.app/locked-channels.html" class="stat-link">
+  <div class="stat-card">
+    <h3>Locked Channels</h3>
+    <p>700</p>
+  </div>
+</a>
+
+</section>
+
+<!-- CHANNEL TABLE -->
+<section class="channel-section">
+
+<h2>Channel Management</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Channel Name</th>
+<th>Category</th>
+<th>Type</th>
+<th>Lock Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>BTECH Sports HD</td>
+<td>Sports</td>
+<td>
+<span class="status paid">Pay To View</span>
+</td>
+<td>
+<span class="status locked">Locked</span>
+</td>
+<td>
+<button class="lock-btn">Unlock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Movies</td>
+<td>Entertainment</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Kids</td>
+<td>Kids</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Premium Cinema</td>
+<td>Movies</td>
+<td>
+<span class="status paid">Pay To View</span>
+</td>
+<td>
+<span class="status locked">Locked</span>
+</td>
+<td>
+<button class="lock-btn">Unlock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH News Live</td>
+<td>News</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+nnn
+  
+<tr>
+<td>BTECH Sports HD</td>
+<td>Sports</td>
+<td>
+<span class="status paid">Pay To View</span>
+</td>
+<td>
+<span class="status locked">Locked</span>
+</td>
+<td>
+<button class="lock-btn">Unlock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Movies</td>
+<td>Entertainment</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Kids</td>
+<td>Kids</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH Premium Cinema</td>
+<td>Movies</td>
+<td>
+<span class="status paid">Pay To View</span>
+</td>
+<td>
+<span class="status locked">Locked</span>
+</td>
+<td>
+<button class="lock-btn">Unlock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+
+<tr>
+<td>BTECH News Live</td>
+<td>News</td>
+<td>
+<span class="status free">Free</span>
+</td>
+<td>
+<span class="status unlocked">Unlocked</span>
+</td>
+<td>
+<button class="lock-btn">Lock</button>
+<button class="edit-btn">Edit</button>
+</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+
+</main>
+</div>
+
+<script>
+// Example Lock/Unlock Function
+const lockButtons = document.querySelectorAll(".lock-btn");
+
+lockButtons.forEach(button => {
+button.addEventListener("click", () => {
+
+if(button.innerText === "Lock"){
+button.innerText = "Unlock";
+} else {
+button.innerText = "Lock";
+}
+
+});
+});
+</script>
+  <script>
+
+/* ==========================
+   BTECH IPTV ADMIN ENGINE
+========================== */
+
+let channels = [];
+
+const categories = [
+"Sports",
+"Movies",
+"News",
+"Kids",
+"Entertainment",
+"Music",
+"Documentary",
+"Education"
+];
+
+/* GENERATE 40,000 CHANNELS */
+
+for(let i=1;i<=40000;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)],
+
+type:
+Math.random()>0.65
+? "Pay To View"
+: "Free",
+
+status:
+Math.random()>0.85
+? "Locked"
+: "Unlocked",
+
+live:
+Math.random()>0.2
+
+});
+
+}
+
+/* ==========================
+   UPDATE STAT CARDS
+========================== */
+
+function updateStats(){
+
+document.querySelectorAll(
+".stat-card p"
+)[0].innerText =
+channels.length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[1].innerText =
+channels.filter(
+c=>c.type==="Free"
+).length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[2].innerText =
+channels.filter(
+c=>c.type==="Pay To View"
+).length.toLocaleString();
+
+document.querySelectorAll(
+".stat-card p"
+)[3].innerText =
+channels.filter(
+c=>c.status==="Locked"
+).length.toLocaleString();
+
+}
+
+/* ==========================
+   TABLE RENDER
+========================== */
+
+let page=0;
+const limit=50;
+
+function renderTable(){
+
+const tbody =
+document.querySelector("tbody");
+
+tbody.innerHTML="";
+
+let start=
+page*limit;
+
+let end=
+start+limit;
+
+channels
+.slice(start,end)
+.forEach(channel=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>
+${channel.name}
+</td>
+
+<td>
+${channel.category}
+</td>
+
+<td>
+
+<span class="
+status
+${channel.type==="Free"
+?"free":"paid"}
+">
+
+${channel.type}
+
+</span>
+
+</td>
+
+<td>
+
+<span class="
+status
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="lock-btn"
+onclick="toggleLock(${channel.id})">
+
+${channel.status==="Locked"
+?"Unlock":"Lock"}
+
+</button>
+
+<button
+class="edit-btn"
+onclick="editChannel(${channel.id})">
+
+Edit
+
+</button>
+
+<button
+class="edit-btn"
+onclick="deleteChannel(${channel.id})">
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+/* LOAD MORE */
+
+tbody.innerHTML += `
+
+<tr>
+
+<td colspan="5">
+
+<button
+style="
+width:100%;
+padding:15px"
+onclick="loadMore()">
+
+Load More Channels
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+/* ==========================
+   LOAD MORE
+========================== */
+
+function loadMore(){
+
+page++;
+
+renderTable();
+
+}
+
+/* ==========================
+   LOCK / UNLOCK
+========================== */
+
+function toggleLock(id){
+
+let channel =
+channels.find(
+c=>c.id===id
+);
+
+channel.status =
+channel.status==="Locked"
+? "Unlocked"
+: "Locked";
+
+renderTable();
+updateStats();
+
+}
+
+/* ==========================
+   EDIT CHANNEL
+========================== */
+
+function editChannel(id){
+
+let channel =
+channels.find(
+c=>c.id===id
+);
+
+let newName =
+prompt(
+"Rename Channel",
+channel.name
+);
+
+if(newName){
+
+channel.name =
+newName;
+
+renderTable();
+
+}
+
+}
+
+/* ==========================
+   DELETE CHANNEL
+========================== */
+
+function deleteChannel(id){
+
+channels =
+channels.filter(
+c=>c.id!==id
+);
+
+renderTable();
+updateStats();
+
+}
+
+/* ==========================
+   SEARCH BAR
+========================== */
+
+let search =
+document.createElement("input");
+
+search.placeholder =
+"Search channels";
+
+search.style =
+"width:100%;padding:12px;margin-bottom:20px";
+
+search.onkeyup =
+function(){
+
+let val =
+this.value
+.toLowerCase();
+
+channels =
+channels.filter(
+
+c=>
+
+c.name
+.toLowerCase()
+.includes(val)
+
+||
+
+c.category
+.toLowerCase()
+.includes(val)
+
+);
+
+page=0;
+
+renderTable();
+
+};
+
+document.querySelector(
+".dashboard-header"
+).appendChild(search);
+
+/* ==========================
+   INIT
+========================== */
+
+updateStats();
+renderTable();
+
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+
+/* ======================
+BTECH TV PRO SETTINGS
+====================== */
+
+const SETTINGS = {
+
+totalChannels:40000,
+showPerPage:100,
+
+autoRefresh:true,
+darkMode:true,
+
+allowFavorites:true,
+allowHistory:true,
+allowSubscriptions:true,
+
+currency:"₦",
+
+playerQuality:"Auto",
+
+categories:[
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Music",
+"Entertainment",
+"Documentary",
+"Education",
+"VIP",
+"Religion",
+"Comedy",
+"Lifestyle",
+"Business",
+"Fashion"
+]
+
+};
+
+
+/* ======================
+CHANNEL DATABASE
+====================== */
+
+const channels=[];
+
+for(let i=1;i<=SETTINGS.totalChannels;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+SETTINGS.categories[
+Math.floor(
+Math.random()*SETTINGS.categories.length
+)
+],
+
+type:
+Math.random()>0.55
+?"Free"
+:"Premium",
+
+status:
+Math.random()>0.8
+?"Locked"
+:"Unlocked",
+
+price:
+Math.floor(Math.random()*5000)+500,
+
+viewers:
+Math.floor(Math.random()*50000),
+
+favorite:false,
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+
+/* ======================
+STATS
+====================== */
+
+function updateStats(){
+
+document.getElementById(
+"totalChannels"
+).innerText=
+channels.length.toLocaleString();
+
+document.getElementById(
+"freeChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Free"
+).length.toLocaleString();
+
+document.getElementById(
+"premiumChannels"
+).innerText=
+channels.filter(
+c=>c.type==="Premium"
+).length.toLocaleString();
+
+document.getElementById(
+"lockedChannels"
+).innerText=
+channels.filter(
+c=>c.status==="Locked"
+).length.toLocaleString();
+
+}
+
+
+/* ======================
+RENDER CHANNELS
+====================== */
+
+function renderChannels(list,page=1){
+
+const grid=
+document.getElementById(
+"channelGrid"
+);
+
+grid.innerHTML="";
+
+const start=
+(page-1)*SETTINGS.showPerPage;
+
+const end=
+start+SETTINGS.showPerPage;
+
+list.slice(start,end)
+.forEach(channel=>{
+
+grid.innerHTML+=`
+
+<div class="channel-card">
+
+<div class="channel-banner">
+
+${channel.category}
+
+</div>
+
+<div class="channel-info">
+
+<h3>${channel.name}</h3>
+
+<p>
+👥 ${channel.viewers.toLocaleString()}
+ Watching
+</p>
+
+<p>
+
+<span class="
+badge
+${channel.type==="Free"
+?"free":"paid"}
+">
+
+${channel.type}
+
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+?"locked":"unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+</p>
+
+<button
+class="watch-btn"
+onclick="watchChannel(${channel.id})"
+>
+
+Watch
+
+</button>
+
+<button
+class="watch-btn"
+onclick="addFavorite(${channel.id})"
+>
+
+⭐ Favorite
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* ======================
+SEARCH
+====================== */
+
+function searchChannels(){
+
+let value=
+document.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+let filtered=
+channels.filter(c=>
+
+c.name.toLowerCase()
+.includes(value)
+
+||
+
+c.category.toLowerCase()
+.includes(value)
+
+);
+
+renderChannels(filtered);
+
+}
+
+
+/* ======================
+WATCH CHANNEL
+====================== */
+
+function watchChannel(id){
+
+let channel=
+channels.find(
+c=>c.id===id
+);
+
+if(channel.status==="Locked"){
+
+alert(
+"Subscribe to unlock"
+);
+
+return;
+
+}
+
+document.getElementById(
+"playerModal"
+).style.display="flex";
+
+document.getElementById(
+"playerTitle"
+).innerText=
+channel.name;
+
+let video=
+document.getElementById(
+"videoPlayer"
+);
+
+if(Hls.isSupported()){
+
+let hls=new Hls();
+
+hls.loadSource(
+channel.streamUrl
+);
+
+hls.attachMedia(video);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+()=>video.play()
+);
+
+}
+else{
+
+video.src=
+channel.streamUrl;
+
+video.play();
+
+}
+
+}
+
+
+/* ======================
+FAVORITES
+====================== */
+
+function addFavorite(id){
+
+let channel=
+channels.find(c=>c.id===id);
+
+channel.favorite=true;
+
+alert(
+channel.name+
+" added to favorites"
+);
+
+}
+
+
+/* ======================
+AUTO REFRESH
+====================== */
+
+if(
+SETTINGS.autoRefresh
+){
+
+setInterval(()=>{
+
+channels.forEach(c=>{
+
+c.viewers=
+Math.floor(
+Math.random()*50000
+);
+
+});
+
+updateStats();
+
+},5000);
+
+}
+
+
+/* ======================
+INIT
+====================== */
+
+updateStats();
+
+renderChannels(channels);
+
+</script>
+
+</body>
+</html>
