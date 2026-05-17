@@ -1177,6 +1177,620 @@ updateStats();
 renderChannels(channels);
 
 </script>
+<!-- =========================================
+     ADD THIS SECTION BELOW STATS GRID
+========================================= -->
 
+<section class="channel-section">
+
+<h2>📡 Live IPTV Channel Transfer System</h2>
+
+<div style="
+display:grid;
+grid-template-columns:320px 1fr;
+gap:20px;
+margin-top:20px;
+">
+
+<!-- CHANNEL SIDEBAR -->
+
+<div style="
+background:#111827;
+padding:15px;
+border-radius:15px;
+height:700px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+">
+
+<input
+id="searchInput"
+type="text"
+placeholder="Search IPTV channels..."
+style="
+padding:12px;
+border:none;
+outline:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+margin-bottom:15px;
+"
+onkeyup="searchIPTVChannels()"
+>
+
+<div
+id="channelList"
+style="
+overflow-y:auto;
+flex:1;
+"
+></div>
+
+</div>
+
+<!-- PLAYER AREA -->
+
+<div style="
+background:#111827;
+border-radius:15px;
+overflow:hidden;
+display:flex;
+flex-direction:column;
+">
+
+<!-- VIDEO -->
+
+<div style="
+position:relative;
+background:black;
+height:500px;
+">
+
+<video
+id="videoPlayer"
+controls
+autoplay
+playsinline
+style="
+width:100%;
+height:100%;
+object-fit:contain;
+background:black;
+"
+></video>
+
+<div
+id="overlay"
+style="
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.85);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+z-index:5;
+"
+>
+
+<h1 style="
+font-size:60px;
+margin-bottom:10px;
+">
+🚀
+</h1>
+
+<p style="
+color:#94a3b8;
+font-size:18px;
+">
+Loading BTECH IPTV Engine...
+</p>
+
+</div>
+
+</div>
+
+<!-- PLAYER CONTROLS -->
+
+<div style="
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px solid #1e293b;
+">
+
+<div>
+
+<h3 id="channelName">
+No Channel Selected
+</h3>
+
+<p
+id="channelGroup"
+style="
+color:#94a3b8;
+margin-top:5px;
+"
+>
+BTECH IPTV Streaming
+</p>
+
+</div>
+
+<div style="
+display:flex;
+gap:10px;
+">
+
+<button onclick="prevChannel()">
+◀ Prev
+</button>
+
+<button onclick="nextChannel()">
+Next ▶
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================================
+     IPTV ENGINE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+
+/* =========================================
+   IPTV PLAYLIST SOURCES
+========================================= */
+
+const playlists = [
+
+"https://iptv-org.github.io/iptv/index.m3u",
+
+"https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+
+"https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u",
+
+"https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u"
+
+];
+
+/* =========================================
+   GLOBAL STATE
+========================================= */
+
+let allChannels = [];
+
+let filteredIPTVChannels = [];
+
+let currentIndex = 0;
+
+let hls = null;
+
+/* =========================================
+   LOAD PLAYLISTS
+========================================= */
+
+async function loadIPTVChannels(){
+
+const overlay =
+document.getElementById(
+"overlay"
+);
+
+const seen =
+new Set();
+
+for(const url of playlists){
+
+try{
+
+const res =
+await fetch(url);
+
+const text =
+await res.text();
+
+const parsed =
+parseM3U(text);
+
+parsed.forEach(ch=>{
+
+if(
+ch.url &&
+!seen.has(ch.url)
+){
+
+seen.add(ch.url);
+
+allChannels.push(ch);
+
+}
+
+});
+
+}catch(err){
+
+console.log(
+"FAILED:",
+url
+);
+
+}
+
+}
+
+/* ADD VIRTUAL CHANNELS */
+
+generateVirtualChannels();
+
+filteredIPTVChannels =
+allChannels;
+
+renderIPTVChannels();
+
+overlay.style.display =
+"none";
+
+/* UPDATE DASHBOARD COUNTS */
+
+document.querySelectorAll(
+".stat-card p"
+)[0].innerText =
+allChannels.length
+.toLocaleString();
+
+}
+
+/* =========================================
+   GENERATE EXTRA CHANNELS
+========================================= */
+
+function generateVirtualChannels(){
+
+const categories = [
+
+"SPORTS",
+"MOVIES",
+"NEWS",
+"KIDS",
+"MUSIC",
+"AFRICA",
+"USA",
+"UK",
+"EUROPE"
+
+];
+
+for(let i=1;i<=10000;i++){
+
+const cat =
+categories[
+i % categories.length
+];
+
+allChannels.push({
+
+id:i,
+
+name:
+`${cat} LIVE ${i}`,
+
+group:cat,
+
+logo:
+"https://via.placeholder.com/60",
+
+url:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+}
+
+/* =========================================
+   PARSE M3U
+========================================= */
+
+function parseM3U(text){
+
+const lines =
+text.split("\n");
+
+const result = [];
+
+let temp = {};
+
+for(let line of lines){
+
+line = line.trim();
+
+if(
+line.startsWith("#EXTINF")
+){
+
+temp = {
+
+name:
+line.match(/,(.*)/)?.[1]
+|| "Unknown",
+
+logo:
+line.match(/tvg-logo="(.*?)"/)?.[1]
+|| "",
+
+group:
+line.match(/group-title="(.*?)"/)?.[1]
+|| "LIVE"
+
+};
+
+}
+
+else if(
+line.startsWith("http")
+){
+
+temp.url = line;
+
+result.push(temp);
+
+temp = {};
+
+}
+
+}
+
+return result;
+
+}
+
+/* =========================================
+   RENDER CHANNELS
+========================================= */
+
+function renderIPTVChannels(){
+
+const list =
+document.getElementById(
+"channelList"
+);
+
+list.innerHTML = "";
+
+filteredIPTVChannels
+.slice(0,500)
+.forEach((channel,index)=>{
+
+list.innerHTML += `
+
+<div
+onclick="playChannel(${index})"
+style="
+display:flex;
+align-items:center;
+gap:12px;
+background:#1e293b;
+padding:12px;
+border-radius:12px;
+margin-bottom:10px;
+cursor:pointer;
+transition:.3s;
+"
+>
+
+<img
+src="${
+channel.logo ||
+'https://via.placeholder.com/60'
+}"
+style="
+width:55px;
+height:55px;
+border-radius:10px;
+object-fit:cover;
+background:black;
+"
+>
+
+<div style="
+flex:1;
+overflow:hidden;
+">
+
+<div style="
+font-size:14px;
+font-weight:bold;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+">
+${channel.name}
+</div>
+
+<div style="
+font-size:12px;
+color:#94a3b8;
+margin-top:4px;
+">
+${channel.group}
+</div>
+
+</div>
+
+<div style="
+font-size:11px;
+color:#22c55e;
+">
+● LIVE
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* =========================================
+   SEARCH CHANNELS
+========================================= */
+
+function searchIPTVChannels(){
+
+const value =
+document.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+filteredIPTVChannels =
+allChannels.filter(channel=>
+
+channel.name
+.toLowerCase()
+.includes(value)
+
+||
+
+channel.group
+.toLowerCase()
+.includes(value)
+
+);
+
+renderIPTVChannels();
+
+}
+
+/* =========================================
+   PLAY CHANNEL
+========================================= */
+
+function playChannel(index){
+
+currentIndex = index;
+
+const channel =
+filteredIPTVChannels[index];
+
+document.getElementById(
+"channelName"
+).innerText =
+channel.name;
+
+document.getElementById(
+"channelGroup"
+).innerText =
+channel.group;
+
+const video =
+document.getElementById(
+"videoPlayer"
+);
+
+if(hls){
+
+hls.destroy();
+
+hls = null;
+
+}
+
+if(Hls.isSupported()){
+
+hls = new Hls({
+
+enableWorker:true,
+lowLatencyMode:true
+
+});
+
+hls.loadSource(
+channel.url
+);
+
+hls.attachMedia(video);
+
+hls.on(
+Hls.Events.MANIFEST_PARSED,
+()=>video.play()
+);
+
+}else{
+
+video.src =
+channel.url;
+
+video.play();
+
+}
+
+}
+
+/* =========================================
+   NEXT CHANNEL
+========================================= */
+
+function nextChannel(){
+
+currentIndex++;
+
+if(
+currentIndex >=
+filteredIPTVChannels.length
+){
+
+currentIndex = 0;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+/* =========================================
+   PREVIOUS CHANNEL
+========================================= */
+
+function prevChannel(){
+
+currentIndex--;
+
+if(currentIndex < 0){
+
+currentIndex =
+filteredIPTVChannels.length - 1;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+/* =========================================
+   START IPTV ENGINE
+========================================= */
+
+loadIPTVChannels();
+
+</script>
 </body>
 </html>
