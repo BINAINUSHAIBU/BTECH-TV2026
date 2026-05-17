@@ -594,6 +594,49 @@ document.getElementById("videoPlayer")
 renderChannels(freeChannels);
 
 </script>
+<!-- FREE CHANNEL FILTER -->
+<script>
 
+/* ====================================
+SHOW ONLY FREE CHANNELS
+==================================== */
+
+function showFreeChannels(){
+
+filteredChannels = channels.filter(
+channel => channel.type === "Free"
+);
+
+currentPage = 0;
+
+renderChannels(filteredChannels);
+
+}
+
+/* ====================================
+SIDEBAR FREE CHANNEL CLICK
+==================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const menuItems =
+document.querySelectorAll(".sidebar ul li a");
+
+/* FREE CHANNEL MENU */
+
+menuItems[1].addEventListener("click",(e)=>{
+
+e.preventDefault();
+
+showFreeChannels();
+
+document.querySelector(".header h1").innerText =
+"BTECH TV FREE CHANNELS";
+
+});
+
+});
+
+</script>
 </body>
 </html>
