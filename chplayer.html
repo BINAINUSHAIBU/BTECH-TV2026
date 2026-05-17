@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>HD IPTV PRO 40K SYSTEM</title>
+<title>IPTV PRO 40K DASHBOARD</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -12,32 +11,8 @@ margin:0;
 font-family:Arial;
 background:#0b0f1a;
 color:white;
-}
-
-/* TOP BAR */
-.topbar{
 display:flex;
-justify-content:space-between;
-align-items:center;
-background:#11182a;
-padding:10px 15px;
-position:sticky;
-top:0;
-z-index:100;
-}
-
-.menu a{
-color:white;
-margin:0 8px;
-text-decoration:none;
-font-size:14px;
-cursor:pointer;
-}
-
-/* LAYOUT */
-.container{
-display:flex;
-height:calc(100vh - 50px);
+height:100vh;
 }
 
 /* SIDEBAR */
@@ -46,11 +21,6 @@ width:280px;
 background:#11182a;
 padding:10px;
 overflow-y:auto;
-}
-
-.sidebar h3{
-color:#00bfff;
-margin:5px 0;
 }
 
 .channel{
@@ -75,17 +45,19 @@ display:flex;
 flex-direction:column;
 }
 
-.search{
+.topbar{
 padding:10px;
 background:#11182a;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 input{
-width:100%;
-padding:10px;
+padding:8px;
+width:300px;
+border-radius:6px;
 border:none;
-border-radius:5px;
-outline:none;
 }
 
 /* PLAYER */
@@ -102,386 +74,158 @@ width:100%;
 height:100%;
 }
 
-/* SETTINGS PANEL */
-.settings{
-position:fixed;
-right:10px;
-top:60px;
-width:250px;
+/* STATS */
+.stats{
+display:flex;
+gap:10px;
+padding:10px;
+background:#0f172a;
+}
+
+.card{
+flex:1;
 background:#1b2438;
 padding:10px;
 border-radius:8px;
-display:none;
-}
-
-.settings h4{
-color:#00bfff;
-}
-
-.settings label{
-display:block;
-margin:8px 0 4px;
-font-size:12px;
-}
-
-.settings select, .settings input{
-width:100%;
-padding:6px;
-border:none;
-border-radius:5px;
+text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<div><b>📺 IPTV PRO 40K SYSTEM</b></div>
-
-<div class="menu">
-<a onclick="toggleSettings()">Settings</a>
-<a onclick="loadCategory('ALL')">All</a>
-<a onclick="loadCategory('SPORTS')">Sports</a>
-<a onclick="loadCategory('MOVIES')">Movies</a>
-<a onclick="loadCategory('KIDS')">Kids</a>
-<a onclick="loadCategory('NEWS')">News</a>
-  📺 IPTV PRO
-
-Total Channels:
-43,512
-
-Status:
-ONLINE
-7 Sources Loaded
-
-Now Playing:
-BBC News
-
---------------------------------
-
-📺 ESPN
-📺 CNN
-📺 Sky Sports
-📺 Al Jazeera
-📺 Roku Movies
-📺 XUMO Action
-📺 Nigeria TV
-...
-
---------------------------------
-VIDEO PLAYER
---------------------------------
-  <div class="card">
-<h3>Total</h3>
-<p id="total">0</p>
-</div>
-
-<div class="card">
-<h3>Status</h3>
-<p id="status">
-Loading...
-</p>
-</div>
-
-<div class="card">
-<h3>Now Playing</h3>
-<p id="nowPlaying">
-None
-</p>
-</div>
-</div>
-</div>
-
-<div class="container">
-
 <!-- SIDEBAR -->
 <div class="sidebar">
-<h3>CHANNELS</h3>
+<h3>📺 IPTV CHANNELS</h3>
 <div id="channelList"></div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-<div class="search">
-<input type="text" placeholder="Search 40,000 channels..." oninput="searchChannels(this.value)">
-  <input
-placeholder="Search channels..."
-oninput="
-searchChannels(this.value)
-">
+<div class="topbar">
+<div><b>IPTV PRO 40K SYSTEM</b></div>
+
+<input placeholder="Search channels..."
+oninput="searchChannels(this.value)">
 </div>
 
+<!-- STATS -->
+<div class="stats">
+
+<div class="card">
+<h3>Total</h3>
+<p id="total">0</p>
+</div>
+
+<div class="card">
+<h3>Status</h3>
+<p id="status">LOADING...</p>
+</div>
+
+<div class="card">
+<h3>Sources</h3>
+<p id="sources">0</p>
+</div>
+
+</div>
+
+<!-- PLAYER -->
 <div class="player">
 <video id="videoPlayer" controls autoplay></video>
 </div>
 
 </div>
 
-</div>
-
-<!-- SETTINGS -->
-<div class="settings" id="settingsBox">
-<h4>Settings</h4>
-
-<label>Theme</label>
-<select onchange="setTheme(this.value)">
-<option value="dark">Dark</option>
-<option value="blue">Blue</option>
-</select>
-
-<label>Auto Play</label>
-<select onchange="autoPlay=this.value==='true'">
-<option value="true">ON</option>
-<option value="false">OFF</option>
-</select>
-
-<label>Quality Mode</label>
-<select>
-<option>Auto</option>
-<option>1080p</option>
-<option>720p</option>
-<option>480p</option>
-</select>
-</div>
-
 <script>
 
-let channels = [];
-let autoPlay = true;
-
-/* GENERATE 40,000 CHANNELS */
-function generateChannels(){
-const cats = ["SPORTS","MOVIES","KIDS","NEWS","MUSIC","DOCUMENTARY"];
-
-for(let i=1;i<=40000;i++){
-let cat = cats[i % cats.length];
-
-channels.push({
-id:i,
-name: cat + " CHANNEL " + i,
-category:cat,
-url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-  
-
-});
-}
-}
-generateChannels();
-
-/* LOAD CHANNELS (LIMITED RENDER FOR SPEED) */
-function loadCategory(cat){
-let list = document.getElementById("channelList");
-list.innerHTML="";
-
-let filtered = channels.filter(c => cat==="ALL" || c.category===cat);
-
-renderList(filtered.slice(0,200)); // lazy load 200 at a time
-}
-
-function renderList(data){
-let list = document.getElementById("channelList");
-
-data.forEach(ch=>{
-let div = document.createElement("div");
-div.className="channel";
-div.innerHTML = `<span>${ch.name}</span><span>● LIVE</span>`;
-div.onclick=()=>play(ch.url);
-list.appendChild(div);
-});
-}
-
-/* SEARCH */
-function searchChannels(q){
-let list = document.getElementById("channelList");
-list.innerHTML="";
-
-let res = channels.filter(c =>
-c.name.toLowerCase().includes(q.toLowerCase())
-).slice(0,200);
-
-renderList(res);
-}
-
-/* PLAY */
-function play(url){
-let video = document.getElementById("videoPlayer");
-video.src = url;
-video.play();
-}
-
-/* SETTINGS */
-function toggleSettings(){
-let box = document.getElementById("settingsBox");
-box.style.display = box.style.display==="block"?"none":"block";
-}
-
-function setTheme(t){
-if(t==="blue"){
-document.body.style.background="#061a33";
-}else{
-document.body.style.background="#0b0f1a";
-}
-}
-
-/* INIT */
-loadCategory("ALL");
-
-</script>
-
-<script>
-
+/* =========================
+40K CHANNEL GENERATOR
+========================= */
 let allChannels=[];
-let loaded=0;
-let failed=0;
 
+/* =========================
+REAL IPTV SOURCES
+========================= */
 const feeds=[
 
-// add ALL your sources here
-{
-name:'Free-TV',
-url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'
-},
+{name:'IPTV-ORG',url:'https://iptv-org.github.io/iptv/index.m3u'},
 
-{
-name:'IPTV ORG',
-url:'https://iptv-org.github.io/iptv/index.m3u'
-},
+{name:'Free-TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'},
 
-{
-name:'Sports',
-url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'
-},
+{name:'Sports',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'},
 
-{
-name:'Nigeria',
-url:'https://www.apsattv.com/nigeria.m3u'
-},
+{name:'Movies',url:'https://www.apsattv.com/movies.m3u'},
 
-{
-name:'Movies',
-url:'https://www.apsattv.com/movies.m3u'
-},
+{name:'News',url:'https://www.apsattv.com/news.m3u'},
 
-{
-name:'XUMO',
-url:'https://www.apsattv.com/xumo.m3u'
-},
+{name:'Africa',url:'https://www.apsattv.com/africa.m3u'},
 
-{
-name:'TVPASS',
-url:'https://tvpass.org/playlist/m3u'
-}
+{name:'USA',url:'https://www.apsattv.com/usa.m3u'},
+
+{name:'TVPASS',url:'https://tvpass.org/playlist/m3u'}
 
 ];
 
-const proxies=[
-'https://api.allorigins.win/raw?url=',
-'https://proxy.cors.sh/'
-];
+/* =========================
+CORS PROXY
+========================= */
+const proxy="https://api.allorigins.win/raw?url=";
 
-
-/* LOAD */
-
+/* =========================
+LOAD ALL CHANNELS
+========================= */
 async function loadFeeds(){
 
-for(let feed of feeds){
+let seen={};
+
+for(let f of feeds){
 
 try{
 
-let txt=
-await fetchPlaylist(feed.url);
+let txt=await fetch(proxy+encodeURIComponent(f.url))
+.then(r=>r.text());
 
-parseM3U(txt);
+parseM3U(txt,seen);
 
-loaded++;
-
-}
-catch{
-
-failed++;
+}catch(e){}
 
 }
 
-updateStatus();
+document.getElementById("sources").innerText=feeds.length;
 
-}
+document.getElementById("status").innerText="ONLINE";
+
+document.getElementById("total").innerText=allChannels.length;
 
 render(allChannels);
 
 }
 
+/* =========================
+PARSE M3U
+========================= */
+function parseM3U(data,seen){
 
-async function fetchPlaylist(url){
-
-try{
-
-let r=
-await fetch(url);
-
-if(r.ok)
-return await r.text();
-
-}catch{}
-
-for(let p of proxies){
-
-try{
-
-let r=
-await fetch(
-p+encodeURIComponent(url)
-);
-
-if(r.ok)
-return await r.text();
-
-}catch{}
-
-}
-
-throw Error();
-
-}
-
-
-
-/* PARSE */
-
-function parseM3U(txt){
-
-let lines=
-txt.split("\n");
+let lines=data.split("\n");
 
 let temp={};
 
-let seen={};
+for(let line of lines){
 
-for(let x of lines){
+if(line.startsWith("#EXTINF")){
 
-if(
-x.startsWith("#EXTINF")
-){
-
-temp.name=
-x.split(",")[1]
-||"Unknown";
+temp.name=line.split(",")[1]||"Unknown";
 
 }
 
-else if(
-x.startsWith("http")
-){
+else if(line.startsWith("http")){
 
-temp.url=x;
+temp.url=line;
 
-if(
-!seen[temp.url]
-){
+if(!seen[temp.url]){
 
-allChannels.push(
-temp
-);
+allChannels.push(temp);
 
 seen[temp.url]=1;
 
@@ -495,56 +239,29 @@ temp={};
 
 }
 
+/* =========================
+RENDER CHANNELS
+========================= */
+function render(list){
 
+let box=document.getElementById("channelList");
 
-/* RENDER */
+box.innerHTML="";
 
-function render(data){
+list.slice(0,500).forEach(ch=>{
 
-let box=
-document.getElementById(
-'channelList'
-);
+let div=document.createElement("div");
 
-box.innerHTML='';
-
-data
-.slice(0,500)
-
-.forEach(ch=>{
-
-let div=
-document.createElement(
-'div'
-);
-
-div.className=
-'channel';
+div.className="channel";
 
 div.innerHTML=
-`
-<span>
-📺 ${ch.name}
-</span>
-
-<span style="
-color:lime;
-font-size:11px">
-LIVE
-</span>
-`;
+`<span>${ch.name}</span><span>● LIVE</span>`;
 
 div.onclick=()=>{
 
-videoPlayer.src=
-ch.url;
+videoPlayer.src=ch.url;
 
 videoPlayer.play();
-
-document.getElementById(
-'nowPlaying'
-).innerHTML=
-ch.name;
 
 };
 
@@ -552,67 +269,28 @@ box.appendChild(div);
 
 });
 
-
-document.getElementById(
-'total'
-).innerHTML=
-allChannels.length;
-
 }
 
-
-
-/* SEARCH */
-
+/* =========================
+SEARCH
+========================= */
 function searchChannels(q){
 
-let f=
-allChannels.filter(x=>
-
-x.name
-.toLowerCase()
-
-.includes(
-
-q.toLowerCase()
-
-)
-
+let res=allChannels.filter(c=>
+c.name.toLowerCase()
+.includes(q.toLowerCase())
 );
 
-render(f);
+render(res);
 
 }
 
-
-
-/* STATUS */
-
-function updateStatus(){
-
-document.getElementById(
-'status'
-).innerHTML=
-
-`
-ONLINE<br>
-
-${loaded}
- Sources<br>
-
-${allChannels.length}
- Channels
-`;
-
-}
-
-
-
+/* =========================
+INIT
+========================= */
 loadFeeds();
 
 </script>
-
-
 
 </body>
 </html>
