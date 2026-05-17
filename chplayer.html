@@ -583,6 +583,106 @@ function prevChannel(){
 loadAllPlaylists();
 
 </script>
+/* =========================
+   ULTRA IPTV PLAYLIST SOURCES (EXPANDED)
+========================= */
 
+const playlists = [
+
+  /* CORE INDEXES */
+  "https://iptv-org.github.io/iptv/index.m3u",
+  "https://iptv-org.github.io/iptv/index.country.m3u",
+  "https://iptv-org.github.io/iptv/index.category.m3u",
+  "https://iptv-org.github.io/iptv/index.language.m3u",
+  "https://iptv-org.github.io/iptv/index.nsfw.m3u",
+
+  /* FREE-TV */
+  "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+  "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_usa.m3u8",
+  "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_uk.m3u8",
+  "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8",
+  "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_news.m3u8",
+
+  /* FREECAST HUB */
+  "https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u",
+  "https://raw.githubusercontent.com/freecasthub/public-iptv/main/countries/us.m3u",
+  "https://raw.githubusercontent.com/freecasthub/public-iptv/main/countries/uk.m3u",
+  "https://raw.githubusercontent.com/freecasthub/public-iptv/main/categories/sports.m3u",
+  "https://raw.githubusercontent.com/freecasthub/public-iptv/main/categories/news.m3u",
+
+  /* ROKU */
+  "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u",
+  "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_us.m3u",
+  "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_uk.m3u",
+
+  /* IPTV RESTREAM */
+  "https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/index.m3u",
+  "https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/iptv/usa.m3u",
+  "https://raw.githubusercontent.com/iptv-restream/iptv-channels/master/iptv/uk.m3u",
+
+  /* TVPASS */
+  "https://tvpass.org/playlist/m3u",
+
+  /* APSATTV MASSIVE NETWORK */
+  "https://www.apsattv.com/xumo.m3u",
+  "https://www.apsattv.com/firetv.m3u",
+  "https://www.apsattv.com/lg.m3u",
+  "https://www.apsattv.com/redbox.m3u",
+  "https://www.apsattv.com/tablo.m3u",
+  "https://www.apsattv.com/klowd.m3u",
+  "https://www.apsattv.com/pluto.m3u",
+  "https://www.apsattv.com/vizio.m3u",
+  "https://www.apsattv.com/distro.m3u",
+  "https://www.apsattv.com/cineverse.m3u",
+  "https://www.apsattv.com/localnow.m3u",
+  "https://www.apsattv.com/samsungtvplus.m3u",
+  "https://www.apsattv.com/roku.m3u",
+  "https://www.apsattv.com/xiaomi.m3u",
+  "https://www.apsattv.com/stirr.m3u",
+  "https://www.apsattv.com/plex.m3u",
+  "https://www.apsattv.com/plexlive.m3u",
+  "https://www.apsattv.com/sling.m3u",
+  "https://www.apsattv.com/tubi.m3u",
+  "https://www.apsattv.com/freevee.m3u",
+  "https://www.apsattv.com/filmrise.m3u",
+  "https://www.apsattv.com/paramount.m3u",
+  "https://www.apsattv.com/shoutfactory.m3u",
+  "https://www.apsattv.com/ion.m3u",
+  "https://www.apsattv.com/cbsnews.m3u",
+  "https://www.apsattv.com/bloomberg.m3u",
+  "https://www.apsattv.com/newsnet.m3u",
+  "https://www.apsattv.com/sports.m3u",
+  "https://www.apsattv.com/music.m3u",
+  "https://www.apsattv.com/entertainment.m3u",
+  "https://www.apsattv.com/kids.m3u",
+  "https://www.apsattv.com/documentary.m3u",
+  "https://www.apsattv.com/movies.m3u",
+  "https://www.apsattv.com/reality.m3u",
+
+  /* REGIONS */
+  "https://www.apsattv.com/africa.m3u",
+  "https://www.apsattv.com/nigeria.m3u",
+  "https://www.apsattv.com/ghana.m3u",
+  "https://www.apsattv.com/southafrica.m3u",
+  "https://www.apsattv.com/uk.m3u",
+  "https://www.apsattv.com/usa.m3u",
+  "https://www.apsattv.com/canada.m3u",
+  "https://www.apsattv.com/europe.m3u",
+  "https://www.apsattv.com/asia.m3u",
+  "https://www.apsattv.com/india.m3u",
+  "https://www.apsattv.com/france.m3u",
+  "https://www.apsattv.com/germany.m3u",
+  "https://www.apsattv.com/spain.m3u",
+  "https://www.apsattv.com/italy.m3u",
+  "https://www.apsattv.com/portugal.m3u",
+  "https://www.apsattv.com/brazil.m3u",
+  "https://www.apsattv.com/mexico.m3u",
+  "https://www.apsattv.com/latin.m3u",
+
+  /* WORLD EXTRA */
+  "https://raw.githubusercontent.com/dracohe/FreeTv-IPTV/master/playlist_sport.m3u8",
+  "https://raw.githubusercontent.com/dracohe/FreeTv-IPTV/master/playlist_news.m3u8"
+
+];
 </body>
 </html>
