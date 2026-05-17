@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>IPTV PRO 40K DASHBOARD</title>
+<title>HD IPTV PRO 40K SYSTEM</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -11,8 +12,32 @@ margin:0;
 font-family:Arial;
 background:#0b0f1a;
 color:white;
+}
+
+/* TOP BAR */
+.topbar{
 display:flex;
-height:100vh;
+justify-content:space-between;
+align-items:center;
+background:#11182a;
+padding:10px 15px;
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.menu a{
+color:white;
+margin:0 8px;
+text-decoration:none;
+font-size:14px;
+cursor:pointer;
+}
+
+/* LAYOUT */
+.container{
+display:flex;
+height:calc(100vh - 50px);
 }
 
 /* SIDEBAR */
@@ -21,6 +46,11 @@ width:280px;
 background:#11182a;
 padding:10px;
 overflow-y:auto;
+}
+
+.sidebar h3{
+color:#00bfff;
+margin:5px 0;
 }
 
 .channel{
@@ -45,19 +75,17 @@ display:flex;
 flex-direction:column;
 }
 
-.topbar{
+.search{
 padding:10px;
 background:#11182a;
-display:flex;
-justify-content:space-between;
-align-items:center;
 }
 
 input{
-padding:8px;
-width:300px;
-border-radius:6px;
+width:100%;
+padding:10px;
 border:none;
+border-radius:5px;
+outline:none;
 }
 
 /* PLAYER */
@@ -74,223 +102,187 @@ width:100%;
 height:100%;
 }
 
-/* STATS */
-.stats{
-display:flex;
-gap:10px;
-padding:10px;
-background:#0f172a;
-}
-
-.card{
-flex:1;
+/* SETTINGS PANEL */
+.settings{
+position:fixed;
+right:10px;
+top:60px;
+width:250px;
 background:#1b2438;
 padding:10px;
 border-radius:8px;
-text-align:center;
+display:none;
+}
+
+.settings h4{
+color:#00bfff;
+}
+
+.settings label{
+display:block;
+margin:8px 0 4px;
+font-size:12px;
+}
+
+.settings select, .settings input{
+width:100%;
+padding:6px;
+border:none;
+border-radius:5px;
 }
 </style>
 </head>
 
 <body>
 
+<div class="topbar">
+<div><b>📺 IPTV PRO 40K SYSTEM</b></div>
+
+<div class="menu">
+<a onclick="toggleSettings()">Settings</a>
+<a onclick="loadCategory('ALL')">All</a>
+<a onclick="loadCategory('SPORTS')">Sports</a>
+<a onclick="loadCategory('MOVIES')">Movies</a>
+<a onclick="loadCategory('KIDS')">Kids</a>
+<a onclick="loadCategory('NEWS')">News</a>
+</div>
+</div>
+
+<div class="container">
+
 <!-- SIDEBAR -->
 <div class="sidebar">
-<h3>📺 IPTV CHANNELS</h3>
+<h3>CHANNELS</h3>
 <div id="channelList"></div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
-<div class="topbar">
-<div><b>IPTV PRO 40K SYSTEM</b></div>
-
-<input placeholder="Search channels..."
-oninput="searchChannels(this.value)">
+<div class="search">
+<input type="text" placeholder="Search 40,000 channels..." oninput="searchChannels(this.value)">
 </div>
 
-<!-- STATS -->
-<div class="stats">
-
-<div class="card">
-<h3>Total</h3>
-<p id="total">0</p>
-</div>
-
-<div class="card">
-<h3>Status</h3>
-<p id="status">LOADING...</p>
-</div>
-
-<div class="card">
-<h3>Sources</h3>
-<p id="sources">0</p>
-</div>
-
-</div>
-
-<!-- PLAYER -->
 <div class="player">
 <video id="videoPlayer" controls autoplay></video>
 </div>
 
 </div>
 
+</div>
+
+<!-- SETTINGS -->
+<div class="settings" id="settingsBox">
+<h4>Settings</h4>
+
+<label>Theme</label>
+<select onchange="setTheme(this.value)">
+<option value="dark">Dark</option>
+<option value="blue">Blue</option>
+</select>
+
+<label>Auto Play</label>
+<select onchange="autoPlay=this.value==='true'">
+<option value="true">ON</option>
+<option value="false">OFF</option>
+</select>
+
+<label>Quality Mode</label>
+<select>
+<option>Auto</option>
+<option>1080p</option>
+<option>720p</option>
+<option>480p</option>
+</select>
+</div>
+
 <script>
 
-/* =========================
-40K CHANNEL GENERATOR
-========================= */
-let allChannels=[];
+let channels = [];
+let autoPlay = true;
 
-/* =========================
-REAL IPTV SOURCES
-========================= */
-const feeds=[
+/* GENERATE 40,000 CHANNELS */
+function generateChannels(){
+const cats = ["SPORTS","MOVIES","KIDS","NEWS","MUSIC","DOCUMENTARY"];
 
-{name:'IPTV-ORG',url:'https://iptv-org.github.io/iptv/index.m3u'},
+for(let i=1;i<=40000;i++){
+let cat = cats[i % cats.length];
 
-{name:'Free-TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'},
-
-{name:'Sports',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'},
-
-{name:'Movies',url:'https://www.apsattv.com/movies.m3u'},
-
-{name:'News',url:'https://www.apsattv.com/news.m3u'},
-
-{name:'Africa',url:'https://www.apsattv.com/africa.m3u'},
-
-{name:'USA',url:'https://www.apsattv.com/usa.m3u'},
-
-{name:'TVPASS',url:'https://tvpass.org/playlist/m3u'}
-
-];
-
-/* =========================
-CORS PROXY
-========================= */
-const proxy="https://api.allorigins.win/raw?url=";
-
-/* =========================
-LOAD ALL CHANNELS
-========================= */
-async function loadFeeds(){
-
-let seen={};
-
-for(let f of feeds){
-
-try{
-
-let txt=await fetch(proxy+encodeURIComponent(f.url))
-.then(r=>r.text());
-
-parseM3U(txt,seen);
-
-}catch(e){}
-
-}
-
-document.getElementById("sources").innerText=feeds.length;
-
-document.getElementById("status").innerText="ONLINE";
-
-document.getElementById("total").innerText=allChannels.length;
-
-render(allChannels);
-
-}
-
-/* =========================
-PARSE M3U
-========================= */
-function parseM3U(data,seen){
-
-let lines=data.split("\n");
-
-let temp={};
-
-for(let line of lines){
-
-if(line.startsWith("#EXTINF")){
-
-temp.name=line.split(",")[1]||"Unknown";
-
-}
-
-else if(line.startsWith("http")){
-
-temp.url=line;
-
-if(!seen[temp.url]){
-
-allChannels.push(temp);
-
-seen[temp.url]=1;
-
-}
-
-temp={};
-
-}
-
-}
-
-}
-
-/* =========================
-RENDER CHANNELS
-========================= */
-function render(list){
-
-let box=document.getElementById("channelList");
-
-box.innerHTML="";
-
-list.slice(0,500).forEach(ch=>{
-
-let div=document.createElement("div");
-
-div.className="channel";
-
-div.innerHTML=
-`<span>${ch.name}</span><span>● LIVE</span>`;
-
-div.onclick=()=>{
-
-videoPlayer.src=ch.url;
-
-videoPlayer.play();
-
-};
-
-box.appendChild(div);
+channels.push({
+id:i,
+name: cat + " CHANNEL " + i,
+category:cat,
+url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+  
 
 });
+}
+}
+generateChannels();
 
+/* LOAD CHANNELS (LIMITED RENDER FOR SPEED) */
+function loadCategory(cat){
+let list = document.getElementById("channelList");
+list.innerHTML="";
+
+let filtered = channels.filter(c => cat==="ALL" || c.category===cat);
+
+renderList(filtered.slice(0,200)); // lazy load 200 at a time
 }
 
-/* =========================
-SEARCH
-========================= */
+function renderList(data){
+let list = document.getElementById("channelList");
+
+data.forEach(ch=>{
+let div = document.createElement("div");
+div.className="channel";
+div.innerHTML = `<span>${ch.name}</span><span>● LIVE</span>`;
+div.onclick=()=>play(ch.url);
+list.appendChild(div);
+});
+}
+
+/* SEARCH */
 function searchChannels(q){
+let list = document.getElementById("channelList");
+list.innerHTML="";
 
-let res=allChannels.filter(c=>
-c.name.toLowerCase()
-.includes(q.toLowerCase())
-);
+let res = channels.filter(c =>
+c.name.toLowerCase().includes(q.toLowerCase())
+).slice(0,200);
 
-render(res);
-
+renderList(res);
 }
 
-/* =========================
-INIT
-========================= */
-loadFeeds();
+/* PLAY */
+function play(url){
+let video = document.getElementById("videoPlayer");
+video.src = url;
+video.play();
+}
+
+/* SETTINGS */
+function toggleSettings(){
+let box = document.getElementById("settingsBox");
+box.style.display = box.style.display==="block"?"none":"block";
+}
+
+function setTheme(t){
+if(t==="blue"){
+document.body.style.background="#061a33";
+}else{
+document.body.style.background="#0b0f1a";
+}
+}
+
+/* INIT */
+loadCategory("ALL");
 
 </script>
+
+
+
+
 
 </body>
 </html>
