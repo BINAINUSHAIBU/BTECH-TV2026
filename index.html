@@ -1,13 +1,27 @@
+<!-- =========================
+     BTECH TV ADMIN DASHBOARD
+========================= -->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BTECH TV Admin Dashboard</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+/>
 
-<link rel="stylesheet" href="css/style.css">
+<title>
+BTECH TV Admin Dashboard
+</title>
+
+<link
+rel="stylesheet"
+href="css/style.css"
+/>
 
 <style>
 
@@ -48,9 +62,9 @@ padding:20px;
 }
 
 .sidebar h2{
-color:#00d4ff;
-margin-bottom:30px;
 text-align:center;
+margin-bottom:30px;
+color:#00d4ff;
 }
 
 .sidebar ul{
@@ -75,7 +89,7 @@ color:#fff;
 }
 
 /* =========================
-   MAIN
+   MAIN CONTENT
 ========================= */
 
 .dashboard-main{
@@ -87,9 +101,9 @@ padding:25px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
-gap:15px;
 flex-wrap:wrap;
+gap:15px;
+margin-bottom:25px;
 }
 
 .dashboard-header h1{
@@ -105,12 +119,16 @@ outline:none;
 }
 
 /* =========================
-   STATS
+   STATS GRID
 ========================= */
 
 .stats-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(220px,1fr)
+);
 gap:20px;
 margin-bottom:30px;
 }
@@ -119,8 +137,8 @@ margin-bottom:30px;
 background:#1e293b;
 padding:25px;
 border-radius:15px;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
 transition:0.3s;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
 .stat-card:hover{
@@ -140,7 +158,7 @@ color:#00d4ff;
 }
 
 /* =========================
-   CHANNEL TABLE
+   TABLE SECTION
 ========================= */
 
 .channel-section{
@@ -170,12 +188,16 @@ table th{
 color:#00d4ff;
 }
 
+/* =========================
+   STATUS BADGES
+========================= */
+
 .status{
+display:inline-block;
 padding:6px 12px;
 border-radius:20px;
 font-size:13px;
 font-weight:bold;
-display:inline-block;
 }
 
 .free{
@@ -193,6 +215,10 @@ background:#f59e0b;
 .unlocked{
 background:#2563eb;
 }
+
+/* =========================
+   BUTTONS
+========================= */
 
 button{
 padding:8px 14px;
@@ -221,9 +247,9 @@ color:#fff;
 .load-btn{
 width:100%;
 padding:15px;
+margin-top:20px;
 background:#00d4ff;
 color:#000;
-margin-top:20px;
 }
 
 /* =========================
@@ -247,6 +273,7 @@ width:100%;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -259,7 +286,9 @@ width:100%;
 
 <aside class="sidebar">
 
-<h2>BTECH TV</h2>
+<h2>
+BTECH TV
+</h2>
 
 <ul>
 
@@ -322,14 +351,16 @@ Settings
 </aside>
 
 <!-- =========================
-     MAIN
+     MAIN CONTENT
 ========================= -->
 
 <main class="dashboard-main">
 
 <header class="dashboard-header">
 
-<h1>BTECH TV Channel Dashboard</h1>
+<h1>
+BTECH TV Channel Dashboard
+</h1>
 
 <input
 type="text"
@@ -341,7 +372,7 @@ onkeyup="searchChannels()"
 </header>
 
 <!-- =========================
-     STATS
+     STATS CARDS
 ========================= -->
 
 <section class="stats-grid">
@@ -369,29 +400,35 @@ onkeyup="searchChannels()"
 </section>
 
 <!-- =========================
-     TABLE
+     CHANNEL TABLE
 ========================= -->
 
 <section class="channel-section">
 
-<h2>Channel Management</h2>
+<h2>
+Channel Management
+</h2>
 
 <table>
 
 <thead>
 
 <tr>
+
 <th>Channel Name</th>
 <th>Category</th>
 <th>Type</th>
 <th>Status</th>
 <th>Viewers</th>
 <th>Actions</th>
+
 </tr>
 
 </thead>
 
-<tbody id="channelTable"></tbody>
+<tbody id="channelTable">
+
+</tbody>
 
 </table>
 
@@ -399,7 +436,9 @@ onkeyup="searchChannels()"
 class="load-btn"
 onclick="loadMore()"
 >
+
 Load More Channels
+
 </button>
 
 </section>
@@ -409,7 +448,7 @@ Load More Channels
 </div>
 
 <!-- =========================
-     SCRIPT
+     JAVASCRIPT
 ========================= -->
 
 <script>
@@ -421,9 +460,11 @@ Load More Channels
 const SETTINGS = {
 
 totalChannels:40000,
+
 showPerPage:50,
 
 categories:[
+
 "Sports",
 "Movies",
 "Kids",
@@ -438,6 +479,7 @@ categories:[
 "Lifestyle",
 "Business",
 "Fashion"
+
 ]
 
 };
@@ -459,7 +501,8 @@ name:`BTECH Channel ${i}`,
 category:
 SETTINGS.categories[
 Math.floor(
-Math.random()*SETTINGS.categories.length
+Math.random() *
+SETTINGS.categories.length
 )
 ],
 
@@ -474,14 +517,16 @@ Math.random()>0.8
 : "Unlocked",
 
 viewers:
-Math.floor(Math.random()*50000)
+Math.floor(
+Math.random()*50000
+)
 
 });
 
 }
 
 /* =========================
-   STATS
+   UPDATE STATS
 ========================= */
 
 function updateStats(){
@@ -530,28 +575,36 @@ document.getElementById(
 tbody.innerHTML = "";
 
 const start =
-page * SETTINGS.showPerPage;
+page *
+SETTINGS.showPerPage;
 
 const end =
-start + SETTINGS.showPerPage;
+start +
+SETTINGS.showPerPage;
 
-list.slice(start,end)
+list
+.slice(start,end)
 .forEach(channel=>{
 
 tbody.innerHTML += `
 
 <tr>
 
-<td>${channel.name}</td>
+<td>
+${channel.name}
+</td>
 
-<td>${channel.category}</td>
+<td>
+${channel.category}
+</td>
 
 <td>
 
 <span class="
 status
 ${channel.type==="Free"
-?"free":"paid"}">
+?"free":"paid"}
+">
 
 ${channel.type}
 
@@ -564,7 +617,8 @@ ${channel.type}
 <span class="
 status
 ${channel.status==="Locked"
-?"locked":"unlocked"}">
+?"locked":"unlocked"}
+">
 
 ${channel.status}
 
@@ -573,7 +627,10 @@ ${channel.status}
 </td>
 
 <td>
-👥 ${channel.viewers.toLocaleString()}
+
+👥
+${channel.viewers.toLocaleString()}
+
 </td>
 
 <td>
@@ -584,7 +641,8 @@ onclick="toggleLock(${channel.id})"
 >
 
 ${channel.status==="Locked"
-?"Unlock":"Lock"}
+?"Unlock"
+:"Lock"}
 
 </button>
 
@@ -645,6 +703,7 @@ channel.status==="Locked"
 : "Locked";
 
 renderTable();
+
 updateStats();
 
 }
@@ -689,6 +748,7 @@ c=>c.id!==id
 );
 
 renderTable();
+
 updateStats();
 
 }
