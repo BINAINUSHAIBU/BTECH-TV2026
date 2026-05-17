@@ -5,17 +5,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BTECH-TV PRO DASHBOARD</title>
+<title>BTECH IPTV ULTRA 100K</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
 
-/* =========================
-   ROOT SYSTEM
-========================= */
+/* =========================================
+   ROOT
+========================================= */
 
 :root{
+
 --bg:#0b1020;
 --panel:#111827;
 --card:#1e293b;
@@ -24,12 +25,12 @@
 --text:#ffffff;
 --muted:#94a3b8;
 --success:#22c55e;
---danger:#ef4444;
+
 }
 
-/* =========================
+/* =========================================
    GLOBAL
-========================= */
+========================================= */
 
 *{
 margin:0;
@@ -41,51 +42,55 @@ font-family:Arial,sans-serif;
 body{
 background:var(--bg);
 color:var(--text);
-display:flex;
 height:100vh;
 overflow:hidden;
+display:flex;
 }
 
-/* =========================
+/* =========================================
    SIDEBAR
-========================= */
+========================================= */
 
 .sidebar{
-width:340px;
+width:360px;
 background:var(--panel);
 display:flex;
 flex-direction:column;
 border-right:1px solid #1f2937;
-overflow:hidden;
 }
 
 .sidebar-header{
-padding:20px;
+padding:18px;
 border-bottom:1px solid #1f2937;
 }
 
-.sidebar-header h2{
+.logo{
 font-size:22px;
+font-weight:bold;
 color:var(--accent);
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
-.stats-text{
+.stats{
 font-size:13px;
 color:var(--muted);
 }
 
 /* SEARCH */
 
-.search-box{
+.search-area{
 padding:12px;
+display:flex;
+flex-direction:column;
+gap:10px;
 border-bottom:1px solid #1f2937;
 }
 
-.search-box input{
+.search-area input,
+.search-area select{
 width:100%;
 padding:12px;
-background:#1e293b;
+background:var(--card);
 border:none;
 outline:none;
 border-radius:10px;
@@ -100,18 +105,16 @@ overflow-y:auto;
 padding:10px;
 }
 
-/* CHANNEL CARD */
-
 .channel{
 display:flex;
 align-items:center;
 gap:12px;
-background:var(--card);
 padding:12px;
+background:var(--card);
 border-radius:12px;
 margin-bottom:10px;
 cursor:pointer;
-transition:.3s;
+transition:.25s;
 }
 
 .channel:hover{
@@ -120,10 +123,10 @@ transform:scale(1.01);
 }
 
 .channel img{
-width:55px;
-height:55px;
-object-fit:cover;
+width:60px;
+height:60px;
 border-radius:10px;
+object-fit:cover;
 background:black;
 }
 
@@ -151,9 +154,9 @@ font-size:11px;
 color:var(--success);
 }
 
-/* =========================
+/* =========================================
    MAIN
-========================= */
+========================================= */
 
 .main{
 flex:1;
@@ -161,21 +164,19 @@ display:flex;
 flex-direction:column;
 }
 
-/* =========================
-   TOPBAR
-========================= */
+/* TOPBAR */
 
 .topbar{
-height:65px;
+height:70px;
 background:var(--panel);
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:space-between;
 padding:0 20px;
 border-bottom:1px solid #1f2937;
 }
 
-.logo{
+.topbar-title{
 font-size:20px;
 font-weight:bold;
 color:var(--accent);
@@ -188,10 +189,10 @@ flex-wrap:wrap;
 }
 
 .menu button{
-background:var(--card);
-border:none;
 padding:10px 14px;
+border:none;
 border-radius:8px;
+background:var(--card);
 color:white;
 cursor:pointer;
 transition:.3s;
@@ -201,11 +202,9 @@ transition:.3s;
 background:var(--hover);
 }
 
-/* =========================
-   DASHBOARD STATS
-========================= */
+/* STATS */
 
-.stats{
+.dashboard{
 display:flex;
 gap:10px;
 padding:12px;
@@ -216,7 +215,7 @@ border-bottom:1px solid #1f2937;
 .card{
 flex:1;
 background:var(--card);
-padding:14px;
+padding:15px;
 border-radius:12px;
 text-align:center;
 }
@@ -228,18 +227,16 @@ color:var(--accent);
 }
 
 .card p{
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 }
 
-/* =========================
-   PLAYER
-========================= */
+/* PLAYER */
 
 .player{
 flex:1;
-position:relative;
 background:black;
+position:relative;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -252,20 +249,22 @@ object-fit:contain;
 background:black;
 }
 
+/* OVERLAY */
+
 .overlay{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.9);
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
-z-index:5;
+align-items:center;
+z-index:9;
 }
 
 .overlay h1{
 font-size:60px;
-margin-bottom:15px;
+margin-bottom:10px;
 }
 
 .overlay p{
@@ -273,12 +272,10 @@ font-size:18px;
 color:var(--muted);
 }
 
-/* =========================
-   CONTROLS
-========================= */
+/* CONTROLS */
 
 .controls{
-height:90px;
+height:100px;
 background:var(--panel);
 display:flex;
 justify-content:space-between;
@@ -288,8 +285,8 @@ border-top:1px solid #1f2937;
 }
 
 .now-playing h3{
-font-size:18px;
-margin-bottom:5px;
+font-size:20px;
+margin-bottom:6px;
 }
 
 .now-playing p{
@@ -304,33 +301,30 @@ gap:10px;
 
 .control-buttons button{
 padding:12px 16px;
-background:var(--card);
 border:none;
 border-radius:10px;
+background:var(--card);
 color:white;
 cursor:pointer;
-transition:.3s;
 }
 
 .control-buttons button:hover{
 background:var(--hover);
 }
 
-/* =========================
-   SETTINGS
-========================= */
+/* SETTINGS */
 
 .settings{
 position:fixed;
 right:20px;
 top:80px;
-width:280px;
+width:320px;
 background:var(--panel);
 padding:20px;
 border-radius:14px;
-border:1px solid #1f2937;
 display:none;
-z-index:9999;
+z-index:999;
+border:1px solid #1f2937;
 }
 
 .settings h3{
@@ -340,24 +334,46 @@ color:var(--accent);
 
 .settings label{
 display:block;
-margin-top:14px;
+margin-top:12px;
 margin-bottom:5px;
 font-size:13px;
 }
 
+.settings input,
 .settings select{
 width:100%;
 padding:10px;
+background:var(--card);
 border:none;
 outline:none;
 border-radius:8px;
-background:#1e293b;
 color:white;
 }
 
-/* =========================
-   MOBILE
-========================= */
+/* EPG */
+
+.epg{
+height:180px;
+overflow-y:auto;
+background:#0f172a;
+padding:15px;
+border-top:1px solid #1f2937;
+}
+
+.epg h3{
+margin-bottom:10px;
+color:var(--accent);
+}
+
+.epg-item{
+padding:10px;
+background:var(--card);
+border-radius:8px;
+margin-bottom:8px;
+font-size:13px;
+}
+
+/* MOBILE */
 
 @media(max-width:900px){
 
@@ -378,16 +394,15 @@ height:55%;
 display:none;
 }
 
-.stats{
+.dashboard{
 flex-wrap:wrap;
 }
 
 .controls{
 flex-direction:column;
-justify-content:center;
-gap:10px;
 height:auto;
 padding:15px;
+gap:10px;
 }
 
 }
@@ -397,29 +412,41 @@ padding:15px;
 
 <body>
 
-<!-- =========================
+<!-- =========================================
      SIDEBAR
-========================= -->
+========================================= -->
 
 <div class="sidebar">
 
 <div class="sidebar-header">
 
-<h2>📺 BTECH-TV PRO</h2>
+<div class="logo">
+📺 BTECH IPTV ULTRA
+</div>
 
-<div class="stats-text" id="statsText">
-Loading BTECH-TV Channels...
+<div class="stats" id="stats">
+Loading IPTV System...
 </div>
 
 </div>
 
-<div class="search-box">
+<div class="search-area">
 
 <input
 type="text"
-placeholder="Search Channels..."
+placeholder="Search 100K+ Channels..."
 onkeyup="searchChannels(this.value)"
 >
+
+<select onchange="filterCategory(this.value)">
+<option value="ALL">All Categories</option>
+<option value="SPORTS">Sports</option>
+<option value="MOVIES">Movies</option>
+<option value="NEWS">News</option>
+<option value="KIDS">Kids</option>
+<option value="MUSIC">Music</option>
+<option value="AFRICA">Africa</option>
+</select>
 
 </div>
 
@@ -430,9 +457,9 @@ id="channelList"
 
 </div>
 
-<!-- =========================
+<!-- =========================================
      MAIN
-========================= -->
+========================================= -->
 
 <div class="main">
 
@@ -440,43 +467,35 @@ id="channelList"
 
 <div class="topbar">
 
-<div class="logo">
-🚀 BTECH-TV PRO DASHBOARD
+<div class="topbar-title">
+🚀 IPTV PRO 100K ENGINE
 </div>
 
 <div class="menu">
 
-<button onclick="filterCategory('ALL')">
-ALL
-</button>
-
-<button onclick="filterCategory('SPORTS')">
-SPORTS
-</button>
-
-<button onclick="filterCategory('MOVIES')">
-MOVIES
-</button>
-
-<button onclick="filterCategory('NEWS')">
-NEWS
-</button>
-
-<button onclick="filterCategory('KIDS')">
-KIDS
-</button>
-
 <button onclick="toggleSettings()">
-SETTINGS
+Settings
+</button>
+
+<button onclick="setTheme('dark')">
+Dark
+</button>
+
+<button onclick="setTheme('blue')">
+Blue
+</button>
+
+<button onclick="setTheme('green')">
+Green
 </button>
 
 </div>
 
 </div>
 
-<!-- STATS -->
+<!-- DASHBOARD -->
 
-<div class="stats">
+<div class="dashboard">
 
 <div class="card">
 <h3>Total Channels</h3>
@@ -494,8 +513,10 @@ SETTINGS
 </div>
 
 <div class="card">
-<h3>Locked</h3>
-<p id="lockedCount">0</p>
+<h3>Live Status</h3>
+<p style="color:lime">
+ONLINE
+</p>
 </div>
 
 </div>
@@ -519,7 +540,7 @@ id="overlay"
 <h1>🚀</h1>
 
 <p>
-Initializing BTECH-TV Engine...
+Initializing IPTV Ultra Engine...
 </p>
 
 </div>
@@ -556,62 +577,75 @@ Next ▶
 
 </div>
 
+<!-- EPG -->
+
+<div class="epg">
+
+<h3>📺 LIVE EPG GUIDE</h3>
+
+<div id="epgContent"></div>
+
 </div>
 
-<!-- =========================
-     SETTINGS PANEL
-========================= -->
+</div>
+
+<!-- SETTINGS -->
 
 <div
 class="settings"
 id="settingsBox"
 >
 
-<h3>System Settings</h3>
+<h3>⚙ IPTV Settings</h3>
+
+<label>M3U Playlist URL</label>
+
+<input
+id="m3uInput"
+placeholder="https://example.com/playlist.m3u"
+>
+
+<label>Xtream Username</label>
+
+<input id="xtreamUser">
+
+<label>Xtream Password</label>
+
+<input id="xtreamPass">
 
 <label>Theme</label>
 
 <select onchange="setTheme(this.value)">
 
-<option value="dark">
-Dark
-</option>
-
-<option value="blue">
-Blue
-</option>
-
-<option value="green">
-Green
-</option>
+<option value="dark">Dark</option>
+<option value="blue">Blue</option>
+<option value="green">Green</option>
 
 </select>
 
-<label>Auto Play</label>
-
-<select onchange="autoPlay=this.value==='true'">
-
-<option value="true">
-ON
-</option>
-
-<option value="false">
-OFF
-</option>
-
-</select>
+<button
+onclick="saveSettings()"
+style="
+margin-top:15px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:var(--accent);
+font-weight:bold;
+cursor:pointer;
+"
+>
+Save Settings
+</button>
 
 </div>
 
-<!-- =========================
-     SCRIPT
-========================= -->
-
 <script>
 
-/* =========================
+/* =========================================
    IPTV SOURCES
-========================= */
+========================================= */
 
 const playlists = [
 
@@ -621,9 +655,9 @@ const playlists = [
 
 ];
 
-/* =========================
+/* =========================================
    GLOBAL STATE
-========================= */
+========================================= */
 
 let allChannels = [];
 let filteredChannels = [];
@@ -631,14 +665,14 @@ let currentIndex = 0;
 let hls = null;
 let autoPlay = true;
 
-/* =========================
+/* =========================================
    LOAD PLAYLISTS
-========================= */
+========================================= */
 
 async function loadPlaylists(){
 
 const stats =
-document.getElementById("statsText");
+document.getElementById("stats");
 
 stats.innerHTML =
 "Loading IPTV playlists...";
@@ -650,6 +684,7 @@ for(const url of playlists){
 try{
 
 const res = await fetch(url);
+
 const text = await res.text();
 
 const parsed = parseM3U(text);
@@ -683,7 +718,7 @@ console.log("FAILED:", url);
 
 }
 
-/* ADD VIRTUAL CHANNELS */
+/* GENERATE 100K CHANNELS */
 
 generateVirtualChannels();
 
@@ -691,7 +726,7 @@ filteredChannels = allChannels;
 
 updateStats();
 
-renderChannels();
+renderVirtualized();
 
 document.getElementById("overlay").style.display = "none";
 
@@ -700,9 +735,9 @@ stats.innerHTML =
 
 }
 
-/* =========================
-   GENERATE VIRTUAL CHANNELS
-========================= */
+/* =========================================
+   GENERATE 100K CHANNELS
+========================================= */
 
 function generateVirtualChannels(){
 
@@ -713,13 +748,13 @@ const categories = [
 "NEWS",
 "KIDS",
 "MUSIC",
-"VIP",
 "AFRICA",
+"VIP",
 "DOCUMENTARY"
 
 ];
 
-for(let i=1;i<=40000;i++){
+for(let i=1;i<=100000;i++){
 
 const cat =
 categories[
@@ -738,7 +773,7 @@ type:Math.random() > 0.4 ? "FREE" : "PREMIUM",
 
 status:Math.random() > 0.7 ? "LOCKED" : "UNLOCKED",
 
-logo:"https://via.placeholder.com/60",
+logo:`https://ui-avatars.com/api/?name=${cat}+${i}&background=111827&color=00d4ff`,
 
 url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
 
@@ -748,9 +783,9 @@ url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
 
 }
 
-/* =========================
+/* =========================================
    PARSE M3U
-========================= */
+========================================= */
 
 function parseM3U(text){
 
@@ -800,11 +835,11 @@ return result;
 
 }
 
-/* =========================
-   RENDER CHANNELS
-========================= */
+/* =========================================
+   FAST VIRTUAL RENDER
+========================================= */
 
-function renderChannels(){
+function renderVirtualized(){
 
 const list =
 document.getElementById("channelList");
@@ -812,7 +847,7 @@ document.getElementById("channelList");
 list.innerHTML = "";
 
 filteredChannels
-.slice(0,500)
+.slice(0,700)
 .forEach((channel,index)=>{
 
 const div =
@@ -852,9 +887,9 @@ ${channel.status}
 
 div.onclick = ()=>{
 
-if(channel.status === "LOCKED"){
+if(channel.status==="LOCKED"){
 
-alert("🔒 Channel Locked - Upgrade Required");
+alert("🔒 Premium Channel Locked");
 return;
 
 }
@@ -869,9 +904,9 @@ list.appendChild(div);
 
 }
 
-/* =========================
+/* =========================================
    SEARCH
-========================= */
+========================================= */
 
 function searchChannels(query){
 
@@ -890,13 +925,13 @@ channel.group
 
 );
 
-renderChannels();
+renderVirtualized();
 
 }
 
-/* =========================
+/* =========================================
    FILTER CATEGORY
-========================= */
+========================================= */
 
 function filterCategory(category){
 
@@ -917,13 +952,13 @@ channel.group
 
 }
 
-renderChannels();
+renderVirtualized();
 
 }
 
-/* =========================
+/* =========================================
    PLAY CHANNEL
-========================= */
+========================================= */
 
 function playChannel(index){
 
@@ -940,6 +975,8 @@ document.getElementById(
 "channelGroup"
 ).innerText =
 `${channel.group} | ${channel.type}`;
+
+generateEPG(channel.name);
 
 const video =
 document.getElementById("videoPlayer");
@@ -991,9 +1028,9 @@ video.play();
 
 }
 
-/* =========================
+/* =========================================
    NEXT / PREV
-========================= */
+========================================= */
 
 function nextChannel(){
 
@@ -1024,9 +1061,9 @@ playChannel(currentIndex);
 
 }
 
-/* =========================
+/* =========================================
    UPDATE STATS
-========================= */
+========================================= */
 
 function updateStats(){
 
@@ -1035,9 +1072,6 @@ allChannels.filter(c=>c.group==="SPORTS").length;
 
 const premium =
 allChannels.filter(c=>c.type==="PREMIUM").length;
-
-const locked =
-allChannels.filter(c=>c.status==="LOCKED").length;
 
 document.getElementById(
 "totalChannels"
@@ -1054,16 +1088,11 @@ document.getElementById(
 ).innerText =
 premium.toLocaleString();
 
-document.getElementById(
-"lockedCount"
-).innerText =
-locked.toLocaleString();
-
 }
 
-/* =========================
+/* =========================================
    SETTINGS
-========================= */
+========================================= */
 
 function toggleSettings(){
 
@@ -1078,16 +1107,21 @@ box.style.display==="block"
 
 }
 
-/* =========================
+/* =========================================
    THEMES
-========================= */
+========================================= */
 
 function setTheme(theme){
+
+localStorage.setItem("theme", theme);
 
 if(theme==="blue"){
 
 document.documentElement
 .style.setProperty("--bg","#061a33");
+
+document.documentElement
+.style.setProperty("--accent","#38bdf8");
 
 }
 
@@ -1096,6 +1130,9 @@ else if(theme==="green"){
 document.documentElement
 .style.setProperty("--bg","#052e16");
 
+document.documentElement
+.style.setProperty("--accent","#4ade80");
+
 }
 
 else{
@@ -1103,14 +1140,94 @@ else{
 document.documentElement
 .style.setProperty("--bg","#0b1020");
 
-}
+document.documentElement
+.style.setProperty("--accent","#00d4ff");
 
 }
 
-/* =========================
+}
+
+/* =========================================
+   SAVE SETTINGS
+========================================= */
+
+function saveSettings(){
+
+localStorage.setItem(
+"m3u",
+document.getElementById("m3uInput").value
+);
+
+localStorage.setItem(
+"xtreamUser",
+document.getElementById("xtreamUser").value
+);
+
+localStorage.setItem(
+"xtreamPass",
+document.getElementById("xtreamPass").value
+);
+
+alert("✅ Settings Saved");
+
+}
+
+/* =========================================
+   LOAD SETTINGS
+========================================= */
+
+function loadSettings(){
+
+document.getElementById("m3uInput").value =
+localStorage.getItem("m3u") || "";
+
+document.getElementById("xtreamUser").value =
+localStorage.getItem("xtreamUser") || "";
+
+document.getElementById("xtreamPass").value =
+localStorage.getItem("xtreamPass") || "";
+
+const theme =
+localStorage.getItem("theme") || "dark";
+
+setTheme(theme);
+
+}
+
+/* =========================================
+   FAKE EPG GENERATOR
+========================================= */
+
+function generateEPG(channel){
+
+const epg =
+document.getElementById("epgContent");
+
+epg.innerHTML = "";
+
+for(let i=0;i<8;i++){
+
+const div =
+document.createElement("div");
+
+div.className = "epg-item";
+
+div.innerHTML = `
+<b>${channel}</b><br>
+${8+i}:00 PM - LIVE PROGRAM ${i+1}
+`;
+
+epg.appendChild(div);
+
+}
+
+}
+
+/* =========================================
    START SYSTEM
-========================= */
+========================================= */
 
+loadSettings();
 loadPlaylists();
 
 </script>
