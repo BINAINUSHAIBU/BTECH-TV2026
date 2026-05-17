@@ -1,0 +1,865 @@
+
+# BTECH TV Admin Dashboard (Merged & Optimized)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTECH TV Admin Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:#fff;
+}
+
+.dashboard-container{
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:250px;
+background:#111827;
+padding:20px;
+}
+
+.sidebar h2{
+color:#00d4ff;
+margin-bottom:30px;
+text-align:center;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar ul li{
+margin:15px 0;
+padding:12px;
+border-radius:10px;
+transition:0.3s;
+cursor:pointer;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active{
+background:#1e293b;
+}
+
+.sidebar ul li a{
+color:#fff;
+text-decoration:none;
+display:block;
+}
+
+/* MAIN */
+.dashboard-main{
+flex:1;
+padding:25px;
+}
+
+.dashboard-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:30px;
+flex-wrap:wrap;
+}
+
+.dashboard-header h1{
+font-size:28px;
+}
+
+/* SEARCH */
+.search-box{
+width:100%;
+margin-top:15px;
+}
+
+.search-box input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:#fff;
+font-size:16px;
+outline:none;
+}
+
+/* STATS */
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:30px;
+}
+
+.stat-card{
+background:#1e293b;
+padding:25px;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+.stat-card h3{
+font-size:18px;
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.stat-card p{
+font-size:28px;
+font-weight:bold;
+color:#00d4ff;
+}
+
+/* TABLE */
+.channel-section{
+background:#1e293b;
+padding:20px;
+border-radius:15px;
+overflow-x:auto;
+}
+
+.channel-section h2{
+margin-bottom:20px;
+}
+
+.table-controls{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.filter-btn{
+padding:10px 16px;
+border:none;
+border-radius:8px;
+background:#334155;
+color:#fff;
+cursor:pointer;
+font-weight:bold;
+}
+
+.filter-btn.active{
+background:#00d4ff;
+color:#000;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:900px;
+}
+
+th,td{
+padding:15px;
+text-align:left;
+border-bottom:1px solid #334155;
+}
+
+th{
+color:#00d4ff;
+}
+
+.status{
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:bold;
+display:inline-block;
+}
+
+.free{
+background:#16a34a;
+}
+
+.paid{
+background:#dc2626;
+}
+
+.locked{
+background:#f59e0b;
+}
+
+.unlocked{
+background:#2563eb;
+}
+
+button{
+padding:8px 14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+margin-right:5px;
+}
+
+.lock-btn{
+background:#f59e0b;
+color:#fff;
+}
+
+.edit-btn{
+background:#00d4ff;
+color:#000;
+}
+
+.delete-btn{
+background:#dc2626;
+color:#fff;
+}
+
+.watch-btn{
+background:#16a34a;
+color:#fff;
+}
+
+.pagination{
+margin-top:20px;
+text-align:center;
+}
+
+.pagination button{
+padding:14px 25px;
+background:#00d4ff;
+color:#000;
+}
+
+@media(max-width:768px){
+.sidebar{
+display:none;
+}
+
+.dashboard-main{
+padding:15px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<h2>BTECH TV</h2>
+
+<ul>
+<li class="active"><a href="#">Dashboard</a></li>
+<li onclick="filterChannels('All')"><a href="#">All Channels</a></li>
+<li onclick="filterChannels('Free')"><a href="#">Free Channels</a></li>
+<li onclick="filterChannels('Premium')"><a href="#">Pay To View</a></li>
+<li onclick="filterLocked()"><a href="#">Locked Channels</a></li>
+<li><a href="#">Users</a></li>
+<li><a href="#">Subscription Plans</a></li>
+<li><a href="#">Settings</a></li>
+</ul>
+</aside>
+
+<!-- MAIN -->
+<main class="dashboard-main">
+
+<header class="dashboard-header">
+<div>
+<h1>BTECH TV Channel Dashboard</h1>
+<p id="liveInfo">Loading channels...</p>
+</div>
+
+<div class="search-box">
+<input
+id="searchInput"
+type="text"
+placeholder="Search channels..."
+onkeyup="searchChannels()"
+>
+</div>
+</header>
+
+<!-- STATS -->
+<section class="stats-grid">
+
+<div class="stat-card">
+<h3>Total Channels</h3>
+<p id="totalChannels">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Free Channels</h3>
+<p id="freeChannels">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Premium Channels</h3>
+<p id="premiumChannels">0</p>
+</div>
+
+<div class="stat-card">
+<h3>Locked Channels</h3>
+<p id="lockedChannels">0</p>
+</div>
+
+</section>
+
+<!-- CHANNEL SECTION -->
+<section class="channel-section">
+
+<h2>Channel Management</h2>
+
+<div class="table-controls">
+<button class="filter-btn active" onclick="filterChannels('All',this)">
+All Channels
+</button>
+
+<button class="filter-btn" onclick="filterChannels('Free',this)">
+Free Channels
+</button>
+
+<button class="filter-btn" onclick="filterChannels('Premium',this)">
+Premium Channels
+</button>
+
+<button class="filter-btn" onclick="filterLocked(this)">
+Locked Channels
+</button>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Channel Name</th>
+<th>Category</th>
+<th>Type</th>
+<th>Status</th>
+<th>Viewers</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody id="channelTableBody">
+</tbody>
+</table>
+
+<div class="pagination">
+<button onclick="loadMore()">
+Load More Channels
+</button>
+</div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+
+/* =========================
+BTECH TV DATABASE
+========================= */
+
+const SETTINGS={
+showPerPage:50,
+totalChannels:40000
+};
+
+const categories=[
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Entertainment",
+"Music",
+"Education",
+"Documentary",
+"VIP",
+"Business"
+];
+
+let channels=[];
+let filteredChannels=[];
+let currentPage=0;
+
+/* =========================
+GENERATE CHANNELS
+========================= */
+
+for(let i=1;i<=SETTINGS.totalChannels;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH Channel ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)
+],
+
+type:
+Math.random()>0.55
+?"Free"
+:"Premium",
+
+status:
+Math.random()>0.8
+?"Locked"
+:"Unlocked",
+
+viewers:
+Math.floor(
+Math.random()*50000
+),
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+filteredChannels=[...channels];
+
+/* =========================
+UPDATE STATS
+========================= */
+
+function updateStats(){
+
+const freeCount=
+channels.filter(
+c=>c.type==="Free"
+).length;
+
+const premiumCount=
+channels.filter(
+c=>c.type==="Premium"
+).length;
+
+const lockedCount=
+channels.filter(
+c=>c.status==="Locked"
+).length;
+
+
+document.getElementById(
+"totalChannels"
+).innerText=
+channels.length.toLocaleString();
+
+
+document.getElementById(
+"freeChannels"
+).innerText=
+freeCount.toLocaleString();
+
+
+document.getElementById(
+"premiumChannels"
+).innerText=
+premiumCount.toLocaleString();
+
+
+document.getElementById(
+"lockedChannels"
+).innerText=
+lockedCount.toLocaleString();
+
+
+document.getElementById(
+"liveInfo"
+).innerText=
+`${channels.length.toLocaleString()} IPTV Channels Loaded`;
+
+}
+
+/* =========================
+RENDER TABLE
+========================= */
+
+function renderTable(){
+
+const tbody=
+document.getElementById(
+"channelTableBody"
+);
+
+tbody.innerHTML="";
+
+const start=
+currentPage*
+SETTINGS.showPerPage;
+
+const end=
+start+
+SETTINGS.showPerPage;
+
+filteredChannels
+.slice(start,end)
+.forEach(channel=>{
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>${channel.name}</td>
+
+<td>${channel.category}</td>
+
+<td>
+<span class="status ${channel.type==='Free'?'free':'paid'}">
+${channel.type}
+</span>
+</td>
+
+<td>
+<span class="status ${channel.status==='Locked'?'locked':'unlocked'}">
+${channel.status}
+</span>
+</td>
+
+<td>
+👥 ${channel.viewers.toLocaleString()}
+</td>
+
+<td>
+
+<button
+class="watch-btn"
+onclick="watchChannel(${channel.id})">
+Watch
+</button>
+
+<button
+class="lock-btn"
+onclick="toggleLock(${channel.id})">
+${channel.status==='Locked'?'Unlock':'Lock'}
+</button>
+
+<button
+class="edit-btn"
+onclick="editChannel(${channel.id})">
+Edit
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteChannel(${channel.id})">
+Delete
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+/* =========================
+FILTER CHANNELS
+========================= */
+
+function filterChannels(type,btn=null){
+
+currentPage=0;
+
+if(type==='All'){
+filteredChannels=[...channels];
+}
+else{
+filteredChannels=
+channels.filter(
+c=>c.type===type
+);
+}
+
+setActiveButton(btn);
+renderTable();
+
+}
+
+/* =========================
+FILTER LOCKED CHANNELS
+========================= */
+
+function filterLocked(btn=null){
+
+currentPage=0;
+
+filteredChannels=
+channels.filter(
+c=>c.status==='Locked'
+);
+
+setActiveButton(btn);
+renderTable();
+
+}
+
+/* =========================
+ACTIVE FILTER BUTTON
+========================= */
+
+function setActiveButton(btn){
+
+if(!btn) return;
+
+const buttons=
+document.querySelectorAll(
+'.filter-btn'
+);
+
+buttons.forEach(button=>{
+button.classList.remove('active');
+});
+
+btn.classList.add('active');
+
+}
+
+/* =========================
+SEARCH CHANNELS
+========================= */
+
+function searchChannels(){
+
+const value=
+document.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+filteredChannels=
+channels.filter(channel=>
+
+channel.name
+.toLowerCase()
+.includes(value)
+
+||
+
+channel.category
+.toLowerCase()
+.includes(value)
+
+);
+
+currentPage=0;
+renderTable();
+
+}
+
+/* =========================
+LOAD MORE
+========================= */
+
+function loadMore(){
+
+currentPage++;
+
+const tbody=
+document.getElementById(
+"channelTableBody"
+);
+
+const start=
+currentPage*
+SETTINGS.showPerPage;
+
+const end=
+start+
+SETTINGS.showPerPage;
+
+filteredChannels
+.slice(start,end)
+.forEach(channel=>{
+
+tbody.innerHTML+=`
+
+<tr>
+<td>${channel.name}</td>
+<td>${channel.category}</td>
+<td>
+<span class="status ${channel.type==='Free'?'free':'paid'}">
+${channel.type}
+</span>
+</td>
+<td>
+<span class="status ${channel.status==='Locked'?'locked':'unlocked'}">
+${channel.status}
+</span>
+</td>
+<td>👥 ${channel.viewers.toLocaleString()}</td>
+<td>
+<button class="watch-btn" onclick="watchChannel(${channel.id})">Watch</button>
+<button class="lock-btn" onclick="toggleLock(${channel.id})">
+${channel.status==='Locked'?'Unlock':'Lock'}
+</button>
+<button class="edit-btn" onclick="editChannel(${channel.id})">Edit</button>
+<button class="delete-btn" onclick="deleteChannel(${channel.id})">Delete</button>
+</td>
+</tr>
+
+`;
+
+});
+
+}
+
+/* =========================
+LOCK / UNLOCK
+========================= */
+
+function toggleLock(id){
+
+const channel=
+channels.find(
+c=>c.id===id
+);
+
+channel.status=
+channel.status==='Locked'
+?'Unlocked'
+:'Locked';
+
+updateStats();
+renderTable();
+
+}
+
+/* =========================
+EDIT CHANNEL
+========================= */
+
+function editChannel(id){
+
+const channel=
+channels.find(
+c=>c.id===id
+);
+
+const newName=
+prompt(
+'Rename Channel',
+channel.name
+);
+
+if(newName){
+channel.name=newName;
+renderTable();
+}
+
+}
+
+/* =========================
+DELETE CHANNEL
+========================= */
+
+function deleteChannel(id){
+
+channels=
+channels.filter(
+c=>c.id!==id
+);
+
+filteredChannels=
+filteredChannels.filter(
+c=>c.id!==id
+);
+
+updateStats();
+renderTable();
+
+}
+
+/* =========================
+WATCH CHANNEL
+========================= */
+
+function watchChannel(id){
+
+const channel=
+channels.find(
+c=>c.id===id
+);
+
+if(channel.status==='Locked'){
+alert('This channel is locked');
+return;
+}
+
+window.open(
+channel.streamUrl,
+'_blank'
+);
+
+}
+
+/* =========================
+AUTO REFRESH VIEWERS
+========================= */
+
+setInterval(()=>{
+
+channels.forEach(channel=>{
+
+channel.viewers=
+Math.floor(
+Math.random()*50000
+);
+
+});
+
+},5000);
+
+/* =========================
+INIT
+========================= */
+
+updateStats();
+renderTable();
+
+</script>
+
+</body>
+</html>
+```
+
+## Improvements Included
+
+* All Channels filter
+* Free Channels filter
+* Premium Channels filter
+* Locked Channels filter
+* Instant search without reload
+* Dynamic stats updates
+* Load More pagination
+* Edit channel feature
+* Delete channel feature
+* Lock / Unlock system
+* Responsive mobile dashboard
+* Auto viewer refresh
+* Optimized single JavaScript engine
