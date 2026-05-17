@@ -646,7 +646,117 @@ p=>loadPlaylist(p)
 
 </script>
 
+<script>
 
+let channels = [
+
+/* SPORTS */
+
+{
+name:"Sky Sports",
+category:"SPORTS",
+live:true,
+url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+},
+
+{
+name:"BeIN Sports",
+category:"SPORTS",
+live:true,
+url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+},
+
+{
+name:"ESPN",
+category:"SPORTS",
+live:true,
+url:"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+},
+
+/* NEWS */
+
+{
+name:"Bloomberg",
+category:"NEWS",
+live:true,
+url:"https://www.bloomberg.com/media-manifest/streams/us.m3u8"
+},
+
+{
+name:"CBS News",
+category:"NEWS",
+live:true,
+url:"https://cbsn-us.cbsnstream.cbsnews.com/out/v1/master.m3u8"
+},
+
+/* KIDS */
+
+{
+name:"Kidoodle",
+category:"KIDS",
+live:true,
+url:"https://kidoodletv-1-ca.samsung.wurl.tv/manifest/playlist.m3u8"
+},
+
+/* MOVIES */
+
+{
+name:"Filmrise",
+category:"MOVIES",
+live:true,
+url:"https://linear-46.frequency.stream/dist/roku/46/hls/master/playlist.m3u8"
+}
+
+];
+
+
+function render(data){
+
+let list =
+document.getElementById(
+"channelList"
+);
+
+list.innerHTML="";
+
+data.forEach(ch=>{
+
+list.innerHTML += `
+
+<div class="channel">
+
+<span>
+
+🟢 ${ch.name}
+
+</span>
+
+</div>
+
+`;
+
+});
+
+Array.from(
+document.querySelectorAll(".channel")
+).forEach((el,i)=>{
+
+el.onclick=()=>{
+
+document.getElementById(
+"videoPlayer"
+).src=data[i].url;
+
+};
+
+});
+
+}
+
+
+render(channels);
+
+</script>
 
 
 </body>
