@@ -279,11 +279,6 @@ loadCategory("ALL");
 
 
 
-    // Build channel lookup
-    for(var i=0;i<chRes.length;i++){
-      var ch=chRes[i];
-      if(ch.is_nsfw||ch.closed)continue;
-      channelMap[ch.id]=ch;
     }
     // Build logo lookup (first logo per channel)
     for(var i=0;i<lgRes.length;i++){
