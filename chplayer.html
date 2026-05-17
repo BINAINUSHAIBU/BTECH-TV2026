@@ -279,39 +279,7 @@ loadCategory("ALL");
 
 
 
-    // Build channel list from streams
-    var id=0,seen={};
-    for(var i=0;i<stRes.length;i++){
-      var st=stRes[i];
-      if(!st.url||seen[st.url])continue;
-      // Skip non-HLS
-      if(st.url.indexOf('youtube.com')!==-1||st.url.indexOf('youtu.be')!==-1||st.url.indexOf('twitch.tv')!==-1||st.url.indexOf('dailymotion.com')!==-1)continue;
-      // Skip streams with no channel ID and no title
-      if(!st.channel&&!st.title)continue;
-      seen[st.url]=1;
-      var ch=st.channel?channelMap[st.channel]:null;
-      var logo=st.channel?logoMap[st.channel]:null;
-      id++;
-      all.push({
-        id:id,
-        chId:st.channel||null,
-        n:ch?ch.name:(st.title||'Unknown'),
-        u:st.url,
-        q:st.quality||null,
-        cc:ch?ch.country:null,
-        cat:ch&&ch.categories&&ch.categories.length?ch.categories[0]:'other',
-        logo:logo||null,
-        ref:st.referrer||null,
-        ua:st.user_agent||null
-      });
-    }
-    // Sort: channels with metadata (country+logo) first, then by name
-    all.sort(function(a,b){
-      var aScore=(a.cc?2:0)+(a.logo?1:0);
-      var bScore=(b.cc?2:0)+(b.logo?1:0);
-      if(aScore!==bScore)return bScore-aScore;
-      return a.n.localeCompare(b.n);
-    });
+    
     // Re-assign IDs after sort
     for(var i=0;i<all.length;i++){all[i].id=i+1;}
     document.getElementById('status').textContent='✅ '+all.length+' channels loaded via API';
