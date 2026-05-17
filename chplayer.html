@@ -277,5 +277,98 @@ loadCategory("ALL");
 
 </script>
 
+  // ─── STATE ───
+var all=[],filtered=[],cur=null,cat='All',activeTab='all',hlsP=null;
+var deadCh={},aliveCh={},autoSkipOn=true;
+var favs=JSON.parse(localStorage.getItem('atv_favs')||'{}');
+var recent=JSON.parse(localStorage.getItem('atv_recent')||'[]');
+var channelMap={},logoMap={};
+
+// ─── COUNTRY CODE → FLAG EMOJI ───
+function flag(cc){if(!cc||cc.length!==2)return'🌐';var a=0x1F1E6;return String.fromCodePoint(a+cc.charCodeAt(0)-65,a+cc.charCodeAt(1)-65);}
+
+// ─── INIT ───
+function init(){
+  tick();setInterval(tick,30000);
+  loadAPI();
+  if(location.hash&&location.hash.length>1){window._shareId=decodeURIComponent(location.hash.slice(1));}
+}
+
+async function loadAPI(){
+  try{
+    var [chRes,stRes,lgRes]=await Promise.all([
+      fetch('https://iptv-org.github.io/api/channels.json').then(r=>r.json()),
+      fetch('https://iptv-org.github.io/api/streams.json').then(r=>r.json()),
+      fetch('https://iptv-org.github.io/api/logos.json').then(r=>r.json())
+    ]);
+    // Build channel lookup
+    for(var i=0;i<chRes.length;i++){
+      var ch=chRes[i];
+      if(ch.is_nsfw||ch.closed)continue;
+      channelMap[ch.id]=ch;
+    }
+    // Build logo lookup (first logo per channel)
+    for(var i=0;i<lgRes.length;i++){
+      var lg=lgRes[i];
+      if(!logoMap[lg.channel])logoMap[lg.channel]=lg.url;
+    }
+    // Build channel list from streams
+    var id=0,seen={};
+    for(var i=0;i<stRes.length;i++){
+      var st=stRes[i];
+      if(!st.url||seen[st.url])continue;
+      // Skip non-HLS
+      if(st.url.indexOf('youtube.com')!==-1||st.url.indexOf('youtu.be')!==-1||st.url.indexOf('twitch.tv')!==-1||st.url.indexOf('dailymotion.com')!==-1)continue;
+      // Skip streams with no channel ID and no title
+      if(!st.channel&&!st.title)continue;
+      seen[st.url]=1;
+      var ch=st.channel?channelMap[st.channel]:null;
+      var logo=st.channel?logoMap[st.channel]:null;
+      id++;
+      all.push({
+        id:id,
+        chId:st.channel||null,
+        n:ch?ch.name:(st.title||'Unknown'),
+        u:st.url,
+        q:st.quality||null,
+        cc:ch?ch.country:null,
+        cat:ch&&ch.categories&&ch.categories.length?ch.categories[0]:'other',
+        logo:logo||null,
+        ref:st.referrer||null,
+        ua:st.user_agent||null
+      });
+    }
+    // Sort: channels with metadata (country+logo) first, then by name
+    all.sort(function(a,b){
+      var aScore=(a.cc?2:0)+(a.logo?1:0);
+      var bScore=(b.cc?2:0)+(b.logo?1:0);
+      if(aScore!==bScore)return bScore-aScore;
+      return a.n.localeCompare(b.n);
+    });
+    // Re-assign IDs after sort
+    for(var i=0;i<all.length;i++){all[i].id=i+1;}
+    document.getElementById('status').textContent='✅ '+all.length+' channels loaded via API';
+    document.getElementById('wmsg').textContent=all.length+' channels ready. Loading more...';
+    document.getElementById('np-name').textContent=all.length+' channels ready';
+    loadSavedCustom();
+    renderCats();doFilter();
+    // Start loading bulk EPG in background
+    loadBulkEPG();
+    // Auto-tune shared channel
+    if(window._shareId){
+      var found=all.find(function(c){return c.chId===window._shareId;});
+      if(found)tune(found.id);
+    }
+    // Load additional playlist sources in background
+    loadExtraPlaylists();
+  }catch(e){
+    document.getElementById('status').textContent='⚠️ API failed: '+e.message+'. Loading fallback playlists...';
+    document.getElementById('wmsg').textContent='API failed. Loading playlists directly...';
+    console.error(e);
+    // Fallback: load M3U playlists directly
+    loadExtraPlaylists();
+  }
+}
+
 </body>
 </html>
