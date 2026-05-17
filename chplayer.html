@@ -279,12 +279,6 @@ loadCategory("ALL");
 
 
 
-    }
-    // Build logo lookup (first logo per channel)
-    for(var i=0;i<lgRes.length;i++){
-      var lg=lgRes[i];
-      if(!logoMap[lg.channel])logoMap[lg.channel]=lg.url;
-    }
     // Build channel list from streams
     var id=0,seen={};
     for(var i=0;i<stRes.length;i++){
