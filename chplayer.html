@@ -277,15 +277,7 @@ loadCategory("ALL");
 
 </script>
 
-  // ─── STATE ───
-var all=[],filtered=[],cur=null,cat='All',activeTab='all',hlsP=null;
-var deadCh={},aliveCh={},autoSkipOn=true;
-var favs=JSON.parse(localStorage.getItem('atv_favs')||'{}');
-var recent=JSON.parse(localStorage.getItem('atv_recent')||'[]');
-var channelMap={},logoMap={};
 
-// ─── COUNTRY CODE → FLAG EMOJI ───
-function flag(cc){if(!cc||cc.length!==2)return'🌐';var a=0x1F1E6;return String.fromCodePoint(a+cc.charCodeAt(0)-65,a+cc.charCodeAt(1)-65);}
 
 // ─── INIT ───
 function init(){
