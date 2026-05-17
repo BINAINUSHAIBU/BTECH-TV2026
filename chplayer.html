@@ -279,12 +279,6 @@ loadCategory("ALL");
 
 
 
-// ─── INIT ───
-function init(){
-  tick();setInterval(tick,30000);
-  loadAPI();
-  if(location.hash&&location.hash.length>1){window._shareId=decodeURIComponent(location.hash.slice(1));}
-}
 
 async function loadAPI(){
   try{
