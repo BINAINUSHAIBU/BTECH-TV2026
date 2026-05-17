@@ -1073,6 +1073,792 @@ applyTheme();
 renderChannels(channels);
 
 </script>
+<!-- =========================================
+BTECH TV ULTRA 100,000+ IPTV ENGINE
+DROP-IN REPLACEMENT SCRIPT
+========================================= -->
 
+<script>
+
+/* =========================================
+SYSTEM SETTINGS
+========================================= */
+
+let settings = JSON.parse(
+localStorage.getItem("settings")
+) || {
+
+theme:"dark",
+autoplay:true,
+showLocked:true,
+quality:"HD"
+
+};
+
+applyTheme();
+
+/* =========================================
+PLAYLIST SOURCES
+========================================= */
+
+const playlistSources = [
+
+"https://iptv-org.github.io/iptv/index.m3u",
+"https://iptv-org.github.io/iptv/index.country.m3u",
+"https://iptv-org.github.io/iptv/index.category.m3u",
+
+"https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
+
+"https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u",
+
+"https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u"
+
+];
+
+/* =========================================
+GLOBAL STATE
+========================================= */
+
+const channels = [];
+
+let filteredChannels = [];
+
+let currentPage = 0;
+
+const limit = 120;
+
+let currentHls = null;
+
+/* =========================================
+CATEGORIES
+========================================= */
+
+const categories = [
+
+"Sports",
+"Movies",
+"Kids",
+"News",
+"Music",
+"Entertainment",
+"Education",
+"Documentary",
+"VIP",
+"Africa",
+"USA",
+"UK",
+"Europe",
+"Asia"
+
+];
+
+/* =========================================
+GENERATE 100,000 CHANNELS
+========================================= */
+
+function generateChannels(){
+
+for(let i=1;i<=100000;i++){
+
+channels.push({
+
+id:i,
+
+name:`BTECH LIVE ${i}`,
+
+category:
+categories[
+Math.floor(
+Math.random()*categories.length
+)],
+
+type:
+Math.random()>0.55
+? "Free"
+: "Pay To View",
+
+status:
+Math.random()>0.2
+? "Unlocked"
+: "Locked",
+
+live:
+Math.random()>0.08,
+
+views:
+Math.floor(
+Math.random()*1000000
+),
+
+logo:
+`https://via.placeholder.com/300x150/111827/00d4ff?text=BTECH+${i}`,
+
+streamUrl:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+}
+
+/* =========================================
+LOAD REAL IPTV PLAYLISTS
+========================================= */
+
+async function loadPlaylists(){
+
+const seen = new Set();
+
+for(const url of playlistSources){
+
+try{
+
+const response =
+await fetch(url);
+
+const text =
+await response.text();
+
+const parsed =
+parseM3U(text);
+
+parsed.forEach(channel=>{
+
+if(
+channel.url &&
+!seen.has(channel.url)
+){
+
+seen.add(channel.url);
+
+channels.push({
+
+id:
+channels.length + 1,
+
+name:
+channel.name,
+
+category:
+channel.group,
+
+type:
+Math.random()>0.5
+? "Free"
+: "Pay To View",
+
+status:
+Math.random()>0.2
+? "Unlocked"
+: "Locked",
+
+live:true,
+
+views:
+Math.floor(
+Math.random()*500000
+),
+
+logo:
+channel.logo ||
+"https://via.placeholder.com/300x150",
+
+streamUrl:
+channel.url
+
+});
+
+}
+
+});
+
+}catch(err){
+
+console.log(
+"Playlist failed:",
+url
+);
+
+}
+
+}
+
+/* GENERATE VIRTUAL CHANNELS */
+
+generateChannels();
+
+filteredChannels = channels;
+
+renderChannels(filteredChannels);
+
+}
+
+/* =========================================
+M3U PARSER
+========================================= */
+
+function parseM3U(text){
+
+const lines =
+text.split("\n");
+
+const result = [];
+
+let temp = {};
+
+for(let line of lines){
+
+line = line.trim();
+
+if(
+line.startsWith("#EXTINF")
+){
+
+temp = {
+
+name:
+line.match(/,(.*)/)?.[1]
+|| "Unknown",
+
+logo:
+line.match(
+/tvg-logo="(.*?)"/
+)?.[1] || "",
+
+group:
+line.match(
+/group-title="(.*?)"/
+)?.[1] || "LIVE"
+
+};
+
+}
+
+else if(
+line.startsWith("http")
+){
+
+temp.url = line;
+
+result.push(temp);
+
+temp = {};
+
+}
+
+}
+
+return result;
+
+}
+
+/* =========================================
+RENDER CHANNELS
+========================================= */
+
+function renderChannels(
+list,
+append=false
+){
+
+const grid =
+document.getElementById(
+"channelGrid"
+);
+
+if(!append){
+
+grid.innerHTML = "";
+
+}
+
+const start =
+currentPage * limit;
+
+const end =
+start + limit;
+
+list
+.slice(start,end)
+
+.forEach(channel=>{
+
+grid.innerHTML += `
+
+<div class="channel-card">
+
+<div
+class="channel-banner"
+style="
+background-image:
+url('${channel.logo}');
+background-size:cover;
+background-position:center;
+"
+>
+
+<div
+style="
+width:100%;
+height:100%;
+background:
+rgba(0,0,0,0.65);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+"
+>
+
+${channel.live
+? "🔴 LIVE"
+: "⚫ OFFLINE"}
+
+<br>
+
+${channel.category}
+
+</div>
+
+</div>
+
+<div class="channel-info">
+
+<h3>
+${channel.name}
+</h3>
+
+<p>
+
+${channel.views.toLocaleString()}
+views
+
+</p>
+
+<span class="
+badge
+${channel.type==="Free"
+? "free"
+: "paid"}
+">
+
+${channel.type}
+
+</span>
+
+<span class="
+badge
+${channel.status==="Locked"
+? "locked"
+: "unlocked"}
+">
+
+${channel.status}
+
+</span>
+
+<button
+class="watch-btn"
+onclick="
+watchChannel(
+${channel.id}
+)
+"
+>
+
+▶ Watch Channel
+
+</button>
+
+<button
+class="watch-btn"
+onclick="
+addFavorite(
+${channel.id}
+)
+"
+>
+
+⭐ Favorite
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* LOAD MORE */
+
+if(end < list.length){
+
+grid.innerHTML += `
+
+<button
+class="watch-btn"
+style="
+width:100%;
+margin-top:20px;
+"
+onclick="loadMore()"
+>
+
+LOAD MORE CHANNELS
+
+</button>
+
+`;
+
+}
+
+/* UPDATE STATS */
+
+document.getElementById(
+"totalChannels"
+).innerText =
+channels.length
+.toLocaleString();
+
+document.getElementById(
+"freeChannels"
+).innerText =
+channels.filter(
+c=>c.type==="Free"
+).length
+.toLocaleString();
+
+document.getElementById(
+"premiumChannels"
+).innerText =
+channels.filter(
+c=>c.type==="Pay To View"
+).length
+.toLocaleString();
+
+document.getElementById(
+"lockedChannels"
+).innerText =
+channels.filter(
+c=>c.status==="Locked"
+).length
+.toLocaleString();
+
+}
+
+/* =========================================
+LOAD MORE
+========================================= */
+
+function loadMore(){
+
+currentPage++;
+
+renderChannels(
+filteredChannels,
+true
+);
+
+}
+
+/* =========================================
+SEARCH CHANNELS
+========================================= */
+
+function searchChannels(){
+
+const value =
+document
+.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
+
+filteredChannels =
+channels.filter(channel=>
+
+channel.name
+.toLowerCase()
+.includes(value)
+
+||
+
+channel.category
+.toLowerCase()
+.includes(value)
+
+);
+
+currentPage = 0;
+
+renderChannels(
+filteredChannels
+);
+
+}
+
+/* =========================================
+FAVORITES
+========================================= */
+
+function addFavorite(id){
+
+let favorites =
+JSON.parse(
+localStorage.getItem(
+"favorites"
+)
+) || [];
+
+if(
+!favorites.includes(id)
+){
+
+favorites.push(id);
+
+localStorage.setItem(
+"favorites",
+JSON.stringify(
+favorites
+)
+);
+
+alert(
+"Added to favorites"
+);
+
+}
+
+}
+
+/* =========================================
+WATCH CHANNEL
+========================================= */
+
+function watchChannel(id){
+
+const channel =
+channels.find(
+c=>c.id===id
+);
+
+if(
+channel.status==="Locked"
+&&
+settings.showLocked===false
+){
+
+alert(
+"This channel is locked"
+);
+
+return;
+
+}
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display =
+"flex";
+
+document
+.getElementById(
+"playerTitle"
+)
+.innerText =
+channel.name;
+
+const video =
+document
+.getElementById(
+"videoPlayer"
+);
+
+if(currentHls){
+
+currentHls.destroy();
+
+}
+
+/* HLS PLAYER */
+
+if(Hls.isSupported()){
+
+currentHls = new Hls({
+
+enableWorker:true,
+lowLatencyMode:true
+
+});
+
+currentHls.loadSource(
+channel.streamUrl
+);
+
+currentHls.attachMedia(
+video
+);
+
+currentHls.on(
+Hls.Events.MANIFEST_PARSED,
+function(){
+
+if(
+settings.autoplay
+){
+
+video.play();
+
+}
+
+}
+);
+
+}else{
+
+video.src =
+channel.streamUrl;
+
+if(
+settings.autoplay
+){
+
+video.play();
+
+}
+
+}
+
+/* SAVE HISTORY */
+
+let history =
+JSON.parse(
+localStorage.getItem(
+"history"
+)
+) || [];
+
+history.push({
+
+channel:
+channel.name,
+
+time:
+new Date()
+.toLocaleString()
+
+});
+
+localStorage.setItem(
+"history",
+JSON.stringify(history)
+);
+
+}
+
+/* =========================================
+CLOSE PLAYER
+========================================= */
+
+function closePlayer(){
+
+document
+.getElementById(
+"playerModal"
+)
+.style.display =
+"none";
+
+const video =
+document
+.getElementById(
+"videoPlayer"
+);
+
+video.pause();
+
+video.src = "";
+
+if(currentHls){
+
+currentHls.destroy();
+
+}
+
+}
+
+/* =========================================
+THEME SYSTEM
+========================================= */
+
+function applyTheme(){
+
+if(
+settings.theme==="light"
+){
+
+document.body.style.background =
+"#ffffff";
+
+document.body.style.color =
+"#000000";
+
+}else{
+
+document.body.style.background =
+"#0f172a";
+
+document.body.style.color =
+"#ffffff";
+
+}
+
+}
+
+function toggleTheme(){
+
+settings.theme =
+
+settings.theme==="dark"
+? "light"
+: "dark";
+
+localStorage.setItem(
+"settings",
+JSON.stringify(settings)
+);
+
+applyTheme();
+
+}
+
+/* =========================================
+AUTO LIVE REFRESH
+========================================= */
+
+setInterval(()=>{
+
+channels.forEach(channel=>{
+
+channel.live =
+Math.random()>0.08;
+
+});
+
+},30000);
+
+/* =========================================
+INITIALIZE SYSTEM
+========================================= */
+
+loadPlaylists();
+
+</script>
 </body>
 </html>
