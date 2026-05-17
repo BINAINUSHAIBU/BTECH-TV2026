@@ -12,8 +12,6 @@ margin:0;
 font-family:Arial;
 background:#0b0f1a;
 color:white;
-display:flex;
-height:100vh;
 }
 
 /* TOP BAR */
@@ -76,13 +74,6 @@ flex:1;
 display:flex;
 flex-direction:column;
 }
-.topbar{
-padding:10px;
-background:#11182a;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
 
 .search{
 padding:10px;
@@ -90,10 +81,11 @@ background:#11182a;
 }
 
 input{
-padding:8px;
-width:300px;
-border-radius:6px;
+width:100%;
+padding:10px;
 border:none;
+border-radius:5px;
+outline:none;
 }
 
 /* PLAYER */
@@ -122,21 +114,6 @@ border-radius:8px;
 display:none;
 }
 
-/* STATS */
-.stats{
-display:flex;
-gap:10px;
-padding:10px;
-background:#0f172a;
-}
-
-.card{
-flex:1;
-background:#1b2438;
-padding:10px;
-border-radius:8px;
-text-align:center;
-}
 .settings h4{
 color:#00bfff;
 }
@@ -153,13 +130,6 @@ padding:6px;
 border:none;
 border-radius:5px;
 }
-  <!-- PLAYER -->
-<div class="player">
-<video id="videoPlayer" controls autoplay></video>
-</div>
-
-</div>
-
 </style>
 </head>
 
@@ -310,167 +280,7 @@ loadCategory("ALL");
 
 </script>
 
-<!-- PLAYER -->
-<div class="player">
-<video id="videoPlayer" controls autoplay></video>
-</div>
 
-</div>
-
-<script>
-
-/* =========================
-40K CHANNEL GENERATOR
-========================= */
-let allChannels=[];
-
-/* =========================
-REAL IPTV SOURCES
-========================= */
-const feeds=[
-
-{name:'IPTV-ORG',url:'https://iptv-org.github.io/iptv/index.m3u'},
-
-{name:'Free-TV',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'},
-
-{name:'Sports',url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'},
-
-{name:'Movies',url:'https://www.apsattv.com/movies.m3u'},
-
-{name:'News',url:'https://www.apsattv.com/news.m3u'},
-
-{name:'Africa',url:'https://www.apsattv.com/africa.m3u'},
-
-{name:'USA',url:'https://www.apsattv.com/usa.m3u'},
-
-{name:'TVPASS',url:'https://tvpass.org/playlist/m3u'}
-
-];
-
-/* =========================
-CORS PROXY
-========================= */
-const proxy="https://api.allorigins.win/raw?url=";
-
-/* =========================
-LOAD ALL CHANNELS
-========================= */
-async function loadFeeds(){
-
-let seen={};
-
-for(let f of feeds){
-
-try{
-
-let txt=await fetch(proxy+encodeURIComponent(f.url))
-.then(r=>r.text());
-
-parseM3U(txt,seen);
-
-}catch(e){}
-
-}
-
-document.getElementById("sources").innerText=feeds.length;
-
-document.getElementById("status").innerText="ONLINE";
-
-document.getElementById("total").innerText=allChannels.length;
-
-render(allChannels);
-
-}
-
-/* =========================
-PARSE M3U
-========================= */
-function parseM3U(data,seen){
-
-let lines=data.split("\n");
-
-let temp={};
-
-for(let line of lines){
-
-if(line.startsWith("#EXTINF")){
-
-temp.name=line.split(",")[1]||"Unknown";
-
-}
-
-else if(line.startsWith("http")){
-
-temp.url=line;
-
-if(!seen[temp.url]){
-
-allChannels.push(temp);
-
-seen[temp.url]=1;
-
-}
-
-temp={};
-
-}
-
-}
-
-}
-
-/* =========================
-RENDER CHANNELS
-========================= */
-function render(list){
-
-let box=document.getElementById("channelList");
-
-box.innerHTML="";
-
-list.slice(0,500).forEach(ch=>{
-
-let div=document.createElement("div");
-
-div.className="channel";
-
-div.innerHTML=
-`<span>${ch.name}</span><span>● LIVE</span>`;
-
-div.onclick=()=>{
-
-videoPlayer.src=ch.url;
-
-videoPlayer.play();
-
-};
-
-box.appendChild(div);
-
-});
-
-}
-
-/* =========================
-SEARCH
-========================= */
-function searchChannels(q){
-
-let res=allChannels.filter(c=>
-c.name.toLowerCase()
-.includes(q.toLowerCase())
-);
-
-render(res);
-
-}
-
-/* =========================
-INIT
-========================= */
-loadFeeds();
-
-</script>
 
 
 
