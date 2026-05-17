@@ -281,7 +281,264 @@ loadCategory("ALL");
 </script>
 
 
+<script>
 
+let allChannels=[];
+let favorites=[];
+let recent=[];
+let autoPlay=true;
+
+/* --------------------------
+PLAYLIST SOURCES (40K+)
+-------------------------- */
+
+const feeds=[
+
+{name:'Free-TV',
+url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8'},
+
+{name:'IPTV ORG',
+url:'https://iptv-org.github.io/iptv/index.m3u'},
+
+{ name:'Sports',
+url:'https://raw.githubusercontent.com/Free-TV/IPTV/master/playlists/playlist_sports.m3u8'
+},
+
+{name:'Movies',
+url:'https://www.apsattv.com/movies.m3u'},
+
+{name:'Kids',
+url:'https://www.apsattv.com/kids.m3u'},
+
+{name:'News',
+url:'https://www.apsattv.com/news.m3u'},
+
+{name:'Nigeria',
+url:'https://www.apsattv.com/nigeria.m3u'},
+
+{name:'Africa',
+url:'https://www.apsattv.com/africa.m3u'},
+
+{name:'USA',
+url:'https://www.apsattv.com/usa.m3u'}
+
+];
+
+
+/* --------------------
+LOAD PLAYLISTS
+-------------------- */
+
+async function loadFeeds(){
+
+for(let f of feeds){
+
+try{
+
+let txt=await fetch(
+'https://api.allorigins.win/raw?url='+
+encodeURIComponent(f.url)
+).then(r=>r.text());
+
+parseM3U(txt);
+
+}catch(e){
+
+console.log("FAILED",f.name)
+
+}
+
+}
+
+render(allChannels);
+
+document.getElementById(
+'total'
+).innerHTML=allChannels.length;
+
+}
+
+loadFeeds();
+
+
+/* -------------------
+PARSE M3U
+------------------- */
+
+function parseM3U(data){
+
+let lines=data.split('\n');
+
+let current={};
+
+for(let line of lines){
+
+if(line.startsWith("#EXTINF")){
+
+let name=line.split(',');
+
+current.name=name[1]||"Unknown";
+
+}
+
+else if(line.startsWith("http")){
+
+current.url=line;
+
+allChannels.push(current);
+
+current={};
+
+}
+
+}
+
+}
+
+
+/* -----------------
+RENDER
+----------------- */
+
+function render(channels){
+
+let list=document.getElementById(
+'channelList'
+);
+
+list.innerHTML='';
+
+channels.slice(0,500).forEach(ch=>{
+
+let div=document.createElement('div');
+
+div.className='channel';
+
+div.innerHTML=`
+
+<span>${ch.name}</span>
+
+<span style="color:lime">
+● LIVE
+</span>
+
+`;
+
+div.onclick=()=>play(ch);
+
+list.appendChild(div);
+
+});
+
+}
+
+
+/* -----------------
+PLAY CHANNEL
+----------------- */
+
+function play(ch){
+
+let video=
+document.getElementById(
+'videoPlayer'
+);
+
+video.src=ch.url;
+
+if(autoPlay)
+video.play();
+
+recent.unshift(ch);
+
+localStorage.setItem(
+'recent',
+JSON.stringify(recent)
+);
+
+}
+
+
+/* -----------------
+SEARCH
+----------------- */
+
+function searchChannels(q){
+
+let result=
+allChannels.filter(x=>
+
+x.name.toLowerCase()
+
+.includes(q.toLowerCase())
+
+);
+
+render(result);
+
+}
+
+
+/* -----------------
+FAVORITES
+----------------- */
+
+function addFavorite(ch){
+
+favorites.push(ch);
+
+localStorage.setItem(
+'favorites',
+JSON.stringify(favorites)
+);
+
+}
+
+
+/* -----------------
+THEME
+----------------- */
+
+function setTheme(v){
+
+if(v=="blue")
+document.body.style.background=
+"#00152d";
+
+else
+document.body.style.background=
+"#0b0f1a";
+
+}
+
+
+/* -----------------
+QUALITY
+----------------- */
+
+function setQuality(q){
+
+console.log("QUALITY",q);
+
+}
+
+
+/* -----------------
+STATUS
+----------------- */
+
+setInterval(()=>{
+
+document.getElementById(
+'status'
+).innerHTML=
+
+"ONLINE • "+allChannels.length+
+" Channels";
+
+},3000);
+
+</script>
 
 
 </body>
