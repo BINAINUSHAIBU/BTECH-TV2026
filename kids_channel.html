@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>BTECH Kids IPTV Dashboard</title>
+<title>BTECH Kids IPTV ULTRA 100K</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -20,6 +20,7 @@ box-sizing:border-box;
 }
 
 :root{
+
 --primary:#2563eb;
 --secondary:#38bdf8;
 --orange:#ff7b00;
@@ -30,6 +31,8 @@ box-sizing:border-box;
 --muted:#64748b;
 --safe:#22c55e;
 --danger:#ef4444;
+--premium:#a855f7;
+
 }
 
 body{
@@ -46,7 +49,7 @@ color:var(--dark);
 ========================= */
 
 .sidebar{
-width:280px;
+width:290px;
 background:linear-gradient(180deg,#ff7b00,#ffb703);
 padding:25px;
 overflow-y:auto;
@@ -54,7 +57,7 @@ color:#fff;
 }
 
 .logo{
-font-size:32px;
+font-size:34px;
 font-family:'Fredoka',sans-serif;
 font-weight:700;
 margin-bottom:35px;
@@ -68,20 +71,22 @@ gap:12px;
 
 .menu button{
 border:none;
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.12);
 padding:14px 18px;
-border-radius:16px;
+border-radius:18px;
 font-weight:600;
 cursor:pointer;
 text-align:left;
 color:white;
 transition:.3s;
+font-size:15px;
 }
 
 .menu button:hover,
 .menu button.active{
 background:#fff;
 color:#ff7b00;
+transform:translateX(4px);
 }
 
 /* =========================
@@ -110,28 +115,33 @@ margin-bottom:30px;
 .search-box{
 flex:1;
 min-width:240px;
+position:relative;
 }
 
 .search-box input{
 width:100%;
-padding:14px 18px;
+padding:16px 18px;
 border:none;
 outline:none;
-border-radius:16px;
+border-radius:18px;
 background:#fff;
 font-size:15px;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
+box-shadow:0 5px 18px rgba(0,0,0,0.08);
 }
 
 .profile{
 display:flex;
 align-items:center;
 gap:12px;
+background:#fff;
+padding:10px 16px;
+border-radius:18px;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
 .profile img{
-width:52px;
-height:52px;
+width:55px;
+height:55px;
 border-radius:50%;
 object-fit:cover;
 border:4px solid var(--yellow);
@@ -143,7 +153,7 @@ border:4px solid var(--yellow);
 
 .hero{
 background:linear-gradient(135deg,#38bdf8,#2563eb);
-border-radius:30px;
+border-radius:34px;
 padding:35px;
 display:flex;
 justify-content:space-between;
@@ -152,30 +162,49 @@ flex-wrap:wrap;
 gap:25px;
 margin-bottom:35px;
 color:#fff;
+position:relative;
+overflow:hidden;
+}
+
+.hero::before{
+content:'';
+position:absolute;
+width:500px;
+height:500px;
+background:rgba(255,255,255,0.08);
+border-radius:50%;
+top:-250px;
+right:-180px;
 }
 
 .hero h1{
-font-size:44px;
+font-size:48px;
 font-family:'Fredoka',sans-serif;
 margin-bottom:12px;
+position:relative;
+z-index:2;
 }
 
 .hero p{
 max-width:650px;
 margin-bottom:22px;
 font-size:16px;
+position:relative;
+z-index:2;
 }
 
 .hero-buttons{
 display:flex;
 gap:15px;
 flex-wrap:wrap;
+position:relative;
+z-index:2;
 }
 
 .hero-btn{
-padding:15px 24px;
+padding:16px 26px;
 border:none;
-border-radius:14px;
+border-radius:16px;
 font-size:15px;
 font-weight:700;
 cursor:pointer;
@@ -197,9 +226,12 @@ transform:scale(1.05);
 }
 
 .hero img{
-width:340px;
+width:360px;
 max-width:100%;
-border-radius:24px;
+border-radius:28px;
+position:relative;
+z-index:2;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
 }
 
 /* =========================
@@ -216,8 +248,13 @@ margin-bottom:35px;
 .card{
 background:#fff;
 padding:24px;
-border-radius:24px;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
+border-radius:28px;
+box-shadow:0 6px 18px rgba(0,0,0,0.06);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card p{
@@ -237,8 +274,8 @@ color:var(--primary);
 
 .player-box{
 background:#fff;
-padding:20px;
-border-radius:28px;
+padding:22px;
+border-radius:30px;
 margin-bottom:35px;
 box-shadow:0 5px 15px rgba(0,0,0,0.06);
 }
@@ -252,7 +289,7 @@ overflow:hidden;
 
 video{
 width:100%;
-height:500px;
+height:520px;
 background:black;
 object-fit:contain;
 }
@@ -260,7 +297,7 @@ object-fit:contain;
 .overlay{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,.7);
+background:rgba(0,0,0,.75);
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -270,8 +307,15 @@ z-index:5;
 }
 
 .overlay h1{
-font-size:60px;
+font-size:70px;
 margin-bottom:12px;
+animation:float 2s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
 }
 
 /* =========================
@@ -288,7 +332,7 @@ flex-wrap:wrap;
 }
 
 .now-playing h3{
-font-size:22px;
+font-size:24px;
 font-family:'Fredoka',sans-serif;
 margin-bottom:5px;
 }
@@ -304,7 +348,7 @@ flex-wrap:wrap;
 }
 
 .control-buttons button{
-padding:14px 18px;
+padding:14px 20px;
 border:none;
 border-radius:14px;
 background:var(--primary);
@@ -331,16 +375,17 @@ margin-bottom:22px;
 
 .channels-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
 gap:22px;
 }
 
 .channel-card{
 background:#fff;
-border-radius:26px;
+border-radius:28px;
 overflow:hidden;
 box-shadow:0 5px 15px rgba(0,0,0,0.06);
 transition:0.3s;
+position:relative;
 }
 
 .channel-card:hover{
@@ -394,12 +439,17 @@ color:#fff;
 }
 
 .premium{
-background:#ffb703;
-color:#000;
+background:#a855f7;
+color:#fff;
 }
 
 .safe{
 background:#38bdf8;
+color:#fff;
+}
+
+.hd{
+background:#0f172a;
 color:#fff;
 }
 
@@ -468,7 +518,7 @@ justify-content:center;
 }
 
 .hero h1{
-font-size:34px;
+font-size:36px;
 }
 
 video{
@@ -487,7 +537,7 @@ height:300px;
 <div class="sidebar">
 
 <div class="logo">
-🧸 Kids IPTV
+🧸 BTECH Kids IPTV
 </div>
 
 <div class="menu">
@@ -497,27 +547,35 @@ height:300px;
 </button>
 
 <button onclick="filterCategory('CARTOON')">
-📺 Cartoon Channels
+📺 Cartoon TV
 </button>
 
 <button onclick="filterCategory('MUSIC')">
-🎵 Kids Music
+🎵 Music TV
 </button>
 
 <button onclick="filterCategory('EDUCATION')">
-📚 Educational TV
+📚 Education TV
 </button>
 
 <button onclick="filterCategory('SCIENCE')">
-🧠 Learning Channels
+🧠 Science TV
+</button>
+
+<button onclick="filterCategory('ANIME')">
+🌟 Anime TV
 </button>
 
 <button onclick="filterCategory('PREMIUM')">
-⭐ Premium Kids TV
+⭐ Premium TV
 </button>
 
 <button onclick="filterCategory('SAFE')">
 🔒 Safe Channels
+</button>
+
+<button onclick="filterCategory('4K')">
+🎬 4K Channels
 </button>
 
 </div>
@@ -536,7 +594,7 @@ height:300px;
 
 <input
 type="text"
-placeholder="Search kids channels..."
+placeholder="Search 100K IPTV channels..."
 onkeyup="searchChannels(this.value)"
 >
 
@@ -548,7 +606,7 @@ onkeyup="searchChannels(this.value)"
 
 <div>
 <h4>Kids Profile</h4>
-<small>Safe Viewing Enabled</small>
+<small>Ultra Safe Mode Enabled</small>
 </div>
 
 </div>
@@ -561,28 +619,29 @@ onkeyup="searchChannels(this.value)"
 
 <div>
 
-<h1>100,000+ Kids IPTV Channels</h1>
+<h1>🚀 100,000+ Kids IPTV Channels</h1>
 
 <p>
-Watch cartoons, educational TV, music, science,
-learning channels and safe family entertainment in HD & 4K quality.
+Watch cartoons, educational TV, anime, science,
+kids music, learning videos and safe entertainment
+in SD, HD, Full HD and 4K quality streaming.
 </p>
 
 <div class="hero-buttons">
 
 <button class="hero-btn watch-btn">
-▶ Watch Kids TV
+▶ Start Streaming
 </button>
 
 <button class="hero-btn premium-btn">
-⭐ Upgrade VIP
+⭐ Upgrade Ultra VIP
 </button>
 
 </div>
 
 </div>
 
-<img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop" alt="Kids TV">
+<img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop" alt="Kids IPTV">
 
 </div>
 
@@ -601,8 +660,8 @@ learning channels and safe family entertainment in HD & 4K quality.
 </div>
 
 <div class="card">
-<p>Live Channels</p>
-<h2 id="liveCount">0</h2>
+<p>4K Channels</p>
+<h2 id="hdCount">0</h2>
 </div>
 
 <div class="card">
@@ -633,7 +692,7 @@ id="overlay"
 <h1>🚀</h1>
 
 <p>
-Loading Kids IPTV Engine...
+Loading BTECH IPTV ULTRA Engine...
 </p>
 
 </div>
@@ -664,6 +723,10 @@ Kids IPTV Streaming
 Next ▶
 </button>
 
+<button onclick="randomChannel()">
+🎲 Random
+</button>
+
 </div>
 
 </div>
@@ -673,7 +736,7 @@ Next ▶
 <!-- CHANNELS -->
 
 <div class="section-title">
-<h2>🌟 Kids IPTV Channels</h2>
+<h2>🌟 Featured IPTV Channels</h2>
 </div>
 
 <div
@@ -685,7 +748,7 @@ id="channelsGrid"
 
 <div class="settings">
 
-<h2>⚙ Kids IPTV Settings</h2>
+<h2>⚙ IPTV Ultra Settings</h2>
 
 <div class="settings-grid">
 
@@ -705,6 +768,10 @@ Blue
 
 <option value="green">
 Green
+</option>
+
+<option value="dark">
+Dark
 </option>
 
 </select>
@@ -731,14 +798,15 @@ OFF
 
 <div>
 
-<label>Quality</label>
+<label>Streaming Quality</label>
 
 <select>
 
 <option>Auto</option>
 <option>4K</option>
-<option>HD</option>
-<option>SD</option>
+<option>1080p</option>
+<option>720p</option>
+<option>480p</option>
 
 </select>
 
@@ -762,7 +830,9 @@ const playlists = [
 
 "https://raw.githubusercontent.com/Free-TV/IPTV/master/playlist.m3u8",
 
-"https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u"
+"https://raw.githubusercontent.com/freecasthub/public-iptv/main/playlist.m3u",
+
+"https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/main/playlists/roku_all.m3u"
 
 ];
 
@@ -777,7 +847,7 @@ let hls = null;
 let autoPlay = true;
 
 /* =========================
-   LOAD IPTV
+   LOAD PLAYLISTS
 ========================= */
 
 async function loadPlaylists(){
@@ -813,7 +883,7 @@ console.log("FAILED:",url);
 
 }
 
-/* GENERATE 100K CHANNELS */
+/* GENERATE 100K */
 
 generateVirtualChannels();
 
@@ -839,6 +909,7 @@ const categories = [
 "EDUCATION",
 "MUSIC",
 "SCIENCE",
+"ANIME",
 "PREMIUM",
 "SAFE"
 
@@ -858,9 +929,11 @@ const images = [
 
 for(let i=1;i<=100000;i++){
 
-const cat =
-categories[
-i % categories.length
+const cat = categories[i % categories.length];
+
+const quality =
+["4K","HD","SD"][
+Math.floor(Math.random()*3)
 ];
 
 allChannels.push({
@@ -875,18 +948,18 @@ logo:images[
 i % images.length
 ],
 
-quality:
-["4K","HD","SD"][
-Math.floor(Math.random()*3)
-],
+quality:quality,
 
 status:
-Math.random() > 0.9
+Math.random() > 0.85
 ? "PREMIUM"
 : "FREE",
 
 safe:
-Math.random() > 0.05,
+Math.random() > 0.03,
+
+viewers:
+Math.floor(Math.random()*50000),
 
 url:
 "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
@@ -904,7 +977,9 @@ url:
 function parseM3U(text){
 
 const lines = text.split("\n");
+
 const result = [];
+
 let temp = {};
 
 for(let line of lines){
@@ -921,11 +996,17 @@ line.match(/,(.*)/)?.[1]
 
 logo:
 line.match(/tvg-logo="(.*?)"/)?.[1]
-|| "",
+|| "https://via.placeholder.com/300x200",
 
 group:
 line.match(/group-title="(.*?)"/)?.[1]
-|| "LIVE"
+|| "LIVE",
+
+quality:"HD",
+
+status:"FREE",
+
+safe:true
 
 };
 
@@ -961,7 +1042,7 @@ document.getElementById(
 grid.innerHTML = "";
 
 filteredChannels
-.slice(0,24)
+.slice(0,48)
 .forEach((channel,index)=>{
 
 const card =
@@ -981,8 +1062,9 @@ ${channel.name}
 </h3>
 
 <p>
-Safe kids entertainment in
+${channel.group} entertainment in
 ${channel.quality || "HD"} quality.
+👀 ${channel.viewers || 1200} viewers
 </p>
 
 <div class="tags">
@@ -991,12 +1073,16 @@ ${channel.quality || "HD"} quality.
 LIVE
 </span>
 
+<span class="tag hd">
+${channel.quality || "HD"}
+</span>
+
 <span class="tag ${
 channel.status==="PREMIUM"
 ? "premium"
 : "free"
 }">
-${channel.status}
+${channel.status || "FREE"}
 </span>
 
 ${
@@ -1052,17 +1138,32 @@ renderChannels();
 }
 
 /* =========================
-   FILTER
+   FILTER CATEGORY
 ========================= */
 
 function filterCategory(category){
 
+document.querySelectorAll(".menu button")
+.forEach(btn=>btn.classList.remove("active"));
+
+event.target.classList.add("active");
+
 if(category==="ALL"){
 
-filteredChannels =
-allChannels;
+filteredChannels = allChannels;
 
-}else{
+}
+
+else if(category==="4K"){
+
+filteredChannels =
+allChannels.filter(
+c=>c.quality==="4K"
+);
+
+}
+
+else{
 
 filteredChannels =
 allChannels.filter(channel=>
@@ -1098,8 +1199,7 @@ channel.name;
 document.getElementById(
 "channelGroup"
 ).innerText =
-`${channel.group}
- | ${channel.quality}`;
+`${channel.group} | ${channel.quality}`;
 
 const video =
 document.getElementById(
@@ -1189,8 +1289,20 @@ playChannel(currentIndex);
 
 }
 
+function randomChannel(){
+
+const random =
+Math.floor(
+Math.random() *
+filteredChannels.length
+);
+
+playChannel(random);
+
+}
+
 /* =========================
-   STATS
+   UPDATE STATS
 ========================= */
 
 function updateStats(){
@@ -1208,9 +1320,11 @@ c=>c.group==="EDUCATION"
 ).length.toLocaleString();
 
 document.getElementById(
-"liveCount"
+"hdCount"
 ).innerText =
-allChannels.length.toLocaleString();
+allChannels.filter(
+c=>c.quality==="4K"
+).length.toLocaleString();
 
 document.getElementById(
 "safeCount"
@@ -1241,10 +1355,23 @@ document.body.style.background =
 
 }
 
+else if(theme==="dark"){
+
+document.body.style.background =
+"#0f172a";
+
+document.body.style.color =
+"#fff";
+
+}
+
 else{
 
 document.body.style.background =
 "#f0f9ff";
+
+document.body.style.color =
+"#1e293b";
 
 }
 
