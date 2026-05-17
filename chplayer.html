@@ -279,14 +279,6 @@ loadCategory("ALL");
 
 
 
-
-async function loadAPI(){
-  try{
-    var [chRes,stRes,lgRes]=await Promise.all([
-      fetch('https://iptv-org.github.io/api/channels.json').then(r=>r.json()),
-      fetch('https://iptv-org.github.io/api/streams.json').then(r=>r.json()),
-      fetch('https://iptv-org.github.io/api/logos.json').then(r=>r.json())
-    ]);
     // Build channel lookup
     for(var i=0;i<chRes.length;i++){
       var ch=chRes[i];
