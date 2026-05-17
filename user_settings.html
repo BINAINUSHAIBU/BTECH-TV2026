@@ -1416,6 +1416,402 @@ renderAdminChannels();
 renderAdminChannels();
 
 </script>
+     <!-- =========================
+     MAIN PLAYER + VIP DASHBOARD
+========================= -->
+
+<div class="main">
+
+<!-- HERO SECTION -->
+
+<div class="hero-section">
+
+<div class="hero-left">
+
+<h1>
+🚀 100,000+ VIP IPTV Channels
+</h1>
+
+<p>
+Watch premium sports, blockbuster movies, global entertainment,
+African channels, PPV events and ultra HD IPTV streaming.
+</p>
+
+<div class="hero-buttons">
+
+<button class="hero-btn primary-btn">
+▶ Watch Live
+</button>
+
+<button class="hero-btn vip-btn">
+⭐ Upgrade VIP
+</button>
+
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<img
+src="https://images.unsplash.com/photo-1593784991095-a205069470b6?q=80&w=1200&auto=format&fit=crop"
+>
+
+</div>
+
+</div>
+
+<!-- PLAYER -->
+
+<div class="player">
+
+<video
+id="videoPlayer"
+controls
+autoplay
+playsinline
+></video>
+
+<div
+class="overlay"
+id="overlay"
+>
+
+<h1>🚀</h1>
+
+<p>
+Initializing BTECH IPTV Engine...
+</p>
+
+</div>
+
+</div>
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+<div class="now-playing">
+
+<h3 id="channelName">
+No Channel Selected
+</h3>
+
+<p id="channelGroup">
+BTECH IPTV Streaming
+</p>
+
+</div>
+
+<div class="control-buttons">
+
+<button onclick="prevChannel()">
+◀ Prev
+</button>
+
+<button onclick="nextChannel()">
+Next ▶
+</button>
+
+</div>
+
+</div>
+
+<!-- VIP CONTENT -->
+
+<div class="dashboard-content">
+
+<!-- TRENDING CHANNELS -->
+
+<h2 class="section-title">
+🔥 Trending VIP Channels
+</h2>
+
+<div class="vip-grid">
+
+<div class="vip-card">
+
+<img
+src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=1200&auto=format&fit=crop"
+>
+
+<div class="vip-content">
+
+<h3>
+VIP Cinema HD
+</h3>
+
+<p>
+Premium blockbuster movies and exclusive premieres.
+</p>
+
+<div class="vip-tags">
+
+<span class="vip-tag live-tag">
+LIVE
+</span>
+
+<span class="vip-tag vip-gold">
+VIP
+</span>
+
+</div>
+
+<button class="watch-channel-btn">
+▶ Watch Channel
+</button>
+
+</div>
+
+</div>
+
+<div class="vip-card">
+
+<img
+src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1200&auto=format&fit=crop"
+>
+
+<div class="vip-content">
+
+<h3>
+World Sports TV
+</h3>
+
+<p>
+Football, UFC, NBA, Formula 1 and live events.
+</p>
+
+<div class="vip-tags">
+
+<span class="vip-tag live-tag">
+LIVE
+</span>
+
+<span class="vip-tag vip-gold">
+VIP
+</span>
+
+</div>
+
+<button class="watch-channel-btn">
+▶ Watch Live
+</button>
+
+</div>
+
+</div>
+
+<div class="vip-card">
+
+<img
+src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop"
+>
+
+<div class="vip-content">
+
+<h3>
+Global Music TV
+</h3>
+
+<p>
+Concerts, music videos and celebrity performances.
+</p>
+
+<div class="vip-tags">
+
+<span class="vip-tag free-tag">
+FREE
+</span>
+
+<span class="vip-tag live-tag">
+LIVE
+</span>
+
+</div>
+
+<button class="watch-channel-btn">
+▶ Watch Free
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- VIP SUBSCRIPTION -->
+
+<div class="subscription-box">
+
+<h2>
+⭐ VIP Subscription Plans
+</h2>
+
+<div class="subscription-grid">
+
+<div class="plan-card">
+
+<h3>
+Basic VIP
+</h3>
+
+<div class="plan-price">
+₦5,000
+</div>
+
+<ul>
+<li>✔ 5,000+ Channels</li>
+<li>✔ HD Streaming</li>
+<li>✔ Movies & Sports</li>
+</ul>
+
+<button class="plan-btn">
+Choose Plan
+</button>
+
+</div>
+
+<div class="plan-card premium-plan">
+
+<h3>
+Premium VIP
+</h3>
+
+<div class="plan-price">
+₦15,000
+</div>
+
+<ul>
+<li>✔ 50,000+ Channels</li>
+<li>✔ 4K Streaming</li>
+<li>✔ VIP Sports Access</li>
+</ul>
+
+<button class="plan-btn">
+Choose Plan
+</button>
+
+</div>
+
+<div class="plan-card ultimate-plan">
+
+<h3>
+Ultimate VIP
+</h3>
+
+<div class="plan-price">
+₦30,000
+</div>
+
+<ul>
+<li>✔ 100,000+ Channels</li>
+<li>✔ PPV Events</li>
+<li>✔ Global Access</li>
+</ul>
+
+<button class="plan-btn">
+Choose Plan
+</button>
+
+</div>
+
+</div>
+
+<div class="payment-buttons">
+
+<button class="pay-btn paystack-btn">
+💳 Pay With Paystack
+</button>
+
+<button class="pay-btn flutterwave-btn">
+💳 Pay With Flutterwave
+</button>
+
+</div>
+
+</div>
+
+<!-- ADMIN DASHBOARD -->
+
+<div class="settings-dashboard">
+
+<div class="settings-header">
+
+<h2>
+⚙ User Settings Dashboard
+</h2>
+
+<p>
+Manage IPTV users, VIP subscriptions, streaming access and channels.
+</p>
+
+</div>
+
+<div class="settings-stats-grid">
+
+<div class="settings-card">
+<h3>Total IPTV Channels</h3>
+<p>100,000+</p>
+</div>
+
+<div class="settings-card">
+<h3>VIP Channels</h3>
+<p>18,400</p>
+</div>
+
+<div class="settings-card">
+<h3>Locked Channels</h3>
+<p>7,820</p>
+</div>
+
+<div class="settings-card">
+<h3>Live Users</h3>
+<p>52,000+</p>
+</div>
+
+</div>
+
+<div class="admin-controls">
+
+<input
+id="adminSearch"
+type="text"
+placeholder="Search channels, users, categories..."
+onkeyup="adminSearchChannels()"
+>
+
+<div class="admin-buttons">
+
+<button onclick="adminFilter('ALL')">
+All
+</button>
+
+<button onclick="adminFilter('FREE')">
+Free
+</button>
+
+<button onclick="adminFilter('PREMIUM')">
+Premium
+</button>
+
+<button onclick="adminFilter('LOCKED')">
+Locked
+</button>
+
+</div>
+
+</div>
+
+<div
+class="admin-channel-grid"
+id="adminChannelGrid"
+></div>
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 </html>
