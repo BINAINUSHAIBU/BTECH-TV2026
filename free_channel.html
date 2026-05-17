@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -288,11 +289,11 @@ height:250px;
 <ul>
 
 <li>
-<a href="https://btech-tv.netlify.app/user.html">Dashboard</a>
+<a href='https://btech-tv.netlify.app/user'>Dashboard</a>
 </li>
 
 <li>
-<a href="https://btech-tv.netlify.app/index_dashboard.html">All Channels</a>
+<a href='https://btech-tv.netlify.app/index_dashboard'>All Channels</a>
 </li>
 
 <li class="active">
@@ -594,49 +595,6 @@ document.getElementById("videoPlayer")
 renderChannels(freeChannels);
 
 </script>
-<!-- FREE CHANNEL FILTER -->
-<script>
 
-/* ====================================
-SHOW ONLY FREE CHANNELS
-==================================== */
-
-function showFreeChannels(){
-
-filteredChannels = channels.filter(
-channel => channel.type === "Free"
-);
-
-currentPage = 0;
-
-renderChannels(filteredChannels);
-
-}
-
-/* ====================================
-SIDEBAR FREE CHANNEL CLICK
-==================================== */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-const menuItems =
-document.querySelectorAll(".sidebar ul li a");
-
-/* FREE CHANNEL MENU */
-
-menuItems[1].addEventListener("click",(e)=>{
-
-e.preventDefault();
-
-showFreeChannels();
-
-document.querySelector(".header h1").innerText =
-"BTECH TV FREE CHANNELS";
-
-});
-
-});
-
-</script>
 </body>
 </html>
