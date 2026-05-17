@@ -147,7 +147,271 @@ border-radius:5px;
 <a onclick="loadCategory('NEWS')">News</a>
 </div>
 </div>
+<body>
 
+<div class="topbar">
+
+<h2>📺 IPTV PRO 40K DASHBOARD</h2>
+
+<input
+placeholder="Search channels..."
+oninput="searchChannels(this.value)"
+>
+
+</div>
+
+
+<div class="stats">
+
+<div class="card">
+<h3>Total Channels</h3>
+<p id="total">0</p>
+</div>
+
+<div class="card">
+<h3>Sports</h3>
+<p id="sportsCount">0</p>
+</div>
+
+<div class="card">
+<h3>Movies</h3>
+<p id="movieCount">0</p>
+</div>
+
+<div class="card">
+<h3>Status</h3>
+<p id="status" style="color:lime">
+LOADING...
+</p>
+</div>
+
+<div class="card">
+<h3>Favorites</h3>
+<p id="favCount">0</p>
+</div>
+
+</div>
+
+
+
+<div class="container">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<button onclick="loadCat('ALL')">
+ALL
+</button>
+
+<button onclick="loadCat('SPORTS')">
+SPORTS
+</button>
+
+<button onclick="loadCat('MOVIES')">
+MOVIES
+</button>
+
+<button onclick="loadCat('NEWS')">
+NEWS
+</button>
+
+<button onclick="loadCat('KIDS')">
+KIDS
+</button>
+
+<hr>
+
+<div id="channelList"></div>
+
+</div>
+
+
+
+<!-- PLAYER -->
+
+<div class="main">
+
+<video
+id="videoPlayer"
+controls
+autoplay
+style="
+width:100%;
+height:80vh;
+background:black;
+">
+</video>
+
+<div style="padding:10px">
+
+<h3 id="nowPlaying">
+Select Channel
+</h3>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<script>
+
+let channels=[];
+
+
+
+for(let i=1;i<=40000;i++){
+
+let cats=["SPORTS","MOVIES","NEWS","KIDS"];
+
+let cat=cats[
+Math.floor(
+Math.random()*cats.length
+)];
+
+channels.push({
+
+name:
+cat+" CHANNEL "+i,
+
+category:cat,
+
+url:
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+
+});
+
+}
+
+
+
+/* COUNTS */
+
+document.getElementById(
+'total'
+).innerHTML=
+channels.length;
+
+document.getElementById(
+'sportsCount'
+).innerHTML=
+channels.filter(
+x=>x.category=="SPORTS"
+).length;
+
+document.getElementById(
+'movieCount'
+).innerHTML=
+channels.filter(
+x=>x.category=="MOVIES"
+).length;
+
+document.getElementById(
+'status'
+).innerHTML=
+"ONLINE";
+
+
+
+function render(data){
+
+let list=
+document.getElementById(
+'channelList'
+);
+
+list.innerHTML='';
+
+
+
+data.slice(0,500)
+
+.forEach(ch=>{
+
+let div=
+document.createElement(
+'div'
+);
+
+div.className='channel';
+
+div.innerHTML=
+"📺 "+ch.name;
+
+div.onclick=()=>{
+
+document.getElementById(
+'videoPlayer'
+).src=
+ch.url;
+
+document.getElementById(
+'nowPlaying'
+).innerHTML=
+ch.name;
+
+};
+
+list.appendChild(div);
+
+});
+
+}
+
+
+
+render(channels);
+
+
+
+function searchChannels(v){
+
+let x=
+channels.filter(c=>
+
+c.name.toLowerCase()
+
+.includes(
+
+v.toLowerCase()
+
+)
+
+);
+
+render(x);
+
+}
+
+
+
+function loadCat(cat){
+
+if(cat=="ALL")
+render(channels);
+
+else
+
+render(
+
+channels.filter(
+
+x=>
+
+x.category==cat
+
+)
+
+);
+
+}
+
+</script>
+
+</body>
 <div class="container">
 
 <!-- SIDEBAR -->
