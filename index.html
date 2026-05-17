@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,9 +8,11 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
 <style>
+
+/* =========================
+   GLOBAL
+========================= */
 
 *{
 margin:0;
@@ -25,29 +26,33 @@ background:#0f172a;
 color:#fff;
 }
 
-/* ======================
-LAYOUT
-====================== */
+a{
+text-decoration:none;
+}
+
+/* =========================
+   DASHBOARD LAYOUT
+========================= */
 
 .dashboard-container{
 display:flex;
 min-height:100vh;
 }
 
-/* ======================
-SIDEBAR
-====================== */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar{
-width:260px;
+width:250px;
 background:#111827;
 padding:20px;
 }
 
 .sidebar h2{
-text-align:center;
 color:#00d4ff;
 margin-bottom:30px;
+text-align:center;
 }
 
 .sidebar ul{
@@ -55,70 +60,59 @@ list-style:none;
 }
 
 .sidebar ul li{
-margin-bottom:12px;
+margin:15px 0;
+padding:12px;
+border-radius:10px;
+transition:.3s;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active{
+background:#1e293b;
 }
 
 .sidebar ul li a{
-display:block;
-padding:14px;
-border-radius:10px;
-background:#1e293b;
-text-decoration:none;
 color:#fff;
-transition:0.3s;
+display:block;
 }
 
-.sidebar ul li a:hover,
-.sidebar ul li.active a{
-background:#00d4ff;
-color:#000;
-}
-
-/* ======================
-MAIN
-====================== */
+/* =========================
+   MAIN
+========================= */
 
 .dashboard-main{
 flex:1;
 padding:25px;
 }
 
-/* ======================
-HEADER
-====================== */
-
 .dashboard-header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin-bottom:30px;
+gap:20px;
+flex-wrap:wrap;
 }
 
 .dashboard-header h1{
-font-size:30px;
+font-size:28px;
 }
 
-/* ======================
-SEARCH
-====================== */
+/* =========================
+   SEARCH
+========================= */
 
 .search-box{
-margin-bottom:25px;
-}
-
-.search-box input{
-width:100%;
-padding:15px;
+padding:12px;
 border:none;
 border-radius:10px;
-background:#1e293b;
-color:#fff;
-font-size:16px;
+width:300px;
+outline:none;
 }
 
-/* ======================
-STATS
-====================== */
+/* =========================
+   STATS GRID
+========================= */
 
 .stats-grid{
 display:grid;
@@ -131,9 +125,16 @@ margin-bottom:30px;
 background:#1e293b;
 padding:25px;
 border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,.3);
+transition:.3s;
+}
+
+.stat-card:hover{
+transform:translateY(-5px);
 }
 
 .stat-card h3{
+font-size:18px;
 margin-bottom:10px;
 color:#cbd5e1;
 }
@@ -144,9 +145,9 @@ font-weight:bold;
 color:#00d4ff;
 }
 
-/* ======================
-TABLE SECTION
-====================== */
+/* =========================
+   TABLE SECTION
+========================= */
 
 .channel-section{
 background:#1e293b;
@@ -162,7 +163,6 @@ margin-bottom:20px;
 table{
 width:100%;
 border-collapse:collapse;
-min-width:900px;
 }
 
 table th,
@@ -176,16 +176,16 @@ table th{
 color:#00d4ff;
 }
 
-/* ======================
-BADGES
-====================== */
+/* =========================
+   STATUS BADGES
+========================= */
 
 .status{
-display:inline-block;
 padding:6px 12px;
 border-radius:20px;
-font-size:12px;
+font-size:13px;
 font-weight:bold;
+display:inline-block;
 }
 
 .free{
@@ -204,12 +204,12 @@ background:#f59e0b;
 background:#2563eb;
 }
 
-/* ======================
-BUTTONS
-====================== */
+/* =========================
+   BUTTONS
+========================= */
 
 button{
-padding:10px 14px;
+padding:8px 14px;
 border:none;
 border-radius:8px;
 cursor:pointer;
@@ -232,47 +232,22 @@ background:#ef4444;
 color:#fff;
 }
 
-/* ======================
-PLAYER
-====================== */
+/* =========================
+   LOAD MORE
+========================= */
 
-.player-modal{
-position:fixed;
-top:0;
-left:0;
+.load-btn{
 width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
+padding:15px;
+margin-top:20px;
+background:#00d4ff;
+color:#000;
+font-size:16px;
 }
 
-.player-box{
-width:90%;
-max-width:1000px;
-background:#111827;
-padding:20px;
-border-radius:15px;
-}
-
-.player-box video{
-width:100%;
-height:500px;
-background:#000;
-border-radius:10px;
-}
-
-.close-btn{
-background:red;
-color:#fff;
-margin-bottom:15px;
-}
-
-/* ======================
-MOBILE
-====================== */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:768px){
 
@@ -284,23 +259,22 @@ display:none;
 padding:15px;
 }
 
-.player-box video{
-height:250px;
+.search-box{
+width:100%;
 }
 
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="dashboard-container">
 
-<!-- ======================
-SIDEBAR
-====================== -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
 <aside class="sidebar">
 
@@ -366,38 +340,31 @@ Settings
 
 </aside>
 
-<!-- ======================
-MAIN CONTENT
-====================== -->
+<!-- =========================
+     MAIN CONTENT
+========================= -->
 
 <main class="dashboard-main">
 
+<!-- HEADER -->
+
 <header class="dashboard-header">
 
-<h1>BTECH TV Admin Dashboard</h1>
-
-<p>40,000 IPTV Channels</p>
-
-</header>
-
-<!-- ======================
-SEARCH
-====================== -->
-
-<div class="search-box">
+<h1>BTECH TV Channel Dashboard</h1>
 
 <input
 type="text"
 id="searchInput"
+class="search-box"
 placeholder="Search channels..."
 onkeyup="searchChannels()"
 >
 
-</div>
+</header>
 
-<!-- ======================
-STATS
-====================== -->
+<!-- =========================
+     STATS
+========================= -->
 
 <section class="stats-grid">
 
@@ -412,8 +379,8 @@ STATS
 </div>
 
 <div class="stat-card">
-<h3>Premium Channels</h3>
-<p id="premiumChannels">0</p>
+<h3>Pay To View</h3>
+<p id="paidChannels">0</p>
 </div>
 
 <div class="stat-card">
@@ -423,9 +390,9 @@ STATS
 
 </section>
 
-<!-- ======================
-CHANNEL TABLE
-====================== -->
+<!-- =========================
+     TABLE
+========================= -->
 
 <section class="channel-section">
 
@@ -441,7 +408,6 @@ CHANNEL TABLE
 <th>Category</th>
 <th>Type</th>
 <th>Status</th>
-<th>Viewers</th>
 <th>Actions</th>
 
 </tr>
@@ -454,46 +420,28 @@ CHANNEL TABLE
 
 </table>
 
+<button
+class="load-btn"
+onclick="loadMore()"
+>
+Load More Channels
+</button>
+
 </section>
 
 </main>
 
 </div>
 
-<!-- ======================
-VIDEO PLAYER
-====================== -->
-
-<div class="player-modal" id="playerModal">
-
-<div class="player-box">
-
-<button
-class="close-btn"
-onclick="closePlayer()"
->
-
-Close
-
-</button>
-
-<h2 id="playerTitle"></h2>
-
-<video
-id="videoPlayer"
-controls
-autoplay
-></video>
-
-</div>
-
-</div>
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script>
 
-/* ======================
-SETTINGS
-====================== */
+/* =========================
+   SETTINGS
+========================= */
 
 const SETTINGS = {
 
@@ -503,26 +451,21 @@ showPerPage:50,
 categories:[
 "Sports",
 "Movies",
-"Kids",
 "News",
-"Music",
+"Kids",
 "Entertainment",
-"Education",
+"Music",
 "Documentary",
-"VIP"
+"Education"
 ]
 
 };
 
-/* ======================
-DATABASE
-====================== */
+/* =========================
+   CHANNEL DATABASE
+========================= */
 
 let channels = [];
-
-let filteredChannels = [];
-
-let currentPage = 0;
 
 for(let i=1;i<=SETTINGS.totalChannels;i++){
 
@@ -540,32 +483,28 @@ Math.random()*SETTINGS.categories.length
 ],
 
 type:
-Math.random()>0.55
-? "Free"
-: "Premium",
+Math.random()>0.65
+? "Pay To View"
+: "Free",
 
 status:
-Math.random()>0.8
+Math.random()>0.85
 ? "Locked"
-: "Unlocked",
-
-viewers:
-Math.floor(
-Math.random()*50000
-),
-
-streamUrl:
-"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+: "Unlocked"
 
 });
 
 }
 
-filteredChannels = channels;
+/* =========================
+   PAGINATION
+========================= */
 
-/* ======================
-UPDATE STATS
-====================== */
+let page = 0;
+
+/* =========================
+   UPDATE STATS
+========================= */
 
 function updateStats(){
 
@@ -582,10 +521,10 @@ c=>c.type==="Free"
 ).length.toLocaleString();
 
 document.getElementById(
-"premiumChannels"
+"paidChannels"
 ).innerText =
 channels.filter(
-c=>c.type==="Premium"
+c=>c.type==="Pay To View"
 ).length.toLocaleString();
 
 document.getElementById(
@@ -597,49 +536,44 @@ c=>c.status==="Locked"
 
 }
 
-/* ======================
-RENDER TABLE
-====================== */
+/* =========================
+   RENDER TABLE
+========================= */
 
 function renderTable(){
 
-const table =
+const tbody =
 document.getElementById(
 "channelTable"
 );
 
-table.innerHTML = "";
+tbody.innerHTML = "";
 
 const start =
-currentPage *
-SETTINGS.showPerPage;
+page * SETTINGS.showPerPage;
 
 const end =
-start +
-SETTINGS.showPerPage;
+start + SETTINGS.showPerPage;
 
-filteredChannels
+channels
 .slice(start,end)
 .forEach(channel=>{
 
-table.innerHTML += `
+tbody.innerHTML += `
 
 <tr>
 
-<td>
-${channel.name}
-</td>
+<td>${channel.name}</td>
 
-<td>
-${channel.category}
-</td>
+<td>${channel.category}</td>
 
 <td>
 
 <span class="
 status
 ${channel.type==="Free"
-?"free":"paid"}
+? "free"
+: "paid"}
 ">
 
 ${channel.type}
@@ -653,7 +587,8 @@ ${channel.type}
 <span class="
 status
 ${channel.status==="Locked"
-?"locked":"unlocked"}
+? "locked"
+: "unlocked"}
 ">
 
 ${channel.status}
@@ -664,35 +599,20 @@ ${channel.status}
 
 <td>
 
-👥
-${channel.viewers.toLocaleString()}
-
-</td>
-
-<td>
-
 <button
 class="lock-btn"
-onclick="
-toggleLock(
-${channel.id}
-)
-"
+onclick="toggleLock(${channel.id})"
 >
 
 ${channel.status==="Locked"
-?"Unlock"
-:"Lock"}
+? "Unlock"
+: "Lock"}
 
 </button>
 
 <button
 class="edit-btn"
-onclick="
-editChannel(
-${channel.id}
-)
-"
+onclick="editChannel(${channel.id})"
 >
 
 Edit
@@ -701,27 +621,10 @@ Edit
 
 <button
 class="delete-btn"
-onclick="
-deleteChannel(
-${channel.id}
-)
-"
+onclick="deleteChannel(${channel.id})"
 >
 
 Delete
-
-</button>
-
-<button
-class="edit-btn"
-onclick="
-watchChannel(
-${channel.id}
-)
-"
->
-
-Watch
 
 </button>
 
@@ -733,96 +636,27 @@ Watch
 
 });
 
-/* LOAD MORE */
-
-if(
-end <
-filteredChannels.length
-){
-
-table.innerHTML += `
-
-<tr>
-
-<td colspan="6">
-
-<button
-style="
-width:100%;
-padding:15px;
-margin-top:10px;
-"
-onclick="loadMore()"
->
-
-Load More Channels
-
-</button>
-
-</td>
-
-</tr>
-
-`;
-
 }
 
-}
-
-/* ======================
-LOAD MORE
-====================== */
+/* =========================
+   LOAD MORE
+========================= */
 
 function loadMore(){
 
-currentPage++;
+page++;
 
 renderTable();
 
 }
 
-/* ======================
-SEARCH
-====================== */
-
-function searchChannels(){
-
-const value =
-document
-.getElementById(
-"searchInput"
-)
-.value
-.toLowerCase();
-
-filteredChannels =
-channels.filter(channel=>
-
-channel.name
-.toLowerCase()
-.includes(value)
-
-||
-
-channel.category
-.toLowerCase()
-.includes(value)
-
-);
-
-currentPage = 0;
-
-renderTable();
-
-}
-
-/* ======================
-LOCK / UNLOCK
-====================== */
+/* =========================
+   LOCK / UNLOCK
+========================= */
 
 function toggleLock(id){
 
-const channel =
+let channel =
 channels.find(
 c=>c.id===id
 );
@@ -838,18 +672,18 @@ updateStats();
 
 }
 
-/* ======================
-EDIT
-====================== */
+/* =========================
+   EDIT CHANNEL
+========================= */
 
 function editChannel(id){
 
-const channel =
+let channel =
 channels.find(
 c=>c.id===id
 );
 
-const newName =
+let newName =
 prompt(
 "Rename Channel",
 channel.name
@@ -857,8 +691,7 @@ channel.name
 
 if(newName){
 
-channel.name =
-newName;
+channel.name = newName;
 
 renderTable();
 
@@ -866,9 +699,9 @@ renderTable();
 
 }
 
-/* ======================
-DELETE
-====================== */
+/* =========================
+   DELETE CHANNEL
+========================= */
 
 function deleteChannel(id){
 
@@ -877,134 +710,133 @@ channels.filter(
 c=>c.id!==id
 );
 
-filteredChannels =
-channels;
-
 renderTable();
 
 updateStats();
 
 }
 
-/* ======================
-WATCH CHANNEL
-====================== */
+/* =========================
+   SEARCH
+========================= */
 
-function watchChannel(id){
+function searchChannels(){
 
-const channel =
-channels.find(
-c=>c.id===id
-);
-
-if(
-channel.status==="Locked"
-){
-
-alert(
-"This channel is locked"
-);
-
-return;
-
-}
-
-document
-.getElementById(
-"playerModal"
+let value =
+document.getElementById(
+"searchInput"
 )
-.style.display =
-"flex";
+.value
+.toLowerCase();
 
-document
-.getElementById(
-"playerTitle"
-)
-.innerText =
-channel.name;
+let filtered =
+channels.filter(c=>
 
-const video =
-document
-.getElementById(
-"videoPlayer"
+c.name
+.toLowerCase()
+.includes(value)
+
+||
+
+c.category
+.toLowerCase()
+.includes(value)
+
 );
 
-if(Hls.isSupported()){
-
-const hls =
-new Hls();
-
-hls.loadSource(
-channel.streamUrl
+const tbody =
+document.getElementById(
+"channelTable"
 );
 
-hls.attachMedia(
-video
-);
+tbody.innerHTML = "";
 
-hls.on(
-Hls.Events.MANIFEST_PARSED,
-function(){
+filtered
+.slice(0,SETTINGS.showPerPage)
+.forEach(channel=>{
 
-video.play();
+tbody.innerHTML += `
 
-}
-);
+<tr>
 
-}else{
+<td>${channel.name}</td>
 
-video.src =
-channel.streamUrl;
+<td>${channel.category}</td>
 
-video.play();
+<td>
 
-}
+<span class="
+status
+${channel.type==="Free"
+? "free"
+: "paid"}
+">
 
-}
+${channel.type}
 
-/* ======================
-CLOSE PLAYER
-====================== */
+</span>
 
-function closePlayer(){
+</td>
 
-document
-.getElementById(
-"playerModal"
-)
-.style.display =
-"none";
+<td>
 
-document
-.getElementById(
-"videoPlayer"
-)
-.pause();
+<span class="
+status
+${channel.status==="Locked"
+? "locked"
+: "unlocked"}
+">
 
-}
+${channel.status}
 
-/* ======================
-AUTO REFRESH VIEWERS
-====================== */
+</span>
 
-setInterval(()=>{
+</td>
 
-channels.forEach(channel=>{
+<td>
 
-channel.viewers =
-Math.floor(
-Math.random()*50000
-);
+<button
+class="lock-btn"
+onclick="toggleLock(${channel.id})"
+>
+
+${channel.status==="Locked"
+? "Unlock"
+: "Lock"}
+
+</button>
+
+<button
+class="edit-btn"
+onclick="editChannel(${channel.id})"
+>
+
+Edit
+
+</button>
+
+<button
+class="delete-btn"
+onclick="deleteChannel(${channel.id})"
+>
+
+Delete
+
+</button>
+
+</td>
+
+</tr>
+
+`;
 
 });
 
-renderTable();
+}
 
-},5000);
-
-/* ======================
-INIT
-====================== */
+/* =========================
+   INIT
+========================= */
 
 updateStats();
 
