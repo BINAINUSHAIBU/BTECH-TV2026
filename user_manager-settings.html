@@ -1,5 +1,747 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"><!-- =========================
+MERGED IPTV + USER MANAGER DASHBOARD
+INSERT THIS INSIDE YOUR SIDEBAR
+========================= -->
+
+<div class="menu-item active" onclick="showSection('iptvSection',event)">
+📺 IPTV Channels
+</div>
+
+<div class="menu-item" onclick="showSection('userManagerSection',event)">
+👥 User Manager
+</div>
+
+<div class="menu-item" onclick="showSection('settingsSection',event)">
+⚙ Settings
+</div>
+
+<div class="menu-item" onclick="showSection('lockedSection',event)">
+🔒 Locked Channels
+</div>
+
+<!-- =========================
+MAIN CONTENT AREA
+========================= -->
+
+<div class="main">
+
+<!-- IPTV SECTION -->
+
+<div id="iptvSection" class="dashboard-section">
+
+<div class="player">
+
+<div class="live-badge">
+🔴 LIVE TV
+</div>
+
+<video
+id="videoPlayer"
+controls
+autoplay
+playsinline
+></video>
+
+<div class="overlay" id="overlay">
+
+<h1>🚀</h1>
+
+<p>Initializing BTECH IPTV Engine...</p>
+
+</div>
+
+</div>
+
+<div class="now-playing">
+
+<div class="now-left">
+
+<h3 id="channelName">
+No Channel Selected
+</h3>
+
+<p id="channelCategory">
+BTECH IPTV Streaming
+</p>
+
+</div>
+
+<div class="controls">
+
+<button onclick="prevChannel()">
+◀ Prev
+</button>
+
+<button onclick="nextChannel()">
+Next ▶
+</button>
+
+</div>
+
+</div>
+
+<div
+class="channels"
+id="channelList"
+></div>
+
+</div>
+
+<!-- USER MANAGER SECTION -->
+
+<div
+id="userManagerSection"
+class="dashboard-section"
+style="display:none;"
+>
+
+<div class="page-header">
+
+<h1>
+👥 User Manager Dashboard
+</h1>
+
+<button class="add-btn">
+➕ Add New User
+</button>
+
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<h4>Total Users</h4>
+<p id="totalUsers">12,540</p>
+</div>
+
+<div class="stat-card">
+<h4>Premium Users</h4>
+<p id="premiumUsers">8,240</p>
+</div>
+
+<div class="stat-card">
+<h4>Online Users</h4>
+<p id="onlineUsers">5,903</p>
+</div>
+
+<div class="stat-card">
+<h4>Banned Users</h4>
+<p id="bannedUsers">104</p>
+</div>
+
+</div>
+
+<div class="table-card">
+
+<h3>📋 User Accounts</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Username</th>
+<th>Email</th>
+<th>Plan</th>
+<th>Status</th>
+<th>Devices</th>
+<th>Expiry</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="userTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- SETTINGS SECTION -->
+
+<div
+id="settingsSection"
+class="dashboard-section"
+style="display:none;"
+>
+
+<div class="settings-grid">
+
+<!-- SYSTEM SETTINGS -->
+
+<div class="settings-card">
+
+<h3>⚙ System Settings</h3>
+
+<div class="setting-row">
+
+<span>Auto User Approval</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Maintenance Mode</span>
+
+<label class="switch">
+
+<input type="checkbox">
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Enable Notifications</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Auto Backup</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<select>
+<option>Default Theme: Dark</option>
+<option>Blue Theme</option>
+<option>Green Theme</option>
+</select>
+
+<button class="save-btn">
+💾 Save Settings
+</button>
+
+</div>
+
+<!-- STREAM SETTINGS -->
+
+<div class="settings-card">
+
+<h3>📺 IPTV Settings</h3>
+
+<div class="setting-row">
+
+<span>Enable HLS.js</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Low Latency Mode</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Auto Reload Streams</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<input
+type="text"
+placeholder="CDN Stream URL"
+value="https://cdn.btechtv.com/stream"
+>
+
+<input
+type="text"
+placeholder="Backup Stream URL"
+value="https://backup.btechtv.com/live"
+>
+
+<button class="save-btn">
+🚀 Update Streaming
+</button>
+
+</div>
+
+<!-- SECURITY SETTINGS -->
+
+<div class="settings-card">
+
+<h3>🛡 Security Settings</h3>
+
+<div class="setting-row">
+
+<span>2FA Authentication</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Anti VPN Protection</span>
+
+<label class="switch">
+
+<input type="checkbox">
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Auto Ban Bots</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>IP Tracking</span>
+
+<label class="switch">
+
+<input type="checkbox" checked>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<button class="save-btn">
+🔐 Save Security
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- LOCKED CHANNELS -->
+
+<div
+id="lockedSection"
+class="dashboard-section"
+style="display:none;"
+>
+
+<div class="table-card">
+
+<h3>🔒 Locked Premium Channels</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Channel</th>
+<th>Category</th>
+<th>Status</th>
+<th>Subscribers</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>BTECH SPORTS VIP</td>
+<td>SPORTS</td>
+<td>
+<span class="badge premium">
+LOCKED
+</span>
+</td>
+<td>4,903</td>
+<td>
+
+<div class="action-group">
+
+<button class="action-btn edit">
+Unlock
+</button>
+
+<button class="action-btn delete">
+Remove
+</button>
+
+</div>
+
+</td>
+</tr>
+
+<tr>
+<td>BTECH MOVIES MAX</td>
+<td>MOVIES</td>
+<td>
+<span class="badge premium">
+LOCKED
+</span>
+</td>
+<td>7,122</td>
+<td>
+
+<div class="action-group">
+
+<button class="action-btn edit">
+Unlock
+</button>
+
+<button class="action-btn delete">
+Remove
+</button>
+
+</div>
+
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+ADD THIS CSS
+========================= -->
+
+<style>
+
+.dashboard-section{
+width:100%;
+height:100%;
+overflow:auto;
+}
+
+.player{
+height:360px;
+background:black;
+position:relative;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:14px;
+overflow:hidden;
+margin-bottom:15px;
+}
+
+.player video{
+width:100%;
+height:100%;
+object-fit:contain;
+}
+
+.live-badge{
+position:absolute;
+top:15px;
+left:15px;
+background:red;
+padding:8px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:bold;
+z-index:5;
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:rgba(0,0,0,.88);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:10;
+}
+
+.now-playing{
+background:var(--panel);
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-radius:14px;
+margin-bottom:15px;
+}
+
+.controls{
+display:flex;
+gap:10px;
+}
+
+.controls button{
+padding:12px 16px;
+background:var(--card);
+border-radius:10px;
+color:white;
+}
+
+.channels{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:12px;
+padding-bottom:40px;
+}
+
+.channel{
+background:var(--card);
+padding:14px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+transition:.3s;
+border:1px solid transparent;
+}
+
+.channel:hover{
+background:var(--hover);
+border-color:var(--accent);
+transform:translateY(-2px);
+}
+
+.channel-left{
+display:flex;
+gap:12px;
+align-items:center;
+}
+
+.channel-left img{
+width:60px;
+height:60px;
+border-radius:10px;
+object-fit:cover;
+}
+
+.channel-right{
+display:flex;
+flex-direction:column;
+gap:6px;
+align-items:flex-end;
+}
+
+.page-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.add-btn{
+padding:12px 18px;
+border-radius:10px;
+background:var(--accent);
+font-weight:bold;
+color:black;
+}
+
+</style>
+
+<!-- =========================
+ADD THIS SCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+SECTION SWITCHER
+========================= */
+
+function showSection(id,event){
+
+document
+.querySelectorAll(".dashboard-section")
+.forEach(section=>{
+
+section.style.display="none";
+
+});
+
+document
+.getElementById(id)
+.style.display="block";
+
+document
+.querySelectorAll(".menu-item")
+.forEach(item=>{
+
+item.classList.remove("active");
+
+});
+
+if(event){
+
+event.target.classList.add("active");
+
+}
+
+}
+
+/* =========================
+GENERATE USERS
+========================= */
+
+const userTable =
+document.getElementById("userTable");
+
+const plans = [
+"FREE",
+"PREMIUM"
+];
+
+for(let i=1;i<=120;i++){
+
+const plan =
+plans[Math.floor(
+Math.random()*plans.length
+)];
+
+const status =
+Math.random()>0.92
+? "BANNED"
+: "ACTIVE";
+
+const row =
+document.createElement("tr");
+
+row.innerHTML = `
+
+<td>#BTECH${1000+i}</td>
+
+<td>User_${i}</td>
+
+<td>user${i}@btechtv.com</td>
+
+<td>
+<span class="badge ${
+plan==="PREMIUM"
+?"premium"
+:"free"
+}">
+${plan}
+</span>
+</td>
+
+<td>
+<span class="badge ${
+status==="ACTIVE"
+?"active-status"
+:"banned"
+}">
+${status}
+</span>
+</td>
+
+<td>
+${Math.floor(Math.random()*5)+1}
+</td>
+
+<td>
+2027-12-${Math.floor(Math.random()*28)+1}
+</td>
+
+<td>
+
+<div class="action-group">
+
+<button class="action-btn edit">
+Edit
+</button>
+
+<button class="action-btn lock">
+Lock
+</button>
+
+<button class="action-btn delete">
+Delete
+</button>
+
+</div>
+
+</td>
+
+`;
+
+userTable.appendChild(row);
+
+}
+
+</script>
 <head>
 
 <meta charset="UTF-8">
