@@ -1,224 +1,29 @@
-<!-- =========================
-USER SETTINGS PANEL
-ADD INSIDE RIGHT PANEL
-========================= -->
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="panel-card">
+<head>
 
-<h3>⚙ User Settings</h3>
+<meta charset="UTF-8">
 
-<!-- PROFILE -->
-
-<div class="setting-row">
-<span>Username</span>
-<strong>BTECH_USER</strong>
-</div>
-
-<div class="setting-row">
-<span>Subscription</span>
-<strong style="color:#00d4ff;">
-PREMIUM
-</strong>
-</div>
-
-<div class="setting-row">
-<span>Account Status</span>
-<strong style="color:#00ff99;">
-ACTIVE
-</strong>
-</div>
-
-<!-- AUTOPLAY -->
-
-<div class="setting-row">
-
-<span>Auto Play</span>
-
-<label class="switch">
-
-<input
-type="checkbox"
-checked
-onchange="autoPlay=this.checked"
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
 >
 
-<span class="slider"></span>
+<title>BTECH-TV USER SETTINGS</title>
 
-</label>
+<style>
 
-</div>
+/* =========================
+ROOT
+========================= */
 
-<!-- DARK MODE -->
+:root{
 
-<div class="setting-row">
-
-<span>Dark Theme</span>
-
-<label class="switch">
-
-<input
-type="checkbox"
-checked
-onchange="toggleTheme()"
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-<!-- NOTIFICATIONS -->
-
-<div class="setting-row">
-
-<span>Notifications</span>
-
-<label class="switch">
-
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-<!-- AUTO QUALITY -->
-
-<div class="setting-row">
-
-<span>Auto Stream Quality</span>
-
-<label class="switch">
-
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-<!-- LOW LATENCY -->
-
-<div class="setting-row">
-
-<span>Low Latency Mode</span>
-
-<label class="switch">
-
-<input
-type="checkbox"
-checked
->
-
-<span class="slider"></span>
-
-</label>
-
-</div>
-
-<!-- STREAM STATUS -->
-
-<div class="setting-row">
-
-<span>Streaming</span>
-
-<strong style="color:#00ff99;">
-ONLINE
-</strong>
-
-</div>
-
-<!-- PERFORMANCE -->
-
-<div class="setting-row">
-
-<span>Performance</span>
-
-<strong style="color:#00ff99;">
-OPTIMIZED
-</strong>
-
-</div>
-
-<!-- LANGUAGE -->
-
-<div class="setting-row">
-
-<span>Language</span>
-
-<select
-style="
-width:140px;
-padding:8px;
-border:none;
-border-radius:8px;
-background:#1e293b;
-color:white;
-"
->
-
-<option>English</option>
-<option>French</option>
-<option>Spanish</option>
-<option>Arabic</option>
-
-</select>
-
-</div>
-
-<!-- STREAM QUALITY -->
-
-<div class="setting-row">
-
-<span>Video Quality</span>
-
-<select
-style="
-width:140px;
-padding:8px;
-border:none;
-border-radius:8px;
-background:#1e293b;
-color:white;
-"
->
-
-<option>Auto</option>
-<option>1080p</option>
-<option>720p</option>
-<option>480p</option>
-
-</select>
-
-</div>
-
-<!-- ACCOUNT -->
-
-<button
-class="action-btn"
-style="margin-top:15px;"
->
-💾 Save User Settings
-</button>
-
-<button
-class="action-btn"
-style="
-margin-top:10px;
-background:#ef4444;
-color:white;
-"
->
-🚪 Logout
-</button>
-
-</div>
+--bg:#0b1120;
+--panel:#111827;
+--card:#1e293b;
+--hover:#334155;
+--accent:#00d4ff;
+--text:#ffffff;
+--muted:#94a3b
