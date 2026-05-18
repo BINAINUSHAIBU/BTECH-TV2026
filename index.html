@@ -3,17 +3,32 @@
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>BTECH TV Admin Dashboard</title>
+<title>BTECH-TV USER DASHBOARD</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
+
+/* =========================
+ROOT
+========================= */
+
+:root{
+--bg:#0b0f1a;
+--panel:#11182a;
+--card:#1b2438;
+--hover:#2b3a5a;
+--accent:#00bfff;
+--text:#ffffff;
+--muted:#94a3b8;
+--success:#16a34a;
+}
+
+/* =========================
+GLOBAL
+========================= */
 
 *{
 margin:0;
@@ -23,230 +38,293 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#0f172a;
-color:#fff;
-overflow-x:hidden;
+background:var(--bg);
+color:var(--text);
+overflow:hidden;
 }
 
-.dashboard-container{
-display:flex;
-min-height:100vh;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-width:260px;
-background:#111827;
-padding:20px;
-overflow-y:auto;
-}
-
-.sidebar h2{
-color:#00d4ff;
-text-align:center;
-margin-bottom:30px;
-}
-
-.sidebar ul{
-list-style:none;
-}
-
-.sidebar ul li{
-margin-bottom:12px;
+button{
 cursor:pointer;
+border:none;
 }
 
-.sidebar ul li a{
-display:block;
-padding:14px;
-border-radius:10px;
-background:#1e293b;
-color:#fff;
-text-decoration:none;
-transition:0.3s;
-}
+/* =========================
+TOPBAR
+========================= */
 
-.sidebar ul li a:hover,
-.sidebar ul li.active a{
-background:#00d4ff;
-color:#000;
-}
-
-/* MAIN */
-
-.dashboard-main{
-flex:1;
-padding:25px;
-}
-
-/* HEADER */
-
-.dashboard-header{
+.topbar{
+height:65px;
+background:var(--panel);
 display:flex;
 justify-content:space-between;
 align-items:center;
-flex-wrap:wrap;
-gap:15px;
-margin-bottom:25px;
+padding:0 20px;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
-.dashboard-header h1{
-font-size:30px;
-}
-
-.dashboard-header p{
-color:#94a3b8;
-}
-
-/* SEARCH */
-
-.search-box{
-width:100%;
-margin-top:10px;
-}
-
-.search-box input{
-width:100%;
-padding:15px;
-border:none;
-border-radius:10px;
-background:#1e293b;
-color:#fff;
-font-size:16px;
-outline:none;
-}
-
-/* STATS */
-
-.stats-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-bottom:30px;
-}
-
-.stat-card{
-background:#1e293b;
-padding:25px;
-border-radius:15px;
-transition:0.3s;
-box-shadow:0 0 10px rgba(0,0,0,0.3);
-}
-
-.stat-card:hover{
-transform:translateY(-4px);
-}
-
-.stat-card h3{
-margin-bottom:10px;
-color:#cbd5e1;
-}
-
-.stat-card p{
-font-size:28px;
-font-weight:bold;
-color:#00d4ff;
-}
-
-/* FILTER BUTTONS */
-
-.table-controls{
+.logo{
 display:flex;
+align-items:center;
 gap:10px;
-margin-bottom:20px;
-flex-wrap:wrap;
 }
 
-.filter-btn{
-padding:10px 16px;
-border:none;
-border-radius:8px;
-background:#334155;
-color:#fff;
-cursor:pointer;
+.logo h2{
+font-size:22px;
+color:var(--accent);
+}
+
+.user-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.user-avatar{
+width:42px;
+height:42px;
+border-radius:50%;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
 font-weight:bold;
+color:black;
 }
 
-.filter-btn.active{
-background:#00d4ff;
-color:#000;
+.user-info h4{
+font-size:14px;
 }
 
-/* CHANNEL GRID */
-
-.channel-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
+.user-info p{
+font-size:12px;
+color:var(--muted);
 }
 
-/* CARD */
+/* =========================
+LAYOUT
+========================= */
 
-.channel-card{
-background:#1e293b;
-border-radius:15px;
+.container{
+display:flex;
+height:calc(100vh - 65px);
+}
+
+/* =========================
+SIDEBAR
+========================= */
+
+.sidebar{
+width:260px;
+background:#0f1628;
+padding:15px;
+overflow-y:auto;
+border-right:1px solid rgba(255,255,255,.05);
+}
+
+.sidebar h3{
+margin-bottom:15px;
+color:var(--accent);
+}
+
+.menu-item{
+padding:13px;
+margin-bottom:10px;
+background:var(--card);
+border-radius:10px;
+transition:.3s;
+cursor:pointer;
+font-size:14px;
+}
+
+.menu-item:hover,
+.menu-item.active{
+background:var(--accent);
+color:black;
+transform:translateX(4px);
+}
+
+/* =========================
+MAIN
+========================= */
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
 overflow:hidden;
-transition:0.3s;
 }
 
-.channel-card:hover{
-transform:translateY(-5px);
-}
+/* =========================
+PLAYER
+========================= */
 
-/* BANNER */
-
-.channel-banner{
-height:160px;
-background-size:cover;
-background-position:center;
+.player{
+height:340px;
+background:black;
 position:relative;
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
-.channel-overlay{
+.player video{
+width:100%;
+height:100%;
+object-fit:contain;
+background:black;
+}
+
+.live-badge{
+position:absolute;
+top:15px;
+left:15px;
+background:red;
+padding:8px 14px;
+border-radius:30px;
+font-size:12px;
+font-weight:bold;
+z-index:5;
+}
+
+.overlay{
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,.88);
 display:flex;
+flex-direction:column;
 align-items:center;
 justify-content:center;
-flex-direction:column;
-font-size:20px;
-font-weight:bold;
-color:#00d4ff;
+z-index:10;
 }
 
-/* INFO */
+.overlay h1{
+font-size:60px;
+margin-bottom:10px;
+}
+
+.overlay p{
+color:var(--muted);
+}
+
+/* =========================
+NOW PLAYING
+========================= */
+
+.now-playing{
+background:var(--panel);
+padding:15px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px solid rgba(255,255,255,.05);
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.now-left h3{
+margin-bottom:5px;
+}
+
+.now-left p{
+color:var(--muted);
+font-size:13px;
+}
+
+.controls{
+display:flex;
+gap:10px;
+}
+
+.controls button{
+padding:12px 16px;
+background:var(--card);
+border-radius:10px;
+color:white;
+transition:.3s;
+}
+
+.controls button:hover{
+background:var(--hover);
+}
+
+/* =========================
+CHANNEL GRID
+========================= */
+
+.channels{
+flex:1;
+overflow-y:auto;
+padding:12px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:12px;
+}
+
+.channel{
+background:var(--card);
+padding:14px;
+border-radius:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:pointer;
+transition:.3s;
+border:1px solid transparent;
+}
+
+.channel:hover{
+background:var(--hover);
+transform:translateY(-2px);
+border-color:var(--accent);
+}
+
+.channel.active{
+border-color:var(--accent);
+background:#00bfff22;
+}
+
+.channel-left{
+display:flex;
+gap:12px;
+align-items:center;
+overflow:hidden;
+}
+
+.channel-left img{
+width:60px;
+height:60px;
+border-radius:10px;
+object-fit:cover;
+background:black;
+}
 
 .channel-info{
-padding:15px;
+overflow:hidden;
 }
 
-.channel-info h3{
-margin-bottom:10px;
-font-size:18px;
+.channel-info h4{
+font-size:14px;
+margin-bottom:4px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
-.channel-info p{
-margin-bottom:8px;
+.channel-info small{
 color:#cbd5e1;
 }
 
-/* BADGES */
+.channel-right{
+display:flex;
+flex-direction:column;
+gap:6px;
+align-items:flex-end;
+}
 
 .badge{
-display:inline-block;
-padding:6px 12px;
+padding:5px 10px;
 border-radius:20px;
-font-size:12px;
+font-size:11px;
 font-weight:bold;
-margin-right:5px;
-margin-top:6px;
 }
 
 .free{
@@ -257,127 +335,163 @@ background:#16a34a;
 background:#dc2626;
 }
 
-.locked{
-background:#f59e0b;
-}
-
-.unlocked{
+.live{
 background:#2563eb;
 }
 
-/* BUTTONS */
-
-button{
-border:none;
-cursor:pointer;
-font-weight:bold;
-border-radius:10px;
+.offline{
+background:#64748b;
 }
 
-.watch-btn{
-width:100%;
-padding:12px;
-margin-top:12px;
-background:#00d4ff;
-color:#000;
+/* =========================
+RIGHT PANEL
+========================= */
+
+.right-panel{
+width:320px;
+background:var(--panel);
+padding:15px;
+overflow-y:auto;
+border-left:1px solid rgba(255,255,255,.05);
 }
 
-.watch-btn:hover{
-opacity:0.85;
-}
-
-.action-buttons{
-display:flex;
-gap:8px;
-margin-top:10px;
-flex-wrap:wrap;
-}
-
-.lock-btn{
-background:#f59e0b;
-color:#fff;
-padding:10px;
-flex:1;
-}
-
-.edit-btn{
-background:#2563eb;
-color:#fff;
-padding:10px;
-flex:1;
-}
-
-.delete-btn{
-background:#dc2626;
-color:#fff;
-padding:10px;
-flex:1;
-}
-
-/* PLAYER */
-
-.player-modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
-padding:20px;
-}
-
-.player-box{
-width:90%;
-max-width:1000px;
-background:#111827;
-padding:20px;
-border-radius:15px;
-}
-
-.player-box video{
-width:100%;
-height:500px;
-background:#000;
-border-radius:10px;
-}
-
-.close-btn{
-background:red;
-padding:10px 15px;
-color:#fff;
+.panel-card{
+background:var(--card);
+padding:15px;
+border-radius:12px;
 margin-bottom:15px;
 }
 
-/* LOAD MORE */
+.panel-card h3{
+margin-bottom:15px;
+color:var(--accent);
+}
 
-.pagination{
-margin-top:30px;
+.search-box{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:white;
+margin-top:10px;
+}
+
+.action-btn{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+background:var(--accent);
+font-weight:bold;
+color:black;
+transition:.3s;
+}
+
+.action-btn:hover{
+opacity:.85;
+}
+
+.stats-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.stat{
+background:#0f172a;
+padding:15px;
+border-radius:10px;
 text-align:center;
 }
 
-.pagination button{
-padding:15px 25px;
-background:#00d4ff;
-color:#000;
+.stat h4{
+font-size:12px;
+margin-bottom:8px;
+color:var(--muted);
 }
 
-/* MOBILE */
+.stat p{
+font-size:20px;
+font-weight:bold;
+color:var(--accent);
+}
 
-@media(max-width:768px){
+/* =========================
+SETTINGS
+========================= */
+
+.setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px;
+margin-top:10px;
+background:#0f172a;
+border-radius:10px;
+}
+
+.switch{
+position:relative;
+width:50px;
+height:24px;
+display:inline-block;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+inset:0;
+background:#334155;
+border-radius:30px;
+transition:.3s;
+cursor:pointer;
+}
+
+.slider:before{
+content:"";
+position:absolute;
+height:18px;
+width:18px;
+left:3px;
+bottom:3px;
+background:white;
+border-radius:50%;
+transition:.3s;
+}
+
+input:checked + .slider{
+background:var(--accent);
+}
+
+input:checked + .slider:before{
+transform:translateX(26px);
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:1000px){
 
 .sidebar{
 display:none;
 }
 
-.dashboard-main{
-padding:15px;
+.right-panel{
+display:none;
 }
 
-.player-box video{
+.channels{
+grid-template-columns:1fr;
+}
+
+.player{
 height:250px;
 }
 
@@ -389,198 +503,275 @@ height:250px;
 
 <body>
 
-<div class="dashboard-container">
+<!-- =========================
+TOPBAR
+========================= -->
 
-<!-- SIDEBAR -->
+<div class="topbar">
 
-<aside class="sidebar">
+<div class="logo">
+<h2>📺 BTECH-TV USER</h2>
+</div>
 
-<h2>BTECH TV</h2>
+<div class="user-box">
 
-<ul>
+<div class="user-avatar">
+U
+</div>
 
-<li class="active">
-<a href="https://btech-tv.netlify.app/">Dashboard</a>
-</li>
-
-<li onclick="filterChannels('All',this)">
-<a href="https://btech-tv.netlify.app/all_channel.html">All Channels</a>
-</li>
-
-<li onclick="filterChannels('Free',this)">
-<a href="https://btech-tv.netlify.app/free_channel.html">Free Channels</a> 
-</li>
-  <li onclick="filterChannels('Free',this)">
-<a href="https://btech-tv.netlify.app/chplayer.html">BTECH Super Channels</a>
-</li>
-
-
-<li onclick="filterChannels('Premium',this)">
-<a href="https://btech-tv.netlify.app/premium_channels.html">Premium Channels</a>
-</li>
-
-<li onclick="filterLocked(this)">
-<a href="https://btech-tv.netlify.app/pay_to-view.html">Locked Channels</a>
-</li>
-
-<li>
-<a href="https://btech-tv.netlify.app/sport_premium.html">Sports</a>
-</li>
-
-<li>
-<a href="https://btech-tv.netlify.app/movies_dashboard.html">Movies</a>
-</li>
-
-<li>
-<a href="https://btech-tv.netlify.app/kids_channel.html">Kids</a>
-</li>
-
-<li>
-<a href="https://btech-tv.netlify.app/vip channel.html">VIP Channels</a>
-</li>
-
-<li>
-<a href="https://btech-tv.netlify.app/user_settings.html">Settings</a>
-</li>
-
-</ul>
-
-</aside>
-
-<!-- MAIN -->
-
-<main class="dashboard-main">
-
-<header class="dashboard-header">
-
-<div>
-
-<h1>BTECH TV ULTRA</h1>
-
-<p id="liveInfo">
-Loading BTECH-TV Channels...
-</p>
+<div class="user-info">
+<h4>Welcome User</h4>
+<p>Premium Streaming Access</p>
+</div>
 
 </div>
 
-<div class="search-box">
+</div>
 
-<input
-type="text"
-id="searchInput"
-placeholder="Search BTECH-TV channels..."
-onkeyup="searchChannels()"
->
+<!-- =========================
+CONTAINER
+========================= -->
+
+<div class="container">
+
+<!-- =========================
+SIDEBAR
+========================= -->
+
+<div class="sidebar">
+
+<h3>📂 Categories</h3>
+
+<div class="menu-item active" onclick="filterCategory('All')">
+📺 All Channels
+</div>
+
+<div class="menu-item" onclick="filterCategory('Sports')">
+🏆 Sports
+</div>
+
+<div class="menu-item" onclick="filterCategory('Movies')">
+🎬 Movies
+</div>
+
+<div class="menu-item" onclick="filterCategory('News')">
+📰 News
+</div>
+
+<div class="menu-item" onclick="filterCategory('Kids')">
+🧸 Kids
+</div>
+
+<div class="menu-item" onclick="filterCategory('Music')">
+🎵 Music
+</div>
+
+<div class="menu-item" onclick="filterCategory('Africa')">
+🌍 Africa
+</div>
+
+<div class="menu-item" onclick="filterCategory('USA')">
+🇺🇸 USA
+</div>
+
+<div class="menu-item" onclick="filterCategory('UK')">
+🇬🇧 UK
+</div>
 
 </div>
 
-</header>
+<!-- =========================
+MAIN
+========================= -->
 
-<!-- STATS -->
-
-<section class="stats-grid">
-
-<div class="stat-card">
-<h3>Total Channels</h3>
-<p id="totalChannels">0</p>
-</div>
-
-<div class="stat-card">
-<h3>Free Channels</h3>
-<p id="freeChannels">0</p>
-</div>
-
-<div class="stat-card">
-<h3>Premium Channels</h3>
-<p id="premiumChannels">0</p>
-</div>
-
-<div class="stat-card">
-<h3>Locked Channels</h3>
-<p id="lockedChannels">0</p>
-</div>
-
-</section>
-
-<!-- FILTER BUTTONS -->
-
-<div class="table-controls">
-
-<button
-class="filter-btn active"
-onclick="filterChannels('All',this)"
->
-All Channels
-</button>
-
-<button
-class="filter-btn"
-onclick="filterChannels('Free',this)"
->
-Free Channels
-</button>
-
-<button
-class="filter-btn"
-onclick="filterChannels('Premium',this)"
->
-Premium Channels
-</button>
-
-<button
-class="filter-btn"
-onclick="filterLocked(this)"
->
-Locked Channels
-</button>
-
-</div>
-
-<!-- CHANNEL GRID -->
-
-<section
-class="channel-grid"
-id="channelGrid"
->
-</section>
-
-<!-- PAGINATION -->
-
-<div class="pagination">
-
-<button onclick="loadMore()">
-LOAD MORE CHANNELS
-</button>
-
-</div>
-
-</main>
-
-</div>
+<div class="main">
 
 <!-- PLAYER -->
 
-<div
-class="player-modal"
-id="playerModal"
->
+<div class="player">
 
-<div class="player-box">
-
-<button
-class="close-btn"
-onclick="closePlayer()"
->
-Close
-</button>
-
-<h2 id="playerTitle"></h2>
+<div class="live-badge">
+🔴 LIVE TV
+</div>
 
 <video
 id="videoPlayer"
 controls
 autoplay
+playsinline
 ></video>
+
+<div class="overlay" id="overlay">
+
+<h1>🚀</h1>
+
+<p>Loading BTECH-TV User Dashboard...</p>
+
+</div>
+
+</div>
+
+<!-- NOW PLAYING -->
+
+<div class="now-playing">
+
+<div class="now-left">
+
+<h3 id="channelName">
+No Channel Selected
+</h3>
+
+<p id="channelCategory">
+BTECH-TV Streaming
+</p>
+
+</div>
+
+<div class="controls">
+
+<button onclick="prevChannel()">
+◀ Prev
+</button>
+
+<button onclick="nextChannel()">
+Next ▶
+</button>
+
+</div>
+
+</div>
+
+<!-- CHANNELS -->
+
+<div
+class="channels"
+id="channelList"
+></div>
+
+</div>
+
+<!-- =========================
+RIGHT PANEL
+========================= -->
+
+<div class="right-panel">
+
+<!-- SEARCH -->
+
+<div class="panel-card">
+
+<h3>🔍 Search Channels</h3>
+
+<input
+class="search-box"
+placeholder="Search channels..."
+oninput="searchChannels(this.value)"
+>
+
+<button
+class="action-btn"
+onclick="loadChannels()"
+>
+🚀 Reload Channels
+</button>
+
+</div>
+
+<!-- STATS -->
+
+<div class="panel-card">
+
+<h3>📊 USER STATS</h3>
+
+<div class="stats-grid">
+
+<div class="stat">
+<h4>Total</h4>
+<p id="total">0</p>
+</div>
+
+<div class="stat">
+<h4>Free</h4>
+<p id="free">0</p>
+</div>
+
+<div class="stat">
+<h4>Premium</h4>
+<p id="premium">0</p>
+</div>
+
+<div class="stat">
+<h4>Live</h4>
+<p id="live">0</p>
+</div>
+
+</div>
+
+</div>
+
+<!-- SETTINGS -->
+
+<div class="panel-card">
+
+<h3>⚙ User Settings</h3>
+
+<div class="setting-row">
+
+<span>Auto Play</span>
+
+<label class="switch">
+
+<input
+type="checkbox"
+checked
+onchange="autoPlay=this.checked"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Dark Theme</span>
+
+<label class="switch">
+
+<input
+type="checkbox"
+checked
+onchange="toggleTheme()"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<span>Streaming</span>
+
+<strong style="color:#00ff99;">
+ONLINE
+</strong>
+
+</div>
+
+<div class="setting-row">
+
+<span>Performance</span>
+
+<strong style="color:#00ff99;">
+OPTIMIZED
+</strong>
+
+</div>
+
+</div>
 
 </div>
 
@@ -588,91 +779,109 @@ autoplay
 
 <script>
 
-/* ====================================
-SETTINGS
-==================================== */
+/* =========================
+ENGINE
+========================= */
 
-const SETTINGS={
+const ENGINE={
 
-showPerPage:60,
-totalChannels:100000
+maxChannels:10000,
+renderLimit:200
 
 };
 
-/* ====================================
+/* =========================
+GLOBAL STATE
+========================= */
+
+let channels=[];
+let filteredChannels=[];
+let currentIndex=0;
+let currentPage=0;
+let autoPlay=true;
+let dark=true;
+let currentHls=null;
+
+/* =========================
+STREAMS
+========================= */
+
+const streams=[
+
+"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+
+"https://test-streams.mux.dev/test_001/stream.m3u8",
+
+"https://test-streams.mux.dev/test_002/stream.m3u8",
+
+"https://test-streams.mux.dev/test_003/stream.m3u8"
+
+];
+
+/* =========================
 CATEGORIES
-==================================== */
+========================= */
 
 const categories=[
 
 "Sports",
 "Movies",
-"Kids",
 "News",
-"Entertainment",
+"Kids",
 "Music",
-"Education",
-"Documentary",
-"VIP",
 "Africa",
 "USA",
-"UK",
-"Europe",
-"Asia"
+"UK"
 
 ];
 
-/* ====================================
-GLOBAL STATE
-==================================== */
+/* =========================
+LOAD CHANNELS
+========================= */
 
-let channels=[];
-let filteredChannels=[];
-let currentPage=0;
-let currentHls=null;
+function loadChannels(){
 
-/* ====================================
-GENERATE CHANNELS
-==================================== */
+channels=[];
 
-for(let i=1;i<=SETTINGS.totalChannels;i++){
+for(let i=1;i<=ENGINE.maxChannels;i++){
+
+let cat=
+categories[
+i % categories.length
+];
 
 channels.push({
 
 id:i,
 
-name:`BTECH LIVE ${i}`,
+name:
+"BTECH "+
+cat+
+" LIVE "+
+i,
 
-category:
-categories[
-Math.floor(
-Math.random()*categories.length
-)
-],
+category:cat,
 
 type:
-Math.random()>0.5
-?"Free"
-:"Premium",
-
-status:
-Math.random()>0.2
-?"Unlocked"
-:"Locked",
-
-views:
-Math.floor(
-Math.random()*1000000
-),
+i % 3===0
+?"paid"
+:"free",
 
 live:
 Math.random()>0.08,
 
-logo:
-`https://via.placeholder.com/300x160/111827/00d4ff?text=BTECH+${i}`,
+viewers:
+Math.floor(
+Math.random()*1000000
+),
 
-streamUrl:
-"https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+logo:
+"https://via.placeholder.com/60",
+
+url:
+streams[
+i % streams.length
+]
 
 });
 
@@ -680,331 +889,172 @@ streamUrl:
 
 filteredChannels=[...channels];
 
-/* ====================================
+updateStats();
+
+renderChannels();
+
+document.getElementById(
+"overlay"
+).style.display="none";
+
+}
+
+/* =========================
 UPDATE STATS
-==================================== */
+========================= */
 
 function updateStats(){
 
 document.getElementById(
-"totalChannels"
+"total"
 ).innerText=
 channels.length.toLocaleString();
 
 document.getElementById(
-"freeChannels"
+"free"
 ).innerText=
 channels.filter(
-c=>c.type==="Free"
+c=>c.type==="free"
 ).length.toLocaleString();
 
 document.getElementById(
-"premiumChannels"
+"premium"
 ).innerText=
 channels.filter(
-c=>c.type==="Premium"
+c=>c.type==="paid"
 ).length.toLocaleString();
 
 document.getElementById(
-"lockedChannels"
+"live"
 ).innerText=
 channels.filter(
-c=>c.status==="Locked"
+c=>c.live
 ).length.toLocaleString();
-
-document.getElementById(
-"liveInfo"
-).innerText=
-`${channels.length.toLocaleString()} IPTV Channels Loaded`;
 
 }
 
-/* ====================================
+/* =========================
 RENDER CHANNELS
-==================================== */
+========================= */
 
-function renderChannels(append=false){
+function renderChannels(reset=true){
 
-const grid=
+const box=
 document.getElementById(
-"channelGrid"
+"channelList"
 );
 
-if(!append){
-grid.innerHTML="";
+if(reset){
+
+box.innerHTML="";
+currentPage=0;
+
 }
 
 const start=
 currentPage*
-SETTINGS.showPerPage;
+ENGINE.renderLimit;
 
 const end=
 start+
-SETTINGS.showPerPage;
+ENGINE.renderLimit;
 
 filteredChannels
 .slice(start,end)
-.forEach(channel=>{
+.forEach((c,index)=>{
 
-grid.innerHTML+=`
+const div=
+document.createElement("div");
 
-<div class="channel-card">
+div.className="channel";
 
-<div
-class="channel-banner"
-style="
-background-image:
-url('${channel.logo}');
-"
+div.innerHTML=`
+
+<div class="channel-left">
+
+<img
+src="${c.logo}"
+loading="lazy"
 >
-
-<div class="channel-overlay">
-
-${channel.live
-? "🔴 LIVE"
-: "⚫ OFFLINE"}
-
-<br>
-
-${channel.category}
-
-</div>
-
-</div>
 
 <div class="channel-info">
 
-<h3>
-${channel.name}
-</h3>
+<h4>
+${c.live ? "🔴" : "⚫"}
+${c.name}
+</h4>
 
-<p>
-👥 ${channel.views.toLocaleString()}
-viewers
-</p>
-
-<span class="
-badge
-${channel.type==="Free"
-?"free"
-:"paid"}
-">
-
-${channel.type}
-
-</span>
-
-<span class="
-badge
-${channel.status==="Locked"
-?"locked"
-:"unlocked"}
-">
-
-${channel.status}
-
-</span>
-
-<button
-class="watch-btn"
-onclick="
-watchChannel(
-${channel.id}
-)
-"
->
-
-▶ Watch Channel
-
-</button>
-
-<div class="action-buttons">
-
-<button
-class="lock-btn"
-onclick="toggleLock(${channel.id})"
->
-${channel.status==="Locked"
-?"Unlock"
-:"Lock"}
-</button>
-
-<button
-class="edit-btn"
-onclick="editChannel(${channel.id})"
->
-Edit
-</button>
-
-<button
-class="delete-btn"
-onclick="deleteChannel(${channel.id})"
->
-Delete
-</button>
+<small>
+${c.category}
+•
+👥 ${c.viewers.toLocaleString()}
+</small>
 
 </div>
 
 </div>
+
+<div class="channel-right">
+
+<span class="
+badge
+${c.type==='free'
+?'free'
+:'paid'}
+">
+${c.type}
+</span>
+
+<span class="
+badge
+${c.live
+?'live'
+:'offline'}
+">
+${c.live
+?'LIVE'
+:'OFFLINE'}
+</span>
 
 </div>
 
 `;
 
+div.onclick=
+()=>playChannel(
+start+index,
+div
+);
+
+box.appendChild(div);
+
 });
 
 }
 
-/* ====================================
-FILTER CHANNELS
-==================================== */
+/* =========================
+PLAY CHANNEL
+========================= */
 
-function filterChannels(type,btn=null){
+function playChannel(index,el=null){
 
-currentPage=0;
-
-if(type==="All"){
-
-filteredChannels=[...channels];
-
-}else{
-
-filteredChannels=
-channels.filter(
-c=>c.type===type
-);
-
-}
-
-setActiveButton(btn);
-
-renderChannels();
-
-}
-
-/* ====================================
-FILTER LOCKED
-==================================== */
-
-function filterLocked(btn=null){
-
-currentPage=0;
-
-filteredChannels=
-channels.filter(
-c=>c.status==="Locked"
-);
-
-setActiveButton(btn);
-
-renderChannels();
-
-}
-
-/* ====================================
-ACTIVE BUTTON
-==================================== */
-
-function setActiveButton(btn){
-
-if(!btn) return;
-
-document
-.querySelectorAll(".filter-btn")
-.forEach(button=>{
-
-button.classList.remove("active");
-
-});
-
-btn.classList.add("active");
-
-}
-
-/* ====================================
-SEARCH
-==================================== */
-
-function searchChannels(){
-
-const value=
-document
-.getElementById(
-"searchInput"
-)
-.value
-.toLowerCase();
-
-filteredChannels=
-channels.filter(channel=>
-
-channel.name
-.toLowerCase()
-.includes(value)
-
-||
-
-channel.category
-.toLowerCase()
-.includes(value)
-
-);
-
-currentPage=0;
-
-renderChannels();
-
-}
-
-/* ====================================
-LOAD MORE
-==================================== */
-
-function loadMore(){
-
-currentPage++;
-
-renderChannels(true);
-
-}
-
-/* ====================================
-WATCH CHANNEL
-==================================== */
-
-function watchChannel(id){
+currentIndex=index;
 
 const channel=
-channels.find(
-c=>c.id===id
-);
+filteredChannels[index];
 
-if(channel.status==="Locked"){
-
-alert(
-"This channel is locked"
-);
-
-return;
-
-}
-
-document
-.getElementById(
-"playerModal"
-)
-.style.display="flex";
-
-document
-.getElementById(
-"playerTitle"
-)
-.innerText=
+document.getElementById(
+"channelName"
+).innerText=
 channel.name;
 
+document.getElementById(
+"channelCategory"
+).innerText=
+channel.category;
+
 const video=
-document
-.getElementById(
+document.getElementById(
 "videoPlayer"
 );
 
@@ -1025,18 +1075,20 @@ lowLatencyMode:true
 });
 
 currentHls.loadSource(
-channel.streamUrl
+channel.url
 );
 
-currentHls.attachMedia(
-video
-);
+currentHls.attachMedia(video);
 
 currentHls.on(
 Hls.Events.MANIFEST_PARSED,
-function(){
+()=>{
+
+if(autoPlay){
 
 video.play();
+
+}
 
 }
 );
@@ -1044,7 +1096,9 @@ video.play();
 }else{
 
 video.src=
-channel.streamUrl;
+channel.url;
+
+if(autoPlay){
 
 video.play();
 
@@ -1052,133 +1106,250 @@ video.play();
 
 }
 
-/* ====================================
-CLOSE PLAYER
-==================================== */
+document
+.querySelectorAll(".channel")
+.forEach(c=>{
 
-function closePlayer(){
+c.classList.remove(
+"active"
+);
+
+});
+
+if(el){
+
+el.classList.add(
+"active"
+);
+
+}
+
+}
+
+/* =========================
+NEXT / PREV
+========================= */
+
+function nextChannel(){
+
+currentIndex++;
+
+if(
+currentIndex >=
+filteredChannels.length
+){
+
+currentIndex=0;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+function prevChannel(){
+
+currentIndex--;
+
+if(currentIndex < 0){
+
+currentIndex=
+filteredChannels.length-1;
+
+}
+
+playChannel(currentIndex);
+
+}
+
+/* =========================
+FILTER CATEGORY
+========================= */
+
+function filterCategory(cat){
 
 document
-.getElementById(
-"playerModal"
-)
-.style.display="none";
+.querySelectorAll(".menu-item")
+.forEach(el=>{
 
-const video=
-document
-.getElementById(
-"videoPlayer"
+el.classList.remove(
+"active"
 );
 
-video.pause();
+});
 
-video.src="";
-
-if(currentHls){
-
-currentHls.destroy();
-
-}
-
-}
-
-/* ====================================
-LOCK / UNLOCK
-==================================== */
-
-function toggleLock(id){
-
-const channel=
-channels.find(
-c=>c.id===id
+event.target.classList.add(
+"active"
 );
 
-channel.status=
-channel.status==="Locked"
-?"Unlocked"
-:"Locked";
+if(cat==="All"){
 
-updateStats();
-renderChannels();
+filteredChannels=[...channels];
 
-}
-
-/* ====================================
-EDIT CHANNEL
-==================================== */
-
-function editChannel(id){
-
-const channel=
-channels.find(
-c=>c.id===id
-);
-
-const newName=
-prompt(
-"Rename Channel",
-channel.name
-);
-
-if(newName){
-
-channel.name=
-newName;
-
-renderChannels();
-
-}
-
-}
-
-/* ====================================
-DELETE CHANNEL
-==================================== */
-
-function deleteChannel(id){
-
-channels=
-channels.filter(
-c=>c.id!==id
-);
+}else{
 
 filteredChannels=
-filteredChannels.filter(
-c=>c.id!==id
+channels.filter(c=>
+
+c.category
+.toLowerCase()
+.includes(
+cat.toLowerCase()
+)
+
 );
 
-updateStats();
+}
+
 renderChannels();
 
 }
 
-/* ====================================
-AUTO REFRESH
-==================================== */
+/* =========================
+SEARCH
+========================= */
+
+function searchChannels(q){
+
+const value=
+q.toLowerCase();
+
+filteredChannels=
+channels.filter(c=>
+
+c.name
+.toLowerCase()
+.includes(value)
+
+||
+
+c.category
+.toLowerCase()
+.includes(value)
+
+);
+
+renderChannels();
+
+}
+
+/* =========================
+THEME
+========================= */
+
+function toggleTheme(){
+
+dark=!dark;
+
+document.documentElement
+.style.setProperty(
+"--bg",
+dark
+?"#0b0f1a"
+:"#f1f5f9"
+);
+
+document.documentElement
+.style.setProperty(
+"--panel",
+dark
+?"#11182a"
+:"#ffffff"
+);
+
+document.documentElement
+.style.setProperty(
+"--card",
+dark
+?"#1b2438"
+:"#e2e8f0"
+);
+
+document.documentElement
+.style.setProperty(
+"--text",
+dark
+?"#ffffff"
+:"#000000"
+);
+
+}
+
+/* =========================
+AUTO UPDATE VIEWERS
+========================= */
 
 setInterval(()=>{
 
-channels.forEach(channel=>{
+for(let i=0;i<500;i++){
 
-channel.views=
+const random=
+Math.floor(
+Math.random()*channels.length
+);
+
+if(channels[random]){
+
+channels[random].viewers=
 Math.floor(
 Math.random()*1000000
 );
 
-channel.live=
+channels[random].live=
 Math.random()>0.08;
 
-});
+}
+
+}
 
 },5000);
 
-/* ====================================
-INIT
-==================================== */
+/* =========================
+INFINITE SCROLL
+========================= */
 
-updateStats();
+document
+.getElementById(
+"channelList"
+)
+.addEventListener(
+"scroll",
+function(){
 
-renderChannels();
+if(
+
+this.scrollTop+
+this.clientHeight
+>=
+this.scrollHeight-100
+
+){
+
+if(
+
+(currentPage+1)*
+ENGINE.renderLimit
+<
+filteredChannels.length
+
+){
+
+currentPage++;
+
+renderChannels(false);
+
+}
+
+}
+
+}
+);
+
+/* =========================
+START ENGINE
+========================= */
+
+loadChannels();
 
 </script>
 
