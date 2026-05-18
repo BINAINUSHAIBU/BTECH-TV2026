@@ -1,19 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-<meta charset="UTF-8"><!DOCTYPE html>
-<html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>BTECH-TV USER SETTINGS</title>
 
@@ -24,34 +14,517 @@ ROOT
 ========================= */
 
 :root{
-
---bg:#0b1120;
---panel:#111827;
---card:#1e293b;
---hover:#334155;
+--bg:#0b0f1a;
+--panel:#11182a;
+--card:#1b2438;
+--hover:#2b3a5a;
 --accent:#00d4ff;
 --text:#ffffff;
---muted:#94a3b
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>BTECH-TV USER SETTINGS</title>
-
-<style>
+--muted:#94a3b8;
+}
 
 /* =========================
-ROOT
+GLOBAL
 ========================= */
 
-:root{
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
---bg:#0b1120;
---panel:#111827;
---card:#1e293b;
---hover:#334155;
---accent:#00d4ff;
---text:#ffffff;
---muted:#94a3b
+body{
+background:var(--bg);
+color:var(--text);
+padding:30px;
+}
+
+/* =========================
+SETTINGS CONTAINER
+========================= */
+
+.settings-container{
+max-width:900px;
+margin:auto;
+background:var(--panel);
+border-radius:20px;
+padding:25px;
+box-shadow:0 0 30px rgba(0,0,0,.4);
+}
+
+.settings-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+border-bottom:1px solid rgba(255,255,255,.05);
+padding-bottom:20px;
+}
+
+.settings-header h1{
+font-size:28px;
+color:var(--accent);
+}
+
+.user-box{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.user-avatar{
+width:50px;
+height:50px;
+border-radius:50%;
+background:var(--accent);
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:20px;
+color:black;
+}
+
+/* =========================
+CARD
+========================= */
+
+.panel-card{
+background:var(--card);
+padding:20px;
+border-radius:16px;
+margin-bottom:20px;
+}
+
+.panel-card h3{
+margin-bottom:20px;
+color:var(--accent);
+}
+
+/* =========================
+SETTINGS ROW
+========================= */
+
+.setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+margin-bottom:15px;
+background:#0f172a;
+border-radius:12px;
+transition:.3s;
+}
+
+.setting-row:hover{
+background:var(--hover);
+}
+
+.setting-info{
+display:flex;
+flex-direction:column;
+gap:4px;
+}
+
+.setting-info strong{
+font-size:15px;
+}
+
+.setting-info small{
+color:var(--muted);
+font-size:12px;
+}
+
+/* =========================
+SWITCH
+========================= */
+
+.switch{
+position:relative;
+width:52px;
+height:26px;
+display:inline-block;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+inset:0;
+background:#334155;
+border-radius:30px;
+cursor:pointer;
+transition:.3s;
+}
+
+.slider:before{
+content:"";
+position:absolute;
+width:20px;
+height:20px;
+left:3px;
+bottom:3px;
+background:white;
+border-radius:50%;
+transition:.3s;
+}
+
+input:checked + .slider{
+background:var(--accent);
+}
+
+input:checked + .slider:before{
+transform:translateX(26px);
+}
+
+/* =========================
+SELECT
+========================= */
+
+.select-box{
+background:#111827;
+color:white;
+border:none;
+padding:10px 14px;
+border-radius:10px;
+outline:none;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:var(--accent);
+color:black;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+transition:.3s;
+margin-top:10px;
+}
+
+.btn:hover{
+opacity:.85;
+transform:translateY(-2px);
+}
+
+/* =========================
+STATUS
+========================= */
+
+.status-online{
+color:#00ff99;
+font-weight:bold;
+}
+
+.status-premium{
+color:#ffd700;
+font-weight:bold;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:700px){
+
+body{
+padding:15px;
+}
+
+.settings-header{
+flex-direction:column;
+gap:15px;
+align-items:flex-start;
+}
+
+.setting-row{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="settings-container">
+
+<!-- HEADER -->
+
+<div class="settings-header">
+
+<div>
+<h1>⚙ BTECH-TV User Settings</h1>
+<p style="color:var(--muted);margin-top:5px;">
+Manage your IPTV dashboard preferences
+</p>
+</div>
+
+<div class="user-box">
+
+<div class="user-avatar">
+U
+</div>
+
+<div>
+<h4>Welcome User</h4>
+<small style="color:var(--muted);">
+Premium Streaming Account
+</small>
+</div>
+
+</div>
+
+</div>
+
+<!-- PLAYER SETTINGS -->
+
+<div class="panel-card">
+
+<h3>🎬 Player Settings</h3>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Auto Play</strong>
+<small>Automatically start streaming</small>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>HD Streaming</strong>
+<small>Enable Ultra HD playback quality</small>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Low Latency Mode</strong>
+<small>Reduce stream buffering delay</small>
+</div>
+
+<label class="switch">
+<input type="checkbox">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Player Engine</strong>
+<small>Select preferred playback engine</small>
+</div>
+
+<select class="select-box">
+<option>HLS.js</option>
+<option>Native Player</option>
+<option>Low Latency Engine</option>
+</select>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD SETTINGS -->
+
+<div class="panel-card">
+
+<h3>🖥 Dashboard Settings</h3>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Dark Theme</strong>
+<small>Enable dark dashboard mode</small>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked onchange="toggleTheme()">
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Notifications</strong>
+<small>Receive IPTV updates and alerts</small>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Channel Cache</strong>
+<small>Improve channel loading speed</small>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span class="slider"></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Language</strong>
+<small>Select dashboard language</small>
+</div>
+
+<select class="select-box">
+<option>English</option>
+<option>French</option>
+<option>Arabic</option>
+<option>Spanish</option>
+</select>
+
+</div>
+
+</div>
+
+<!-- ACCOUNT STATUS -->
+
+<div class="panel-card">
+
+<h3>📊 Account Status</h3>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Streaming Status</strong>
+<small>Current IPTV engine connection</small>
+</div>
+
+<div class="status-online">
+ONLINE
+</div>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Subscription</strong>
+<small>Current user package</small>
+</div>
+
+<div class="status-premium">
+PREMIUM MAX
+</div>
+
+</div>
+
+<div class="setting-row">
+
+<div class="setting-info">
+<strong>Performance</strong>
+<small>Streaming optimization status</small>
+</div>
+
+<div class="status-online">
+OPTIMIZED
+</div>
+
+</div>
+
+</div>
+
+<!-- SAVE BUTTON -->
+
+<button class="btn" onclick="saveSettings()">
+💾 Save Settings
+</button>
+
+</div>
+
+<script>
+
+/* =========================
+THEME TOGGLE
+========================= */
+
+let dark = true;
+
+function toggleTheme(){
+
+dark = !dark;
+
+document.documentElement.style.setProperty(
+"--bg",
+dark ? "#0b0f1a" : "#f1f5f9"
+);
+
+document.documentElement.style.setProperty(
+"--panel",
+dark ? "#11182a" : "#ffffff"
+);
+
+document.documentElement.style.setProperty(
+"--card",
+dark ? "#1b2438" : "#e2e8f0"
+);
+
+document.documentElement.style.setProperty(
+"--text",
+dark ? "#ffffff" : "#000000"
+);
+
+}
+
+/* =========================
+SAVE SETTINGS
+========================= */
+
+function saveSettings(){
+
+alert(
+"✅ BTECH-TV settings saved successfully!"
+);
+
+}
+
+</script>
+
+</body>
+</html>
