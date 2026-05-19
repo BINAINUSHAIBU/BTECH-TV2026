@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>BTECH QUIZ PRO MAX</title>
+
+<style>
+
+:root{
+--bg:#0b0f1a;
+--panel:#11182a;
+--card:#1b2438;
+--accent:#00bfff;
+--text:white;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow:hidden;
+}
+
+.topbar{
+height:65px;
+background:#111;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 20px;
+}
+
+.container{
+display:flex;
+height:calc(100vh - 65px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:250px;
+background:#0f1628;
+padding:20px;
+}
+
+.menu{
+padding:15px;
+margin:10px 0;
+background:var(--card);
+border-radius:10px;
+cursor:pointer;
+}
+
+.menu:hover{
+background:#2b3a5a;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:20px;
+overflow:auto;
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+
+gap:20px;
+}
+
+.card{
+
+background:var(--card);
+padding:20px;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.quiz-box{
+
+background:#000;
+height:300px;
+border-radius:20px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+margin-bottom:20px;
+
+overflow:hidden;
+
+}
+
+.quiz-box img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.profile{
+
+background:var(--card);
+padding:20px;
+border-radius:20px;
+
+}
+
+.avatar{
+
+width:90px;
+height:90px;
+border-radius:50%;
+background:#00bfff;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:35px;
+
+margin:auto;
+
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:10px;
+margin-top:20px;
+}
+
+.stat{
+background:#0f1628;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+button{
+
+padding:12px;
+border:none;
+border-radius:10px;
+background:var(--accent);
+font-weight:bold;
+cursor:pointer;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+
+<h2>
+🎯 BTECH QUIZ PRO MAX
+</h2>
+
+<button>
+Logout
+</button>
+
+</div>
+
+
+<div class="container">
+
+<!-- Sidebar -->
+
+<div class="sidebar">
+
+<div class="menu">
+🏠 Dashboard
+</div>
+
+<div class="menu">
+📝 Multiple Quiz
+</div>
+
+<div class="menu">
+🎧 Audio Quiz
+</div>
+
+<div class="menu">
+🖼 Picture Quiz
+</div>
+
+<div class="menu">
+🎥 Video Quiz
+</div>
+
+<div class="menu">
+🏆 Leaderboard
+</div>
+
+<div class="menu">
+👤 Profile
+</div>
+
+<div class="menu">
+⚙ Settings
+</div>
+
+</div>
+
+
+<!-- Main -->
+
+<div class="main">
+
+<div class="quiz-box"
+id="quizArea">
+
+<h1>
+
+Select Quiz Channel
+
+</h1>
+
+</div>
+
+
+<div class="cards">
+
+<div class="card"
+onclick="openQuiz('multiple')">
+
+<h2>
+📝 Multiple Choice
+</h2>
+
+<p>
+
+1000 Questions
+
+</p>
+
+</div>
+
+
+<div class="card"
+onclick="openQuiz('audio')">
+
+<h2>
+🎧 Audio Quiz
+</h2>
+
+<p>
+
+Listen & answer
+
+</p>
+
+</div>
+
+
+<div class="card"
+onclick="openQuiz('picture')">
+
+<h2>
+🖼 Picture Quiz
+</h2>
+
+<p>
+
+Guess images
+
+</p>
+
+</div>
+
+
+<div class="card"
+onclick="openQuiz('video')">
+
+<h2>
+🎥 Video Quiz
+</h2>
+
+<p>
+
+Watch & answer
+
+</p>
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<!-- USER PROFILE -->
+
+<div class="profile">
+
+<div class="avatar">
+
+👤
+
+</div>
+
+<h2 align="center">
+
+User Profile
+
+</h2>
+
+<p align="center">
+
+Name:
+John Doe
+
+</p>
+
+<p align="center">
+
+Email:
+john@gmail.com
+
+</p>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<h3>
+120
+</h3>
+
+<p>
+Score
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3>
+15
+</h3>
+
+<p>
+Wins
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h3>
+#4
+</h3>
+
+<p>
+Rank
+</p>
+
+</div>
+
+</div>
+
+<br>
+
+<button>
+
+Claim Prize
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+function openQuiz(type){
+
+const box=
+document.getElementById(
+"quizArea"
+);
+
+if(type==="picture"){
+
+box.innerHTML=`
+
+<img src=
+"https://picsum.photos/800/300">
+
+`;
+
+}
+
+
+else if(type==="audio"){
+
+box.innerHTML=`
+
+<audio controls>
+
+<source src=
+"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+
+</audio>
+
+`;
+
+}
+
+
+else{
+
+box.innerHTML=`
+
+<h1>
+
+${type.toUpperCase()}
+QUIZ
+
+</h1>
+
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
