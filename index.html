@@ -798,6 +798,585 @@ if(e.key==='ArrowLeft') prevChannel();
 loadPlaylist('https://iptv-org.github.io/iptv/index.country.m3u','World IPTV');
 
 </script>
+<style>
 
+/* =========================================
+PERFORMANCE BOOST
+========================================= */
+
+.channels{
+contain:strict;
+will-change:transform;
+transform:translateZ(0);
+}
+
+.channel{
+backface-visibility:hidden;
+transform:translateZ(0);
+}
+
+/* =========================================
+SUPER STATS BAR
+========================================= */
+
+.super-stats{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+padding:12px;
+background:#0f172a;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.super-box{
+background:var(--card);
+padding:14px;
+border-radius:12px;
+text-align:center;
+}
+
+.super-box h4{
+font-size:12px;
+color:var(--muted);
+margin-bottom:6px;
+}
+
+.super-box p{
+font-size:20px;
+font-weight:bold;
+color:var(--accent);
+}
+
+/* =========================================
+LOADER BAR
+========================================= */
+
+.loader-bar{
+height:5px;
+width:100%;
+background:#0f172a;
+overflow:hidden;
+position:relative;
+}
+
+.loader-bar::after{
+content:'';
+position:absolute;
+left:-40%;
+top:0;
+height:100%;
+width:40%;
+background:var(--accent);
+animation:loadmove 1.2s linear infinite;
+}
+
+@keyframes loadmove{
+0%{left:-40%;}
+100%{left:100%;}
+}
+
+/* =========================================
+MOBILE BOOST
+========================================= */
+
+@media(max-width:900px){
+
+.super-stats{
+grid-template-columns:repeat(2,1fr);
+}
+
+.channels{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+<!-- =========================================
+SUPER STATS
+========================================= -->
+
+<div class="super-stats">
+
+<div class="super-box">
+<h4>TOTAL CHANNELS</h4>
+<p id="totalChannels">0</p>
+</div>
+
+<div class="super-box">
+<h4>LIVE CHANNELS</h4>
+<p id="liveChannels">0</p>
+</div>
+
+<div class="super-box">
+<h4>PREMIUM</h4>
+<p id="premiumChannels">0</p>
+</div>
+
+<div class="super-box">
+<h4>FREE</h4>
+<p id="freeChannels">0</p>
+</div>
+
+<div class="super-box">
+<h4>VIEWERS</h4>
+<p id="viewerCount">0</p>
+</div>
+
+</div>
+
+<div class="loader-bar"></div>
+
+<script>
+
+/* =========================================
+1,000,000 ULTRA ENGINE
+========================================= */
+
+const ENGINE={
+
+maxVirtualChannels:1000000,
+renderLimit:200,
+chunkSize:10000,
+viewerUpdateSpeed:3000
+
+};
+
+/* =========================================
+MEGA CATEGORY LIST
+========================================= */
+
+const megaCategories=[
+
+'SPORTS',
+'MOVIES',
+'NEWS',
+'KIDS',
+'MUSIC',
+'AFRICA',
+'USA',
+'UK',
+'EUROPE',
+'ASIA',
+'DOCUMENTARY',
+'SCIENCE',
+'TRAVEL',
+'COMEDY',
+'FOOD',
+'ANIME',
+'LIVE TV',
+'4K',
+'8K',
+'RADIO'
+
+];
+
+/* =========================================
+FALLBACK STREAMS
+========================================= */
+
+const fallbackStreams=[
+
+'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+'https://test-streams.mux.dev/test_001/stream.m3u8',
+'https://test-streams.mux.dev/test_002/stream.m3u8',
+'https://test-streams.mux.dev/dai-discontinuity-deltatre/manifest.m3u8'
+
+];
+
+/* =========================================
+ENGINE STATE
+========================================= */
+
+let engineLoaded=false;
+let currentPage=0;
+
+/* =========================================
+ULTRA GENERATOR
+========================================= */
+
+async function generateUltraChannels(){
+
+document.getElementById('overlay').style.display='flex';
+
+for(let generated=0;
+generated<ENGINE.maxVirtualChannels;
+generated+=ENGINE.chunkSize){
+
+for(let i=0;i<ENGINE.chunkSize;i++){
+
+const id=all.length+1;
+
+const category=
+megaCategories[
+id % megaCategories.length
+];
+
+all.push({
+
+id:id,
+
+name:
+'BTECH-TV '+
+category+
+' ULTRA '+
+id,
+
+url:
+fallbackStreams[
+id % fallbackStreams.length
+],
+
+logo:
+'https://via.placeholder.com/60',
+
+group:category,
+
+country:'US',
+
+type:
+id % 5===0
+?'paid'
+:'free',
+
+live:
+Math.random()>0.03,
+
+viewers:
+Math.floor(
+Math.random()*5000000
+)
+
+});
+
+}
+
+document.getElementById(
+'overlayText'
+).innerText=
+
+'Generating '+
+generated.toLocaleString()+
+' / '+
+ENGINE.maxVirtualChannels.toLocaleString()+
+' Channels...';
+
+await new Promise(r=>setTimeout(r,1));
+
+updateMegaStats();
+
+}
+
+engineLoaded=true;
+
+filteredChannels=[...all];
+
+renderChannels();
+
+document.getElementById(
+'overlay'
+).style.display='none';
+
+}
+
+/* =========================================
+MEGA RENDER ENGINE
+========================================= */
+
+function renderChannels(reset=true){
+
+const box=document.getElementById('channelList');
+
+if(reset){
+
+box.innerHTML='';
+currentPage=0;
+
+}
+
+const start=
+currentPage*
+ENGINE.renderLimit;
+
+const end=
+start+ENGINE.renderLimit;
+
+const frag=
+document.createDocumentFragment();
+
+filteredChannels
+.slice(start,end)
+.forEach((c,index)=>{
+
+const div=
+document.createElement('div');
+
+div.className='channel';
+
+if(start+index===currentIndex){
+
+div.classList.add('active');
+
+}
+
+div.innerHTML=`
+
+<div class="left">
+
+<img
+loading="lazy"
+src="${c.logo}"
+onerror="this.src='https://via.placeholder.com/60'"
+>
+
+<div class="info">
+
+<h4>
+${flag(c.country)}
+${c.name}
+</h4>
+
+<small>
+${c.group}
+• 👥 ${c.viewers.toLocaleString()}
+</small>
+
+</div>
+
+</div>
+
+<div class="status">
+
+<span class="badge ${c.type==='paid'?'dead':'free'}">
+${c.type.toUpperCase()}
+</span>
+
+<span class="badge ${c.live?'country':'dead'}">
+${c.live?'LIVE':'OFF'}
+</span>
+
+<div
+class="fav ${favs[c.id]?'on':''}"
+onclick="event.stopPropagation();toggleFav(${c.id})"
+>
+${favs[c.id]?'★':'☆'}
+</div>
+
+</div>
+
+`;
+
+div.onclick=()=>playChannel(start+index);
+
+frag.appendChild(div);
+
+});
+
+box.appendChild(frag);
+
+}
+
+/* =========================================
+INFINITE LOAD
+========================================= */
+
+document
+.getElementById('channelList')
+.addEventListener('scroll',function(){
+
+if(
+
+this.scrollTop+
+this.clientHeight >=
+this.scrollHeight-500
+
+){
+
+if(
+
+(currentPage+1)*
+ENGINE.renderLimit <
+filteredChannels.length
+
+){
+
+currentPage++;
+
+renderChannels(false);
+
+}
+
+}
+
+});
+
+/* =========================================
+MEGA STATS
+========================================= */
+
+function updateMegaStats(){
+
+document.getElementById(
+'totalChannels'
+).innerText=
+all.length.toLocaleString();
+
+document.getElementById(
+'liveChannels'
+).innerText=
+all.filter(c=>c.live)
+.length.toLocaleString();
+
+document.getElementById(
+'premiumChannels'
+).innerText=
+all.filter(c=>c.type==='paid')
+.length.toLocaleString();
+
+document.getElementById(
+'freeChannels'
+).innerText=
+all.filter(c=>c.type==='free')
+.length.toLocaleString();
+
+let viewers=0;
+
+for(let i=0;i<1000;i++){
+
+const random=
+all[
+Math.floor(Math.random()*all.length)
+];
+
+if(random){
+
+viewers+=random.viewers;
+
+}
+
+}
+
+document.getElementById(
+'viewerCount'
+).innerText=
+viewers.toLocaleString();
+
+}
+
+/* =========================================
+LIVE VIEWER ENGINE
+========================================= */
+
+setInterval(()=>{
+
+for(let i=0;i<2000;i++){
+
+const random=
+Math.floor(
+Math.random()*all.length
+);
+
+if(all[random]){
+
+all[random].viewers=
+Math.floor(
+Math.random()*5000000
+);
+
+all[random].live=
+Math.random()>0.04;
+
+}
+
+}
+
+updateMegaStats();
+
+},ENGINE.viewerUpdateSpeed);
+
+/* =========================================
+SMART SEARCH ENGINE
+========================================= */
+
+function searchChannels(q){
+
+const value=q.toLowerCase();
+
+if(value.length===0){
+
+filteredChannels=[...all];
+
+}else{
+
+filteredChannels=all.filter(c=>
+
+c.name.toLowerCase().includes(value)
+
+||
+
+c.group.toLowerCase().includes(value)
+
+||
+
+c.type.toLowerCase().includes(value)
+
+);
+
+}
+
+renderChannels();
+
+updateMegaStats();
+
+}
+
+/* =========================================
+ULTRA FILTER
+========================================= */
+
+function ultraFilter(category){
+
+filteredChannels=all.filter(c=>
+
+c.group===category
+
+);
+
+renderChannels();
+
+updateMegaStats();
+
+}
+
+/* =========================================
+MEGA AUTO SAVE
+========================================= */
+
+setInterval(()=>{
+
+localStorage.setItem(
+'btech_tv_backup',
+JSON.stringify({
+favs:favs,
+recent:recent
+})
+);
+
+},10000);
+
+/* =========================================
+GPU FPS BOOST
+========================================= */
+
+document.body.style.transform='translateZ(0)';
+
+/* =========================================
+START ULTRA ENGINE
+========================================= */
+
+generateUltraChannels();
+
+</script>
 </body>
 </html>
