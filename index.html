@@ -366,7 +366,7 @@ gap:10px;
 <div class="topbar">
 
 <div class="logo">
-📺 BTECH-TV WORLD IPTV
+📺 BTECH-TV WORLD
 </div>
 
 <div class="top-buttons">
@@ -436,7 +436,7 @@ gap:10px;
 
 <div class="now-info">
 <h2 id="channelName">No Channel Selected</h2>
-<p id="channelGroup">Global IPTV Streaming</p>
+<p id="channelGroup">Global BTECH-TV Streaming</p>
 <div class="clock" id="clock">--:--</div>
 </div>
 
@@ -453,7 +453,7 @@ gap:10px;
 <div class="stats" id="stats">0 Channels Loaded</div>
 
 <div class="search-box">
-<input type="text" id="searchInput" placeholder="Search IPTV channels..." oninput="searchChannels(this.value)">
+<input type="text" id="searchInput" placeholder="Search BTECH-TV channels..." oninput="searchChannels(this.value)">
 <select onchange="sortChannels(this.value)">
 <option value="az">Sort A-Z</option>
 <option value="za">Sort Z-A</option>
@@ -558,7 +558,7 @@ type:'free'
 
 async function loadExtraPlaylists(){
 document.getElementById('overlay').style.display='flex';
-document.getElementById('overlayText').innerText='Loading Global IPTV Feeds...';
+document.getElementById('overlayText').innerText='Loading Global BTECH-TV Feeds...';
 
 for(let url of extraFeeds){
 try{
