@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8" />
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+/>
+
+<title>MEGA GLOBAL IPTV</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050505;
+color:#fff;
+overflow:hidden;
+}
+
+header{
+height:60px;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 15px;
+border-bottom:1px solid #222;
+}
+
+header h1{
+font-size:20px;
+color:#00ff99;
+}
+
+#status{
+font-size:13px;
+color:#aaa;
+}
+
+.container{
+display:flex;
+height:calc(100vh - 60px);
+}
+
+.sidebar{
+width:320px;
+background:#0f0f0f;
+overflow-y:auto;
+border-right:1px solid #222;
+padding:10px;
+}
+
+.player-area{
+flex:1;
+display:flex;
+flex-direction:column;
+background:#000;
+}
+
+video{
+width:100%;
+height:65vh;
+background:#000;
+}
+
+.controls{
+display:flex;
+gap:10px;
+padding:10px;
+background:#111;
+border-top:1px solid #222;
+}
+
+.controls input{
+flex:1;
+padding:10px;
+background:#222;
+border:none;
+color:#fff;
+border-radius:6px;
+}
+
+.controls button{
+padding:10px 14px;
+background:#00aa66;
+border:none;
+color:#fff;
+border-radius:6px;
+cursor:pointer;
+}
+
+.controls button:hover{
+background:#00cc77;
+}
+
+.channel{
+padding:10px;
+margin-bottom:8px;
+background:#161616;
+border-radius:8px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.channel:hover{
+background:#1f1f1f;
+}
+
+.channel-name{
+font-size:14px;
+font-weight:bold;
+}
+
+.channel-meta{
+font-size:12px;
+color:#999;
+margin-top:4px;
+}
+
+.category-title{
+margin:15px 0 8px;
+font-size:15px;
+color:#00ff99;
+font-weight:bold;
+}
+
+@media(max-width:900px){
+
+.container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+height:45vh;
+}
+
+.player-area{
+height:55vh;
+}
+
+video{
+height:40vh;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<header>
+
+<h1>🌍 MEGA GLOBAL IPTV</h1>
+
+<div id="status">
+LOADING CHANNELS...
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="sidebar" id="channelList"></div>
+
+<div class="player-area">
+
+<video
+id="video"
+controls
+autoplay
+playsinline
+></video>
+
+<div class="controls">
+
+<input
+type="text"
+id="search"
+placeholder="Search channels..."
+/>
+
+<button onclick="loadChannels()">
+Reload
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<script>
+
+// ─────────────────────────────────────────────
+// GLOBAL VARIABLES
+// ─────────────────────────────────────────────
+
+var all=[];
+var filtered=[];
+var hls=null;
+
+// ─────────────────────────────────────────────
+// EXTRA FEEDS
+// ─────────────────────────────────────────────
+
+var extraFeeds=[
+
+  // 🌍 AFRICA
+  {name:'Nigeria IPTV',url:'https://iptv-org.github.io/iptv/countries/ng.m3u'},
+  {name:'South Africa IPTV',url:'https://iptv-org.github.io/iptv/countries/za.m3u'},
+  {name:'Ghana IPTV',url:'https://iptv-org.github.io/iptv/countries/gh.m3u'},
+  {name:'Kenya IPTV',url:'https://iptv-org.github.io/iptv/countries/ke.m3u'},
+  {name:'Egypt IPTV',url:'https://iptv-org.github.io/iptv/countries/eg.m3u'},
+  {name:'Morocco IPTV',url:'https://iptv-org.github.io/iptv/countries/ma.m3u'},
+
+  // 🌎 NORTH AMERICA
+  {name:'USA IPTV',url:'https://iptv-org.github.io/iptv/countries/us.m3u'},
+  {name:'Canada IPTV',url:'https://iptv-org.github.io/iptv/countries/ca.m3u'},
+  {name:'Mexico IPTV',url:'https://iptv-org.github.io/iptv/countries/mx.m3u'},
+
+  // 🌎 SOUTH AMERICA
+  {name:'Brazil IPTV',url:'https://iptv-org.github.io/iptv/countries/br.m3u'},
+  {name:'Argentina IPTV',url:'https://iptv-org.github.io/iptv/countries/ar.m3u'},
+  {name:'Chile IPTV',url:'https://iptv-org.github.io/iptv/countries/cl.m3u'},
+  {name:'Colombia IPTV',url:'https://iptv-org.github.io/iptv/countries/co.m3u'},
+
+  // 🌍 EUROPE
+  {name:'UK IPTV',url:'https://iptv-org.github.io/iptv/countries/uk.m3u'},
+  {name:'France IPTV',url:'https://iptv-org.github.io/iptv/countries/fr.m3u'},
+  {name:'Germany IPTV',url:'https://iptv-org.github.io/iptv/countries/de.m3u'},
+  {name:'Italy IPTV',url:'https://iptv-org.github.io/iptv/countries/it.m3u'},
+  {name:'Spain IPTV',url:'https://iptv-org.github.io/iptv/countries/es.m3u'},
+
+  // 🌏 ASIA
+  {name:'India IPTV',url:'https://iptv-org.github.io/iptv/countries/in.m3u'},
+  {name:'Pakistan IPTV',url:'https://iptv-org.github.io/iptv/countries/pk.m3u'},
+  {name:'China IPTV',url:'https://iptv-org.github.io/iptv/countries/cn.m3u'},
+  {name:'Japan IPTV',url:'https://iptv-org.github.io/iptv/countries/jp.m3u'},
+  {name:'Korea IPTV',url:'https://iptv-org.github.io/iptv/countries/kr.m3u'},
+
+  // 🌏 MIDDLE EAST
+  {name:'Saudi Arabia IPTV',url:'https://iptv-org.github.io/iptv/countries/sa.m3u'},
+  {name:'UAE IPTV',url:'https://iptv-org.github.io/iptv/countries/ae.m3u'},
+  {name:'Qatar IPTV',url:'https://iptv-org.github.io/iptv/countries/qa.m3u'},
+
+  // ⚽ SPORTS
+  {name:'Sports IPTV',url:'https://iptv-org.github.io/iptv/categories/sports.m3u'},
+  {name:'Football IPTV',url:'https://iptv-org.github.io/iptv/categories/sports.m3u'},
+  {name:'NBA IPTV',url:'https://iptv-org.github.io/iptv/categories/sports.m3u'},
+
+  // 🎬 MOVIES
+  {name:'Movies IPTV',url:'https://iptv-org.github.io/iptv/categories/movies.m3u'},
+
+  // 📰 NEWS
+  {name:'News IPTV',url:'https://iptv-org.github.io/iptv/categories/news.m3u'},
+
+  // 🎵 MUSIC
+  {name:'Music IPTV',url:'https://iptv-org.github.io/iptv/categories/music.m3u'},
+
+  // 👶 KIDS
+  {name:'Kids IPTV',url:'https://iptv-org.github.io/iptv/categories/kids.m3u'},
+
+  // 📺 ENTERTAINMENT
+  {name:'Entertainment IPTV',url:'https://iptv-org.github.io/iptv/categories/entertainment.m3u'},
+
+  // 📚 EDUCATION
+  {name:'Education IPTV',url:'https://iptv-org.github.io/iptv/categories/education.m3u'},
+
+  // 🧪 SCIENCE
+  {name:'Science IPTV',url:'https://iptv-org.github.io/iptv/categories/science.m3u'},
+
+  // 🎮 GAMING
+  {name:'Gaming IPTV',url:'https://iptv-org.github.io/iptv/categories/gaming.m3u'},
+
+  // 🐼 ANIME
+  {name:'Anime IPTV',url:'https://iptv-org.github.io/iptv/categories/anime.m3u'},
+
+  // 🧿 RELIGION
+  {name:'Religious IPTV',url:'https://iptv-org.github.io/iptv/categories/religious.m3u'},
+
+  // 🌐 MASSIVE LISTS
+  {name:'Global IPTV Master',url:'https://iptv-org.github.io/iptv/index.m3u'}
+
+];
+
+// ─────────────────────────────────────────────
+// PARSE M3U
+// ─────────────────────────────────────────────
+
+function parseM3U(text){
+
+  var lines=text.split('\n');
+  var channels=[];
+  var current=null;
+
+  lines.forEach(function(line){
+
+    line=line.trim();
+
+    if(line.startsWith('#EXTINF')){
+
+      current={};
+
+      var name=line.split(',').pop();
+
+      current.name=name;
+
+    }
+    else if(line && !line.startsWith('#')){
+
+      if(current){
+
+        current.url=line;
+
+        channels.push(current);
+
+        current=null;
+
+      }
+
+    }
+
+  });
+
+  return channels;
+
+}
+
+// ─────────────────────────────────────────────
+// LOAD CHANNELS
+// ─────────────────────────────────────────────
+
+async function loadChannels(){
+
+  all=[];
+
+  document.getElementById('status').innerText=
+  '🌍 LOADING CHANNELS...';
+
+  for(let feed of extraFeeds){
+
+    try{
+
+      let res=await fetch(feed.url);
+
+      let txt=await res.text();
+
+      let parsed=parseM3U(txt);
+
+      parsed.forEach(function(c){
+
+        c.category=feed.name;
+
+      });
+
+      all=all.concat(parsed);
+
+    }catch(e){
+
+      console.log('FAILED',feed.name);
+
+    }
+
+  }
+
+  filtered=all;
+
+  renderChannels();
+
+  document.getElementById('status').innerText=
+  '🌍 MEGA IPTV ACTIVE · '+all.length+' CHANNELS';
+
+}
+
+// ─────────────────────────────────────────────
+// RENDER CHANNELS
+// ─────────────────────────────────────────────
+
+function renderChannels(){
+
+  var list=document.getElementById('channelList');
+
+  list.innerHTML='';
+
+  filtered.forEach(function(c){
+
+    var div=document.createElement('div');
+
+    div.className='channel';
+
+    div.innerHTML=`
+
+      <div class="channel-name">
+        ${c.name}
+      </div>
+
+      <div class="channel-meta">
+        ${c.category}
+      </div>
+
+    `;
+
+    div.onclick=function(){
+
+      playChannel(c.url);
+
+    };
+
+    list.appendChild(div);
+
+  });
+
+}
+
+// ─────────────────────────────────────────────
+// PLAY CHANNEL
+// ─────────────────────────────────────────────
+
+function playChannel(url){
+
+  var video=document.getElementById('video');
+
+  if(Hls.isSupported()){
+
+    if(hls){
+      hls.destroy();
+    }
+
+    hls=new Hls();
+
+    hls.loadSource(url);
+
+    hls.attachMedia(video);
+
+  }else{
+
+    video.src=url;
+
+  }
+
+}
+
+// ─────────────────────────────────────────────
+// SEARCH
+// ─────────────────────────────────────────────
+
+document
+.getElementById('search')
+.addEventListener('input',function(){
+
+  var q=this.value.toLowerCase();
+
+  filtered=all.filter(function(c){
+
+    return c.name.toLowerCase().includes(q);
+
+  });
+
+  renderChannels();
+
+});
+
+// ─────────────────────────────────────────────
+// START
+// ─────────────────────────────────────────────
+
+loadChannels();
+
+</script>
+
+</body>
+</html>
