@@ -1,0 +1,282 @@
+
+<!-- ========================================================= -->
+<!-- BTECH-TV WORLD ULTRA MAX X -->
+<!-- ONE PAGE IPTV ENGINE (MERGED CLEAN BUILD) -->
+<!-- ========================================================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="theme-color" content="#0b0f1a"/>
+<title>BTECH-TV WORLD ULTRA MAX X</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+:root{
+--bg:#050816;
+--panel:#111827;
+--card:#172033;
+--hover:#22304d;
+--accent:#00d4ff;
+--text:#fff;
+--muted:#94a3b8;
+--premium:#8b5cf6;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+/* TOPBAR */
+.topbar{
+display:flex;justify-content:space-between;align-items:center;
+padding:12px;background:#0f172a;border-bottom:1px solid #222;
+flex-wrap:wrap;
+}
+.logo{color:var(--accent);font-weight:bold;font-size:20px}
+.top-buttons{display:flex;gap:8px;overflow-x:auto}
+.top-buttons button{
+background:var(--card);border:none;color:#fff;
+padding:8px 12px;border-radius:8px;cursor:pointer;
+white-space:nowrap;
+}
+.top-buttons button:hover{background:var(--accent);color:#000}
+
+/* LAYOUT */
+.container{display:flex;flex:1;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{
+width:300px;background:#0b1220;overflow-y:auto;padding:10px;
+}
+.cat{
+background:var(--card);padding:10px;margin-bottom:8px;
+border-radius:10px;cursor:pointer;
+}
+.cat:hover{background:var(--hover)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* PLAYER */
+.player{height:350px;background:#000;position:relative}
+.player video{width:100%;height:100%;object-fit:contain}
+.live{
+position:absolute;top:10px;left:10px;
+background:red;padding:6px 12px;border-radius:20px;font-size:12px
+}
+.overlay{
+position:absolute;inset:0;background:rgba(0,0,0,.8);
+display:flex;justify-content:center;align-items:center;flex-direction:column;
+}
+
+/* CHANNEL LIST (VERTICAL SCROLL ONLY) */
+.channels{
+flex:1;
+overflow-y:auto;   /* ONLY vertical scroll */
+padding:10px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:10px;
+}
+
+.channel{
+background:var(--card);
+padding:10px;border-radius:10px;
+cursor:pointer;
+display:flex;justify-content:space-between;
+}
+.channel:hover{background:var(--hover)}
+.channel.active{border:1px solid var(--accent)}
+
+.info h4{font-size:14px}
+.info small{color:var(--muted)}
+
+/* NOW PLAYING */
+.now-playing{
+background:var(--panel);
+padding:10px;
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+}
+
+/* MINI PLAYER */
+.mini-player{
+position:fixed;bottom:10px;right:10px;
+width:220px;height:130px;
+background:#000;
+display:none;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+.container{flex-direction:column}
+.sidebar{width:100%;max-height:200px}
+.channels{grid-template-columns:1fr}
+.player{height:220px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+<div class="logo">📺 BTECH-TV ULTRA MAX X</div>
+
+<div class="top-buttons">
+<button onclick="setTab('all',this)">All</button>
+<button onclick="setTab('favs',this)">⭐ Fav</button>
+<button onclick="setTab('recent',this)">🕘 Recent</button>
+<button onclick="loadUltraFeeds()">🚀 Feeds</button>
+<button onclick="toggleFullscreen()">⛶</button>
+</div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="container">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<h3>🌍 Countries</h3>
+<div class="cat" onclick="loadPlaylist('https://iptv-org.github.io/iptv/countries/ng.m3u','Nigeria')">Nigeria</div>
+<div class="cat" onclick="loadPlaylist('https://iptv-org.github.io/iptv/countries/us.m3u','USA')">USA</div>
+<div class="cat" onclick="loadPlaylist('https://iptv-org.github.io/iptv/countries/uk.m3u','UK')">UK</div>
+
+<h3>🎬 Categories</h3>
+<div class="cat" onclick="loadPlaylist('https://iptv-org.github.io/iptv/categories/news.m3u','News')">News</div>
+<div class="cat" onclick="loadPlaylist('https://iptv-org.github.io/iptv/categories/sport.m3u','Sports')">Sports</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+<div class="player">
+<div class="live">🔴 LIVE</div>
+<video id="video" controls autoplay></video>
+
+<div class="overlay" id="overlay">
+<h2>Loading...</h2>
+</div>
+</div>
+
+<div class="now-playing">
+<h3 id="channelName">No Channel</h3>
+<div>
+<button onclick="prevChannel()">◀</button>
+<button onclick="nextChannel()">▶</button>
+<button onclick="togglePiP()">📺 PiP</button>
+</div>
+</div>
+
+<div class="channels" id="channelList"></div>
+
+</div>
+</div>
+
+<!-- MINI PLAYER -->
+<div class="mini-player" id="miniPlayer">
+<video id="miniVideo" muted autoplay></video>
+</div>
+
+<script>
+
+let all=[],filtered=[],currentIndex=0;
+let video=document.getElementById("video");
+let hls;
+
+function showOverlay(t){
+document.getElementById("overlay").style.display="flex";
+document.getElementById("overlay").innerText=t;
+}
+function hideOverlay(){
+document.getElementById("overlay").style.display="none";
+}
+
+/* LOAD PLAYLIST */
+async function loadPlaylist(url,group){
+showOverlay("Loading "+group);
+all=[];
+const res=await fetch(url);
+const text=await res.text();
+parse(text,group);
+filtered=[...all];
+render();
+hideOverlay();
+}
+
+function parse(data,group){
+let lines=data.split("\n");
+for(let i=0;i<lines.length;i++){
+if(lines[i].includes("#EXTINF")){
+let url=lines[i+1];
+if(!url)continue;
+let name=lines[i].split(",").pop();
+all.push({name,url,group});
+}
+}
+}
+
+/* RENDER */
+function render(){
+let box=document.getElementById("channelList");
+box.innerHTML="";
+filtered.forEach((c,i)=>{
+let div=document.createElement("div");
+div.className="channel";
+div.innerHTML=`<div class="info"><h4>${c.name}</h4><small>${c.group}</small></div>`;
+div.onclick=()=>play(i);
+box.appendChild(div);
+});
+}
+
+/* PLAY */
+function play(i){
+currentIndex=i;
+let c=filtered[i];
+document.getElementById("channelName").innerText=c.name;
+
+if(hls)hls.destroy();
+
+if(Hls.isSupported()){
+hls=new Hls();
+hls.loadSource(c.url);
+hls.attachMedia(video);
+}else{
+video.src=c.url;
+}
+video.play();
+}
+
+/* CONTROLS */
+function nextChannel(){currentIndex++;play(currentIndex);}
+function prevChannel(){currentIndex--;play(currentIndex);}
+function togglePiP(){video.requestPictureInPicture();}
+
+/* FULLSCREEN */
+function toggleFullscreen(){
+if(!document.fullscreenElement){
+document.documentElement.requestFullscreen();
+}else{
+document.exitFullscreen();
+}
+}
+
+/* TABS */
+function setTab(type){
+if(type==="all")filtered=[...all];
+if(type==="favs")filtered=[];
+if(type==="recent")filtered=[];
+render();
+}
+
+/* AUTO LOAD */
+loadPlaylist("https://iptv-org.github.io/iptv/countries/ng.m3u","Nigeria");
+
+</script>
+
+</body>
+</html>
