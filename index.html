@@ -1,4 +1,7 @@
 
+
+
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -308,37 +311,86 @@ filtered=[...all];
 render();
 stats();
 }
-
 /* RENDER */
 function render(){
-let grid=document.getElementById("grid");
-grid.innerHTML="";
-filtered.forEach((c,idx)=>{
-let div=document.createElement("div");
-div.className="card";
-div.innerHTML=`<div class="badge">LIVE</div>${c.name}`;
-div.onclick=()=>play(idx);
-grid.appendChild(div);
-});
+
+    let grid = document.getElementById("grid");
+    grid.innerHTML = "";
+
+    filtered.forEach((c, idx)=>{
+
+        // Remove quality labels only
+      let cleanName = c.name
+    .replace(/\s*\(\d+p\)/gi, "")
+    .trim();
+
+        // Channel number with leading zeros
+        let ch = String(idx + 1).padStart(3, "0");
+
+        let div = document.createElement("div");
+        div.className = "card";
+
+        div.innerHTML = `
+    <div class="badge">LIVE</div>
+
+    <div style="
+        color:#00d4ff;
+        font-weight:bold;
+        font-size:14px;
+        margin-bottom:6px;
+    ">
+        BTECH-TV&nbsp;&nbsp;CH ${ch}
+    </div>
+
+    <div style="
+        color:#fff;
+        font-size:16px;
+        font-weight:600;
+    ">
+        ${cleanName}
+    </div>
+`;
+        div.onclick = ()=>play(idx);
+
+        grid.appendChild(div);
+
+    });
+
 }
 
 /* PLAY */
 function play(idx){
-i=idx;
-let c=filtered[i];
-if(hls) hls.destroy();
 
-if(Hls.isSupported()){
-hls=new Hls();
-hls.loadSource(c.url);
-hls.attachMedia(video);
-hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());
-}else{
-video.src=c.url;
-video.play();
-}
-}
+    i = idx;
+    let c = filtered[i];
 
+    let cleanName = c.name
+        .replace(/\s*\(1080p\)/gi,"")
+        .replace(/\s*\(720p\)/gi,"")
+        .replace(/\s*\(540p\)/gi,"")
+        .replace(/\s*\(480p\)/gi,"")
+        .replace(/\s*\(360p\)/gi,"")
+        .replace(/\s*\(240p\)/gi,"")
+        .replace(/\s*\(144p\)/gi,"")
+        .trim();
+
+    let ch = String(idx + 1).padStart(3, "0");
+
+    document.title = `CH ${ch} - ${cleanName} | BTECH-TV WORLD PRO MAX`;
+
+    if(hls) hls.destroy();
+
+    if(Hls.isSupported()){
+        hls = new Hls();
+        hls.loadSource(c.url);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());
+    }else{
+        video.src = c.url;
+        video.play();
+    }
+
+}
 /* BASIC */
 function search(q){
 filtered=all.filter(c=>c.name.toLowerCase().includes(q.toLowerCase()));
