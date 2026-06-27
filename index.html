@@ -2,6 +2,8 @@
 
 
 
+
+
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -258,11 +260,28 @@ body{flex-direction:column;}
 </div>
 
 <div class="controls">
-<button onclick="next()">▶ Next</button>
-<button onclick="prev()">◀ Prev</button>
-<button onclick="toggleMute()">🔊 Mute</button>
-<button onclick="toggleFullscreen()">⛶ Fullscreen</button>
-<button onclick="loadUltra()">🚀 Global</button>
+
+<div class="controls" style="display:flex;align-items:center;width:100%;">
+
+    <button onclick="next()">▶ Next</button>
+    <button onclick="prev()">◀ Prev</button>
+    <button onclick="toggleMute()">🔊 Mute</button>
+    <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+    <button onclick="loadUltra()">🚀 Global</button>
+
+    <!-- Pushes the text to the far right -->
+    <div style="
+        margin-left:auto;
+        color:#00d4ff;
+        font-size:13px;
+        font-weight:bold;
+        white-space:nowrap;
+        padding-left:20px;
+    ">
+        Design by <span style="color:#ffffff;">BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN
+    </div>
+
+</div>
 </div>
 
 <div class="channel-wrapper">
