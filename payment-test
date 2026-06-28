@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Payment</title>
+
+<style>
+body{
+    margin:0;
+    background:#0b1220;
+    font-family:Arial,sans-serif;
+    color:#fff;
+}
+
+.container{
+    width:380px;
+    margin:40px auto;
+    background:#182338;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 0 20px rgba(0,0,0,.5);
+}
+
+h2{
+    text-align:center;
+    color:#00d4ff;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    background:#00b894;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00d68f;
+}
+
+#processing,
+#success{
+    display:none;
+    text-align:center;
+    margin-top:20px;
+}
+
+.loader{
+    border:6px solid #ddd;
+    border-top:6px solid #00b894;
+    border-radius:50%;
+    width:60px;
+    height:60px;
+    margin:20px auto;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+.success{
+    font-size:70px;
+    color:#00ff66;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Demo Payment</h2>
+
+<label>Card Number</label>
+<input type="text" placeholder="1234 5678 9012 3456">
+
+<label>Card Holder</label>
+<input type="text" placeholder="John Doe">
+
+<div class="row">
+
+<div style="flex:1;">
+<label>Expiry</label>
+<input type="text" placeholder="12/30">
+</div>
+
+<div style="flex:1;">
+<label>CVV</label>
+<input type="password" placeholder="123">
+</div>
+
+</div>
+
+<label>Amount</label>
+<input type="text" value="₦5,000" readonly>
+
+<button onclick="payNow()">Pay Now</button>
+
+<div id="processing">
+<div class="loader"></div>
+<h3>Processing Payment...</h3>
+<p>Please wait...</p>
+</div>
+
+<div id="success">
+<div class="success">✓</div>
+<h2>Payment Successful</h2>
+<p>Server Verification...</p>
+</div>
+
+</div>
+
+<script>
+
+function payNow(){
+
+document.getElementById("processing").style.display="block";
+
+setTimeout(function(){
+
+document.getElementById("processing").style.display="none";
+document.getElementById("success").style.display="block";
+
+setTimeout(function(){
+
+alert("Subscription Activated!\n\nAll Channels Unlocked.");
+
+},3000);
+
+},4000);
+
+}
+
+</script>
+
+</body>
+</html>
