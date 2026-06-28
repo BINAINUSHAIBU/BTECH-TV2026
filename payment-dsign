@@ -1,0 +1,940 @@
+
+
+
+
+Claim offer
+
+create code for this-
+
+
+
+
+
+
+
+Claim offer
+
+write a source code for this-Trial Starts (2 Minutes)
+
+        │
+
+        ▼
+
+Trial Expired
+
+        │
+
+        ▼
+
+Choose Package
+
+        │
+
+        ▼
+
+Customer Details
+
+        │
+
+        ▼
+
+Proceed to Payment
+
+        │
+
+        ▼
+
+Demo Payment Screen
+
+        │
+
+        ▼
+
+Processing...
+
+        │
+
+        ▼
+
+Payment Successful
+
+        │
+
+        ▼
+
+Server Verification (Simulated)
+
+        │
+
+        ▼
+
+Subscription Activated
+
+        │
+
+        ▼
+
+30-Day Countdown
+
+        │
+
+        ▼
+
+Unlock All Channels only
+
+
+
+
+
+give source code
+
+into one html page
+
+Demo Payment
+
+Below is a simple Demo Payment page that you can place inside your index.html. It simulates a payment without charging any money.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Payment</title>
+
+<style>
+body{
+    margin:0;
+    background:#0b1220;
+    font-family:Arial,sans-serif;
+    color:#fff;
+}
+
+.container{
+    width:380px;
+    margin:40px auto;
+    background:#182338;
+    border-radius:12px;
+    padding:25px;
+    box-shadow:0 0 20px rgba(0,0,0,.5);
+}
+
+h2{
+    text-align:center;
+    color:#00d4ff;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+}
+
+.row{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    background:#00b894;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#00d68f;
+}
+
+#processing,
+#success{
+    display:none;
+    text-align:center;
+    margin-top:20px;
+}
+
+.loader{
+    border:6px solid #ddd;
+    border-top:6px solid #00b894;
+    border-radius:50%;
+    width:60px;
+    height:60px;
+    margin:20px auto;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+.success{
+    font-size:70px;
+    color:#00ff66;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Demo Payment</h2>
+
+<label>Card Number</label>
+<input type="text" placeholder="1234 5678 9012 3456">
+
+<label>Card Holder</label>
+<input type="text" placeholder="John Doe">
+
+<div class="row">
+
+<div style="flex:1;">
+<label>Expiry</label>
+<input type="text" placeholder="12/30">
+</div>
+
+<div style="flex:1;">
+<label>CVV</label>
+<input type="password" placeholder="123">
+</div>
+
+</div>
+
+<label>Amount</label>
+<input type="text" value="₦5,000" readonly>
+
+<button onclick="payNow()">Pay Now</button>
+
+<div id="processing">
+<div class="loader"></div>
+<h3>Processing Payment...</h3>
+<p>Please wait...</p>
+</div>
+
+<div id="success">
+<div class="success">✓</div>
+<h2>Payment Successful</h2>
+<p>Server Verification...</p>
+</div>
+
+</div>
+
+<script>
+
+function payNow(){
+
+document.getElementById("processing").style.display="block";
+
+setTimeout(function(){
+
+document.getElementById("processing").style.display="none";
+document.getElementById("success").style.display="block";
+
+setTimeout(function(){
+
+alert("Subscription Activated!\n\nAll Channels Unlocked.");
+
+},3000);
+
+},4000);
+
+}
+
+</script>
+
+</body>
+</html>
+What this demo does
+Accepts demo card details.
+
+Displays a Processing Payment animation.
+
+Shows Payment Successful.
+
+Simulates Server Verification.
+
+Displays Subscription Activated.
+
+Ready to integrate with your trial and IPTV unlock flow.
+
+You can later replace the simulated payment with a real payment gateway such as Paystack, Flutterwave, or Stripe if you want to accept actual payments.
+
+
+Demo Payment  card number
+
+For a demo payment page, you can use clearly fictional card numbers. These are commonly used for testing and should not be connected to a real payment processor unless you're using that processor's official test environment.
+
+Example demo card details:
+
+Card Type	Demo Card Number	Expiry	CVV
+Visa	4111 1111 1111 1111	12/30	123
+Mastercard	5555 5555 5555 4444	12/30	123
+American Express	3782 822463 10005	12/30	1234
+For a pure demo website, you can also prefill the fields:
+
+<input
+    type="text"
+    value="4111 1111 1111 1111"
+    readonly
+>
+
+<input
+    type="text"
+    value="12/30"
+    readonly
+>
+
+<input
+    type="password"
+    value="123"
+    readonly
+>
+Or allow users to type the values while showing a hint:
+
+<input
+    type="text"
+    placeholder="Demo Card: 4111 1111 1111 1111"
+>
+These numbers are intended for testing and demonstration only. If you later integrate a real payment gateway (such as Paystack, Flutterwave, or Stripe), use that provider's official test mode and test credentials during development rather than processing real payment details.
+
+
+
+btech-control(10).docx
+Document
+merge and keep all features and channels and dashboard without removing anything
+
+Yes. I reviewed your uploaded document, and it contains your existing BTECH-TV PRO MAX dashboard and IPTV player. 
+
+
+I can merge the subscription/payment system into that dashboard without removing any existing features, including:
+
+✅ All IPTV channels
+
+✅ All country menus
+
+✅ All category menus
+
+✅ Search
+
+✅ Dashboard statistics
+
+✅ HLS video player
+
+✅ Next/Previous
+
+✅ Fullscreen
+
+✅ Mute
+
+✅ Ultra Feed loader
+
+✅ Scan
+
+✅ Boost
+
+✅ PiP
+
+✅ Record
+
+✅ Repair
+
+✅ Optimize
+
+✅ Channel numbering
+
+✅ Channel cards
+
+✅ Current dashboard layout
+
+✅ Existing JavaScript functions
+
+I will only add the following:
+
+Claim Offer
+      │
+2-Minute Trial
+      │
+Trial Expired
+      │
+Choose Package
+      │
+Customer Details
+      │
+Proceed to Payment
+      │
+Demo Payment
+      │
+Processing...
+      │
+Payment Successful
+      │
+Server Verification
+      │
+Subscription Activated
+      │
+30-Day Countdown
+      │
+Unlock All Channels
+The merged version will work like this:
+
+User opens BTECH-TV.
+
+All channels are visible.
+
+Clicking a locked channel starts the 2-minute free trial.
+
+After 2 minutes, playback is locked.
+
+The subscription page appears.
+
+User selects a package.
+
+User enters their details.
+
+Demo payment is processed.
+
+Subscription is activated.
+
+A 30-day countdown begins.
+
+All channels are unlocked until the subscription expires.
+
+The result will be one complete index.html containing:
+
+Dashboard
+
+IPTV player
+
+All existing channels and menus
+
+Subscription system
+
+Payment simulation
+
+Countdown timer
+
+LocalStorage
+
+Responsive design
+
+Because the merged file will be well over 5,000 lines of HTML/CSS/JavaScript, it is too large to generate in a single chat response. The practical way to deliver it is as a downloadable index.html file with all code already merged.
+
+
+yes 
+
+Great. I can do that.
+
+I'll produce a single index.html by merging your uploaded BTECH-TV PRO MAX dashboard with the subscription workflow you requested, while preserving the existing dashboard and channel-loading functionality from your uploaded document. 
+
+
+The merged version will include:
+
+All existing dashboard features.
+
+All existing channel lists and country/category menus.
+
+Existing HLS player and controls.
+
+Search and statistics.
+
+Channel numbering.
+
+2-minute free trial.
+
+Trial expiration overlay.
+
+Package selection.
+
+Customer details form.
+
+Demo payment screen.
+
+Payment processing animation.
+
+Simulated server verification.
+
+30-day subscription countdown (saved in LocalStorage).
+
+Automatic lock/unlock of channels based on subscription status.
+
+One important note: your current dashboard loads playlists from the public IPTV-org repository at runtime. The actual channels available depend on those playlists; I can't add or preserve channels that aren't present in those external sources.
+
+The complete merged file will be several thousand lines long, which exceeds the maximum size I can generate in a single chat response or file-generation step here. Because of that platform limit, I can't produce the fully merged index.html in one response.
+
+If you want to continue building it here, we can generate it in sections (HTML/CSS, then JavaScript, then merge), but I can't honestly claim to generate a complete multi-thousand-line merged application in a single message when it exceeds the system's output limits.
+
+
+create the page
+
+Yes. Below is a modern Subscription Page that matches your IPTV dashboard. You can save it as subscription.html or merge it into your existing index.html.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BTECH-TV Subscription</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+color:#fff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:95%;
+max-width:700px;
+background:#0d1324;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,212,255,.3);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+text-align:center;
+color:#00d4ff;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:30px;
+color:#9db6ff;
+}
+
+.step{
+display:none;
+animation:fade .4s;
+}
+
+.step.active{
+display:block;
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.timer{
+font-size:40px;
+color:#00ff90;
+text-align:center;
+margin:20px 0;
+}
+
+.package{
+background:#111d39;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+}
+
+.package:hover{
+background:#00d4ff;
+color:#000;
+}
+
+input,select{
+
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+background:#18294a;
+color:#fff;
+
+}
+
+button{
+
+width:100%;
+padding:14px;
+background:#00d4ff;
+color:#000;
+border:none;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+
+}
+
+button:hover{
+
+background:#00ffff;
+
+}
+
+.loader{
+
+width:80px;
+height:80px;
+border:8px solid #222;
+border-top:8px solid #00d4ff;
+border-radius:50%;
+margin:30px auto;
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.success{
+
+font-size:90px;
+text-align:center;
+color:#00ff90;
+
+}
+
+.countdown{
+
+font-size:28px;
+text-align:center;
+margin:20px;
+
+}
+
+.unlock{
+
+text-align:center;
+font-size:30px;
+color:#00ff90;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+📺 BTECH-TV WORLD PRO MAX
+
+</div>
+
+<div class="subtitle">
+
+Premium Subscription
+
+</div>
+
+<!-- STEP 1 -->
+
+<div id="trial" class="step active">
+
+<h2 align="center">
+
+🎁 Claim Offer
+
+</h2>
+
+<div class="timer" id="trialTimer">
+
+02:00
+
+</div>
+
+<button onclick="expireTrial()">
+
+Start Free Trial
+
+</button>
+
+</div>
+
+<!-- STEP 2 -->
+
+<div id="expired" class="step">
+
+<h2 align="center">
+
+Trial Expired
+
+</h2>
+
+<br>
+
+<div class="package" onclick="choose('Starter')">
+
+Starter — ₦2,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('Premium')">
+
+Premium — ₦5,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('VIP')">
+
+VIP — ₦10,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('Lifetime')">
+
+Lifetime — ₦50,000
+
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+
+<div id="details" class="step">
+
+<h2>
+
+Customer Details
+
+</h2>
+
+<input placeholder="Full Name">
+
+<input placeholder="Email">
+
+<input placeholder="Phone">
+
+<input id="package" readonly>
+
+<button onclick="payment()">
+
+Proceed To Payment
+
+</button>
+
+</div>
+
+<!-- STEP 4 -->
+
+<div id="payment" class="step">
+
+<h2>
+
+Demo Payment
+
+</h2>
+
+<input value="4111 1111 1111 1111">
+
+<input placeholder="MM/YY">
+
+<input placeholder="CVV">
+
+<button onclick="processPayment()">
+
+Pay Now
+
+</button>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div id="processing" class="step">
+
+<div class="loader"></div>
+
+<h2 align="center">
+
+Processing Payment...
+
+</h2>
+
+</div>
+
+<!-- STEP 6 -->
+
+<div id="verify" class="step">
+
+<div class="loader"></div>
+
+<h2 align="center">
+
+Server Verification...
+
+</h2>
+
+</div>
+
+<!-- STEP 7 -->
+
+<div id="active" class="step">
+
+<div class="success">
+
+✔
+
+</div>
+
+<h2 align="center">
+
+Subscription Activated
+
+</h2>
+
+<div class="countdown" id="days">
+
+30 Days Remaining
+
+</div>
+
+<div class="unlock">
+
+🔓 All Channels Unlocked
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let selectedPackage="";
+
+function show(id){
+
+document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
+}
+
+function expireTrial(){
+
+let sec=120;
+
+let timer=setInterval(function(){
+
+sec--;
+
+let m=Math.floor(sec/60);
+
+let s=sec%60;
+
+document.getElementById("trialTimer").innerHTML=
+
+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+
+if(sec<=0){
+
+clearInterval(timer);
+
+show("expired");
+
+}
+
+},1000);
+
+}
+
+function choose(p){
+
+selectedPackage=p;
+
+document.getElementById("package").value=p;
+
+show("details");
+
+}
+
+function payment(){
+
+show("payment");
+
+}
+
+function processPayment(){
+
+show("processing");
+
+setTimeout(function(){
+
+show("verify");
+
+},3000);
+
+setTimeout(function(){
+
+show("active");
+
+startCountdown();
+
+},6000);
+
+}
+
+function startCountdown(){
+
+let days=30;
+
+setInterval(function(){
+
+document.getElementById("days").innerHTML=
+
+days+" Days Remaining";
+
+if(days>0){
+
+days--;
+
+}
+
+},86400000);
+
+}
+
+</script>
+
+</body>
+</html>
+
+This page is ready to merge into your IPTV project. It provides the subscription flow and demo payment interface; you can then connect it to your existing channel-locking logic so that channels unlock after the simulated subscription is activated.
+
+
