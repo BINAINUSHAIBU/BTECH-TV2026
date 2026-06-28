@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BTECH-TV Subscription</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+color:#fff;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+width:95%;
+max-width:700px;
+background:#0d1324;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 25px rgba(0,212,255,.3);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+text-align:center;
+color:#00d4ff;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:30px;
+color:#9db6ff;
+}
+
+.step{
+display:none;
+animation:fade .4s;
+}
+
+.step.active{
+display:block;
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+.timer{
+font-size:40px;
+color:#00ff90;
+text-align:center;
+margin:20px 0;
+}
+
+.package{
+background:#111d39;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
+cursor:pointer;
+transition:.3s;
+}
+
+.package:hover{
+background:#00d4ff;
+color:#000;
+}
+
+input,select{
+
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:8px;
+background:#18294a;
+color:#fff;
+
+}
+
+button{
+
+width:100%;
+padding:14px;
+background:#00d4ff;
+color:#000;
+border:none;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+
+}
+
+button:hover{
+
+background:#00ffff;
+
+}
+
+.loader{
+
+width:80px;
+height:80px;
+border:8px solid #222;
+border-top:8px solid #00d4ff;
+border-radius:50%;
+margin:30px auto;
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+.success{
+
+font-size:90px;
+text-align:center;
+color:#00ff90;
+
+}
+
+.countdown{
+
+font-size:28px;
+text-align:center;
+margin:20px;
+
+}
+
+.unlock{
+
+text-align:center;
+font-size:30px;
+color:#00ff90;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+
+📺 BTECH-TV WORLD PRO MAX
+
+</div>
+
+<div class="subtitle">
+
+Premium Subscription
+
+</div>
+
+<!-- STEP 1 -->
+
+<div id="trial" class="step active">
+
+<h2 align="center">
+
+🎁 Claim Offer
+
+</h2>
+
+<div class="timer" id="trialTimer">
+
+02:00
+
+</div>
+
+<button onclick="expireTrial()">
+
+Start Free Trial
+
+</button>
+
+</div>
+
+<!-- STEP 2 -->
+
+<div id="expired" class="step">
+
+<h2 align="center">
+
+Trial Expired
+
+</h2>
+
+<br>
+
+<div class="package" onclick="choose('Starter')">
+
+Starter — ₦2,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('Premium')">
+
+Premium — ₦5,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('VIP')">
+
+VIP — ₦10,000 / Month
+
+</div>
+
+<div class="package" onclick="choose('Lifetime')">
+
+Lifetime — ₦50,000
+
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+
+<div id="details" class="step">
+
+<h2>
+
+Customer Details
+
+</h2>
+
+<input placeholder="Full Name">
+
+<input placeholder="Email">
+
+<input placeholder="Phone">
+
+<input id="package" readonly>
+
+<button onclick="payment()">
+
+Proceed To Payment
+
+</button>
+
+</div>
+
+<!-- STEP 4 -->
+
+<div id="payment" class="step">
+
+<h2>
+
+Demo Payment
+
+</h2>
+
+<input value="4111 1111 1111 1111">
+
+<input placeholder="MM/YY">
+
+<input placeholder="CVV">
+
+<button onclick="processPayment()">
+
+Pay Now
+
+</button>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div id="processing" class="step">
+
+<div class="loader"></div>
+
+<h2 align="center">
+
+Processing Payment...
+
+</h2>
+
+</div>
+
+<!-- STEP 6 -->
+
+<div id="verify" class="step">
+
+<div class="loader"></div>
+
+<h2 align="center">
+
+Server Verification...
+
+</h2>
+
+</div>
+
+<!-- STEP 7 -->
+
+<div id="active" class="step">
+
+<div class="success">
+
+✔
+
+</div>
+
+<h2 align="center">
+
+Subscription Activated
+
+</h2>
+
+<div class="countdown" id="days">
+
+30 Days Remaining
+
+</div>
+
+<div class="unlock">
+
+🔓 All Channels Unlocked
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let selectedPackage="";
+
+function show(id){
+
+document.querySelectorAll(".step").forEach(x=>x.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
+}
+
+function expireTrial(){
+
+let sec=120;
+
+let timer=setInterval(function(){
+
+sec--;
+
+let m=Math.floor(sec/60);
+
+let s=sec%60;
+
+document.getElementById("trialTimer").innerHTML=
+
+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+
+if(sec<=0){
+
+clearInterval(timer);
+
+show("expired");
+
+}
+
+},1000);
+
+}
+
+function choose(p){
+
+selectedPackage=p;
+
+document.getElementById("package").value=p;
+
+show("details");
+
+}
+
+function payment(){
+
+show("payment");
+
+}
+
+function processPayment(){
+
+show("processing");
+
+setTimeout(function(){
+
+show("verify");
+
+},3000);
+
+setTimeout(function(){
+
+show("active");
+
+startCountdown();
+
+},6000);
+
+}
+
+function startCountdown(){
+
+let days=30;
+
+setInterval(function(){
+
+document.getElementById("days").innerHTML=
+
+days+" Days Remaining";
+
+if(days>0){
+
+days--;
+
+}
+
+},86400000);
+
+}
+
+</script>
+
+</body>
+</html>
