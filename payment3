@@ -1,0 +1,146 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BTECH-TV WORLD PRO MAX</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+body{margin:0;font-family:Arial;background:#050816;color:#fff}
+header{background:#0d1324;padding:15px;text-align:center;color:#00d4ff}
+#player{width:100%;height:50vh;background:#000}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center}
+.box{background:#0d1324;padding:20px;border-radius:10px;width:320px}
+button{padding:10px 15px;background:#00d4ff;border:none;border-radius:6px;cursor:pointer}
+input{width:100%;margin:6px 0;padding:8px}
+</style>
+</head>
+<body>
+<header><h1>📺 BTECH-TV WORLD PRO MAX</h1><div>Free Trial: <span id="timer">02:00</span></div></header>
+<video id="player" controls autoplay></video>
+<div style="padding:20px">
+<button onclick="playDemo()">Play Demo Channel</button>
+</div>
+<div id="overlay">
+<div class="box">
+<h2>Trial Expired</h2>
+<p>Select a package and unlock all channels.</p>
+<select id="pkg"><option>Starter ₦2,000</option><option>Premium ₦5,000</option><option>VIP ₦10,000</option><option>Lifetime ₦50,000</option></select>
+<input placeholder="Full Name">
+<input placeholder="Email">
+<input placeholder="Phone">
+<button onclick="pay()">Proceed to Payment</button>
+<div id="status"></div>
+</div>
+</div>
+<script>
+const video=document.getElementById('player');
+function playDemo(){
+ const url='https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+ if(Hls.isSupported()){let h=new Hls();h.loadSource(url);h.attachMedia(video);}
+ else video.src=url;
+}
+let s=120;
+const t=setInterval(()=>{
+ s--;
+ timer.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+ if(s<=0){clearInterval(t);video.pause();overlay.style.display='flex';}
+},1000);
+function pay(){
+
+    const status = document.getElementById("status");
+
+    status.innerHTML = `
+        <h3>Demo Payment Gateway</h3>
+
+        <input id="cardNumber"
+        placeholder="4111 1111 1111 1111"
+        value="4111 1111 1111 1111">
+
+        <input id="expiry"
+        placeholder="12/30"
+        value="12/30">
+
+        <input id="cvv"
+        placeholder="123"
+        value="123">
+
+        <button onclick="processDemoPayment()">
+        Pay Now
+        </button>
+    `;
+}
+
+function processDemoPayment(){
+
+    const status=document.getElementById("status");
+
+    const card=document.getElementById("cardNumber").value;
+    const exp=document.getElementById("expiry").value;
+    const cvv=document.getElementById("cvv").value;
+
+    if(card.length<16){
+        alert("Invalid Card Number");
+        return;
+    }
+
+    if(exp==""){
+        alert("Enter Expiry Date");
+        return;
+    }
+
+    if(cvv.length<3){
+        alert("Invalid CVV");
+        return;
+    }
+
+    status.innerHTML=`
+        <div style="text-align:center">
+            <h3>Processing Payment...</h3>
+            <br>
+            <div class="loader"></div>
+        </div>
+    `;
+
+    setTimeout(function(){
+
+        status.innerHTML=`
+            <div style="text-align:center">
+                <h3>Verifying Subscription...</h3>
+                <br>
+                <div class="loader"></div>
+            </div>
+        `;
+
+    },3000);
+
+    setTimeout(function(){
+
+        localStorage.setItem("btechSubscribed","yes");
+
+        status.innerHTML=`
+            <div style="text-align:center">
+                <h1 style="color:#00ff90;font-size:70px;">✔</h1>
+                <h2>Payment Successful</h2>
+                <p>Subscription Activated</p>
+            </div>
+        `;
+
+    },6000);
+
+    setTimeout(function(){
+
+        document.getElementById("overlay").style.display="none";
+
+        alert("🎉 Welcome to BTECH-TV WORLD PRO MAX");
+
+        playDemo();
+
+    },8000);
+
+}
+if(localStorage.getItem('btechSubscribed')==='yes'){overlay.style.display='none';}
+</script>
+</body></html>
