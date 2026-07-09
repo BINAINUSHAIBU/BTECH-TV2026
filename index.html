@@ -1,9 +1,6 @@
 
 
 
-
-
-
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -178,8 +175,247 @@ box-shadow:0 0 10px rgba(0,212,255,.5);
 }
 </style>
 </head>
+<div id="trialOverlay">
+    <div id="trialBox">
 
-<body><div id="trialOverlay"><div id="trialBox"><h2>BTECH-TV Trial Version</h2><h3 id="timer"></h3><p>Watch free for 2 minutes.</p><div id="paymentArea"><h3>Your trial version has expired.</h3><select id="paymentType"><option>Demo Payment</option></select><select id="package"><option value="index_premium-package.html">Premium</option><option value="index_super-Compact_plus-package.html">Super Compact Plus</option><option value="index_super-premium-package.html">Super Premium</option><option value="index_super-premium_Compact_plus-package.html">Super Premium Compact Plus</option><option value="index_super-premium_plus-package.html">Super Premium Plus</option></select><input placeholder="Full Name"><input placeholder="Email Address"><input placeholder="Phone Number"><input placeholder="Other Information"><button onclick="pay()">Pay Demo</button></div></div></div>
+        <h2>BTECH-TV Trial Version</h2>
+
+        <h3 id="timer"></h3>
+
+        <p>Watch free for 2 minutes.</p>
+
+        <div id="paymentArea" style="display:none;">
+
+            <h3>Your trial version has expired.</h3>
+
+            <select id="paymentType">
+                <option>Demo Payment</option>
+            </select>
+
+            <select id="package">
+                <option value="index_premium-package.html">
+                    Premium
+                </option>
+
+                <option value="index_super-Compact_plus-package.html">
+                    Super Compact Plus
+                </option>
+
+                <option value="index_super-premium-package.html">
+                    Super Premium
+                </option>
+
+                <option value="index_super-premium_Compact_plus-package.html">
+                    Super Premium Compact Plus
+                </option>
+
+                <option value="index_super-premium_plus-package.html">
+                    Super Premium Plus
+                </option>
+            </select>
+
+            <input
+                type="text"
+                placeholder="Full Name">
+
+            <input
+                type="email"
+                placeholder="Email Address">
+
+            <input
+                type="tel"
+                placeholder="Phone Number">
+
+            <input
+                type="text"
+                placeholder="Other Information">
+
+            <button onclick="pay()">
+                Pay Demo
+            </button>
+
+        </div>
+
+    </div>
+</div>
+<!-- Paystack -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<script>
+
+let trialTime = 120;
+
+const timer = setInterval(function(){
+
+    let min = Math.floor(trialTime / 60);
+    let sec = trialTime % 60;
+
+    document.getElementById("timer").innerHTML =
+    "Trial expires in : " +
+    min + "m " +
+    sec + "s";
+
+    trialTime--;
+
+    if(trialTime < 0){
+
+        clearInterval(timer);
+
+        if(typeof video !== "undefined"){
+            video.pause();
+        }
+
+        document.getElementById("timer").innerHTML =
+        "Trial Expired";
+
+        document.getElementById("paymentArea").style.display =
+        "block";
+
+    }
+
+},1000);
+
+
+function payDemo(){
+
+    let method =
+    document.getElementById("paymentMethod").value;
+
+    if(method==""){
+
+        alert("Please select a payment method.");
+
+        return;
+
+    }
+
+    /* ===================
+       PAYSTACK DEMO
+    ==================== */
+
+    if(method=="paystack"){
+
+        let handler = PaystackPop.setup({
+
+            key: "pk_test_xxxxxxxxxxxxxxxxxxxxxxxxx",
+
+            email:
+            document.getElementById("email").value,
+
+            amount:10000,
+
+            currency:"NGN",
+
+            ref:"BTECHTV-"+Date.now(),
+
+            callback:function(response){
+
+                alert(
+                "Paystack Demo Payment Successful\n\nReference : "
+                + response.reference
+                );
+
+            },
+
+            onClose:function(){
+
+                alert("Payment Cancelled");
+
+            }
+
+        });
+
+        handler.openIframe();
+
+    }
+
+    /* ===================
+       PAYPAL DEMO
+    ==================== */
+
+    else if(method=="paypal"){
+
+        alert(
+        "Opening PayPal Sandbox Demo..."
+        );
+
+        window.open(
+        "https://www.sandbox.paypal.com/",
+        "_blank"
+        );
+
+    }
+
+}
+
+</script>
+
+<style>
+
+#trialOverlay{
+
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.90);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:999999;
+
+}
+
+#trialBox{
+
+width:450px;
+max-width:95%;
+background:#101827;
+padding:25px;
+border-radius:12px;
+border:2px solid #00d4ff;
+color:white;
+text-align:center;
+
+}
+
+#trialBox input,
+#trialBox textarea,
+#trialBox select{
+
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:6px;
+background:#1b2942;
+color:white;
+font-size:15px;
+
+}
+
+#trialBox button{
+
+width:100%;
+padding:14px;
+margin-top:10px;
+background:#00d4ff;
+border:none;
+border-radius:8px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+#trialBox button:hover{
+
+background:#00b4d8;
+
+}
+
+</style></div></div></div>
 
 <!-- SIDEBAR -->
 <div class="sidebar">
