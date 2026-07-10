@@ -1,7 +1,5 @@
 
 
-
-
 <!DOCTYPE html> 
 <html lang="en">
 <head>
@@ -129,7 +127,7 @@ cursor:pointer;
 overflow-y:auto;
 flex:1;
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); 
 gap:10px;
 padding-right:5px;
 }
@@ -179,43 +177,78 @@ box-shadow:0 0 10px rgba(0,212,255,.5);
 <div id="trialOverlay">
     <div id="trialBox">
 
-        <h2>BTECH-TV Trial Version</h2>
 
-        <h3 id="timer"></h3>
+    <!-- LOGO -->
+    <div style="text-align:center;margin-bottom:20px;">
+        <img src="logo.png"
+             alt="BTECH-TV WORLD PRO MAX"
+             style="width:260px;max-width:95%;">
+    </div>
 
-        <p>Watch free for 2 minutes.</p>
+    <h1 style="
+        font-size:44px;
+        margin:0;
+        font-weight:900;
+        color:#fff;">
+        BTECH-TV Trial Version
+    </h1>
 
-        <div id="paymentArea" style="display:none;">
+    <h2 id="timer"
+        style="
+        color:#ff3333;
+        font-size:42px;
+        margin:20px 0 10px;">
+    </h2>
 
-            <h3>Your trial version has expired.</h3>
+    <p style="font-size:28px;">
+        Watch free for 2 minutes.
+    </p>
 
-            <select id="paymentType">
-                <option>Demo Payment</option>
-            </select>
+    <p style="
+        color:#bfbfbf;
+        font-size:20px;">
+        Your trial version has expired.
+    </p>
 
-            <select id="package">
+    <!-- PAYMENT -->
+    <div id="paymentArea" style="display:none;">
+
+        <div style="
+            margin-top:25px;
+            border:2px solid #007bff;
+            border-radius:20px;
+            padding:25px;
+            background:#071126;
+            box-shadow:0 0 25px #007bff55;">
+
+          
+  <select id="package"> 
                 <option value="index_premium-package.html">
-                    Premium
+                   package
+                </option>
+
+                <option value="index_premium-package.html">
+                    👑 Premium
                 </option>
 
                 <option value="index_super-Compact_plus-package.html">
-                    Super Compact Plus
+                    👑 Super Compact Plus
                 </option>
 
                 <option value="index_super-premium-package.html">
-                    Super Premium
+                    👑 Super Premium
                 </option>
 
                 <option value="index_super-premium_Compact_plus-package.html">
-                    Super Premium Compact Plus
+                    👑 Super Premium Compact Plus
                 </option>
 
                 <option value="index_super-premium_plus-package.html">
-                    Super Premium Plus
+                    👑 Super Premium Plus
                 </option>
-            </select>
 
-            <input
+            </select>
+  <input
                 type="text"
                 placeholder="Full Name">
 
@@ -231,10 +264,15 @@ box-shadow:0 0 10px rgba(0,212,255,.5);
                 type="text"
                 placeholder="Other Information">
 
-            <button onclick="pay()">
+          
+
+                  <button onclick="pay()">
                 Pay Demo
             </button>
 
+        </div>
+
+ 
         </div>
 
     </div>
