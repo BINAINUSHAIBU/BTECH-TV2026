@@ -388,6 +388,22 @@ document.getElementById("fav").innerText=0;
 loadGlobal();
 
 </script>
+Promise.all([
+    fetch("data/channels.json").then(r => r.json()),
+    fetch("data/categories.json").then(r => r.json()),
+    fetch("data/countries.json").then(r => r.json()),
+    fetch("data/languages.json").then(r => r.json()),
+    fetch("data/settings.json").then(r => r.json())
+]).then(([channels, categories, countries, languages, settings]) => {
 
+    window.channels = channels;
+
+    buildCountryMenu(countries);
+    buildCategoryMenu(categories);
+    buildLanguageMenu(languages);
+
+    renderChannels(channels);
+
+});
 </body>
 </html>
