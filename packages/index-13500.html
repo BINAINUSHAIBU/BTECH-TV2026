@@ -1,0 +1,886 @@
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050816" />
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX 13,000 Channel Package"
+    />
+
+    <title>BTECH-TV WORLD PRO MAX — 13,000 Channels</title>
+
+    <style>
+      :root {
+        --bg: #050816;
+        --panel: #0b1022;
+        --panel2: #0f1630;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #f5f7ff;
+        --muted: #9aa5c4;
+        --accent: #5ee7ff;
+        --accent2: #7c5cff;
+        --success: #35e58b;
+        --danger: #ff5577;
+        --shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+        overflow-x: hidden;
+        background:
+          radial-gradient(
+            circle at 15% 10%,
+            rgba(94, 231, 255, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(124, 92, 255, 0.14),
+            transparent 30%
+          ),
+          linear-gradient(135deg, #050816, #080d1d 50%, #050816);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .container {
+        width: min(1180px, calc(100% - 32px));
+        margin: auto;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid var(--border);
+        background: rgba(5, 8, 22, 0.82);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+        object-fit: contain;
+        border-radius: 12px;
+      }
+
+      .brand-text {
+        font-size: 15px;
+      }
+
+      .back {
+        padding: 11px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--muted);
+        transition: 0.2s ease;
+      }
+
+      .back:hover {
+        color: var(--text);
+        border-color: rgba(94, 231, 255, 0.45);
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        padding: 80px 0 50px;
+        text-align: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px;
+        border-radius: 999px;
+        border: 1px solid rgba(94, 231, 255, 0.25);
+        background: rgba(94, 231, 255, 0.08);
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1.2px;
+        margin-bottom: 24px;
+      }
+
+      .hero h1 {
+        font-size: clamp(58px, 11vw, 130px);
+        line-height: 0.9;
+        letter-spacing: -5px;
+        background: linear-gradient(135deg, #fff, var(--accent), #b7a9ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-subtitle {
+        margin-top: 18px;
+        font-size: clamp(22px, 4vw, 38px);
+        font-weight: 800;
+      }
+
+      .hero p {
+        max-width: 700px;
+        margin: 18px auto 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 16px;
+      }
+
+      .price-card {
+        width: min(600px, 100%);
+        margin: 34px auto 0;
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: linear-gradient(
+          145deg,
+          rgba(15, 22, 48, 0.92),
+          rgba(11, 16, 34, 0.92)
+        );
+        box-shadow: var(--shadow);
+      }
+
+      .price {
+        font-size: 48px;
+        font-weight: 900;
+        letter-spacing: -2px;
+      }
+
+      .price span {
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+
+      .activate {
+        width: 100%;
+        margin-top: 22px;
+        padding: 16px 20px;
+        border: 0;
+        border-radius: 14px;
+        cursor: pointer;
+        color: #041019;
+        font-weight: 900;
+        background: linear-gradient(135deg, var(--accent), #9bf3ff);
+        box-shadow: 0 12px 35px rgba(94, 231, 255, 0.2);
+        transition: 0.2s ease;
+      }
+
+      .activate:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px rgba(94, 231, 255, 0.28);
+      }
+
+      .section {
+        padding: 30px 0 70px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 22px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 28px;
+        background: rgba(11, 16, 34, 0.82);
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+      .features {
+        display: grid;
+        gap: 13px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 15px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .feature-icon {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        color: var(--accent);
+        background: rgba(94, 231, 255, 0.09);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .feature strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .feature small {
+        color: var(--muted);
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .stat {
+        padding: 22px 14px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .stat strong {
+        display: block;
+        font-size: 25px;
+        margin-bottom: 7px;
+      }
+
+      .stat span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .payments {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .payment {
+        padding: 18px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+        font-weight: 800;
+      }
+
+      .demo-note {
+        margin-top: 18px;
+        padding: 15px;
+        border-radius: 14px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.035);
+        border: 1px solid var(--border);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      footer {
+        padding: 30px 16px 40px;
+        text-align: center;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        font-size: 13px;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        display: none;
+        place-items: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(12px);
+      }
+
+      .modal.active {
+        display: grid;
+      }
+
+      .modal-box {
+        width: min(520px, 100%);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: linear-gradient(145deg, #101731, #090e20);
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.6);
+        position: relative;
+      }
+
+      .close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        font-size: 20px;
+      }
+
+      .modal-box h2 {
+        padding-right: 45px;
+        margin-bottom: 8px;
+      }
+
+      .modal-price {
+        color: var(--accent);
+        margin-bottom: 24px;
+        font-weight: 800;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #dce2f5;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 14px;
+        color: var(--text);
+        background: #070b19;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        outline: none;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: rgba(94, 231, 255, 0.55);
+        box-shadow: 0 0 0 3px rgba(94, 231, 255, 0.08);
+      }
+
+      .form-group select option {
+        background: #0b1022;
+      }
+
+      .submit-btn {
+        width: 100%;
+        margin-top: 6px;
+        padding: 15px;
+        border: 0;
+        border-radius: 13px;
+        cursor: pointer;
+        color: #041019;
+        background: linear-gradient(135deg, var(--accent), #a7f5ff);
+        font-weight: 900;
+      }
+
+      .success {
+        display: none;
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(53, 229, 139, 0.25);
+        background: rgba(53, 229, 139, 0.08);
+        color: #baffd9;
+        line-height: 1.6;
+      }
+
+      .success.active {
+        display: block;
+      }
+
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hero {
+          padding-top: 55px;
+        }
+
+        .hero h1 {
+          letter-spacing: -3px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .container {
+          width: min(100% - 22px, 1180px);
+        }
+
+        .nav {
+          min-height: 66px;
+        }
+
+        .brand-text {
+          font-size: 12px;
+        }
+
+        .brand img {
+          width: 38px;
+          height: 38px;
+        }
+
+        .back {
+          padding: 9px 11px;
+          font-size: 12px;
+        }
+
+        .hero {
+          padding: 45px 0 35px;
+        }
+
+        .hero h1 {
+          font-size: 64px;
+        }
+
+        .price-card,
+        .card {
+          padding: 20px;
+          border-radius: 18px;
+        }
+
+        .price {
+          font-size: 40px;
+        }
+
+        .stats {
+          gap: 10px;
+        }
+
+        .stat {
+          padding: 18px 10px;
+        }
+
+        .payments {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .modal-box {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="container nav">
+        <a href="../index.html" class="brand">
+          <img src="../logo.png" alt="BTECH-TV Logo" />
+          <span class="brand-text">BTECH-TV WORLD PRO MAX</span>
+        </a>
+
+        <a href="../index.html" class="back">← Dashboard</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="badge">● PACKAGE AVAILABLE</div>
+
+          <h1>13,000</h1>
+
+          <div class="hero-subtitle">Channels</div>
+
+          <p>
+            Upgrade your BTECH-TV WORLD PRO MAX experience with the 13,000
+            Channel Package and enjoy access to a large channel library for 30
+            days.
+          </p>
+
+          <div class="price-card">
+            <div class="price">$134.99 <span>/ month</span></div>
+
+            <button class="activate" id="openModal">
+              Activate 13,000 Channels
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="grid">
+            <div class="card">
+              <h2>Package Features</h2>
+
+              <div class="features">
+                <div class="feature">
+                  <div class="feature-icon">13K</div>
+                  <div>
+                    <strong>13,000 Channels</strong>
+                    <small>Package channel limit</small>
+                  </div>
+                </div>
+
+                <div class="feature">
+                  <div class="feature-icon">30D</div>
+                  <div>
+                    <strong>30-Day Validity</strong>
+                    <small>Valid for 30 days after activation</small>
+                  </div>
+                </div>
+
+                <div class="feature">
+                  <div class="feature-icon">HD</div>
+                  <div>
+                    <strong>HD Streaming</strong>
+                    <small>Designed for supported HD streams</small>
+                  </div>
+                </div>
+
+                <div class="feature">
+                  <div class="feature-icon">TV</div>
+                  <div>
+                    <strong>Multi-Category Access</strong>
+                    <small>Access available channels by category</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2>Package Summary</h2>
+
+              <div class="stats">
+                <div class="stat">
+                  <strong>13K</strong>
+                  <span>Channels</span>
+                </div>
+
+                <div class="stat">
+                  <strong>30</strong>
+                  <span>Days</span>
+                </div>
+
+                <div class="stat">
+                  <strong>$134.99</strong>
+                  <span>Monthly</span>
+                </div>
+
+                <div class="stat">
+                  <strong>HD</strong>
+                  <span>Quality</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top: 22px">
+            <h2>Available Payment Types</h2>
+
+            <div class="payments">
+              <div class="payment">Paystack</div>
+              <div class="payment">Moniepoint</div>
+              <div class="payment">PayPal</div>
+              <div class="payment">Paypad</div>
+            </div>
+
+            <div class="demo-note">
+              <strong>Demo Activation:</strong>
+              This package page uses local browser activation for testing. No
+              real payment is processed by this demo page. Connect and verify
+              your real payment gateway and backend before using this system in
+              production.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>13,000 Channel Package • 30-Day Validity</div>
+
+      <div style="margin-top: 9px">
+        Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN
+      </div>
+    </footer>
+
+    <!-- ACTIVATION MODAL -->
+    <div class="modal" id="activationModal">
+      <div class="modal-box">
+        <button class="close" id="closeModal" aria-label="Close">×</button>
+
+        <h2>13,000 Channel Package</h2>
+
+        <div class="modal-price">$134.99 / month</div>
+
+        <form id="activationForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input
+              id="fullName"
+              type="text"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Enter your email address"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="Enter your phone number"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="paymentType">Payment Type</label>
+
+            <select id="paymentType" required>
+              <option value="">Select payment type</option>
+              <option value="Paystack">Paystack</option>
+              <option value="Moniepoint">Moniepoint</option>
+              <option value="PayPal">PayPal</option>
+              <option value="Paypad">Paypad</option>
+            </select>
+          </div>
+
+          <button class="submit-btn" type="submit">
+            Confirm 13,000 Channel Activation
+          </button>
+        </form>
+
+        <div class="success" id="successMessage">
+          <strong>Activation Successful</strong>
+
+          <br /><br />
+
+          Your 13,000-channel package has been activated successfully for 30
+          days.
+
+          <br /><br />
+
+          Redirecting to the dashboard...
+        </div>
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+
+      const PACKAGE = Object.freeze({
+        id: "13000",
+        name: "13,000 Channel Package",
+        channels: 13000,
+        price: 134.99,
+        currency: "USD",
+        validityDays: 30,
+      });
+
+      window.BTECH_PACKAGE = PACKAGE;
+
+      const STORAGE = Object.freeze({
+        subscription: "btech_tv_subscription",
+        premium: "btech_tv_premium",
+        package: "btech_tv_package",
+        channelLimit: "btech_tv_channel_limit",
+        expires: "btech_tv_package_expires",
+      });
+
+      const modal = document.getElementById("activationModal");
+
+      const openModal = document.getElementById("openModal");
+
+      const closeModal = document.getElementById("closeModal");
+
+      const form = document.getElementById("activationForm");
+
+      const successMessage = document.getElementById("successMessage");
+
+      function showModal() {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        setTimeout(() => {
+          document.getElementById("fullName").focus();
+        }, 100);
+      }
+
+      function hideModal() {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      openModal.addEventListener("click", showModal);
+
+      closeModal.addEventListener("click", hideModal);
+
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          hideModal();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal.classList.contains("active")) {
+          hideModal();
+        }
+      });
+
+      function clearExpiredSubscription() {
+        const expiresAt = Number(localStorage.getItem(STORAGE.expires) || 0);
+
+        if (expiresAt && Date.now() >= expiresAt) {
+          localStorage.removeItem(STORAGE.subscription);
+
+          localStorage.removeItem(STORAGE.premium);
+
+          localStorage.removeItem(STORAGE.package);
+
+          localStorage.removeItem(STORAGE.channelLimit);
+
+          localStorage.removeItem(STORAGE.expires);
+        }
+      }
+
+      clearExpiredSubscription();
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const fullName = document.getElementById("fullName").value.trim();
+
+        const email = document.getElementById("email").value.trim();
+
+        const phone = document.getElementById("phone").value.trim();
+
+        const paymentType = document.getElementById("paymentType").value;
+
+        if (!fullName || !email || !phone || !paymentType) {
+          return;
+        }
+
+        const activatedAt = Date.now();
+
+        const expiresAt =
+          activatedAt + PACKAGE.validityDays * 24 * 60 * 60 * 1000;
+
+        const subscription = {
+          packageId: PACKAGE.id,
+
+          packageName: PACKAGE.name,
+
+          channels: PACKAGE.channels,
+
+          price: PACKAGE.price,
+
+          currency: PACKAGE.currency,
+
+          validityDays: PACKAGE.validityDays,
+
+          fullName,
+
+          email,
+
+          phone,
+
+          paymentType,
+
+          activatedAt,
+
+          expiresAt,
+
+          status: "active",
+        };
+
+        localStorage.setItem(
+          STORAGE.subscription,
+          JSON.stringify(subscription),
+        );
+
+        localStorage.setItem(STORAGE.premium, "true");
+
+        localStorage.setItem(STORAGE.package, PACKAGE.id);
+
+        localStorage.setItem(STORAGE.channelLimit, String(PACKAGE.channels));
+
+        localStorage.setItem(STORAGE.expires, String(expiresAt));
+
+        form.style.display = "none";
+
+        successMessage.classList.add("active");
+
+        setTimeout(() => {
+          window.location.href = "../index.html";
+        }, 1600);
+      });
+    </script>
+  </body>
+</html>
+```
