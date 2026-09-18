@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+
+    <meta name="theme-color" content="#050816" />
+
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX - Ultra BTECH-TV World Engine"
+    />
+
+    <meta name="application-name" content="BTECH-TV WORLD PRO MAX" />
+
+    <title>BTECH-TV WORLD PRO MAX</title>
+
+    <!-- =========================================
+       STYLES
+  ========================================== -->
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="stylesheet" href="css/layout.css" />
+
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <!-- =========================================
+       EXTERNAL LIBRARIES
+  ========================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+  </head>
+
+  <body>
+    <!-- =========================================
+       BTECH-TV APPLICATION
+  ========================================== -->
+
+    <div class="app" id="app">
+      <!-- =======================================
+         SIDEBAR
+    ======================================== -->
+
+      <aside class="sidebar" aria-label="BTECH-TV navigation">
+        <div class="logo">BTECH-TV PRO MAX</div>
+
+        <div class="sub">Ultra BTECH-TV World Engine X</div>
+
+        <!-- COUNTRIES -->
+
+        <div class="menu-title">🌍 Countries</div>
+
+        <div id="countryMenu"></div>
+
+        <!-- CATEGORIES -->
+
+        <div class="menu-title">🎬 Categories</div>
+
+        <div id="categoryMenu"></div>
+
+        <!-- LANGUAGES -->
+
+        <div class="menu-title">🗣 Languages</div>
+
+        <div id="languageMenu"></div>
+
+        <!-- TOOLS -->
+
+        <div class="menu-title">🔥 Tools</div>
+
+        <button class="nav-btn" type="button" onclick="scanStreams()">
+          📡 Scan
+        </button>
+
+        <button class="nav-btn" type="button" onclick="speedBoost()">
+          ⚡ Boost
+        </button>
+
+        <button class="nav-btn" type="button" onclick="togglePiP()">
+          📺 PiP
+        </button>
+
+        <button class="nav-btn" type="button" onclick="clearRecents()">
+          🗑 Recents
+        </button>
+
+        <button class="nav-btn" type="button" onclick="recordMode()">
+          ⏺ Record
+        </button>
+
+        <button class="nav-btn" type="button" onclick="loadUltra()">
+          🚀 Ultra Feeds
+        </button>
+
+        <button class="nav-btn" type="button" onclick="repairStreams()">
+          🛠 Repair
+        </button>
+
+        <button class="nav-btn" type="button" onclick="optimizeMemory()">
+          🧠 Optimize
+        </button>
+      </aside>
+
+      <!-- =======================================
+         MAIN CONTENT
+    ======================================== -->
+
+      <main class="main">
+        <!-- =====================================
+           TOP BAR
+      ====================================== -->
+
+        <header class="topbar">
+          <!-- SEARCH -->
+
+          <div class="search-box">
+            <input
+              id="channelSearchInput"
+              type="search"
+              oninput="search(this.value)"
+              placeholder="Search BTECH-TV World..."
+              aria-label="Search BTECH-TV World"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+
+          <!-- STATUS -->
+
+          <div class="topbar-status">
+            <!-- =================================
+               30-MINUTE TRIAL TIMER
+          ================================== -->
+
+            <div class="btech-trial-bar" id="btechTrialBar">
+              <span class="trial-label"> FREE TRIAL </span>
+
+              <strong class="trial-time" id="btechTrialTimer">
+                00:30:00
+              </strong>
+            </div>
+
+            <!-- LIVE -->
+
+            <div class="live">🔴 BTECH-TV LIVE</div>
+          </div>
+        </header>
+
+        <!-- =====================================
+           STATISTICS
+      ====================================== -->
+
+        <section class="hero" aria-label="BTECH-TV statistics">
+          <h3>BTECH-TV World PRO MAX SYSTEM</h3>
+
+          <div class="stats">
+            <div class="stat">
+              📺
+
+              <strong id="total"> 0 </strong>
+
+              <span> TOTAL </span>
+            </div>
+
+            <div class="stat">
+              ⭐
+
+              <strong id="fav"> 0 </strong>
+
+              <span> FAV </span>
+            </div>
+
+            <div class="stat">
+              ⚫
+
+              <strong id="dead"> 0 </strong>
+
+              <span> DEAD </span>
+            </div>
+
+            <div class="stat">
+              🌍
+
+              <strong id="live"> 0 </strong>
+
+              <span> LIVE </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================
+           VIDEO PLAYER
+      ====================================== -->
+
+        <section
+          class="btech-screen-monitor screen-monitor"
+          aria-label="BTECH-TV fixed screen monitor"
+        >
+          <div
+            class="player-container"
+            id="btechPlayerContainer"
+            data-watermark-enabled="true"
+            aria-label="BTECH-TV live video player"
+          >
+            <video
+              id="video"
+              controls
+              autoplay
+              muted
+              playsinline
+              preload="metadata"
+              aria-label="BTECH-TV live stream"
+            ></video>
+
+            <!-- WATERMARK -->
+
+            <div
+              id="btechPlayerWatermark"
+              class="btech-player-watermark"
+              aria-hidden="true"
+            >
+              <img
+                id="btechWatermarkLogo"
+                src="logo.png"
+                alt=""
+                draggable="false"
+                onerror="this.hidden = true"
+              />
+
+              <div class="btech-watermark-text">
+                <strong> BTECH-TV </strong>
+
+                <span> WORLD PRO MAX </span>
+              </div>
+            </div>
+
+            <!-- LIVE BADGE -->
+
+            <div
+              id="btechPlayerLiveBadge"
+              class="btech-player-live-badge"
+              aria-hidden="true"
+            >
+              <span></span>
+
+              LIVE
+            </div>
+
+            <!-- CHANNEL INFORMATION -->
+
+            <div
+              id="btechPlayerChannelOverlay"
+              class="btech-player-channel-overlay"
+              aria-live="polite"
+            >
+              <strong id="btechPlayerChannelNumber"> CH 000 </strong>
+
+              <span id="btechPlayerChannelName"> No channel selected </span>
+            </div>
+
+            <!-- FULLSCREEN -->
+
+            <div
+              id="btechFullscreenHint"
+              class="btech-fullscreen-hint"
+              aria-hidden="true"
+            >
+              BTECH-TV WORLD PRO MAX
+            </div>
+          </div>
+
+          <!-- QUALITY -->
+
+          <div class="quality-selector">
+            <button type="button" aria-label="Current stream quality">
+              Quality:
+
+              <span data-current-quality> auto </span>
+            </button>
+
+            <div data-quality-menu></div>
+          </div>
+
+          <!-- PLAYER CONTROLS -->
+
+          <div class="controls">
+            <button type="button" onclick="next()">▶ Next</button>
+
+            <button type="button" onclick="prev()">◀ Prev</button>
+
+            <button type="button" onclick="toggleMute()">🔊 Mute</button>
+
+            <button type="button" onclick="toggleFullscreen()">
+              ⛶ Fullscreen
+            </button>
+
+            <button type="button" onclick="loadUltra()">🚀 Global</button>
+
+            <div class="designer-credit">
+              Design by
+
+              <span> BINAINU SHAIBU </span>
+
+              | BTECH WEBSITE DESIGN
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================
+           CHANNEL LIST
+      ====================================== -->
+
+        <section
+          class="btech-channel-display channel-display-section"
+          aria-labelledby="channelDisplayTitle"
+        >
+          <div class="channel-display-header">
+            <h2 id="channelDisplayTitle">BTECH-TV LIVE CHANNELS</h2>
+
+            <span id="channelCountLabel"> 0 channels </span>
+          </div>
+
+          <!-- CHANNEL SCROLL AREA -->
+
+          <div
+            class="channel-wrapper"
+            id="channelWrapper"
+            tabindex="0"
+            aria-label="Scrollable BTECH-TV channel list"
+          >
+            <div
+              class="channels"
+              id="grid"
+              aria-live="polite"
+              aria-label="Live TV channels"
+            ></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- =========================================
+       TRIAL TIMER STYLE
+  ========================================== -->
+
+    <style>
+      .btech-trial-bar {
+        display: inline-flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 9px;
+
+        padding: 8px 14px;
+
+        border: 1px solid rgba(94, 231, 255, 0.28);
+
+        border-radius: 999px;
+
+        background: rgba(94, 231, 255, 0.08);
+
+        color: #5ee7ff;
+
+        font-size: 12px;
+
+        font-weight: 800;
+
+        white-space: nowrap;
+      }
+
+      .btech-trial-bar .trial-label {
+        letter-spacing: 1px;
+      }
+
+      .btech-trial-bar .trial-time {
+        min-width: 72px;
+
+        text-align: center;
+
+        font-variant-numeric: tabular-nums;
+      }
+
+      .btech-trial-bar.expiring {
+        color: #ffb84d;
+
+        border-color: rgba(255, 184, 77, 0.4);
+
+        background: rgba(255, 184, 77, 0.08);
+      }
+
+      .btech-trial-bar.expired {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .btech-trial-bar {
+          padding: 7px 10px;
+
+          font-size: 10px;
+        }
+
+        .btech-trial-bar .trial-time {
+          min-width: 62px;
+        }
+      }
+    </style>
+
+    <!-- =========================================
+       3-MINUTE TRIAL ENGINE
+  ========================================== -->
+
+    <script>
+      "use strict";
+
+      /* =========================================
+       TRIAL CONFIGURATION
+    ========================================== */
+
+      window.BTECH_TRIAL = Object.freeze({
+        enabled: true,
+
+        /*
+         * 30-MINUTE FREE TRIAL
+         *
+         * 3 minutes
+         * × 60 seconds
+         * × 1000 milliseconds
+         */
+
+        duration: 3 * 60 * 1000,
+
+        /*
+         * Trial storage
+         */
+
+        storageKey: "btech_tv_trial",
+
+        /*
+         * Package selection page
+         */
+
+        packagePage: "packages.html",
+
+        /*
+         * Existing subscription keys
+         */
+
+        subscriptionKey: "btech_tv_subscription",
+
+        premiumKey: "btech_tv_premium",
+
+        packageKey: "btech_tv_package",
+
+        channelLimitKey: "btech_tv_channel_limit",
+
+        expiresKey: "btech_tv_package_expires",
+      });
+
+      /* =========================================
+       GET TRIAL
+    ========================================== */
+
+      function btechGetTrial() {
+        try {
+          return JSON.parse(
+            localStorage.getItem(BTECH_TRIAL.storageKey) || "null",
+          );
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* =========================================
+       SAVE TRIAL
+    ========================================== */
+
+      function btechSaveTrial(trial) {
+        localStorage.setItem(
+          BTECH_TRIAL.storageKey,
+
+          JSON.stringify(trial),
+        );
+      }
+
+      /* =========================================
+       GET SUBSCRIPTION
+    ========================================== */
+
+      function btechGetSubscription() {
+        try {
+          const active = JSON.parse(localStorage.getItem("btech_active_package") || "null");
+          const activeExpiry = active ? Number(active.expiresAt || active.expiryDate || 0) : 0;
+          if (active && activeExpiry > Date.now()) {
+            return { ...active, expiresAt: activeExpiry };
+          }
+          return JSON.parse(localStorage.getItem(BTECH_TRIAL.subscriptionKey) || localStorage.getItem("btech_tv_subscription_v5") || "null");
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* =========================================
+       CHECK ACTIVE PACKAGE
+    ========================================== */
+
+      function btechHasActivePackage() {
+        const subscription = btechGetSubscription();
+
+        if (!subscription) {
+          return false;
+        }
+
+        const expiresAt = Number(subscription.expiresAt || 0);
+
+        if (!expiresAt) {
+          return false;
+        }
+
+        /*
+         * Package expired
+         */
+
+        if (Date.now() >= expiresAt) {
+          localStorage.removeItem(BTECH_TRIAL.subscriptionKey);
+
+          localStorage.removeItem(BTECH_TRIAL.premiumKey);
+
+          localStorage.removeItem(BTECH_TRIAL.packageKey);
+
+          localStorage.removeItem(BTECH_TRIAL.channelLimitKey);
+
+          localStorage.removeItem(BTECH_TRIAL.expiresKey);
+
+          return false;
+        }
+
+        return true;
+      }
+
+      /* =========================================
+       START / CONTINUE TRIAL
+    ========================================== */
+
+      function btechStartTrial() {
+        let trial = btechGetTrial();
+
+        /*
+         * Existing trial:
+         * continue from saved expiry.
+         */
+
+        if (trial) {
+          return trial;
+        }
+
+        /*
+         * First visit:
+         * create 3-minute trial.
+         */
+
+        const startedAt = Date.now();
+
+        trial = {
+          startedAt: startedAt,
+
+          expiresAt: startedAt + BTECH_TRIAL.duration,
+
+          status: "active",
+        };
+
+        btechSaveTrial(trial);
+
+        return trial;
+      }
+
+      /* =========================================
+       FORMAT TIMER
+    ========================================== */
+
+      function btechFormatTrialTime(milliseconds) {
+        const totalSeconds = Math.max(
+          0,
+
+          Math.ceil(milliseconds / 1000),
+        );
+
+        const hours = Math.floor(totalSeconds / 3600);
+
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+        const seconds = totalSeconds % 60;
+
+        return (
+          String(hours).padStart(2, "0") +
+          ":" +
+          String(minutes).padStart(2, "0") +
+          ":" +
+          String(seconds).padStart(2, "0")
+        );
+      }
+
+      /* =========================================
+       EXPIRE TRIAL
+    ========================================== */
+
+      function btechExpireTrial() {
+        const trial = btechGetTrial();
+
+        if (trial) {
+          trial.status = "expired";
+
+          btechSaveTrial(trial);
+        }
+
+        const timer = document.getElementById("btechTrialTimer");
+
+        if (timer) {
+          timer.textContent = "00:00:00";
+        }
+
+        const bar = document.getElementById("btechTrialBar");
+
+        if (bar) {
+          bar.classList.add("expired");
+        }
+
+        /*
+         * Remove any legacy trial blocker before opening the
+         * package selector. Otherwise an invisible/expired trial
+         * layer can sit above the form and prevent typing.
+         */
+        ["trialOverlay", "trial-overlay"].forEach(function (id) {
+          const legacy = document.getElementById(id);
+          if (legacy) {
+            legacy.style.display = "none";
+            legacy.style.pointerEvents = "none";
+            legacy.setAttribute("hidden", "");
+          }
+        });
+
+        setTimeout(function () {
+          // Use one dedicated checkout page with native browser form controls.
+          window.location.href = "checkout.html";
+        }, 250);
+      }
+
+      /* =========================================
+       UPDATE TRIAL TIMER
+    ========================================== */
+
+      function btechUpdateTrial() {
+        /*
+         * Active package users
+         * do not need the trial.
+         */
+
+        if (btechHasActivePackage()) {
+          const bar = document.getElementById("btechTrialBar");
+
+          if (bar) {
+            bar.style.display = "none";
+          }
+
+          return;
+        }
+
+        /*
+         * Start or restore trial.
+         */
+
+        const trial = btechStartTrial();
+
+        const remaining = Number(trial.expiresAt) - Date.now();
+
+        /*
+         * Trial expired.
+         */
+
+        if (remaining <= 0) {
+          btechExpireTrial();
+
+          return;
+        }
+
+        /*
+         * Update timer.
+         */
+
+        const timer = document.getElementById("btechTrialTimer");
+
+        if (timer) {
+          timer.textContent = btechFormatTrialTime(remaining);
+        }
+
+        /*
+         * Warning during final
+         * 10 minutes.
+         */
+
+        const bar = document.getElementById("btechTrialBar");
+
+        if (bar && remaining <= 10 * 60 * 1000) {
+          bar.classList.add("expiring");
+        }
+      }
+
+      /* =========================================
+       INITIALIZE TRIAL
+    ========================================== */
+
+      function btechInitializeTrial() {
+        /*
+         * If user already has
+         * an active package,
+         * skip trial.
+         */
+
+        if (btechHasActivePackage()) {
+          const bar = document.getElementById("btechTrialBar");
+
+          if (bar) {
+            bar.style.display = "none";
+          }
+
+          return;
+        }
+
+        /*
+         * No active package:
+         * start or continue
+         * 3-minute trial.
+         */
+
+        btechStartTrial();
+
+        btechUpdateTrial();
+
+        /*
+         * Update every second.
+         */
+
+        setInterval(
+          btechUpdateTrial,
+
+          1000,
+        );
+      }
+
+      /* =========================================
+       START
+    ========================================== */
+
+      document.addEventListener(
+        "DOMContentLoaded",
+
+        btechInitializeTrial,
+      );
+    </script>
+
+    <!-- =========================================
+       APPLICATION JAVASCRIPT
+  ========================================== -->
+
+    <script src="data/channels.js" defer></script>
+
+    <script src="js/config.js" defer></script>
+
+    <script src="js/state.js" defer></script>
+
+    <script src="js/player.js" defer></script>
+
+    <script src="js/channels.js" defer></script>
+
+    <script src="js/ui.js" defer></script>
+
+    <script src="js/app.js" defer></script>
+  
+<style id="btech-package-flow-style">
+#packageSelectorOverlay[hidden],#paymentOverlay[hidden],#activationReceiptOverlay[hidden]{display:none!important}
+.btech-flow-overlay{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;padding:18px;background:rgba(2,6,18,.88);backdrop-filter:blur(8px);pointer-events:auto}.btech-flow-overlay[hidden]{display:none!important;pointer-events:none}.btech-flow-card{position:relative;z-index:1;pointer-events:auto}.btech-flow-field,.btech-flow-field label,.btech-flow-field input,.btech-flow-field select{pointer-events:auto}.btech-flow-field input,.btech-flow-field select{user-select:text;-webkit-user-select:text;cursor:text}
+.btech-flow-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#0d1324;border:1px solid #00d4ff;border-radius:16px;box-shadow:0 20px 70px rgba(0,0,0,.55);padding:24px;color:#fff}
+.btech-flow-card h2{color:#00d4ff;margin:7px 0 6px;font-size:24px}.btech-flow-card p{color:#8ea2d9;font-size:13px;margin-bottom:18px}.btech-flow-step{display:inline-block;padding:5px 9px;border-radius:999px;background:#152445;color:#00d4ff;font-size:10px;font-weight:900;letter-spacing:.08em}
+.btech-flow-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.btech-flow-field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.btech-flow-field.full{grid-column:1/-1}.btech-flow-field label{font-size:11px;color:#8ea2d9;font-weight:800;text-transform:uppercase}.btech-flow-field input,.btech-flow-field select{width:100%;padding:12px;border-radius:9px;border:1px solid #1d2b4f;background:#101a31;color:#fff;outline:0}.btech-flow-field input:focus,.btech-flow-field select:focus{border-color:#00d4ff;box-shadow:0 0 0 2px rgba(0,212,255,.12)}
+.btech-package-summary{margin:14px 0;padding:14px;border:1px solid #1d2b4f;border-radius:10px;background:#101a31;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}.btech-package-summary strong{color:#00d4ff}.btech-package-summary span{color:#fff}.btech-flow-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}.btech-flow-actions button{padding:11px 15px;border-radius:9px;border:1px solid #1f355d;background:#152445;color:#fff}.btech-flow-actions .btech-primary{background:#00d4ff;color:#001018;border-color:#00d4ff;font-weight:900}.btech-flow-actions button:disabled{opacity:.45;cursor:not-allowed}.btech-flow-message{min-height:18px;margin-top:10px;font-size:12px;color:#ff7b7b}.btech-flow-message[data-type="success"]{color:#67e8a5}
+.btech-payment-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.btech-payment-method{padding:13px;border:1px solid #1f355d;border-radius:10px;background:#101a31;color:#fff;text-align:left}.btech-payment-method.selected{border-color:#00d4ff;background:#152445;box-shadow:0 0 0 1px #00d4ff}.btech-receipt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}.btech-receipt div{padding:10px;border:1px solid #1d2b4f;border-radius:8px;background:#101a31}.btech-receipt small{display:block;color:#8ea2d9;font-size:10px;margin-bottom:3px}.btech-receipt strong{font-size:12px;word-break:break-word}
+@media(max-width:600px){.btech-flow-grid,.btech-payment-methods,.btech-receipt{grid-template-columns:1fr}.btech-flow-card{padding:18px}.btech-flow-card h2{font-size:20px}}
+</style>
+<style id="btech-form-interaction-fix">
+/* FINAL STABLE FORM FIX: keep checkout isolated and editable. */
+#packageSelectorOverlay, #paymentOverlay, #activationReceiptOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  isolation: isolate !important;
+}
+#packageSelectorOverlay[hidden], #paymentOverlay[hidden], #activationReceiptOverlay[hidden] {
+  display: none !important;
+  pointer-events: none !important;
+}
+#packageSelectorOverlay .btech-flow-card {
+  position: relative !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  isolation: isolate !important;
+}
+#packageSelectorOverlay input,
+#packageSelectorOverlay select,
+#packageSelectorOverlay button {
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+#packageSelectorOverlay input { cursor: text !important; }
+#packageSelectorOverlay select, #packageSelectorOverlay button { cursor: pointer !important; }
+#packageSelectorOverlay input:focus, #packageSelectorOverlay select:focus {
+  outline: 2px solid #00d4ff !important;
+  outline-offset: 1px !important;
+}
+</style>
+
+<style id="btech-native-dialog-form-fix">
+#btechDynamicPackageSelector {
+  width: min(680px, 96vw) !important;
+  max-width: calc(100vw - 36px) !important;
+  max-height: 92vh !important;
+  margin: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: inherit !important;
+  overflow: visible !important;
+  z-index: auto !important;
+}
+#btechDynamicPackageSelector::backdrop {
+  background: rgba(2,6,18,.92) !important;
+  backdrop-filter: blur(8px);
+}
+#btechDynamicPackageSelector .btech-flow-card {
+  width: 100% !important;
+  max-height: 92vh !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+}
+#btechDynamicPackageSelector input,
+#btechDynamicPackageSelector select {
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+}
+</style>
+<style id="btech-dynamic-package-flow-style">
+#paymentOverlay{position:fixed!important;inset:0!important;z-index:2147483647!important;align-items:center!important;justify-content:center!important;padding:18px!important;background:rgba(2,6,18,.92)!important;pointer-events:auto!important;}
+#paymentOverlay:not([hidden]){display:flex!important;}
+#paymentOverlay .btech-flow-card{pointer-events:auto!important;position:relative!important;z-index:2!important;}
+#paymentOverlay button{pointer-events:auto!important;position:relative!important;z-index:3!important;cursor:pointer!important;}
+#paymentOverlay .btech-payment-method{pointer-events:auto!important;user-select:none!important;-webkit-user-select:none!important;}
+#paymentOverlay .btech-primary:disabled{pointer-events:auto!important;}
+#btechDynamicPackageSelector{position:fixed!important;inset:0!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:18px!important;background:rgba(2,6,18,.92)!important;pointer-events:auto!important;}
+#btechDynamicPackageSelector .btech-flow-card{width:min(680px,96vw);max-height:92vh;overflow:auto;background:#0d1324;border:1px solid #00d4ff;border-radius:16px;box-shadow:0 20px 70px rgba(0,0,0,.55);padding:24px;color:#fff;pointer-events:auto!important;position:relative!important;z-index:2!important;}
+#btechDynamicPackageSelector input,#btechDynamicPackageSelector select,#btechDynamicPackageSelector button{pointer-events:auto!important;position:relative!important;z-index:3!important;}
+#btechDynamicPackageSelector input,#btechDynamicPackageSelector select{width:100%;padding:12px;border-radius:9px;border:1px solid #1d2b4f;background:#101a31;color:#fff;outline:0;box-sizing:border-box;user-select:text!important;-webkit-user-select:text!important;}
+#btechDynamicPackageSelector input:focus,#btechDynamicPackageSelector select:focus{border-color:#00d4ff;box-shadow:0 0 0 2px rgba(0,212,255,.12);outline:none;}
+#btechDynamicPackageSelector .btech-flow-field{display:flex;flex-direction:column;gap:6px;margin:10px 0;}
+#btechDynamicPackageSelector label{font-size:11px;color:#8ea2d9;font-weight:800;text-transform:uppercase;}
+#btechDynamicPackageSelector .btech-flow-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+#btechDynamicPackageSelector .btech-flow-field.full{grid-column:1/-1;}
+#btechDynamicPackageSelector .btech-package-summary{margin:14px 0;padding:14px;border:1px solid #1d2b4f;border-radius:10px;background:#101a31;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+#btechDynamicPackageSelector .btech-package-summary strong{color:#00d4ff;}
+#btechDynamicPackageSelector .btech-flow-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap;}
+#btechDynamicPackageSelector button{padding:11px 15px;border-radius:9px;border:1px solid #1f355d;background:#152445;color:#fff;cursor:pointer!important;}
+#btechDynamicPackageSelector .btech-primary{background:#00d4ff;color:#001018;border-color:#00d4ff;font-weight:900;}
+#btechDynamicPackageSelector button:disabled{opacity:.45;cursor:not-allowed!important;}
+@media(max-width:600px){#btechDynamicPackageSelector .btech-flow-grid{grid-template-columns:1fr;}#btechDynamicPackageSelector .btech-flow-card{padding:18px;}}
+</style>
+<div id="paymentOverlay" class="btech-flow-overlay" hidden>
+  <div class="btech-flow-card"><div class="btech-flow-step">STEP 2 OF 3 · PAYMENT</div><h2>Payment</h2>
+    <p><strong id="paymentPackageName"></strong> · <strong id="paymentPackagePrice"></strong> · 30 days</p><p>Customer: <strong id="paymentCustomerName"></strong></p>
+    <div class="btech-payment-methods"><button type="button" class="btech-payment-method" data-payment-method="Paystack Test">Paystack Test</button><button type="button" class="btech-payment-method" data-payment-method="Moniepoint Demo">Moniepoint Demo</button><button type="button" class="btech-payment-method" data-payment-method="PayPal Demo">PayPal Demo</button><button type="button" class="btech-payment-method" data-payment-method="Paypad Demo">Paypad Demo</button></div>
+    <div id="paymentMessage" class="btech-flow-message"></div><div class="btech-flow-actions"><button type="button" id="cancelPaymentBtn">Back</button><button type="button" id="confirmPaymentBtn" class="btech-primary" disabled>Confirm Payment</button></div>
+  </div>
+</div>
+<div id="activationReceiptOverlay" class="btech-flow-overlay" hidden>
+  <div class="btech-flow-card"><div class="btech-flow-step">STEP 3 OF 3 · ACTIVATED</div><h2>Package activated</h2><p>Your selected package is active. Continue to the selected package dashboard.</p>
+    <div class="btech-receipt"><div><small>Full Name</small><strong id="receiptName"></strong></div><div><small>Email</small><strong id="receiptEmail"></strong></div><div><small>Phone</small><strong id="receiptPhone"></strong></div><div><small>Package</small><strong id="receiptPackage"></strong></div><div><small>Channels</small><strong id="receiptChannels"></strong></div><div><small>Price</small><strong id="receiptPrice"></strong></div><div><small>Validity</small><strong id="receiptValidity"></strong></div><div><small>Payment</small><strong id="receiptPayment"></strong></div><div><small>Status</small><strong id="receiptPaymentStatus"></strong></div><div><small>Activation</small><strong id="receiptActivationDate"></strong></div><div><small>Expires</small><strong id="receiptExpiryDate"></strong></div><div><small>Type</small><strong id="receiptType"></strong></div></div>
+    <div class="btech-flow-actions"><button type="button" id="continueToDashboardBtn" class="btech-primary">CONTINUE TO SELECTED PACKAGE DASHBOARD</button></div>
+  </div>
+</div>
+
+
+
+<style id="btech-form-input-ultimate-fix">
+/* Ultimate checkout input fix: ordinary fixed DIV, never <dialog>. */
+#btechDynamicPackageSelector {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 18px !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2147483647 !important;
+  background: rgba(2,6,18,.94) !important;
+  pointer-events: auto !important;
+  overflow: auto !important;
+  isolation: isolate !important;
+}
+#btechDynamicPackageSelector .btech-flow-card {
+  position: relative !important;
+  z-index: 2147483647 !important;
+  width: min(680px, 96vw) !important;
+  max-height: 92vh !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+  background: #0d1324 !important;
+  color: #fff !important;
+  pointer-events: auto !important;
+}
+#btechDynamicPackageSelector input,
+#btechDynamicPackageSelector select,
+#btechDynamicPackageSelector button {
+  position: relative !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  touch-action: auto !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+#btechDynamicPackageSelector input {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  cursor: text !important;
+}
+#btechDynamicPackageSelector select,
+#btechDynamicPackageSelector button {
+  cursor: pointer !important;
+}
+#btechDynamicPackageSelector input:focus,
+#btechDynamicPackageSelector select:focus {
+  outline: 2px solid #00d4ff !important;
+  outline-offset: 1px !important;
+}
+</style>
+
+</body>
+</html>
