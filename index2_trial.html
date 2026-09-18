@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050816" />
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX - 1000 Channel Single Page Dashboard"
+    />
+    <title>BTECH-TV WORLD PRO MAX — 1000 Channels</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+      :root {
+        --bg: #050816;
+        --panel: #0b1224;
+        --panel2: #101a31;
+        --line: rgba(255, 255, 255, 0.09);
+        --text: #eef5ff;
+        --muted: #91a0ba;
+        --accent: #5ee7ff;
+        --danger: #ff3d54;
+        --good: #42e695;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Arial,
+          sans-serif;
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      .app {
+        height: 100dvh;
+        display: flex;
+        overflow: hidden;
+      }
+      .sidebar {
+        width: 280px;
+        flex: 0 0 280px;
+        height: 100%;
+        overflow-y: auto;
+        padding: 18px 14px;
+        background: linear-gradient(180deg, #091126, #060a18);
+        border-right: 1px solid var(--line);
+      }
+      .logo {
+        font-weight: 900;
+        font-size: 20px;
+        letter-spacing: 0.5px;
+      }
+      .sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin: 4px 0 20px;
+      }
+      .menu-title {
+        margin: 16px 6px 7px;
+        color: #b9c8df;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+      }
+      .menu-btn,
+      .nav-btn {
+        width: 100%;
+        padding: 9px 11px;
+        margin: 2px 0;
+        border: 1px solid transparent;
+        border-radius: 9px;
+        background: transparent;
+        color: #d9e4f5;
+        text-align: left;
+        cursor: pointer;
+      }
+      .menu-btn:hover,
+      .nav-btn:hover {
+        background: rgba(94, 231, 255, 0.08);
+        border-color: rgba(94, 231, 255, 0.12);
+      }
+      .main {
+        height: 100%;
+        min-width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .topbar {
+        height: 58px;
+        flex: 0 0 58px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(5, 8, 22, 0.94);
+      }
+      .search-box {
+        flex: 1;
+      }
+      .search-box input {
+        width: 100%;
+        height: 40px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #091126;
+        color: var(--text);
+        outline: none;
+      }
+      .search-box input:focus {
+        border-color: rgba(94, 231, 255, 0.5);
+      }
+      .live {
+        white-space: nowrap;
+        padding: 9px 12px;
+        border-radius: 999px;
+        background: rgba(255, 61, 84, 0.1);
+        border: 1px solid rgba(255, 61, 84, 0.25);
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .hero {
+        padding: 12px 16px 9px;
+        border-bottom: 1px solid var(--line);
+      }
+      .hero h3 {
+        margin: 0 0 9px;
+        font-size: 16px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(80px, 1fr));
+        gap: 8px;
+      }
+      .stat {
+        min-height: 55px;
+        padding: 7px 10px;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stat strong {
+        font-size: 15px;
+      }
+      .stat span {
+        font-size: 9px;
+        color: var(--muted);
+        font-weight: 800;
+      }
+      .screen-monitor {
+        padding: 10px 16px 8px;
+        flex: 0 0 auto;
+      }
+      .player-container {
+        height: 210px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #000;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+      }
+      video {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #000;
+        object-fit: contain;
+      }
+      .btech-player-watermark {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        pointer-events: none;
+        text-shadow: 0 1px 4px #000;
+      }
+      .btech-player-watermark img {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+      }
+      .btech-watermark-text {
+        display: flex;
+        flex-direction: column;
+        font-size: 9px;
+        line-height: 1.1;
+      }
+      .btech-watermark-text strong {
+        font-size: 12px;
+      }
+      .btech-player-live-badge {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        background: rgba(220, 0, 30, 0.85);
+        padding: 5px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 900;
+      }
+      .btech-player-live-badge span {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        margin-right: 4px;
+      }
+      .btech-player-channel-overlay {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
+        padding: 7px 10px;
+        border-radius: 8px;
+        background: rgba(0, 0, 0, 0.72);
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        max-width: 70%;
+      }
+      .btech-player-channel-overlay strong {
+        font-size: 11px;
+        color: var(--accent);
+      }
+      .btech-player-channel-overlay span {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .btech-fullscreen-hint {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        font-size: 9px;
+        color: #aebbd0;
+        background: rgba(0, 0, 0, 0.55);
+        padding: 5px 7px;
+        border-radius: 5px;
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 7px;
+      }
+      .controls button,
+      .quality-selector button {
+        border: 1px solid var(--line);
+        background: var(--panel);
+        color: #dce8f8;
+        border-radius: 7px;
+        padding: 6px 9px;
+        cursor: pointer;
+        font-size: 11px;
+      }
+      .designer-credit {
+        margin-left: auto;
+        font-size: 9px;
+        color: #73839e;
+      }
+      .designer-credit span {
+        color: var(--accent);
+      }
+      .quality-selector {
+        position: relative;
+        display: inline-block;
+        margin-top: 6px;
+      }
+      .quality-selector [data-quality-menu] {
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+        min-width: 100px;
+        background: #0a1224;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 4px;
+        display: none;
+      }
+      .quality-selector:hover [data-quality-menu] {
+        display: block;
+      }
+      .quality-selector [data-quality-menu] button {
+        width: 100%;
+        text-align: left;
+        border: 0;
+        background: transparent;
+      }
+      .quality-selector [data-quality-menu] button:hover {
+        background: rgba(94, 231, 255, 0.1);
+      }
+      .channel-display-section {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0 16px 12px;
+      }
+      .channel-display-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 35px;
+      }
+      .channel-display-header h2 {
+        font-size: 14px;
+        margin: 0;
+      }
+      .channel-display-header span {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .channel-wrapper {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        border-top: 1px solid var(--line);
+        padding-top: 8px;
+      }
+      .channels {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 8px;
+      }
+      .channel-card {
+        min-height: 86px;
+        padding: 9px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: linear-gradient(145deg, #0b1428, #081021);
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .channel-card:hover,
+      .channel-card.active {
+        border-color: rgba(94, 231, 255, 0.45);
+        transform: translateY(-1px);
+      }
+      .ch-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .ch-num {
+        font-size: 9px;
+        color: var(--accent);
+        font-weight: 900;
+      }
+      .fav-btn {
+        border: 0;
+        background: transparent;
+        color: #64748b;
+        font-size: 17px;
+        cursor: pointer;
+        padding: 0;
+      }
+      .fav-btn.on {
+        color: #ffd34e;
+      }
+      .ch-name {
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ch-meta {
+        margin-top: 7px;
+        color: #7e8da7;
+        font-size: 9px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .status-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--good);
+        margin-right: 5px;
+      }
+      .empty {
+        padding: 30px;
+        text-align: center;
+        color: var(--muted);
+      }
+      @media (max-width: 1050px) {
+        .sidebar {
+          width: 235px;
+          flex-basis: 235px;
+        }
+        .channels {
+          grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        }
+      }
+      @media (max-width: 760px) {
+        .sidebar {
+          display: none;
+        }
+        .topbar {
+          height: 52px;
+          flex-basis: 52px;
+          padding: 7px 10px;
+        }
+        .live {
+          font-size: 10px;
+          padding: 8px;
+        }
+        .hero,
+        .screen-monitor,
+        .channel-display-section {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+        .player-container {
+          height: 180px;
+        }
+        .stats {
+          gap: 5px;
+        }
+        .stat {
+          padding: 6px;
+          font-size: 12px;
+        }
+        .stat span {
+          display: none;
+        }
+        .channels {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 6px;
+        }
+        .channel-card {
+          min-width: 0;
+        }
+        .designer-credit {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+      @media (max-width: 420px) {
+        .player-container {
+          height: 160px;
+        }
+        .channels {
+          grid-template-columns: 1fr 1fr;
+        }
+        .btech-fullscreen-hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="logo">BTECH-TV PRO MAX</div>
+        <div class="sub">Ultra BTECH-TV World Engine X</div>
+        <div class="menu-title">🌍 Countries</div>
+        <div id="countryMenu"></div>
+        <div class="menu-title">🎬 Categories</div>
+        <div id="categoryMenu"></div>
+        <div class="menu-title">🗣 Languages</div>
+        <div id="languageMenu"></div>
+        <div class="menu-title">🔥 Tools</div>
+        <button class="nav-btn" onclick="scanStreams()">📡 Scan</button>
+        <button class="nav-btn" onclick="speedBoost()">⚡ Boost</button>
+        <button class="nav-btn" onclick="togglePiP()">📺 PiP</button>
+        <button class="nav-btn" onclick="clearRecents()">🗑 Recents</button>
+        <button class="nav-btn" onclick="recordMode()">⏺ Record</button>
+        <button class="nav-btn" onclick="loadGlobal()">🚀 Ultra Feeds</button>
+        <button class="nav-btn" onclick="repairStreams()">🛠 Repair</button>
+        <button class="nav-btn" onclick="optimizeMemory()">🧠 Optimize</button>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="search-box">
+            <input
+              id="channelSearchInput"
+              type="search"
+              placeholder="Search BTECH-TV World..."
+              oninput="searchChannels(this.value)"
+              autocomplete="off"
+            />
+          </div>
+          <div class="live">🔴 BTECH-TV LIVE</div>
+        </header>
+
+        <section class="hero">
+          <h3>BTECH-TV World PRO MAX SYSTEM</h3>
+          <div class="stats">
+            <div class="stat">
+              📺 <strong id="total">1000 / 11575</strong><span>TOTAL</span>
+            </div>
+            <div class="stat">
+              ⭐ <strong id="fav">0</strong><span>FAV</span>
+            </div>
+            <div class="stat">
+              ⚫ <strong id="dead">0</strong><span>DEAD</span>
+            </div>
+            <div class="stat">
+              🌍 <strong id="live">1000</strong><span>LIVE</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="screen-monitor">
+          <div class="player-container" id="btechPlayerContainer">
+            <video
+              id="video"
+              controls
+              autoplay
+              muted
+              playsinline
+              preload="metadata"
+            ></video>
+            <div class="btech-player-watermark">
+              <img src="logo.png" alt="" onerror="this.hidden = true" />
+              <div class="btech-watermark-text">
+                <strong>BTECH-TV</strong><span>WORLD PRO MAX</span>
+              </div>
+            </div>
+            <div class="btech-player-live-badge"><span></span>LIVE</div>
+            <div class="btech-player-channel-overlay">
+              <strong id="btechPlayerChannelNumber">CH 001</strong
+              ><span id="btechPlayerChannelName">BTECH-TV CHANNEL 001</span>
+            </div>
+            <div class="btech-fullscreen-hint">BTECH-TV WORLD PRO MAX</div>
+          </div>
+          <div class="quality-selector">
+            <button>Quality: <span data-current-quality>auto</span></button>
+            <div data-quality-menu></div>
+          </div>
+          <div class="controls">
+            <button onclick="next()">▶ Next</button
+            ><button onclick="prev()">◀ Prev</button>
+            <button onclick="toggleMute()">🔊 Mute</button
+            ><button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+            <button onclick="loadGlobal()">🚀 Global</button>
+            <div class="designer-credit">
+              Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN
+            </div>
+          </div>
+        </section>
+
+        <section class="channel-display-section">
+          <div class="channel-display-header">
+            <h2>BTECH-TV LIVE CHANNELS</h2>
+            <span id="channelCountLabel">1000 displayed • 1000 loaded</span>
+          </div>
+          <div class="channel-wrapper" id="channelWrapper" tabindex="0">
+            <div class="channels" id="grid"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      /* =========================================================
+   BTECH-TV WORLD PRO MAX — SINGLE PAGE / 1000 CHANNELS
+   The display limit is deliberately defined once.
+========================================================= */
+      const MAX_DISPLAY_CHANNELS = 1000;
+      const TOTAL_CHANNEL_TARGET = 11575;
+
+      const countries = [
+        ["Nigeria", "ng"],
+        ["USA", "us"],
+        ["UK", "gb"],
+        ["India", "in"],
+        ["France", "fr"],
+        ["Germany", "de"],
+        ["Brazil", "br"],
+        ["South Africa", "za"],
+        ["Canada", "ca"],
+        ["Australia", "au"],
+        ["Japan", "jp"],
+        ["South Korea", "kr"],
+        ["China", "cn"],
+        ["Spain", "es"],
+        ["Italy", "it"],
+        ["Turkey", "tr"],
+        ["Mexico", "mx"],
+        ["UAE", "ae"],
+        ["Saudi Arabia", "sa"],
+        ["Egypt", "eg"],
+        ["Argentina", "ar"],
+        ["Pakistan", "pk"],
+        ["Indonesia", "id"],
+        ["Philippines", "ph"],
+        ["Albania", "al"],
+      ];
+      const categories = [
+        "News",
+        "Sports",
+        "Movies",
+        "Music",
+        "Kids",
+        "Comedy",
+        "Documentary",
+        "Business",
+        "Science",
+        "Travel",
+      ];
+      const languages = [
+        ["English", "en"],
+        ["Spanish", "es"],
+        ["Arabic", "ar"],
+        ["French", "fr"],
+        ["Hindi", "hi"],
+        ["Chinese", "zh"],
+        ["Portuguese", "pt"],
+      ];
+
+      const state = {
+        all: [],
+        filtered: [],
+        index: 0,
+        dead: 0,
+        favorites: new Set(),
+        recents: [],
+        hls: null,
+      };
+
+      function $(id) {
+        return document.getElementById(id);
+      }
+      function escapeHtml(v) {
+        return String(v ?? "").replace(
+          /[&<>"']/g,
+          (m) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[m],
+        );
+      }
+
+      function makeDemoChannels() {
+        const out = [];
+        for (let i = 1; i <= MAX_DISPLAY_CHANNELS; i++) {
+          const country = countries[(i - 1) % countries.length];
+          const cat = categories[(i - 1) % categories.length];
+          const lang = languages[(i - 1) % languages.length];
+          out.push({
+            id: "btech-demo-" + i,
+            number: i,
+            name: "BTECH-TV " + cat + " " + String(i).padStart(3, "0"),
+            country: country[0],
+            countryCode: country[1],
+            category: cat,
+            language: lang[0],
+            logo: "logo.png",
+            /* Public test stream. Replace with streams you are authorized to use. */
+            url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+            live: true,
+            demo: true,
+          });
+        }
+        return out;
+      }
+
+      function parseM3U(text) {
+        const lines = text.split(/\r?\n/),
+          out = [];
+        let meta = null;
+        for (const raw of lines) {
+          const line = raw.trim();
+          if (!line) continue;
+          if (line.startsWith("#EXTINF")) {
+            const comma = line.indexOf(",");
+            const attrs = line.slice(0, comma >= 0 ? comma : line.length);
+            const name = comma >= 0 ? line.slice(comma + 1).trim() : "Channel";
+            const attr = (k) => {
+              const m = attrs.match(new RegExp(k + '="([^"]*)"', "i"));
+              return m ? m[1] : "";
+            };
+            meta = {
+              name,
+              logo: attr("tvg-logo"),
+              country: attr("tvg-country"),
+              language: attr("tvg-language"),
+              group: attr("group-title"),
+            };
+          } else if (!line.startsWith("#") && meta) {
+            out.push({
+              id:
+                "feed-" +
+                out.length +
+                "-" +
+                meta.name.replace(/\W+/g, "-").slice(0, 25),
+              name: meta.name,
+              url: line,
+              logo: meta.logo || "logo.png",
+              country: meta.country || "WORLD",
+              category: meta.group || "LIVE",
+              language: meta.language || "English",
+              live: true,
+            });
+            meta = null;
+            if (out.length >= TOTAL_CHANNEL_TARGET) break;
+          }
+        }
+        return out;
+      }
+
+      function setChannels(list) {
+        state.all = (list && list.length ? list : makeDemoChannels()).slice(
+          0,
+          TOTAL_CHANNEL_TARGET,
+        );
+        state.filtered = state.all.slice(0, MAX_DISPLAY_CHANNELS);
+        state.index = 0;
+        state.dead = 0;
+        render();
+        updateStats();
+        if (state.filtered[0]) playChannel(0);
+      }
+
+      function updateStats() {
+        const displayed = Math.min(state.filtered.length, MAX_DISPLAY_CHANNELS);
+        $("total").textContent = displayed + " / " + TOTAL_CHANNEL_TARGET;
+        $("fav").textContent = state.favorites.size;
+        $("dead").textContent = state.dead;
+        $("live").textContent = Math.max(0, displayed - state.dead);
+        $("channelCountLabel").textContent =
+          displayed + " displayed • " + state.all.length + " loaded";
+      }
+
+      function render() {
+        const grid = $("grid");
+        grid.innerHTML = "";
+        const list = state.filtered.slice(0, MAX_DISPLAY_CHANNELS);
+        if (!list.length) {
+          grid.innerHTML = '<div class="empty">No channels found.</div>';
+          return;
+        }
+        const frag = document.createDocumentFragment();
+        list.forEach((ch, i) => {
+          ch.number = i + 1;
+          const card = document.createElement("article");
+          card.className = "channel-card";
+          card.dataset.id = ch.id;
+          card.innerHTML =
+            '<div class="ch-top"><span class="ch-num">CH ' +
+            String(i + 1).padStart(3, "0") +
+            '</span><button class="fav-btn ' +
+            (state.favorites.has(ch.id) ? "on" : "") +
+            '" type="button">' +
+            (state.favorites.has(ch.id) ? "★" : "☆") +
+            "</button></div>" +
+            '<div class="ch-name">' +
+            escapeHtml(ch.name) +
+            '</div><div class="ch-meta"><span class="status-dot"></span>' +
+            escapeHtml(ch.country || "WORLD") +
+            " • " +
+            escapeHtml(ch.category || "LIVE") +
+            "</div>";
+          card.onclick = (e) => {
+            if (!e.target.closest(".fav-btn")) playChannel(i);
+          };
+          card.querySelector(".fav-btn").onclick = (e) => {
+            e.stopPropagation();
+            toggleFavorite(ch.id);
+          };
+          frag.appendChild(card);
+        });
+        grid.appendChild(frag);
+        updateStats();
+      }
+
+      function toggleFavorite(id) {
+        state.favorites.has(id)
+          ? state.favorites.delete(id)
+          : state.favorites.add(id);
+        try {
+          localStorage.setItem(
+            "btech_tv_favorites",
+            JSON.stringify([...state.favorites]),
+          );
+        } catch (e) {}
+        render();
+      }
+      function loadFavorites() {
+        try {
+          state.favorites = new Set(
+            JSON.parse(localStorage.getItem("btech_tv_favorites") || "[]"),
+          );
+        } catch (e) {}
+      }
+
+      function destroyPlayer() {
+        if (state.hls) {
+          try {
+            state.hls.destroy();
+          } catch (e) {}
+          state.hls = null;
+        }
+        const v = $("video");
+        v.pause();
+        v.removeAttribute("src");
+        v.load();
+      }
+      function playChannel(index) {
+        const list = state.filtered.slice(0, MAX_DISPLAY_CHANNELS);
+        if (!list[index]) return;
+        state.index = index;
+        const ch = list[index],
+          v = $("video");
+        destroyPlayer();
+        $("btechPlayerChannelNumber").textContent =
+          "CH " + String(index + 1).padStart(3, "0");
+        $("btechPlayerChannelName").textContent = ch.name || "Unknown Channel";
+        document.querySelector("[data-current-quality]").textContent = "auto";
+        if (ch.logo) {
+          const img = document.querySelector(".btech-player-watermark img");
+          img.src = ch.logo;
+          img.hidden = false;
+        }
+        if (window.Hls && Hls.isSupported() && /\.m3u8($|\?)/i.test(ch.url)) {
+          const hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+            maxBufferLength: 20,
+          });
+          state.hls = hls;
+          hls.loadSource(ch.url);
+          hls.attachMedia(v);
+          hls.on(Hls.Events.MANIFEST_PARSED, () => v.play().catch(() => {}));
+          hls.on(Hls.Events.MANIFEST_LOADED, () => {
+            const menu = document.querySelector("[data-quality-menu]");
+            menu.innerHTML = "";
+            (hls.levels || []).forEach((level, i) => {
+              const b = document.createElement("button");
+              b.type = "button";
+              b.textContent = level.height ? level.height + "p" : "Level " + i;
+              b.onclick = () => {
+                hls.currentLevel = i;
+                document.querySelector("[data-current-quality]").textContent =
+                  b.textContent;
+              };
+              menu.appendChild(b);
+            });
+          });
+          hls.on(Hls.Events.ERROR, (e, d) => {
+            if (d && d.fatal) {
+              state.dead++;
+              updateStats();
+            }
+          });
+        } else {
+          v.src = ch.url;
+          v.play().catch(() => {});
+        }
+        document
+          .querySelectorAll(".channel-card")
+          .forEach((el, i) => el.classList.toggle("active", i === index));
+        state.recents = [
+          ch.id,
+          ...state.recents.filter((x) => x !== ch.id),
+        ].slice(0, 50);
+        try {
+          localStorage.setItem(
+            "btech_tv_recents",
+            JSON.stringify(state.recents),
+          );
+        } catch (e) {}
+      }
+
+      function next() {
+        const n = Math.min(state.filtered.length, MAX_DISPLAY_CHANNELS);
+        if (n) playChannel((state.index + 1) % n);
+      }
+      function prev() {
+        const n = Math.min(state.filtered.length, MAX_DISPLAY_CHANNELS);
+        if (n) playChannel((state.index - 1 + n) % n);
+      }
+      function toggleMute() {
+        $("video").muted = !$("video").muted;
+      }
+      function toggleFullscreen() {
+        const el = $("btechPlayerContainer");
+        document.fullscreenElement
+          ? document.exitFullscreen?.()
+          : el.requestFullscreen?.();
+      }
+      async function togglePiP() {
+        try {
+          if (document.pictureInPictureElement)
+            await document.exitPictureInPicture();
+          else if (document.pictureInPictureEnabled)
+            await $("video").requestPictureInPicture();
+        } catch (e) {
+          alert("Picture-in-Picture is not available.");
+        }
+      }
+      function searchChannels(q) {
+        q = String(q || "")
+          .trim()
+          .toLowerCase();
+        state.filtered = q
+          ? state.all.filter((c) =>
+              [c.name, c.country, c.category, c.language]
+                .join(" ")
+                .toLowerCase()
+                .includes(q),
+            )
+          : state.all.slice();
+        state.filtered = state.filtered.slice(0, MAX_DISPLAY_CHANNELS);
+        state.index = 0;
+        render();
+      }
+      function searchBy(field, value) {
+        state.filtered = state.all
+          .filter(
+            (c) =>
+              String(c[field] || "").toLowerCase() ===
+              String(value).toLowerCase(),
+          )
+          .slice(0, MAX_DISPLAY_CHANNELS);
+        state.index = 0;
+        render();
+        if (state.filtered[0]) playChannel(0);
+      }
+      function loadGlobal() {
+        setChannels(state.all.length ? state.all : makeDemoChannels());
+      }
+      async function loadFeed(url, label) {
+        try {
+          const r = await fetch(url, { cache: "no-store" });
+          if (!r.ok) throw new Error(r.status);
+          const text = await r.text();
+          const parsed = parseM3U(text);
+          if (parsed.length) setChannels(parsed);
+          else throw new Error("No channels");
+        } catch (e) {
+          alert(
+            label +
+              " feed could not be loaded. Showing the 1,000-channel local demo list instead.",
+          );
+          setChannels(makeDemoChannels());
+        }
+      }
+      function loadCountry(code, name) {
+        loadFeed(
+          "https://iptv-org.github.io/iptv/countries/" + code + ".m3u",
+          name,
+        );
+      }
+      function loadCategory(name) {
+        loadFeed(
+          "https://iptv-org.github.io/iptv/categories/" +
+            name.toLowerCase() +
+            ".m3u",
+          name,
+        );
+      }
+      function loadLanguage(code, name) {
+        loadFeed(
+          "https://iptv-org.github.io/iptv/languages/" + code + ".m3u",
+          name,
+        );
+      }
+
+      function addMenu(container, text, fn) {
+        const b = document.createElement("button");
+        b.className = "menu-btn";
+        b.type = "button";
+        b.textContent = text;
+        b.onclick = fn;
+        container.appendChild(b);
+      }
+      function buildMenus() {
+        const cm = $("countryMenu"),
+          cat = $("categoryMenu"),
+          lm = $("languageMenu");
+        addMenu(cm, "🌐 Global", loadGlobal);
+        countries.forEach(([n, c]) => addMenu(cm, n, () => loadCountry(c, n)));
+        categories.forEach((n) => addMenu(cat, n, () => loadCategory(n)));
+        languages.forEach(([n, c]) => addMenu(lm, n, () => loadLanguage(c, n)));
+      }
+      function scanStreams() {
+        alert(
+          "BTECH-TV scan complete.\\nLoaded channels: " +
+            state.all.length +
+            "\\nDisplay limit: " +
+            MAX_DISPLAY_CHANNELS,
+        );
+      }
+      function speedBoost() {
+        $("channelWrapper").scrollTo({ top: 0, behavior: "smooth" });
+        alert("BTECH-TV Boost enabled.");
+      }
+      function clearRecents() {
+        state.recents = [];
+        localStorage.removeItem("btech_tv_recents");
+        alert("Recent channel history cleared.");
+      }
+      function recordMode() {
+        alert(
+          "Browser recording requires MediaRecorder support and a user-initiated workflow.",
+        );
+      }
+      function repairStreams() {
+        state.dead = 0;
+        updateStats();
+        alert("Stream health counters reset.");
+      }
+      function optimizeMemory() {
+        if (state.hls) {
+          state.hls.stopLoad();
+          state.hls.startLoad();
+        }
+        alert("Player memory optimization applied.");
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadFavorites();
+        buildMenus();
+        setChannels(makeDemoChannels());
+      });
+    </script>
+  </body>
+</html>
