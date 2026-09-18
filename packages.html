@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BTECH-TV Package Selector</title>
+<style>
+body{margin:0;background:#050816;color:#fff;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center}
+.card{width:min(650px,92vw);padding:24px;background:#0d1324;border:1px solid #00d4ff;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35)}
+.card h1{color:#00d4ff;margin:8px 0}.card p{color:#8ea2d9;line-height:1.55}
+.card select,.card input{width:100%;box-sizing:border-box;padding:12px;margin:7px 0;background:#101a31;color:#fff;border:1px solid #1d2b4f;border-radius:8px;outline:none}
+.card select:focus,.card input:focus{border-color:#00d4ff;box-shadow:0 0 0 2px rgba(0,212,255,.12)}
+.btn{padding:12px 16px;background:#00d4ff;color:#031018;border:0;border-radius:8px;font-weight:900;cursor:pointer;width:100%;margin-top:8px}.btn:disabled{opacity:.5;cursor:not-allowed}
+.summary{padding:12px;margin:10px 0;background:#101a31;border:1px solid #1d2b4f;border-radius:8px;color:#dce8ff}
+small{letter-spacing:.12em;color:#8ea2d9}
+</style>
+</head>
+<body>
+<main class="card">
+<small>PACKAGE SELECTOR</small>
+<h1>Select your package</h1>
+<p>Choose a package and enter your customer details. Continue to the payment step, then activate and open the selected package dashboard.</p>
+<select id="packageSelect" aria-label="Select package"></select>
+<div id="summary" class="summary" aria-live="polite"></div>
+<input id="name" autocomplete="name" placeholder="Full Name">
+<input id="email" type="email" autocomplete="email" placeholder="Email">
+<input id="phone" type="tel" autocomplete="tel" placeholder="Phone">
+<button class="btn" id="go">CONTINUE TO PAYMENT</button>
+</main>
+
+<script src="js/config.js"></script>
+<script>
+(function(){
+  const packages=Array.isArray(window.BTECH_CONFIG?.packages)?window.BTECH_CONFIG.packages:[];
+  window.BTECH_PACKAGES=packages.map(p=>({...p,id:String(p.id),channels:Number(p.channels),price:Number(p.price)}));
+  const sel=document.getElementById('packageSelect'),sum=document.getElementById('summary'),go=document.getElementById('go');
+  const selectedKey='btech_selected_package';
+  window.BTECH_PACKAGES.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=`${p.channels.toLocaleString()} Channels — $${p.price.toFixed(2)} — ${Number(p.duration||30)} Days`;sel.appendChild(o)});
+  function get(){return window.BTECH_PACKAGES.find(p=>p.id===sel.value)||null}
+  function update(){const p=get();sum.textContent=p?`${p.name} · ${p.channels.toLocaleString()} Channels · $${p.price.toFixed(2)} · ${Number(p.duration||30)} Days`:'Select a package';}
+  function validate(){
+    const n=document.getElementById('name').value.trim(),e=document.getElementById('email').value.trim(),ph=document.getElementById('phone').value.trim();
+    if(!n||!e||!ph){alert('Please complete your details.');return false}
+    if(!/^\S+@\S+\.\S+$/.test(e)){alert('Please enter a valid email address.');return false}
+    const p=get();if(!p){alert('Please select a package.');return false}
+    return {p,n,e,ph};
+  }
+  sel.addEventListener('change',update);update();
+  go.addEventListener('click',()=>{
+    const v=validate();if(!v)return;
+    localStorage.setItem(selectedKey,JSON.stringify({...v.p,customer:{name:v.n,email:v.e,phone:v.ph}}));
+    // Return to the main flow where the existing payment/activation overlay handles payment.
+    location.href='index.html?package='+encodeURIComponent(v.p.id)+'&checkout=1';
+  });
+})();
+</script>
+</body>
+</html>
