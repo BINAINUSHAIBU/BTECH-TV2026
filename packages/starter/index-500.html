@@ -1,0 +1,3125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050816">
+<meta name="description" content="BTECH-TV WORLD PRO MAX - 500 Channel Dashboard">
+<meta name="application-name" content="BTECH-TV WORLD PRO MAX">
+<title>BTECH-TV WORLD PRO MAX — 500 Channels</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+:root{--bg:#050816;--sidebar:#0d1324;--surface:#101a31;--surface-2:#111a31;--surface-3:#152445;--border:#1d2b4f;--border-2:#1f355d;--cyan:#00d4ff;--text:#fff;--muted:#8ea2d9;--red:#f00;--shadow:0 12px 35px rgba(0,0,0,.35)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+html,body{width:100%;height:100%} body{background:var(--bg);color:var(--text);overflow:hidden}
+button,input{font:inherit}button{cursor:pointer}
+.app{width:100%;height:100vh;display:flex;overflow:hidden}
+.sidebar{width:280px;min-width:280px;height:100vh;background:var(--sidebar);padding:15px;overflow-y:auto;border-right:1px solid var(--border);scrollbar-width:thin}
+.logo{color:var(--cyan);font-size:22px;font-weight:900;line-height:1.2;margin-bottom:4px} .sub{color:var(--muted);font-size:12px;margin-bottom:15px}
+.menu-title{color:var(--cyan);font-size:12px;font-weight:800;margin:17px 0 9px;text-transform:uppercase}
+.nav-btn{width:100%;padding:10px;margin:4px 0;background:#121c33;border:1px solid transparent;border-radius:8px;color:#fff;text-align:left}
+.nav-btn:hover,.nav-btn.active{background:#1e2f57;border-color:var(--cyan);color:var(--cyan)}
+.main{flex:1;min-width:0;height:100vh;display:flex;flex-direction:column;overflow:hidden;padding:10px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-shrink:0}
+.search-box{flex:1;min-width:0} .search-box input{width:min(100%,420px);padding:10px 13px;border:1px solid var(--border);border-radius:8px;outline:0;background:var(--surface);color:#fff}
+.search-box input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px rgba(0,212,255,.1)} .search-box input::placeholder{color:#7185b8}
+.live{background:var(--red);padding:6px 12px;border-radius:20px;font-size:12px;font-weight:800;white-space:nowrap}
+.hero{background:linear-gradient(135deg,#07132f,#0f1d45);padding:10px;border-radius:10px;border:1px solid var(--border);margin-bottom:10px;flex-shrink:0}
+.hero h3{font-size:16px;margin-bottom:8px} .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{min-height:60px;background:#101d39;padding:8px;border-radius:8px;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;flex-wrap:wrap}
+.stat strong{color:var(--cyan);font-size:16px} .stat span{width:100%;color:var(--muted);font-size:9px;font-weight:800}
+.player-container{position:relative;width:100%;height:320px;background:#000;border-radius:10px;overflow:hidden;border:1px solid #182544;box-shadow:var(--shadow);flex-shrink:0}
+video{width:100%;height:100%;display:block;background:#000;object-fit:contain}
+.watermark{position:absolute;top:14px;left:14px;z-index:5;display:flex;gap:8px;align-items:center;pointer-events:none;opacity:.88;text-shadow:0 2px 8px #000}
+.watermark strong{color:var(--cyan);font-size:14px} .watermark span{display:block;color:#fff;font-size:9px;font-weight:800}
+.player-live{position:absolute;top:14px;right:14px;z-index:5;padding:5px 9px;background:var(--red);border-radius:15px;font-size:10px;font-weight:900}
+.overlay{position:absolute;left:15px;bottom:48px;z-index:5;display:flex;gap:10px;max-width:calc(100% - 30px);padding:8px 12px;border-radius:7px;background:rgba(0,0,0,.72);border-left:3px solid var(--cyan);pointer-events:none}
+.overlay strong{color:var(--cyan);font-size:13px} .overlay span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.controls{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:8px 0 10px;flex-shrink:0}
+.controls button{padding:8px 10px;border:1px solid var(--border-2);border-radius:6px;background:var(--surface-3);color:#fff}
+.controls button:hover{background:var(--cyan);color:#000;border-color:var(--cyan)}
+.designer{margin-left:auto;padding-left:20px;color:var(--cyan);font-size:13px;font-weight:bold;white-space:nowrap} .designer span{color:#fff}
+.channel-section{min-height:0;flex:1;display:flex;flex-direction:column} .channel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;flex-shrink:0}
+.channel-head h2{color:var(--cyan);font-size:16px} .count{color:var(--muted);font-size:12px}
+.channel-wrapper{min-height:0;flex:1;overflow-y:auto;padding-right:5px;scrollbar-width:thin}
+.channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;padding-bottom:10px}
+.card{position:relative;min-height:90px;padding:10px;background:var(--surface-2);border:1px solid var(--border-2);border-radius:10px;cursor:pointer;transition:.2s}
+.card:hover,.card.active{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan)}
+.badge{float:right;background:var(--red);padding:3px 6px;border-radius:10px;font-size:10px;font-weight:800}
+.channel-number{color:var(--cyan);font-weight:bold;font-size:14px;margin-bottom:6px} .channel-name{color:#fff;font-size:16px;font-weight:600;line-height:1.3;word-break:break-word}
+.status{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:100;display:none;max-width:90vw;padding:10px 15px;background:#0d1324;border:1px solid var(--cyan);border-radius:8px;color:#fff;box-shadow:var(--shadow);font-size:13px;text-align:center}
+::-webkit-scrollbar{width:7px;height:7px} ::-webkit-scrollbar-track{background:#091022} ::-webkit-scrollbar-thumb{background:#243962;border-radius:10px} ::-webkit-scrollbar-thumb:hover{background:var(--cyan)}
+@media(max-width:1100px){.sidebar{width:230px;min-width:230px}.channels{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.designer{width:100%;margin-left:0;padding-left:0}}
+@media(max-width:900px){body{overflow:auto}.app{height:auto;min-height:100vh;flex-direction:column;overflow:visible}.sidebar{width:100%;min-width:0;height:auto;max-height:280px;border-right:0;border-bottom:1px solid var(--border)}.main{height:auto;min-height:calc(100vh - 280px);overflow:visible}.channel-section{min-height:450px}}
+@media(max-width:600px){.main{padding:7px}.topbar{align-items:stretch;flex-direction:column}.search-box input{width:100%}.stats{grid-template-columns:repeat(2,1fr)}.player-container{height:230px}.channels{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.channel-name{font-size:14px}.controls{gap:5px}.controls button{padding:7px 8px;font-size:12px}}
+@media(max-width:420px){.channels{grid-template-columns:1fr}.player-container{height:210px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="logo">BTECH-TV PRO MAX</div><div class="sub">Ultra BTECH-TV World Engine X</div>
+<div class="menu-title">🌍 Countries</div><div id="countryMenu"></div>
+<div class="menu-title">🎬 Categories</div><div id="categoryMenu"></div>
+<div class="menu-title">🗣 Languages</div><div id="languageMenu"></div>
+<div class="menu-title">🔥 Tools</div>
+<button class="nav-btn" onclick="scanStreams()">📡 Scan</button>
+<button class="nav-btn" onclick="speedBoost()">⚡ Boost</button>
+<button class="nav-btn" onclick="togglePiP()">📺 PiP</button>
+<button class="nav-btn" onclick="clearRecents()">🗑 Recents</button>
+<button class="nav-btn" onclick="recordMode()">⏺ Record</button>
+<button class="nav-btn" onclick="loadUltra()">🚀 Ultra Feeds</button>
+<button class="nav-btn" onclick="repairStreams()">🛠 Repair</button>
+<button class="nav-btn" onclick="optimizeMemory()">🧠 Optimize</button>
+</aside>
+<main class="main">
+<header class="topbar"><div class="search-box"><input id="channelSearchInput" type="search" oninput="search(this.value)" placeholder="Search BTECH-TV World..." autocomplete="off"></div><div class="live">🔴 BTECH-TV LIVE</div></header>
+<section class="hero"><h3>BTECH-TV World PRO MAX SYSTEM — 500 CHANNEL PACKAGE</h3><div class="stats">
+<div class="stat">📺 <strong id="total">500</strong><span>TOTAL</span></div>
+<div class="stat">⭐ <strong id="fav">0</strong><span>FAV</span></div>
+<div class="stat">⚫ <strong id="dead">0</strong><span>DEAD</span></div>
+<div class="stat">🌍 <strong id="live">500</strong><span>LIVE</span></div>
+</div></section>
+<section class="player-container" id="playerContainer">
+<video id="video" controls autoplay muted playsinline preload="metadata"></video>
+<div class="watermark"><div><strong>BTECH-TV</strong><span>WORLD PRO MAX</span></div></div>
+<div class="player-live">🔴 LIVE</div>
+<div class="overlay"><strong id="playerNo">CH 000</strong><span id="playerName">No channel selected</span></div>
+</section>
+<div class="controls">
+<button onclick="next()">▶ Next</button><button onclick="prev()">◀ Prev</button><button onclick="toggleMute()">🔊 Mute</button><button onclick="toggleFullscreen()">⛶ Fullscreen</button><button onclick="togglePiP()">📺 PiP</button><button onclick="loadUltra()">🚀 Global</button>
+<div class="designer">Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN</div>
+</div>
+<section class="channel-section"><div class="channel-head"><h2>BTECH-TV LIVE CHANNELS</h2><span class="count" id="count">500 channels</span></div><div class="channel-wrapper" id="channelWrapper"><div class="channels" id="grid"><article class="card" data-index="0">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 001</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| GENERAL ✦●✦</div>
+    </article>
+<article class="card" data-index="1">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 002</div>
+      <div class="channel-name">BTECH DSTV| TF1 HD</div>
+    </article>
+<article class="card" data-index="2">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 003</div>
+      <div class="channel-name">BTECH DSTV| AL JAZEERA HD</div>
+    </article>
+<article class="card" data-index="3">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 004</div>
+      <div class="channel-name">BTECH DSTV| CNN INTERNATIONAL HD</div>
+    </article>
+<article class="card" data-index="4">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 005</div>
+      <div class="channel-name">BTECH DSTV| CGTN NEWS FHD</div>
+    </article>
+<article class="card" data-index="5">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 006</div>
+      <div class="channel-name">BTECH DSTV| TV5 MONDE AFRIQUE HD</div>
+    </article>
+<article class="card" data-index="6">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 007</div>
+      <div class="channel-name">BTECH DSTV| TVC NEWS FHD</div>
+    </article>
+<article class="card" data-index="7">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 008</div>
+      <div class="channel-name">BTECH DSTV| JOY NEWS HD</div>
+    </article>
+<article class="card" data-index="8">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 009</div>
+      <div class="channel-name">BTECH DSTV| TELEMUNDO HD</div>
+    </article>
+<article class="card" data-index="9">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 010</div>
+      <div class="channel-name">BTECH DSTV| CHANNELS 24 HD</div>
+    </article>
+<article class="card" data-index="10">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 011</div>
+      <div class="channel-name">BTECH DSTV| CNBC AFRICA HD</div>
+    </article>
+<article class="card" data-index="11">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 012</div>
+      <div class="channel-name">BTECH DSTV| LAGOS TV SD</div>
+    </article>
+<article class="card" data-index="12">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 013</div>
+      <div class="channel-name">BTECH DSTV| MINDSET HD</div>
+    </article>
+<article class="card" data-index="13">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 014</div>
+      <div class="channel-name">BTECH DSTV| SABC NEWS HD</div>
+    </article>
+<article class="card" data-index="14">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 015</div>
+      <div class="channel-name">BTECH DSTV| ENCA HD</div>
+    </article>
+<article class="card" data-index="15">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 016</div>
+      <div class="channel-name">BTECH DSTV| ADOM TV HD</div>
+    </article>
+<article class="card" data-index="16">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 017</div>
+      <div class="channel-name">BTECH DSTV| BLOOMBERG HD</div>
+    </article>
+<article class="card" data-index="17">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 018</div>
+      <div class="channel-name">BTECH DSTV| MOJA LOVE HD</div>
+    </article>
+<article class="card" data-index="18">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 019</div>
+      <div class="channel-name">BTECH DSTV| Channel O HD</div>
+    </article>
+<article class="card" data-index="19">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 020</div>
+      <div class="channel-name">BTECH DSTV| UNIVERSAL TV HD</div>
+    </article>
+<article class="card" data-index="20">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 021</div>
+      <div class="channel-name">BTECH DSTV| CAPE TOWN TV HD</div>
+    </article>
+<article class="card" data-index="21">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 022</div>
+      <div class="channel-name">BTECH DSTV| GAU TV HD</div>
+    </article>
+<article class="card" data-index="22">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 023</div>
+      <div class="channel-name">BTECH DSTV| E TV HD</div>
+    </article>
+<article class="card" data-index="23">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 024</div>
+      <div class="channel-name">BTECH DSTV| E TV EXTRA HD</div>
+    </article>
+<article class="card" data-index="24">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 025</div>
+      <div class="channel-name">BTECH DSTV| SKY NEWS HD</div>
+    </article>
+<article class="card" data-index="25">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 026</div>
+      <div class="channel-name">BTECH DSTV| PARLIAMENTARY SERVICE HD</div>
+    </article>
+<article class="card" data-index="26">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 027</div>
+      <div class="channel-name">BTECH DSTV| NDTV247 HD</div>
+    </article>
+<article class="card" data-index="27">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 028</div>
+      <div class="channel-name">BTECH DSTV| DEUTSCHE WELLE HD</div>
+    </article>
+<article class="card" data-index="28">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 029</div>
+      <div class="channel-name">BTECH DSTV| RTP INTERNACIONAL HD</div>
+    </article>
+<article class="card" data-index="29">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 030</div>
+      <div class="channel-name">BTECH DSTV| BBC BRIT HD</div>
+    </article>
+<article class="card" data-index="30">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 031</div>
+      <div class="channel-name">BTECH DSTV| BBC EARTH HD</div>
+    </article>
+<article class="card" data-index="31">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 032</div>
+      <div class="channel-name">BTECH DSTV| HISTORY HD</div>
+    </article>
+<article class="card" data-index="32">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 033</div>
+      <div class="channel-name">BTECH DSTV| DREAMWORKS HD</div>
+    </article>
+<article class="card" data-index="33">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 034</div>
+      <div class="channel-name">BTECH DSTV| RUSSIA TODAY HD</div>
+    </article>
+<article class="card" data-index="34">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 035</div>
+      <div class="channel-name">BTECH DSTV| WASAFI TV</div>
+    </article>
+<article class="card" data-index="35">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 036</div>
+      <div class="channel-name">BTECH DSTV| HILAAL TV HD</div>
+    </article>
+<article class="card" data-index="36">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 037</div>
+      <div class="channel-name">BTECH DSTV| AZAM UTV</div>
+    </article>
+<article class="card" data-index="37">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 038</div>
+      <div class="channel-name">BTECH DSTV| AZAM KTN Burudani</div>
+    </article>
+<article class="card" data-index="38">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 039</div>
+      <div class="channel-name">BTECH DSTV| AZAM KTN Farmer</div>
+    </article>
+<article class="card" data-index="39">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 040</div>
+      <div class="channel-name">BTECH DSTV| AZAM KTN News</div>
+    </article>
+<article class="card" data-index="40">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 041</div>
+      <div class="channel-name">BTECH DSTV| AZAM DW English</div>
+    </article>
+<article class="card" data-index="41">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 042</div>
+      <div class="channel-name">BTECH DSTV| NHK</div>
+    </article>
+<article class="card" data-index="42">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 043</div>
+      <div class="channel-name">BTECH DSTV| BUSINESS DAY TV HD</div>
+    </article>
+<article class="card" data-index="43">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 044</div>
+      <div class="channel-name">BTECH DSTV| INX Prime HD</div>
+    </article>
+<article class="card" data-index="44">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 045</div>
+      <div class="channel-name">BTECH DSTV| AZAM ONE</div>
+    </article>
+<article class="card" data-index="45">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 046</div>
+      <div class="channel-name">BTECH DSTV| Azam TWO</div>
+    </article>
+<article class="card" data-index="46">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 047</div>
+      <div class="channel-name">BTECH DSTV| VOX TV</div>
+    </article>
+<article class="card" data-index="47">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 048</div>
+      <div class="channel-name">BTECH DSTV| NINA TV</div>
+    </article>
+<article class="card" data-index="48">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 049</div>
+      <div class="channel-name">BTECH DSTV| ZBC 2</div>
+    </article>
+<article class="card" data-index="49">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 050</div>
+      <div class="channel-name">BTECH DSTV| SINEMA ZETU</div>
+    </article>
+<article class="card" data-index="50">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 051</div>
+      <div class="channel-name">BTECH DSTV| WILD EARTH HD</div>
+    </article>
+<article class="card" data-index="51">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 052</div>
+      <div class="channel-name">BTECH DSTV| FASHION HD</div>
+    </article>
+<article class="card" data-index="52">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 053</div>
+      <div class="channel-name">BTECH DSTV| ITV HD</div>
+    </article>
+<article class="card" data-index="53">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 054</div>
+      <div class="channel-name">BTECH DSTV| TIVI5 HD</div>
+    </article>
+<article class="card" data-index="54">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 055</div>
+      <div class="channel-name">BTECH DSTV| KC2 SD</div>
+    </article>
+<article class="card" data-index="55">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 056</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| RELIGIOUS ✦●✦</div>
+    </article>
+<article class="card" data-index="56">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 057</div>
+      <div class="channel-name">BTECH DSTV| TBN HD</div>
+    </article>
+<article class="card" data-index="57">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 058</div>
+      <div class="channel-name">BTECH DSTV| DOVE TV HD</div>
+    </article>
+<article class="card" data-index="58">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 059</div>
+      <div class="channel-name">BTECH DSTV| FAITH TV HD</div>
+    </article>
+<article class="card" data-index="59">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 060</div>
+      <div class="channel-name">BTECH DSTV| ISLAM CHANNEL HD</div>
+    </article>
+<article class="card" data-index="60">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 061</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| SPORT ✦●✦</div>
+    </article>
+<article class="card" data-index="61">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 062</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT EVENTS HD</div>
+    </article>
+<article class="card" data-index="62">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 063</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT AFRICA 1</div>
+    </article>
+<article class="card" data-index="63">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 064</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT AFRICA 2</div>
+    </article>
+<article class="card" data-index="64">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 065</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT PREMIER LEAGUE HD</div>
+    </article>
+<article class="card" data-index="65">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 066</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT FOOTBALL HD</div>
+    </article>
+<article class="card" data-index="66">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 067</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT FOOTBALL PLUS HD</div>
+    </article>
+<article class="card" data-index="67">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 068</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT PSL HD</div>
+    </article>
+<article class="card" data-index="68">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 069</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT LALIGA HD</div>
+    </article>
+<article class="card" data-index="69">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 070</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT RUGBY HD</div>
+    </article>
+<article class="card" data-index="70">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 071</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT RUGBY HD [BK]</div>
+    </article>
+<article class="card" data-index="71">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 072</div>
+      <div class="channel-name">BTECH DSTV| Super Sport Blitz HD</div>
+    </article>
+<article class="card" data-index="72">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 073</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT CRICKET HD</div>
+    </article>
+<article class="card" data-index="73">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 074</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT CRICKET HD [BK]</div>
+    </article>
+<article class="card" data-index="74">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 075</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT ACTION HD</div>
+    </article>
+<article class="card" data-index="75">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 076</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT GOLF HD</div>
+    </article>
+<article class="card" data-index="76">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 077</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT MOTORSPORT HD</div>
+    </article>
+<article class="card" data-index="77">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 078</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT TENNIS HD</div>
+    </article>
+<article class="card" data-index="78">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 079</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT GRANDSTAND HD</div>
+    </article>
+<article class="card" data-index="79">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 080</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT MAXIMO 1 HD</div>
+    </article>
+<article class="card" data-index="80">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 081</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT MAXIMO 2 HD</div>
+    </article>
+<article class="card" data-index="81">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 082</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT VARIETY 1 HD</div>
+    </article>
+<article class="card" data-index="82">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 083</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT VARIETY 2 HD</div>
+    </article>
+<article class="card" data-index="83">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 084</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT VARIETY 4 HD</div>
+    </article>
+<article class="card" data-index="84">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 085</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT VARIETY 3 HD</div>
+    </article>
+<article class="card" data-index="85">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 086</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT SCHOOLS HD</div>
+    </article>
+<article class="card" data-index="86">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 087</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT LIYA 1</div>
+    </article>
+<article class="card" data-index="87">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 088</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT LIYA 2</div>
+    </article>
+<article class="card" data-index="88">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 089</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT PLAY HD</div>
+    </article>
+<article class="card" data-index="89">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 090</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT HD</div>
+    </article>
+<article class="card" data-index="90">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 091</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 2 HD</div>
+    </article>
+<article class="card" data-index="91">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 092</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 3 HD</div>
+    </article>
+<article class="card" data-index="92">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 093</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 4 HD</div>
+    </article>
+<article class="card" data-index="93">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 094</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 5 HD</div>
+    </article>
+<article class="card" data-index="94">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 095</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 6 HD</div>
+    </article>
+<article class="card" data-index="95">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 096</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 7 HD</div>
+    </article>
+<article class="card" data-index="96">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 097</div>
+      <div class="channel-name">BTECH DSTV| SUPER SPORT OTT 8 HD</div>
+    </article>
+<article class="card" data-index="97">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 098</div>
+      <div class="channel-name">BTECH DSTV| SABC SPORTS HD</div>
+    </article>
+<article class="card" data-index="98">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 099</div>
+      <div class="channel-name">BTECH DSTV| ESPN HD</div>
+    </article>
+<article class="card" data-index="99">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 100</div>
+      <div class="channel-name">BTECH DSTV| ESPN 2 HD</div>
+    </article>
+<article class="card" data-index="100">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 101</div>
+      <div class="channel-name">BTECH DSTV| RACING 240 HD</div>
+    </article>
+<article class="card" data-index="101">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 102</div>
+      <div class="channel-name">BTECH DSTV| GINX ESPORTS TV HD</div>
+    </article>
+<article class="card" data-index="102">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 103</div>
+      <div class="channel-name">BTECH DSTV| WWE CHANNEL HD</div>
+    </article>
+<article class="card" data-index="103">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 104</div>
+      <div class="channel-name">BTECH DSTV| Azam Sports 1</div>
+    </article>
+<article class="card" data-index="104">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 105</div>
+      <div class="channel-name">BTECH DSTV| Azam Sports 2</div>
+    </article>
+<article class="card" data-index="105">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 106</div>
+      <div class="channel-name">BTECH DSTV| Azam Sports 3</div>
+    </article>
+<article class="card" data-index="106">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 107</div>
+      <div class="channel-name">BTECH DSTV| Azam Sports 4</div>
+    </article>
+<article class="card" data-index="107">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 108</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| ENTERTAINMENT ✦●✦</div>
+    </article>
+<article class="card" data-index="108">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 109</div>
+      <div class="channel-name">BTECH DSTV| BIG BROTHER NAIJA HD</div>
+    </article>
+<article class="card" data-index="109">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 110</div>
+      <div class="channel-name">BTECH DSTV| E! ENTERTAINMENT TELEVISION HD</div>
+    </article>
+<article class="card" data-index="110">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 111</div>
+      <div class="channel-name">BTECH DSTV| FOOD NETWORK HD</div>
+    </article>
+<article class="card" data-index="111">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 112</div>
+      <div class="channel-name">BTECH DSTV| TLC ENTERTAINMENT HD</div>
+    </article>
+<article class="card" data-index="112">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 113</div>
+      <div class="channel-name">BTECH DSTV| SONY ENTERTAINMENT</div>
+    </article>
+<article class="card" data-index="113">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 114</div>
+      <div class="channel-name">BTECH DSTV| VIA HD</div>
+    </article>
+<article class="card" data-index="114">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 115</div>
+      <div class="channel-name">BTECH DSTV| CBS REALITY HD</div>
+    </article>
+<article class="card" data-index="115">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 116</div>
+      <div class="channel-name">BTECH DSTV| BBC LIFESTYLE HD</div>
+    </article>
+<article class="card" data-index="116">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 117</div>
+      <div class="channel-name">BTECH DSTV| 1 KZN HD</div>
+    </article>
+<article class="card" data-index="117">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 118</div>
+      <div class="channel-name">BTECH DSTV| KIX HD</div>
+    </article>
+<article class="card" data-index="118">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 119</div>
+      <div class="channel-name">BTECH DSTV| TNT AFRICA HD</div>
+    </article>
+<article class="card" data-index="119">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 120</div>
+      <div class="channel-name">BTECH DSTV| LIFETIME HD</div>
+    </article>
+<article class="card" data-index="120">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 121</div>
+      <div class="channel-name">BTECH DSTV| SONY MAX</div>
+    </article>
+<article class="card" data-index="121">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 122</div>
+      <div class="channel-name">BTECH DSTV| LESOTHO TV HD</div>
+    </article>
+<article class="card" data-index="122">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 123</div>
+      <div class="channel-name">BTECH DSTV| MPUMA KAPA TV HD</div>
+    </article>
+<article class="card" data-index="123">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 124</div>
+      <div class="channel-name">BTECH DSTV| IGNITION HD</div>
+    </article>
+<article class="card" data-index="124">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 125</div>
+      <div class="channel-name">BTECH DSTV| DUMISA HD</div>
+    </article>
+<article class="card" data-index="125">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 126</div>
+      <div class="channel-name">BTECH DSTV| AZAM CROWN TV</div>
+    </article>
+<article class="card" data-index="126">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 127</div>
+      <div class="channel-name">BTECH DSTV| AZAM Cheka Plus TV</div>
+    </article>
+<article class="card" data-index="127">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 128</div>
+      <div class="channel-name">BTECH DSTV| AZAM KeYona TV</div>
+    </article>
+<article class="card" data-index="128">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 129</div>
+      <div class="channel-name">BTECH DSTV| AZAM Arise and Shine</div>
+    </article>
+<article class="card" data-index="129">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 130</div>
+      <div class="channel-name">BTECH DSTV| AZAM Foodies</div>
+    </article>
+<article class="card" data-index="130">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 131</div>
+      <div class="channel-name">BTECH DSTV| AZAM Salt TV</div>
+    </article>
+<article class="card" data-index="131">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 132</div>
+      <div class="channel-name">BTECH DSTV| AZAM Channel 44</div>
+    </article>
+<article class="card" data-index="132">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 133</div>
+      <div class="channel-name">BTECH DSTV| AZAM Horizon TV</div>
+    </article>
+<article class="card" data-index="133">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 134</div>
+      <div class="channel-name">BTECH DSTV| ONEZED ZAMBIA</div>
+    </article>
+<article class="card" data-index="134">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 135</div>
+      <div class="channel-name">BTECH DSTV| DAYSTAR HD</div>
+    </article>
+<article class="card" data-index="135">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 136</div>
+      <div class="channel-name">BTECH DSTV| CCTV 4 HD</div>
+    </article>
+<article class="card" data-index="136">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 137</div>
+      <div class="channel-name">BTECH DSTV| ONE GOSPEL HD</div>
+    </article>
+<article class="card" data-index="137">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 138</div>
+      <div class="channel-name">BTECH DSTV| REAL TIME HD</div>
+    </article>
+<article class="card" data-index="138">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 139</div>
+      <div class="channel-name">BTECH DSTV| TSHWANE TV HD</div>
+    </article>
+<article class="card" data-index="139">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 140</div>
+      <div class="channel-name">BTECH DSTV| EMMANUEL TV HD</div>
+    </article>
+<article class="card" data-index="140">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 141</div>
+      <div class="channel-name">BTECH DSTV| SOWETO TV HD</div>
+    </article>
+<article class="card" data-index="141">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 142</div>
+      <div class="channel-name">BTECH DSTV| THE HOME CHANNEL HD</div>
+    </article>
+<article class="card" data-index="142">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 143</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| DOCUMENTRIES ✦●✦</div>
+    </article>
+<article class="card" data-index="143">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 144</div>
+      <div class="channel-name">BTECH DSTV| National Geographic HD</div>
+    </article>
+<article class="card" data-index="144">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 145</div>
+      <div class="channel-name">BTECH DSTV| National Geographic WILD HD</div>
+    </article>
+<article class="card" data-index="145">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 146</div>
+      <div class="channel-name">BTECH DSTV| DISCOVERY CHANNEL HD</div>
+    </article>
+<article class="card" data-index="146">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 147</div>
+      <div class="channel-name">BTECH DSTV| DISCOVERY ID HD</div>
+    </article>
+<article class="card" data-index="147">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 148</div>
+      <div class="channel-name">BTECH DSTV| DISCOVERY FAMILY HD</div>
+    </article>
+<article class="card" data-index="148">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 149</div>
+      <div class="channel-name">BTECH DSTV| HGTV HD</div>
+    </article>
+<article class="card" data-index="149">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 150</div>
+      <div class="channel-name">BTECH DSTV| TRAVEL CHANNEL HD</div>
+    </article>
+<article class="card" data-index="150">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 151</div>
+      <div class="channel-name">BTECH DSTV| CGTN Documentary</div>
+    </article>
+<article class="card" data-index="151">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 152</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| MUSIC ✦●✦</div>
+    </article>
+<article class="card" data-index="152">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 153</div>
+      <div class="channel-name">BTECH DSTV| TRACE MIZKI HD</div>
+    </article>
+<article class="card" data-index="153">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 154</div>
+      <div class="channel-name">BTECH DSTV| TRACE URBAN HD</div>
+    </article>
+<article class="card" data-index="154">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 155</div>
+      <div class="channel-name">BTECH DSTV| TRACE AFRICA HD</div>
+    </article>
+<article class="card" data-index="155">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 156</div>
+      <div class="channel-name">BTECH DSTV| TRACE GOSPEL HD</div>
+    </article>
+<article class="card" data-index="156">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 157</div>
+      <div class="channel-name">BTECH DSTV| TRACE NAIJA HD</div>
+    </article>
+<article class="card" data-index="157">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 158</div>
+      <div class="channel-name">BTECH DSTV| TRACE MZIKI</div>
+    </article>
+<article class="card" data-index="158">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 159</div>
+      <div class="channel-name">BTECH DSTV| TRACE KITOKO HD</div>
+    </article>
+<article class="card" data-index="159">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 160</div>
+      <div class="channel-name">BTECH DSTV| TRACE JAMA HD</div>
+    </article>
+<article class="card" data-index="160">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 161</div>
+      <div class="channel-name">BTECH DSTV| TRACE TOCA HD</div>
+    </article>
+<article class="card" data-index="161">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 162</div>
+      <div class="channel-name">BTECH DSTV| AFRO MUSIC HD</div>
+    </article>
+<article class="card" data-index="162">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 163</div>
+      <div class="channel-name">BTECH DSTV| BBLACK AFRICA  HD</div>
+    </article>
+<article class="card" data-index="163">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 164</div>
+      <div class="channel-name">BTECH DSTV| BBLACK CLASSIK HD</div>
+    </article>
+<article class="card" data-index="164">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 165</div>
+      <div class="channel-name">BTECH DSTV| BBLACK CARRABEAN HD</div>
+    </article>
+<article class="card" data-index="165">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 166</div>
+      <div class="channel-name">BTECH DSTV| MTV HD</div>
+    </article>
+<article class="card" data-index="166">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 167</div>
+      <div class="channel-name">BTECH DSTV| MTV BASE HD</div>
+    </article>
+<article class="card" data-index="167">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 168</div>
+      <div class="channel-name">BTECH DSTV| RAVE TV HD</div>
+    </article>
+<article class="card" data-index="168">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 169</div>
+      <div class="channel-name">BTECH DSTV| KISS TV HD</div>
+    </article>
+<article class="card" data-index="169">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 170</div>
+      <div class="channel-name">BTECH DSTV| TVM3 HD</div>
+    </article>
+<article class="card" data-index="170">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 171</div>
+      <div class="channel-name">BTECH DSTV| MZANSI MAGIC MUSIC HD</div>
+    </article>
+<article class="card" data-index="171">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 172</div>
+      <div class="channel-name">BTECH DSTV| SOUND CITY HD</div>
+    </article>
+<article class="card" data-index="172">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 173</div>
+      <div class="channel-name">BTECH DSTV| URBAN TV HD</div>
+    </article>
+<article class="card" data-index="173">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 174</div>
+      <div class="channel-name">BTECH DSTV| IVOIRE TV MUSIC SD</div>
+    </article>
+<article class="card" data-index="174">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 175</div>
+      <div class="channel-name">BTECH DSTV| QWEST TV HD</div>
+    </article>
+<article class="card" data-index="175">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 176</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| MOVIES ✦●✦</div>
+    </article>
+<article class="card" data-index="176">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 177</div>
+      <div class="channel-name">BTECH DSTV| AFRICA MAGIC FAMILY HD</div>
+    </article>
+<article class="card" data-index="177">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 178</div>
+      <div class="channel-name">BTECH DSTV| AFRICA MAGIC EPIC HD</div>
+    </article>
+<article class="card" data-index="178">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 179</div>
+      <div class="channel-name">BTECH DSTV| AFRICA MAGIC YORUBA HD</div>
+    </article>
+<article class="card" data-index="179">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 180</div>
+      <div class="channel-name">BTECH DSTV| AFRICA MAGIC IGBO HD</div>
+    </article>
+<article class="card" data-index="180">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 181</div>
+      <div class="channel-name">BTECH DSTV| AFRICA MAGIC SHOWCASE HD</div>
+    </article>
+<article class="card" data-index="181">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 182</div>
+      <div class="channel-name">BTECH DSTV| M-NET HD</div>
+    </article>
+<article class="card" data-index="182">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 183</div>
+      <div class="channel-name">BTECH DSTV| M-NET EAST HD</div>
+    </article>
+<article class="card" data-index="183">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 184</div>
+      <div class="channel-name">BTECH DSTV| M-NET MOVIES 1 HD</div>
+    </article>
+<article class="card" data-index="184">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 185</div>
+      <div class="channel-name">BTECH DSTV| M-NET MOVIES 2 HD</div>
+    </article>
+<article class="card" data-index="185">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 186</div>
+      <div class="channel-name">BTECH DSTV| M-NET MOVIES 3 HD</div>
+    </article>
+<article class="card" data-index="186">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 187</div>
+      <div class="channel-name">BTECH DSTV| M-NET MOVIES 4 HD</div>
+    </article>
+<article class="card" data-index="187">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 188</div>
+      <div class="channel-name">BTECH DSTV| KYKNET HD</div>
+    </article>
+<article class="card" data-index="188">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 189</div>
+      <div class="channel-name">BTECH DSTV| KYKNET AND KIE HD</div>
+    </article>
+<article class="card" data-index="189">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 190</div>
+      <div class="channel-name">BTECH DSTV| KYKNET NOU! HD</div>
+    </article>
+<article class="card" data-index="190">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 191</div>
+      <div class="channel-name">BTECH DSTV| SABC 1 HD</div>
+    </article>
+<article class="card" data-index="191">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 192</div>
+      <div class="channel-name">BTECH DSTV| SABC 2 HD</div>
+    </article>
+<article class="card" data-index="192">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 193</div>
+      <div class="channel-name">BTECH DSTV| SABC 3 HD</div>
+    </article>
+<article class="card" data-index="193">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 194</div>
+      <div class="channel-name">BTECH DSTV| BET HD</div>
+    </article>
+<article class="card" data-index="194">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 195</div>
+      <div class="channel-name">BTECH DSTV| BET AFRICA HD</div>
+    </article>
+<article class="card" data-index="195">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 196</div>
+      <div class="channel-name">BTECH DSTV| Zee World HD</div>
+    </article>
+<article class="card" data-index="196">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 197</div>
+      <div class="channel-name">BTECH DSTV| ZEE ZONKE HD</div>
+    </article>
+<article class="card" data-index="197">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 198</div>
+      <div class="channel-name">BTECH DSTV| EMOVIES HD</div>
+    </article>
+<article class="card" data-index="198">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 199</div>
+      <div class="channel-name">BTECH DSTV| EMOVIES EXTRA HD</div>
+    </article>
+<article class="card" data-index="199">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 200</div>
+      <div class="channel-name">BTECH DSTV| MOVIE ROOM HD</div>
+    </article>
+<article class="card" data-index="200">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 201</div>
+      <div class="channel-name">BTECH DSTV| COMEDY CENTRAL HD</div>
+    </article>
+<article class="card" data-index="201">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 202</div>
+      <div class="channel-name">BTECH DSTV| 1 MAGIC HD</div>
+    </article>
+<article class="card" data-index="202">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 203</div>
+      <div class="channel-name">BTECH DSTV| MZANSI WETHU HD</div>
+    </article>
+<article class="card" data-index="203">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 204</div>
+      <div class="channel-name">BTECH DSTV| MZANSI BIOSKOP HD</div>
+    </article>
+<article class="card" data-index="204">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 205</div>
+      <div class="channel-name">BTECH DSTV| Mzansi Magic HD</div>
+    </article>
+<article class="card" data-index="205">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 206</div>
+      <div class="channel-name">BTECH DSTV| TLN OVELAS HD</div>
+    </article>
+<article class="card" data-index="206">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 207</div>
+      <div class="channel-name">BTECH DSTV| SPICE TV HD</div>
+    </article>
+<article class="card" data-index="207">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 208</div>
+      <div class="channel-name">BTECH DSTV| ROK TV HD</div>
+    </article>
+<article class="card" data-index="208">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 209</div>
+      <div class="channel-name">BTECH DSTV| ME HD</div>
+    </article>
+<article class="card" data-index="209">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 210</div>
+      <div class="channel-name">BTECH DSTV| STUDIO UNIVERSAL HD</div>
+    </article>
+<article class="card" data-index="210">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 211</div>
+      <div class="channel-name">BTECH DSTV| STAR LIFE HD</div>
+    </article>
+<article class="card" data-index="211">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 212</div>
+      <div class="channel-name">BTECH DSTV| B4U MOVIES SD</div>
+    </article>
+<article class="card" data-index="212">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 213</div>
+      <div class="channel-name">BTECH DSTV| 1MAX</div>
+    </article>
+<article class="card" data-index="213">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 214</div>
+      <div class="channel-name">BTECH DSTV| SWITCH&#x27;D ON Channel 109 HD</div>
+    </article>
+<article class="card" data-index="214">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 215</div>
+      <div class="channel-name">BTECH ✦●✦|DSTV| KIDS ✦●✦</div>
+    </article>
+<article class="card" data-index="215">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 216</div>
+      <div class="channel-name">BTECH DSTV| Disney Channel HD</div>
+    </article>
+<article class="card" data-index="216">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 217</div>
+      <div class="channel-name">BTECH DSTV| Disney Junior HD</div>
+    </article>
+<article class="card" data-index="217">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 218</div>
+      <div class="channel-name">BTECH DSTV| CARTOON NETWORK HD</div>
+    </article>
+<article class="card" data-index="218">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 219</div>
+      <div class="channel-name">BTECH DSTV| PBS KIDS HD</div>
+    </article>
+<article class="card" data-index="219">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 220</div>
+      <div class="channel-name">BTECH DSTV| JIMJAM HD</div>
+    </article>
+<article class="card" data-index="220">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 221</div>
+      <div class="channel-name">BTECH DSTV| NICKTOONS HD</div>
+    </article>
+<article class="card" data-index="221">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 222</div>
+      <div class="channel-name">BTECH DSTV| NICKELODEON HD</div>
+    </article>
+<article class="card" data-index="222">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 223</div>
+      <div class="channel-name">BTECH DSTV| NICK JR HD</div>
+    </article>
+<article class="card" data-index="223">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 224</div>
+      <div class="channel-name">BTECH DSTV| eToonz HD</div>
+    </article>
+<article class="card" data-index="224">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 225</div>
+      <div class="channel-name">BTECH DSTV| BOOMERANG HD</div>
+    </article>
+<article class="card" data-index="225">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 226</div>
+      <div class="channel-name">BTECH DSTV| CBEEBIES HD</div>
+    </article>
+<article class="card" data-index="226">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 227</div>
+      <div class="channel-name">BTECH DSTV| FIX &amp; FOXI</div>
+    </article>
+<article class="card" data-index="227">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 228</div>
+      <div class="channel-name">BTECH DSTV| MOONBUG</div>
+    </article>
+<article class="card" data-index="228">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 229</div>
+      <div class="channel-name">BTECH DSTV| CARTOONITO HD</div>
+    </article>
+<article class="card" data-index="229">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 230</div>
+      <div class="channel-name">BTECH DSTV| PLAYROOM HD</div>
+    </article>
+<article class="card" data-index="230">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 231</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA GENERAL✦●✦</div>
+    </article>
+<article class="card" data-index="231">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 232</div>
+      <div class="channel-name">BTECH AF| TF1 HD</div>
+    </article>
+<article class="card" data-index="232">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 233</div>
+      <div class="channel-name">BTECH AF| TF1 SD</div>
+    </article>
+<article class="card" data-index="233">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 234</div>
+      <div class="channel-name">BTECH AF| TF1 SERIES FILMS</div>
+    </article>
+<article class="card" data-index="234">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 235</div>
+      <div class="channel-name">BTECH AF| FRANCE 24</div>
+    </article>
+<article class="card" data-index="235">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 236</div>
+      <div class="channel-name">BTECH AF| FRANCE 2</div>
+    </article>
+<article class="card" data-index="236">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 237</div>
+      <div class="channel-name">BTECH AF| FRANCE 3</div>
+    </article>
+<article class="card" data-index="237">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 238</div>
+      <div class="channel-name">BTECH AF| FRANCE 4</div>
+    </article>
+<article class="card" data-index="238">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 239</div>
+      <div class="channel-name">BTECH AF| FRANCE 5</div>
+    </article>
+<article class="card" data-index="239">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 240</div>
+      <div class="channel-name">BTECH AF| TV5</div>
+    </article>
+<article class="card" data-index="240">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 241</div>
+      <div class="channel-name">BTECH AF| ORTB</div>
+    </article>
+<article class="card" data-index="241">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 242</div>
+      <div class="channel-name">BTECH AF| ORTM 1</div>
+    </article>
+<article class="card" data-index="242">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 243</div>
+      <div class="channel-name">BTECH AF| ORTM 2</div>
+    </article>
+<article class="card" data-index="243">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 244</div>
+      <div class="channel-name">BTECH AF|  ANTENNE A</div>
+    </article>
+<article class="card" data-index="244">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 245</div>
+      <div class="channel-name">BTECH AF| A+ HD</div>
+    </article>
+<article class="card" data-index="245">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 246</div>
+      <div class="channel-name">BTECH AF| A+ FHD</div>
+    </article>
+<article class="card" data-index="246">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 247</div>
+      <div class="channel-name">BTECH AF| A+</div>
+    </article>
+<article class="card" data-index="247">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 248</div>
+      <div class="channel-name">BTECH AF| A+ INTERNATIONAL</div>
+    </article>
+<article class="card" data-index="248">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 249</div>
+      <div class="channel-name">BTECH AF| A+ IVOIRE ANTENNE</div>
+    </article>
+<article class="card" data-index="249">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 250</div>
+      <div class="channel-name">BTECH AF| A+ IVOIRE HD</div>
+    </article>
+<article class="card" data-index="250">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 251</div>
+      <div class="channel-name">BTECH AF| A+ IVOIRE</div>
+    </article>
+<article class="card" data-index="251">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 252</div>
+      <div class="channel-name">BTECH AF| B-ONE</div>
+    </article>
+<article class="card" data-index="252">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 253</div>
+      <div class="channel-name">BTECH AF| CANAL 2 INTERNATIONAL</div>
+    </article>
+<article class="card" data-index="253">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 254</div>
+      <div class="channel-name">BTECH AF| CHERIFLA</div>
+    </article>
+<article class="card" data-index="254">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 255</div>
+      <div class="channel-name">BTECH AF| CNEWS</div>
+    </article>
+<article class="card" data-index="255">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 256</div>
+      <div class="channel-name">BTECH AF| AFRICA 24</div>
+    </article>
+<article class="card" data-index="256">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 257</div>
+      <div class="channel-name">BTECH AF| CRTV</div>
+    </article>
+<article class="card" data-index="257">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 258</div>
+      <div class="channel-name">BTECH AF| M6 INTERNATIONAL</div>
+    </article>
+<article class="card" data-index="258">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 259</div>
+      <div class="channel-name">BTECH AF| LCI</div>
+    </article>
+<article class="card" data-index="259">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 260</div>
+      <div class="channel-name">BTECH AF| SEN TV</div>
+    </article>
+<article class="card" data-index="260">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 261</div>
+      <div class="channel-name">BTECH AF| 2STV</div>
+    </article>
+<article class="card" data-index="261">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 262</div>
+      <div class="channel-name">BTECH AF| AB1</div>
+    </article>
+<article class="card" data-index="262">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 263</div>
+      <div class="channel-name">BTECH AF| RENOUVEAU TV</div>
+    </article>
+<article class="card" data-index="263">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 264</div>
+      <div class="channel-name">BTECH AF| RTI 1</div>
+    </article>
+<article class="card" data-index="264">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 265</div>
+      <div class="channel-name">BTECH AF| RTL 9</div>
+    </article>
+<article class="card" data-index="265">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 266</div>
+      <div class="channel-name">BTECH AF| RTS 1</div>
+    </article>
+<article class="card" data-index="266">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 267</div>
+      <div class="channel-name">BTECH AF| EURONEWS</div>
+    </article>
+<article class="card" data-index="267">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 268</div>
+      <div class="channel-name">BTECH AF| BFM TV</div>
+    </article>
+<article class="card" data-index="268">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 269</div>
+      <div class="channel-name">BTECH AF| TPMP</div>
+    </article>
+<article class="card" data-index="269">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 270</div>
+      <div class="channel-name">BTECH AF| TVC</div>
+    </article>
+<article class="card" data-index="270">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 271</div>
+      <div class="channel-name">BTECH AF| EQUINOXE TV</div>
+    </article>
+<article class="card" data-index="271">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 272</div>
+      <div class="channel-name">BTECH AF| BETTER LIFE TV</div>
+    </article>
+<article class="card" data-index="272">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 273</div>
+      <div class="channel-name">BTECH AF| GABON TV</div>
+    </article>
+<article class="card" data-index="273">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 274</div>
+      <div class="channel-name">BTECH AF| GABON 1ERE HD</div>
+    </article>
+<article class="card" data-index="274">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 275</div>
+      <div class="channel-name">BTECH AF| RTB</div>
+    </article>
+<article class="card" data-index="275">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 276</div>
+      <div class="channel-name">BTECH AF| RTG</div>
+    </article>
+<article class="card" data-index="276">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 277</div>
+      <div class="channel-name">BTECH AF| RTNC</div>
+    </article>
+<article class="card" data-index="277">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 278</div>
+      <div class="channel-name">BTECH AF| TELE CONGO</div>
+    </article>
+<article class="card" data-index="278">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 279</div>
+      <div class="channel-name">BTECH AF| ARTE</div>
+    </article>
+<article class="card" data-index="279">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 280</div>
+      <div class="channel-name">BTECH AF| 13EME RUE</div>
+    </article>
+<article class="card" data-index="280">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 281</div>
+      <div class="channel-name">BTECH AF| NRJ12</div>
+    </article>
+<article class="card" data-index="281">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 282</div>
+      <div class="channel-name">BTECH AF| TELESUD TV</div>
+    </article>
+<article class="card" data-index="282">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 283</div>
+      <div class="channel-name">BTECH AF| SUNU YEUF</div>
+    </article>
+<article class="card" data-index="283">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 284</div>
+      <div class="channel-name">BTECH AF| CANAL EVENEMENT AFRIQUE</div>
+    </article>
+<article class="card" data-index="284">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 285</div>
+      <div class="channel-name">BTECH AF| MEDIA PRIME SD</div>
+    </article>
+<article class="card" data-index="285">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 286</div>
+      <div class="channel-name">BTECH AF| BENIE TV SD</div>
+    </article>
+<article class="card" data-index="286">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 287</div>
+      <div class="channel-name">BTECH AF| SYFY</div>
+    </article>
+<article class="card" data-index="287">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 288</div>
+      <div class="channel-name">BTECH AF| TFM</div>
+    </article>
+<article class="card" data-index="288">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 289</div>
+      <div class="channel-name">BTECH AF| TFX</div>
+    </article>
+<article class="card" data-index="289">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 290</div>
+      <div class="channel-name">BTECH AF| MGG TV</div>
+    </article>
+<article class="card" data-index="290">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 291</div>
+      <div class="channel-name">BTECH AF| TREK</div>
+    </article>
+<article class="card" data-index="291">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 292</div>
+      <div class="channel-name">BTECH AF| TVT</div>
+    </article>
+<article class="card" data-index="292">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 293</div>
+      <div class="channel-name">BTECH AF| MABOKE TV</div>
+    </article>
+<article class="card" data-index="293">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 294</div>
+      <div class="channel-name">BTECH AF| LIPTAKO TV</div>
+    </article>
+<article class="card" data-index="294">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 295</div>
+      <div class="channel-name">BTECH AF| IQRAA</div>
+    </article>
+<article class="card" data-index="295">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 296</div>
+      <div class="channel-name">BTECH AF| BF1 TV</div>
+    </article>
+<article class="card" data-index="296">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 297</div>
+      <div class="channel-name">BTECH AF| ASFIYAHI</div>
+    </article>
+<article class="card" data-index="297">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 298</div>
+      <div class="channel-name">BTECH AF| CSTAR</div>
+    </article>
+<article class="card" data-index="298">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 299</div>
+      <div class="channel-name">BTECH AF| TMC</div>
+    </article>
+<article class="card" data-index="299">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 300</div>
+      <div class="channel-name">BTECH AF| USHUAÏA TV</div>
+    </article>
+<article class="card" data-index="300">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 301</div>
+      <div class="channel-name">BTECH AF| BBC World News</div>
+    </article>
+<article class="card" data-index="301">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 302</div>
+      <div class="channel-name">BTECH AF| LIFE TV HD</div>
+    </article>
+<article class="card" data-index="302">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 303</div>
+      <div class="channel-name">BTECH AF| 3TV</div>
+    </article>
+<article class="card" data-index="303">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 304</div>
+      <div class="channel-name">BTECH AF| VISION 4 RCA</div>
+    </article>
+<article class="card" data-index="304">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 305</div>
+      <div class="channel-name">BTECH AF| SERIE CLUB</div>
+    </article>
+<article class="card" data-index="305">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 306</div>
+      <div class="channel-name">BTECH AF| ONE TV</div>
+    </article>
+<article class="card" data-index="306">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 307</div>
+      <div class="channel-name">BTECH AF| MELODY D&#x27;AFRIQUE</div>
+    </article>
+<article class="card" data-index="307">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 308</div>
+      <div class="channel-name">BTECH AF| LERAL TV</div>
+    </article>
+<article class="card" data-index="308">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 309</div>
+      <div class="channel-name">BTECH AF| DBS</div>
+    </article>
+<article class="card" data-index="309">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 310</div>
+      <div class="channel-name">BTECH AF| 7INFO</div>
+    </article>
+<article class="card" data-index="310">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 311</div>
+      <div class="channel-name">BTECH AF| Tele Pacific</div>
+    </article>
+<article class="card" data-index="311">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 312</div>
+      <div class="channel-name">BTECH AF| TeleKreol HD</div>
+    </article>
+<article class="card" data-index="312">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 313</div>
+      <div class="channel-name">BTECH AF| ORTC</div>
+    </article>
+<article class="card" data-index="313">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 314</div>
+      <div class="channel-name">BTECH AF| MBC</div>
+    </article>
+<article class="card" data-index="314">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 315</div>
+      <div class="channel-name">BTECH AF| CDIRECT</div>
+    </article>
+<article class="card" data-index="315">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 316</div>
+      <div class="channel-name">BTECH AF| SARAOUNIA TV</div>
+    </article>
+<article class="card" data-index="316">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 317</div>
+      <div class="channel-name">BTECH AF| SAVANE TV</div>
+    </article>
+<article class="card" data-index="317">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 318</div>
+      <div class="channel-name">BTECH AF| PACIS TV</div>
+    </article>
+<article class="card" data-index="318">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 319</div>
+      <div class="channel-name">BTECH AF| BANTAMBA TV</div>
+    </article>
+<article class="card" data-index="319">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 320</div>
+      <div class="channel-name">BTECH AF| BONFEREY</div>
+    </article>
+<article class="card" data-index="320">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 321</div>
+      <div class="channel-name">BTECH AF| BURKINA INFO</div>
+    </article>
+<article class="card" data-index="321">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 322</div>
+      <div class="channel-name">BTECH AF| CIS TV</div>
+    </article>
+<article class="card" data-index="322">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 323</div>
+      <div class="channel-name">BTECH AF| CNBC AFRICA</div>
+    </article>
+<article class="card" data-index="323">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 324</div>
+      <div class="channel-name">BTECH AF| CRTV NEWS</div>
+    </article>
+<article class="card" data-index="324">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 325</div>
+      <div class="channel-name">BTECH AF| CVK</div>
+    </article>
+<article class="card" data-index="325">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 326</div>
+      <div class="channel-name">BTECH AF| DIGITAL CONGO</div>
+    </article>
+<article class="card" data-index="326">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 327</div>
+      <div class="channel-name">BTECH AF| DOUNIA</div>
+    </article>
+<article class="card" data-index="327">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 328</div>
+      <div class="channel-name">BTECH AF| DRTV</div>
+    </article>
+<article class="card" data-index="328">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 329</div>
+      <div class="channel-name">BTECH AF| ELECTRON TV</div>
+    </article>
+<article class="card" data-index="329">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 330</div>
+      <div class="channel-name">BTECH AF| EMCI</div>
+    </article>
+<article class="card" data-index="330">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 331</div>
+      <div class="channel-name">BTECH AF| ESPACE TV</div>
+    </article>
+<article class="card" data-index="331">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 332</div>
+      <div class="channel-name">BTECH AF| EVASION TV</div>
+    </article>
+<article class="card" data-index="332">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 333</div>
+      <div class="channel-name">BTECH AF| GABON CULTURE</div>
+    </article>
+<article class="card" data-index="333">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 334</div>
+      <div class="channel-name">BTECH AF| ITV</div>
+    </article>
+<article class="card" data-index="334">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 335</div>
+      <div class="channel-name">BTECH AF| JOLIBA</div>
+    </article>
+<article class="card" data-index="335">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 336</div>
+      <div class="channel-name">BTECH AF| KALAC TV</div>
+    </article>
+<article class="card" data-index="336">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 337</div>
+      <div class="channel-name">BTECH AF| KC2</div>
+    </article>
+<article class="card" data-index="337">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 338</div>
+      <div class="channel-name">BTECH AF| KTO</div>
+    </article>
+<article class="card" data-index="338">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 339</div>
+      <div class="channel-name">BTECH AF| LA 3 HD</div>
+    </article>
+<article class="card" data-index="339">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 340</div>
+      <div class="channel-name">BTECH AF| LAMP FALLTV</div>
+    </article>
+<article class="card" data-index="340">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 341</div>
+      <div class="channel-name">BTECH AF| LMTV</div>
+    </article>
+<article class="card" data-index="341">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 342</div>
+      <div class="channel-name">BTECH AF| MANDE TV</div>
+    </article>
+<article class="card" data-index="342">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 343</div>
+      <div class="channel-name">BTECH AF| NCI</div>
+    </article>
+<article class="card" data-index="343">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 344</div>
+      <div class="channel-name">BTECH AF| NYOTA</div>
+    </article>
+<article class="card" data-index="344">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 345</div>
+      <div class="channel-name">BTECH AF| RAI ITALIA</div>
+    </article>
+<article class="card" data-index="345">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 346</div>
+      <div class="channel-name">BTECH AF| RWANDA TV</div>
+    </article>
+<article class="card" data-index="346">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 347</div>
+      <div class="channel-name">BTECH AF| SAHARA TV</div>
+    </article>
+<article class="card" data-index="347">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 348</div>
+      <div class="channel-name">BTECH AF| SUD 1ERE</div>
+    </article>
+<article class="card" data-index="348">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 349</div>
+      <div class="channel-name">BTECH AF| TELE 50</div>
+    </article>
+<article class="card" data-index="349">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 350</div>
+      <div class="channel-name">BTECH AF| TELE SAHEL</div>
+    </article>
+<article class="card" data-index="350">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 351</div>
+      <div class="channel-name">BTECH AF| TGB</div>
+    </article>
+<article class="card" data-index="351">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 352</div>
+      <div class="channel-name">BTECH AF| TIVI5 MONDE</div>
+    </article>
+<article class="card" data-index="352">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 353</div>
+      <div class="channel-name">BTECH AF| TM1</div>
+    </article>
+<article class="card" data-index="353">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 354</div>
+      <div class="channel-name">BTECH AF| TV TOGO</div>
+    </article>
+<article class="card" data-index="354">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 355</div>
+      <div class="channel-name">BTECH AF| RTD</div>
+    </article>
+<article class="card" data-index="355">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 356</div>
+      <div class="channel-name">BTECH AF| RTI 2</div>
+    </article>
+<article class="card" data-index="356">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 357</div>
+      <div class="channel-name">BTECH AF| RTNB</div>
+    </article>
+<article class="card" data-index="357">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 358</div>
+      <div class="channel-name">BTECH AF| RTS 2</div>
+    </article>
+<article class="card" data-index="358">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 359</div>
+      <div class="channel-name">BTECH AF| AL BAYANE</div>
+    </article>
+<article class="card" data-index="359">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 360</div>
+      <div class="channel-name">BTECH AF| ALAFIATV</div>
+    </article>
+<article class="card" data-index="360">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 361</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA SPORT✦●✦</div>
+    </article>
+<article class="card" data-index="361">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 362</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 1 HD</div>
+    </article>
+<article class="card" data-index="362">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 363</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 1 SD</div>
+    </article>
+<article class="card" data-index="363">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 364</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 2 HD</div>
+    </article>
+<article class="card" data-index="364">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 365</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 2 SD</div>
+    </article>
+<article class="card" data-index="365">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 366</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 3 HD</div>
+    </article>
+<article class="card" data-index="366">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 367</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 3 SD</div>
+    </article>
+<article class="card" data-index="367">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 368</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 4 HD</div>
+    </article>
+<article class="card" data-index="368">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 369</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 4 SD</div>
+    </article>
+<article class="card" data-index="369">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 370</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 5 HD</div>
+    </article>
+<article class="card" data-index="370">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 371</div>
+      <div class="channel-name">BTECH AF| CANAL+ SPORT 5 SD</div>
+    </article>
+<article class="card" data-index="371">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 372</div>
+      <div class="channel-name">BTECH AF| CANAL+ PREMIERE LEAGUE HD LIVE-ONLEY</div>
+    </article>
+<article class="card" data-index="372">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 373</div>
+      <div class="channel-name">BTECH AF| INFOSPORT+ HD</div>
+    </article>
+<article class="card" data-index="373">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 374</div>
+      <div class="channel-name">BTECH AF| EUROSPORT 1</div>
+    </article>
+<article class="card" data-index="374">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 375</div>
+      <div class="channel-name">BTECH AF| EUROSPORT 2</div>
+    </article>
+<article class="card" data-index="375">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 376</div>
+      <div class="channel-name">BTECH AF| RMC SPORT 1</div>
+    </article>
+<article class="card" data-index="376">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 377</div>
+      <div class="channel-name">BTECH AF| RMC SPORT 2</div>
+    </article>
+<article class="card" data-index="377">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 378</div>
+      <div class="channel-name">BTECH AF| RMC SPORT 3</div>
+    </article>
+<article class="card" data-index="378">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 379</div>
+      <div class="channel-name">BTECH AF| RMC SPORT 4</div>
+    </article>
+<article class="card" data-index="379">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 380</div>
+      <div class="channel-name">BTECH AF| AUTOMOTO SD</div>
+    </article>
+<article class="card" data-index="380">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 381</div>
+      <div class="channel-name">BTECH AF| CRTV SPORT</div>
+    </article>
+<article class="card" data-index="381">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 382</div>
+      <div class="channel-name">BTECH AF| NBA TV SD</div>
+    </article>
+<article class="card" data-index="382">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 383</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA ENTERTAINMENT✦●✦</div>
+    </article>
+<article class="card" data-index="383">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 384</div>
+      <div class="channel-name">BTECH AF| E! ENTERTAINMENT TELEVISION</div>
+    </article>
+<article class="card" data-index="384">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 385</div>
+      <div class="channel-name">BTECH AF| FASHION AFRICA TV</div>
+    </article>
+<article class="card" data-index="385">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 386</div>
+      <div class="channel-name">BTECH AF| SCIENCE ET VIE TV</div>
+    </article>
+<article class="card" data-index="386">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 387</div>
+      <div class="channel-name">BTECH AF| SOS DOCTEUR TV</div>
+    </article>
+<article class="card" data-index="387">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 388</div>
+      <div class="channel-name">BTECH AF| CRIME DISTRICT</div>
+    </article>
+<article class="card" data-index="388">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 389</div>
+      <div class="channel-name">BTECH AF| GAME ONE</div>
+    </article>
+<article class="card" data-index="389">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 390</div>
+      <div class="channel-name">BTECH AF| ENGLISH CLUB TV</div>
+    </article>
+<article class="card" data-index="390">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 391</div>
+      <div class="channel-name">BTECH AF| ANIMAUX</div>
+    </article>
+<article class="card" data-index="391">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 392</div>
+      <div class="channel-name">BTECH AF| AFRICABLE</div>
+    </article>
+<article class="card" data-index="392">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 393</div>
+      <div class="channel-name">BTECH AF| TLS AFRICA</div>
+    </article>
+<article class="card" data-index="393">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 394</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA MUSIC✦●✦</div>
+    </article>
+<article class="card" data-index="394">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 395</div>
+      <div class="channel-name">BTECH AF| TRACE URBAN</div>
+    </article>
+<article class="card" data-index="395">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 396</div>
+      <div class="channel-name">BTECH AF| TRACE URBAN AFRICA HD</div>
+    </article>
+<article class="card" data-index="396">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 397</div>
+      <div class="channel-name">BTECH AF| TRACE KITOKO</div>
+    </article>
+<article class="card" data-index="397">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 398</div>
+      <div class="channel-name">BTECH AF| TRACE MZIKI</div>
+    </article>
+<article class="card" data-index="398">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 399</div>
+      <div class="channel-name">BTECH AF| TRACE LATINA</div>
+    </article>
+<article class="card" data-index="399">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 400</div>
+      <div class="channel-name">BTECH AF| TRACE GOSPEL</div>
+    </article>
+<article class="card" data-index="400">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 401</div>
+      <div class="channel-name">BTECH AF| TRACE CARIBBEAN</div>
+    </article>
+<article class="card" data-index="401">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 402</div>
+      <div class="channel-name">BTECH AF| TRACE AFRICA</div>
+    </article>
+<article class="card" data-index="402">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 403</div>
+      <div class="channel-name">BTECH AF| BBLACK AFRICA</div>
+    </article>
+<article class="card" data-index="403">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 404</div>
+      <div class="channel-name">BTECH AF| MTV</div>
+    </article>
+<article class="card" data-index="404">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 405</div>
+      <div class="channel-name">BTECH AF| MTV HITS</div>
+    </article>
+<article class="card" data-index="405">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 406</div>
+      <div class="channel-name">BTECH AF| IVOIRE TV MUSIC SD</div>
+    </article>
+<article class="card" data-index="406">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 407</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA DOCUMENTRIES✦●✦</div>
+    </article>
+<article class="card" data-index="407">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 408</div>
+      <div class="channel-name">BTECH AF| DISCOVERY CHANNEL</div>
+    </article>
+<article class="card" data-index="408">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 409</div>
+      <div class="channel-name">BTECH AF| DISCOVERY SCIENCE</div>
+    </article>
+<article class="card" data-index="409">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 410</div>
+      <div class="channel-name">BTECH AF| INVESTIGATION DISCOVERY</div>
+    </article>
+<article class="card" data-index="410">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 411</div>
+      <div class="channel-name">BTECH AF| PLANETE+</div>
+    </article>
+<article class="card" data-index="411">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 412</div>
+      <div class="channel-name">BTECH AF| PLANETE+ CRIME</div>
+    </article>
+<article class="card" data-index="412">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 413</div>
+      <div class="channel-name">BTECH AF| PLANETE+ AVENTURE</div>
+    </article>
+<article class="card" data-index="413">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 414</div>
+      <div class="channel-name">BTECH AF| NATIONAL GEOGRAPHIC</div>
+    </article>
+<article class="card" data-index="414">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 415</div>
+      <div class="channel-name">BTECH AF| NAT GEO WILD</div>
+    </article>
+<article class="card" data-index="415">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 416</div>
+      <div class="channel-name">BTECH AF| HISTOIRE</div>
+    </article>
+<article class="card" data-index="416">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 417</div>
+      <div class="channel-name">BTECH AF| TOUTE L HISTOIRE</div>
+    </article>
+<article class="card" data-index="417">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 418</div>
+      <div class="channel-name">BTECH AF| LOVE NATURE</div>
+    </article>
+<article class="card" data-index="418">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 419</div>
+      <div class="channel-name">BTECH AF| CANAL+ DOCS SD</div>
+    </article>
+<article class="card" data-index="419">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 420</div>
+      <div class="channel-name">BTECH AF| CUISINES</div>
+    </article>
+<article class="card" data-index="420">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 421</div>
+      <div class="channel-name">BTECH AF| MUSEUM TV</div>
+    </article>
+<article class="card" data-index="421">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 422</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA CINEMA✦●✦</div>
+    </article>
+<article class="card" data-index="422">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 423</div>
+      <div class="channel-name">BTECH AF| NOLLYWOOD</div>
+    </article>
+<article class="card" data-index="423">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 424</div>
+      <div class="channel-name">BTECH AF| NOLLYWOOD EPIC</div>
+    </article>
+<article class="card" data-index="424">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 425</div>
+      <div class="channel-name">BTECH AF| CANAL+ CINEMA CENTRE HD</div>
+    </article>
+<article class="card" data-index="425">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 426</div>
+      <div class="channel-name">BTECH AF| CANAL+ CINEMA OUEST HD</div>
+    </article>
+<article class="card" data-index="426">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 427</div>
+      <div class="channel-name">BTECH AF| CANAL+ ELLES CENTRE HD</div>
+    </article>
+<article class="card" data-index="427">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 428</div>
+      <div class="channel-name">BTECH AF| CANAL+ ELLES OUEST HD</div>
+    </article>
+<article class="card" data-index="428">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 429</div>
+      <div class="channel-name">BTECH AF| CANAL+ POP OUEST HD</div>
+    </article>
+<article class="card" data-index="429">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 430</div>
+      <div class="channel-name">BTECH AF| CANAL+ POP CENTRE HD</div>
+    </article>
+<article class="card" data-index="430">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 431</div>
+      <div class="channel-name">BTECH AF| CANAL+ ACTION OUEST HD</div>
+    </article>
+<article class="card" data-index="431">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 432</div>
+      <div class="channel-name">BTECH AF| CANAL+ PREMIERE OUEST HD</div>
+    </article>
+<article class="card" data-index="432">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 433</div>
+      <div class="channel-name">BTECH AF| CANAL+ PREMIERE CENTRE HD</div>
+    </article>
+<article class="card" data-index="433">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 434</div>
+      <div class="channel-name">BTECH AF| CANAL+ FAMILY OUEST HD</div>
+    </article>
+<article class="card" data-index="434">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 435</div>
+      <div class="channel-name">BTECH AF| CANAL 2 MOVIES</div>
+    </article>
+<article class="card" data-index="435">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 436</div>
+      <div class="channel-name">BTECH AF| VOX AFRICA</div>
+    </article>
+<article class="card" data-index="436">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 437</div>
+      <div class="channel-name">BTECH AF| POLAR+</div>
+    </article>
+<article class="card" data-index="437">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 438</div>
+      <div class="channel-name">BTECH AF| CINE+ FRISSON</div>
+    </article>
+<article class="card" data-index="438">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 439</div>
+      <div class="channel-name">BTECH AF| PARAMOUNT TV</div>
+    </article>
+<article class="card" data-index="439">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 440</div>
+      <div class="channel-name">BTECH AF| ACTION</div>
+    </article>
+<article class="card" data-index="440">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 441</div>
+      <div class="channel-name">BTECH AF| NOVELAS TV</div>
+    </article>
+<article class="card" data-index="441">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 442</div>
+      <div class="channel-name">BTECH AF| NOVELAS TV (IVOIRE)</div>
+    </article>
+<article class="card" data-index="442">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 443</div>
+      <div class="channel-name">BTECH AF| ZEE MAGIC</div>
+    </article>
+<article class="card" data-index="443">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 444</div>
+      <div class="channel-name">BTECH ✦●✦C+ AFRICA KIDS✦●✦</div>
+    </article>
+<article class="card" data-index="444">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 445</div>
+      <div class="channel-name">BTECH AF| DISNEY CHANNEL</div>
+    </article>
+<article class="card" data-index="445">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 446</div>
+      <div class="channel-name">BTECH AF| DISNEY JUNIOR</div>
+    </article>
+<article class="card" data-index="446">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 447</div>
+      <div class="channel-name">BTECH AF| CARTOON NETWORK Africa SA</div>
+    </article>
+<article class="card" data-index="447">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 448</div>
+      <div class="channel-name">BTECH AF| NICKELODEON</div>
+    </article>
+<article class="card" data-index="448">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 449</div>
+      <div class="channel-name">BTECH AF| NICKELODEON JR</div>
+    </article>
+<article class="card" data-index="449">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 450</div>
+      <div class="channel-name">BTECH AF| TELETOON+</div>
+    </article>
+<article class="card" data-index="450">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 451</div>
+      <div class="channel-name">BTECH AF| CANAL C-JUNIOR</div>
+    </article>
+<article class="card" data-index="451">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 452</div>
+      <div class="channel-name">BTECH AF| MANGAS</div>
+    </article>
+<article class="card" data-index="452">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 453</div>
+      <div class="channel-name">BTECH AF| GULLI AFRICA</div>
+    </article>
+<article class="card" data-index="453">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 454</div>
+      <div class="channel-name">BTECH AF| LUDIKIDS</div>
+    </article>
+<article class="card" data-index="454">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 455</div>
+      <div class="channel-name">BTECH AF| J-ONE</div>
+    </article>
+<article class="card" data-index="455">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 456</div>
+      <div class="channel-name">BTECH AF| TIJI</div>
+    </article>
+<article class="card" data-index="456">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 457</div>
+      <div class="channel-name">BTECH AF| PIWI+</div>
+    </article>
+<article class="card" data-index="457">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 458</div>
+      <div class="channel-name">BTECH ✦●✦ |AF| SENEGAL ✦●✦</div>
+    </article>
+<article class="card" data-index="458">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 459</div>
+      <div class="channel-name">BTECH SENEGAL| TFM HD</div>
+    </article>
+<article class="card" data-index="459">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 460</div>
+      <div class="channel-name">BTECH SENEGAL| RTS 1 HD</div>
+    </article>
+<article class="card" data-index="460">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 461</div>
+      <div class="channel-name">BTECH SENEGAL| RTS2 HD</div>
+    </article>
+<article class="card" data-index="461">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 462</div>
+      <div class="channel-name">BTECH SENEGAL| SEN TV HD</div>
+    </article>
+<article class="card" data-index="462">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 463</div>
+      <div class="channel-name">BTECH SENEGAL| 2STV HD</div>
+    </article>
+<article class="card" data-index="463">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 464</div>
+      <div class="channel-name">BTECH SENEGAL| SUNU YEUF HD</div>
+    </article>
+<article class="card" data-index="464">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 465</div>
+      <div class="channel-name">BTECH SENEGAL| BICHRI TV HD</div>
+    </article>
+<article class="card" data-index="465">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 466</div>
+      <div class="channel-name">BTECH SENEGAL| 7TV HD</div>
+    </article>
+<article class="card" data-index="466">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 467</div>
+      <div class="channel-name">BTECH SENEGAL| RTF TV HD</div>
+    </article>
+<article class="card" data-index="467">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 468</div>
+      <div class="channel-name">BTECH SENEGAL| AFRICA7 TV HD</div>
+    </article>
+<article class="card" data-index="468">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 469</div>
+      <div class="channel-name">BTECH SENEGAL| DTV HD</div>
+    </article>
+<article class="card" data-index="469">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 470</div>
+      <div class="channel-name">BTECH SENEGAL| TFM RELIGIONS HD</div>
+    </article>
+<article class="card" data-index="470">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 471</div>
+      <div class="channel-name">BTECH SENEGAL| L&#x27;OBS TV HD</div>
+    </article>
+<article class="card" data-index="471">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 472</div>
+      <div class="channel-name">BTECH SENEGAL| MOURIDE TV HD</div>
+    </article>
+<article class="card" data-index="472">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 473</div>
+      <div class="channel-name">BTECH SENEGAL| A2I TV FHD</div>
+    </article>
+<article class="card" data-index="473">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 474</div>
+      <div class="channel-name">BTECH SENEGAL| A2I TV RELIGION HD</div>
+    </article>
+<article class="card" data-index="474">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 475</div>
+      <div class="channel-name">BTECH SENEGAL| A2I MUSIC HD</div>
+    </article>
+<article class="card" data-index="475">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 476</div>
+      <div class="channel-name">BTECH SENEGAL| LAMP FALL TV HD</div>
+    </article>
+<article class="card" data-index="476">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 477</div>
+      <div class="channel-name">BTECH SENEGAL| TOUBA TV HD</div>
+    </article>
+<article class="card" data-index="477">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 478</div>
+      <div class="channel-name">BTECH SENEGAL| VISION 4 TV HD</div>
+    </article>
+<article class="card" data-index="478">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 479</div>
+      <div class="channel-name">BTECH SENEGAL| ALKHAYRIA CORAN TV SD</div>
+    </article>
+<article class="card" data-index="479">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 480</div>
+      <div class="channel-name">BTECH SENEGAL| CTV AFRIQUE SD</div>
+    </article>
+<article class="card" data-index="480">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 481</div>
+      <div class="channel-name">BTECH SENEGAL| WALF HD</div>
+    </article>
+<article class="card" data-index="481">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 482</div>
+      <div class="channel-name">BTECH SENEGAL| LOUGA TV HD</div>
+    </article>
+<article class="card" data-index="482">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 483</div>
+      <div class="channel-name">BTECH SENEGAL| MALIKA TV HD</div>
+    </article>
+<article class="card" data-index="483">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 484</div>
+      <div class="channel-name">BTECH SENEGAL| TVS SENEGAL SD</div>
+    </article>
+<article class="card" data-index="484">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 485</div>
+      <div class="channel-name">BTECH SENEGAL| SUNU LABEL TV</div>
+    </article>
+<article class="card" data-index="485">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 486</div>
+      <div class="channel-name">BTECH SENEGAL| DNTV HD</div>
+    </article>
+<article class="card" data-index="486">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 487</div>
+      <div class="channel-name">BTECH SENEGAL| YEGLE TV</div>
+    </article>
+<article class="card" data-index="487">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 488</div>
+      <div class="channel-name">BTECH SENEGAL| SANS LIMITES TV</div>
+    </article>
+<article class="card" data-index="488">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 489</div>
+      <div class="channel-name">BTECH SENEGAL| M7 TV</div>
+    </article>
+<article class="card" data-index="489">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 490</div>
+      <div class="channel-name">BTECH SENEGAL| SENWEB TV HD</div>
+    </article>
+<article class="card" data-index="490">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 491</div>
+      <div class="channel-name">BTECH SENEGAL| MOURCHID TV</div>
+    </article>
+<article class="card" data-index="491">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 492</div>
+      <div class="channel-name">BTECH SENEGAL| tele-ecole</div>
+    </article>
+<article class="card" data-index="492">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 493</div>
+      <div class="channel-name">BTECH SENEGAL| TVS SALOUM</div>
+    </article>
+<article class="card" data-index="493">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 494</div>
+      <div class="channel-name">BTECH SENEGAL| AVA TV</div>
+    </article>
+<article class="card" data-index="494">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 495</div>
+      <div class="channel-name">BTECH SENEGAL| RFI TV</div>
+    </article>
+<article class="card" data-index="495">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 496</div>
+      <div class="channel-name">BTECH SENEGAL| RTJ TV</div>
+    </article>
+<article class="card" data-index="496">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 497</div>
+      <div class="channel-name">BTECH SENEGAL| bichrti tv</div>
+    </article>
+<article class="card" data-index="497">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 498</div>
+      <div class="channel-name">BTECH SENEGAL| Reflet TV</div>
+    </article>
+<article class="card" data-index="498">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 499</div>
+      <div class="channel-name">BTECH SENEGAL| DAKAR TV</div>
+    </article>
+<article class="card" data-index="499">
+      <div class="badge">LIVE</div>
+      <div class="channel-number">BTECH-TV → CH 500</div>
+      <div class="channel-name">BTECH SENEGAL| ANN</div>
+    </article></div></div></section>
+</main>
+</div>
+<div id="status" class="status"></div>
+<script>
+"use strict";
+const channels = [
+  { number: 1, name: 'BTECH ✦●✦|DSTV| GENERAL ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14522' },
+  { number: 2, name: 'BTECH DSTV| TF1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/189840' },
+  { number: 3, name: 'BTECH DSTV| AL JAZEERA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355041' },
+  { number: 4, name: 'BTECH DSTV| CNN INTERNATIONAL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355042' },
+  { number: 5, name: 'BTECH DSTV| CGTN NEWS FHD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/354996' },
+  { number: 6, name: 'BTECH DSTV| TV5 MONDE AFRIQUE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14340' },
+  { number: 7, name: 'BTECH DSTV| TVC NEWS FHD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14473' },
+  { number: 8, name: 'BTECH DSTV| JOY NEWS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14419' },
+  { number: 9, name: 'BTECH DSTV| TELEMUNDO HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186788' },
+  { number: 10, name: 'BTECH DSTV| CHANNELS 24 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14466' },
+  { number: 11, name: 'BTECH DSTV| CNBC AFRICA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14403' },
+  { number: 12, name: 'BTECH DSTV| LAGOS TV SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/333516' },
+  { number: 13, name: 'BTECH DSTV| MINDSET HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186804' },
+  { number: 14, name: 'BTECH DSTV| SABC NEWS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/354998' },
+  { number: 15, name: 'BTECH DSTV| ENCA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400308064' },
+  { number: 16, name: 'BTECH DSTV| ADOM TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14393' },
+  { number: 17, name: 'BTECH DSTV| BLOOMBERG HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355345' },
+  { number: 18, name: 'BTECH DSTV| MOJA LOVE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/38201' },
+  { number: 19, name: 'BTECH DSTV| Channel O HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110603' },
+  { number: 20, name: 'BTECH DSTV| UNIVERSAL TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186848' },
+  { number: 21, name: 'BTECH DSTV| CAPE TOWN TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186822' },
+  { number: 22, name: 'BTECH DSTV| GAU TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186810' },
+  { number: 23, name: 'BTECH DSTV| E TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186842' },
+  { number: 24, name: 'BTECH DSTV| E TV EXTRA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186813' },
+  { number: 25, name: 'BTECH DSTV| SKY NEWS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39772' },
+  { number: 26, name: 'BTECH DSTV| PARLIAMENTARY SERVICE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39769' },
+  { number: 27, name: 'BTECH DSTV| NDTV247 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39768' },
+  { number: 28, name: 'BTECH DSTV| DEUTSCHE WELLE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39767' },
+  { number: 29, name: 'BTECH DSTV| RTP INTERNACIONAL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39766' },
+  { number: 30, name: 'BTECH DSTV| BBC BRIT HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186868' },
+  { number: 31, name: 'BTECH DSTV| BBC EARTH HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39763' },
+  { number: 32, name: 'BTECH DSTV| HISTORY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39762' },
+  { number: 33, name: 'BTECH DSTV| DREAMWORKS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39761' },
+  { number: 34, name: 'BTECH DSTV| RUSSIA TODAY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39760' },
+  { number: 35, name: 'BTECH DSTV| WASAFI TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/290524' },
+  { number: 36, name: 'BTECH DSTV| HILAAL TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39759' },
+  { number: 37, name: 'BTECH DSTV| AZAM UTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591192' },
+  { number: 38, name: 'BTECH DSTV| AZAM KTN Burudani', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591193' },
+  { number: 39, name: 'BTECH DSTV| AZAM KTN Farmer', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591194' },
+  { number: 40, name: 'BTECH DSTV| AZAM KTN News', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591195' },
+  { number: 41, name: 'BTECH DSTV| AZAM DW English', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591196' },
+  { number: 42, name: 'BTECH DSTV| NHK', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591197' },
+  { number: 43, name: 'BTECH DSTV| BUSINESS DAY TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39758' },
+  { number: 44, name: 'BTECH DSTV| INX Prime HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39756' },
+  { number: 45, name: 'BTECH DSTV| AZAM ONE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172781' },
+  { number: 46, name: 'BTECH DSTV| Azam TWO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172780' },
+  { number: 47, name: 'BTECH DSTV| VOX TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239770' },
+  { number: 48, name: 'BTECH DSTV| NINA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436627' },
+  { number: 49, name: 'BTECH DSTV| ZBC 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436626' },
+  { number: 50, name: 'BTECH DSTV| SINEMA ZETU', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436625' },
+  { number: 51, name: 'BTECH DSTV| WILD EARTH HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186846' },
+  { number: 52, name: 'BTECH DSTV| FASHION HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355047' },
+  { number: 53, name: 'BTECH DSTV| ITV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400161741' },
+  { number: 54, name: 'BTECH DSTV| TIVI5 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225105' },
+  { number: 55, name: 'BTECH DSTV| KC2 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225145' },
+  { number: 56, name: 'BTECH ✦●✦|DSTV| RELIGIOUS ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14304' },
+  { number: 57, name: 'BTECH DSTV| TBN HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159897' },
+  { number: 58, name: 'BTECH DSTV| DOVE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14291' },
+  { number: 59, name: 'BTECH DSTV| FAITH TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14298' },
+  { number: 60, name: 'BTECH DSTV| ISLAM CHANNEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355016' },
+  { number: 61, name: 'BTECH ✦●✦|DSTV| SPORT ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14602' },
+  { number: 62, name: 'BTECH DSTV| SUPER SPORT EVENTS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565452' },
+  { number: 63, name: 'BTECH DSTV| SUPER SPORT AFRICA 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401492058' },
+  { number: 64, name: 'BTECH DSTV| SUPER SPORT AFRICA 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401492059' },
+  { number: 65, name: 'BTECH DSTV| SUPER SPORT PREMIER LEAGUE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159892' },
+  { number: 66, name: 'BTECH DSTV| SUPER SPORT FOOTBALL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186875' },
+  { number: 67, name: 'BTECH DSTV| SUPER SPORT FOOTBALL PLUS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400415390' },
+  { number: 68, name: 'BTECH DSTV| SUPER SPORT PSL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159893' },
+  { number: 69, name: 'BTECH DSTV| SUPER SPORT LALIGA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159894' },
+  { number: 70, name: 'BTECH DSTV| SUPER SPORT RUGBY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159889' },
+  { number: 71, name: 'BTECH DSTV| SUPER SPORT RUGBY HD [BK]', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/35401' },
+  { number: 72, name: 'BTECH DSTV| Super Sport Blitz HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110613' },
+  { number: 73, name: 'BTECH DSTV| SUPER SPORT CRICKET HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/117926' },
+  { number: 74, name: 'BTECH DSTV| SUPER SPORT CRICKET HD [BK]', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/212459' },
+  { number: 75, name: 'BTECH DSTV| SUPER SPORT ACTION HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/117927' },
+  { number: 76, name: 'BTECH DSTV| SUPER SPORT GOLF HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159887' },
+  { number: 77, name: 'BTECH DSTV| SUPER SPORT MOTORSPORT HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159888' },
+  { number: 78, name: 'BTECH DSTV| SUPER SPORT TENNIS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159890' },
+  { number: 79, name: 'BTECH DSTV| SUPER SPORT GRANDSTAND HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159891' },
+  { number: 80, name: 'BTECH DSTV| SUPER SPORT MAXIMO 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159896' },
+  { number: 81, name: 'BTECH DSTV| SUPER SPORT MAXIMO 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401457562' },
+  { number: 82, name: 'BTECH DSTV| SUPER SPORT VARIETY 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159883' },
+  { number: 83, name: 'BTECH DSTV| SUPER SPORT VARIETY 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159884' },
+  { number: 84, name: 'BTECH DSTV| SUPER SPORT VARIETY 4 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186869' },
+  { number: 85, name: 'BTECH DSTV| SUPER SPORT VARIETY 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186870' },
+  { number: 86, name: 'BTECH DSTV| SUPER SPORT SCHOOLS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/387624' },
+  { number: 87, name: 'BTECH DSTV| SUPER SPORT LIYA 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591167' },
+  { number: 88, name: 'BTECH DSTV| SUPER SPORT LIYA 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591168' },
+  { number: 89, name: 'BTECH DSTV| SUPER SPORT PLAY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186873' },
+  { number: 90, name: 'BTECH DSTV| SUPER SPORT OTT HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186884' },
+  { number: 91, name: 'BTECH DSTV| SUPER SPORT OTT 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186883' },
+  { number: 92, name: 'BTECH DSTV| SUPER SPORT OTT 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186882' },
+  { number: 93, name: 'BTECH DSTV| SUPER SPORT OTT 4 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186881' },
+  { number: 94, name: 'BTECH DSTV| SUPER SPORT OTT 5 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186880' },
+  { number: 95, name: 'BTECH DSTV| SUPER SPORT OTT 6 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186879' },
+  { number: 96, name: 'BTECH DSTV| SUPER SPORT OTT 7 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186878' },
+  { number: 97, name: 'BTECH DSTV| SUPER SPORT OTT 8 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186877' },
+  { number: 98, name: 'BTECH DSTV| SABC SPORTS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/83233' },
+  { number: 99, name: 'BTECH DSTV| ESPN HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186855' },
+  { number: 100, name: 'BTECH DSTV| ESPN 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/7229' },
+  { number: 101, name: 'BTECH DSTV| RACING 240 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186794' },
+  { number: 102, name: 'BTECH DSTV| GINX ESPORTS TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186840' },
+  { number: 103, name: 'BTECH DSTV| WWE CHANNEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186845' },
+  { number: 104, name: 'BTECH DSTV| Azam Sports 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172759' },
+  { number: 105, name: 'BTECH DSTV| Azam Sports 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172760' },
+  { number: 106, name: 'BTECH DSTV| Azam Sports 3', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172761' },
+  { number: 107, name: 'BTECH DSTV| Azam Sports 4', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591166' },
+  { number: 108, name: 'BTECH ✦●✦|DSTV| ENTERTAINMENT ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400277075' },
+  { number: 109, name: 'BTECH DSTV| BIG BROTHER NAIJA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400218849' },
+  { number: 110, name: 'BTECH DSTV| E! ENTERTAINMENT TELEVISION HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186858' },
+  { number: 111, name: 'BTECH DSTV| FOOD NETWORK HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186841' },
+  { number: 112, name: 'BTECH DSTV| TLC ENTERTAINMENT HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355303' },
+  { number: 113, name: 'BTECH DSTV| SONY ENTERTAINMENT', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436628' },
+  { number: 114, name: 'BTECH DSTV| VIA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186847' },
+  { number: 115, name: 'BTECH DSTV| CBS REALITY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186863' },
+  { number: 116, name: 'BTECH DSTV| BBC LIFESTYLE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186867' },
+  { number: 117, name: 'BTECH DSTV| 1 KZN HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186820' },
+  { number: 118, name: 'BTECH DSTV| KIX HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186836' },
+  { number: 119, name: 'BTECH DSTV| TNT AFRICA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186849' },
+  { number: 120, name: 'BTECH DSTV| LIFETIME HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186806' },
+  { number: 121, name: 'BTECH DSTV| SONY MAX', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436630' },
+  { number: 122, name: 'BTECH DSTV| LESOTHO TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186807' },
+  { number: 123, name: 'BTECH DSTV| MPUMA KAPA TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186803' },
+  { number: 124, name: 'BTECH DSTV| IGNITION HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186809' },
+  { number: 125, name: 'BTECH DSTV| DUMISA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186814' },
+  { number: 126, name: 'BTECH DSTV| AZAM CROWN TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591198' },
+  { number: 127, name: 'BTECH DSTV| AZAM Cheka Plus TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591199' },
+  { number: 128, name: 'BTECH DSTV| AZAM KeYona TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591200' },
+  { number: 129, name: 'BTECH DSTV| AZAM Arise and Shine', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591201' },
+  { number: 130, name: 'BTECH DSTV| AZAM Foodies', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591202' },
+  { number: 131, name: 'BTECH DSTV| AZAM Salt TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591203' },
+  { number: 132, name: 'BTECH DSTV| AZAM Channel 44', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591204' },
+  { number: 133, name: 'BTECH DSTV| AZAM Horizon TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591205' },
+  { number: 134, name: 'BTECH DSTV| ONEZED ZAMBIA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401591206' },
+  { number: 135, name: 'BTECH DSTV| DAYSTAR HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355014' },
+  { number: 136, name: 'BTECH DSTV| CCTV 4 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186818' },
+  { number: 137, name: 'BTECH DSTV| ONE GOSPEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186797' },
+  { number: 138, name: 'BTECH DSTV| REAL TIME HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186793' },
+  { number: 139, name: 'BTECH DSTV| TSHWANE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186783' },
+  { number: 140, name: 'BTECH DSTV| EMMANUEL TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14470' },
+  { number: 141, name: 'BTECH DSTV| SOWETO TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186790' },
+  { number: 142, name: 'BTECH DSTV| THE HOME CHANNEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186786' },
+  { number: 143, name: 'BTECH ✦●✦|DSTV| DOCUMENTRIES ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400449865' },
+  { number: 144, name: 'BTECH DSTV| National Geographic HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/7261' },
+  { number: 145, name: 'BTECH DSTV| National Geographic WILD HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/7260' },
+  { number: 146, name: 'BTECH DSTV| DISCOVERY CHANNEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186861' },
+  { number: 147, name: 'BTECH DSTV| DISCOVERY ID HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186860' },
+  { number: 148, name: 'BTECH DSTV| DISCOVERY FAMILY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186859' },
+  { number: 149, name: 'BTECH DSTV| HGTV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186839' },
+  { number: 150, name: 'BTECH DSTV| TRAVEL CHANNEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186784' },
+  { number: 151, name: 'BTECH DSTV| CGTN Documentary', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401172750' },
+  { number: 152, name: 'BTECH ✦●✦|DSTV| MUSIC ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14555' },
+  { number: 153, name: 'BTECH DSTV| TRACE MIZKI HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14554' },
+  { number: 154, name: 'BTECH DSTV| TRACE URBAN HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186827' },
+  { number: 155, name: 'BTECH DSTV| TRACE AFRICA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186826' },
+  { number: 156, name: 'BTECH DSTV| TRACE GOSPEL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186825' },
+  { number: 157, name: 'BTECH DSTV| TRACE NAIJA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14548' },
+  { number: 158, name: 'BTECH DSTV| TRACE MZIKI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436631' },
+  { number: 159, name: 'BTECH DSTV| TRACE KITOKO HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14553' },
+  { number: 160, name: 'BTECH DSTV| TRACE JAMA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/353558' },
+  { number: 161, name: 'BTECH DSTV| TRACE TOCA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/360221' },
+  { number: 162, name: 'BTECH DSTV| AFRO MUSIC HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225181' },
+  { number: 163, name: 'BTECH DSTV| BBLACK AFRICA  HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225175' },
+  { number: 164, name: 'BTECH DSTV| BBLACK CLASSIK HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14536' },
+  { number: 165, name: 'BTECH DSTV| BBLACK CARRABEAN HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14537' },
+  { number: 166, name: 'BTECH DSTV| MTV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186844' },
+  { number: 167, name: 'BTECH DSTV| MTV BASE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186843' },
+  { number: 168, name: 'BTECH DSTV| RAVE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14523' },
+  { number: 169, name: 'BTECH DSTV| KISS TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14533' },
+  { number: 170, name: 'BTECH DSTV| TVM3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14534' },
+  { number: 171, name: 'BTECH DSTV| MZANSI MAGIC MUSIC HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/159878' },
+  { number: 172, name: 'BTECH DSTV| SOUND CITY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186791' },
+  { number: 173, name: 'BTECH DSTV| URBAN TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/353639' },
+  { number: 174, name: 'BTECH DSTV| IVOIRE TV MUSIC SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225147' },
+  { number: 175, name: 'BTECH DSTV| QWEST TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565447' },
+  { number: 176, name: 'BTECH ✦●✦|DSTV| MOVIES ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14584' },
+  { number: 177, name: 'BTECH DSTV| AFRICA MAGIC FAMILY HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186819' },
+  { number: 178, name: 'BTECH DSTV| AFRICA MAGIC EPIC HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186823' },
+  { number: 179, name: 'BTECH DSTV| AFRICA MAGIC YORUBA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/292452' },
+  { number: 180, name: 'BTECH DSTV| AFRICA MAGIC IGBO HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355006' },
+  { number: 181, name: 'BTECH DSTV| AFRICA MAGIC SHOWCASE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355009' },
+  { number: 182, name: 'BTECH DSTV| M-NET HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14582' },
+  { number: 183, name: 'BTECH DSTV| M-NET EAST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/353443' },
+  { number: 184, name: 'BTECH DSTV| M-NET MOVIES 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14583' },
+  { number: 185, name: 'BTECH DSTV| M-NET MOVIES 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14580' },
+  { number: 186, name: 'BTECH DSTV| M-NET MOVIES 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186854' },
+  { number: 187, name: 'BTECH DSTV| M-NET MOVIES 4 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186853' },
+  { number: 188, name: 'BTECH DSTV| KYKNET HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400422770' },
+  { number: 189, name: 'BTECH DSTV| KYKNET AND KIE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400422769' },
+  { number: 190, name: 'BTECH DSTV| KYKNET NOU! HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400422768' },
+  { number: 191, name: 'BTECH DSTV| SABC 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186852' },
+  { number: 192, name: 'BTECH DSTV| SABC 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186851' },
+  { number: 193, name: 'BTECH DSTV| SABC 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186850' },
+  { number: 194, name: 'BTECH DSTV| BET HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186866' },
+  { number: 195, name: 'BTECH DSTV| BET AFRICA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/189777' },
+  { number: 196, name: 'BTECH DSTV| Zee World HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/7243' },
+  { number: 197, name: 'BTECH DSTV| ZEE ZONKE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565448' },
+  { number: 198, name: 'BTECH DSTV| EMOVIES HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186857' },
+  { number: 199, name: 'BTECH DSTV| EMOVIES EXTRA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186856' },
+  { number: 200, name: 'BTECH DSTV| MOVIE ROOM HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39764' },
+  { number: 201, name: 'BTECH DSTV| COMEDY CENTRAL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/353780' },
+  { number: 202, name: 'BTECH DSTV| 1 MAGIC HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186838' },
+  { number: 203, name: 'BTECH DSTV| MZANSI WETHU HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186828' },
+  { number: 204, name: 'BTECH DSTV| MZANSI BIOSKOP HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186829' },
+  { number: 205, name: 'BTECH DSTV| Mzansi Magic HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110602' },
+  { number: 206, name: 'BTECH DSTV| TLN OVELAS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186785' },
+  { number: 207, name: 'BTECH DSTV| SPICE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186789' },
+  { number: 208, name: 'BTECH DSTV| ROK TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186792' },
+  { number: 209, name: 'BTECH DSTV| ME HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186833' },
+  { number: 210, name: 'BTECH DSTV| STUDIO UNIVERSAL HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186834' },
+  { number: 211, name: 'BTECH DSTV| STAR LIFE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186835' },
+  { number: 212, name: 'BTECH DSTV| B4U MOVIES SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401491856' },
+  { number: 213, name: 'BTECH DSTV| 1MAX', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565445' },
+  { number: 214, name: "BTECH DSTV| SWITCH'D ON Channel 109 HD", url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565449' },
+  { number: 215, name: 'BTECH ✦●✦|DSTV| KIDS ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14570' },
+  { number: 216, name: 'BTECH DSTV| Disney Channel HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110610' },
+  { number: 217, name: 'BTECH DSTV| Disney Junior HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110609' },
+  { number: 218, name: 'BTECH DSTV| CARTOON NETWORK HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186864' },
+  { number: 219, name: 'BTECH DSTV| PBS KIDS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186796' },
+  { number: 220, name: 'BTECH DSTV| JIMJAM HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186808' },
+  { number: 221, name: 'BTECH DSTV| NICKTOONS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186800' },
+  { number: 222, name: 'BTECH DSTV| NICKELODEON HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39770' },
+  { number: 223, name: 'BTECH DSTV| NICK JR HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/39771' },
+  { number: 224, name: 'BTECH DSTV| eToonz HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/110605' },
+  { number: 225, name: 'BTECH DSTV| BOOMERANG HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14567' },
+  { number: 226, name: 'BTECH DSTV| CBEEBIES HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/186821' },
+  { number: 227, name: 'BTECH DSTV| FIX & FOXI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401436629' },
+  { number: 228, name: 'BTECH DSTV| MOONBUG', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565446' },
+  { number: 229, name: 'BTECH DSTV| CARTOONITO HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565451' },
+  { number: 230, name: 'BTECH DSTV| PLAYROOM HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401565450' },
+  { number: 231, name: 'BTECH ✦●✦C+ AFRICA GENERAL✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400232491' },
+  { number: 232, name: 'BTECH AF| TF1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216378' },
+  { number: 233, name: 'BTECH AF| TF1 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163027' },
+  { number: 234, name: 'BTECH AF| TF1 SERIES FILMS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163026' },
+  { number: 235, name: 'BTECH AF| FRANCE 24', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216412' },
+  { number: 236, name: 'BTECH AF| FRANCE 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216413' },
+  { number: 237, name: 'BTECH AF| FRANCE 3', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400273409' },
+  { number: 238, name: 'BTECH AF| FRANCE 4', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400273410' },
+  { number: 239, name: 'BTECH AF| FRANCE 5', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239765' },
+  { number: 240, name: 'BTECH AF| TV5', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216363' },
+  { number: 241, name: 'BTECH AF| ORTB', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216393' },
+  { number: 242, name: 'BTECH AF| ORTM 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216392' },
+  { number: 243, name: 'BTECH AF| ORTM 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163020' },
+  { number: 244, name: 'BTECH AF|  ANTENNE A', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216444' },
+  { number: 245, name: 'BTECH AF| A+ HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42910' },
+  { number: 246, name: 'BTECH AF| A+ FHD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42911' },
+  { number: 247, name: 'BTECH AF| A+', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216443' },
+  { number: 248, name: 'BTECH AF| A+ INTERNATIONAL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216449' },
+  { number: 249, name: 'BTECH AF| A+ IVOIRE ANTENNE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216360' },
+  { number: 250, name: 'BTECH AF| A+ IVOIRE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23433' },
+  { number: 251, name: 'BTECH AF| A+ IVOIRE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23434' },
+  { number: 252, name: 'BTECH AF| B-ONE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216441' },
+  { number: 253, name: 'BTECH AF| CANAL 2 INTERNATIONAL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216426' },
+  { number: 254, name: 'BTECH AF| CHERIFLA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216425' },
+  { number: 255, name: 'BTECH AF| CNEWS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216424' },
+  { number: 256, name: 'BTECH AF| AFRICA 24', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239769' },
+  { number: 257, name: 'BTECH AF| CRTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216423' },
+  { number: 258, name: 'BTECH AF| M6 INTERNATIONAL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216404' },
+  { number: 259, name: 'BTECH AF| LCI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216406' },
+  { number: 260, name: 'BTECH AF| SEN TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216382' },
+  { number: 261, name: 'BTECH AF| 2STV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216450' },
+  { number: 262, name: 'BTECH AF| AB1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216448' },
+  { number: 263, name: 'BTECH AF| RENOUVEAU TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225124' },
+  { number: 264, name: 'BTECH AF| RTI 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216386' },
+  { number: 265, name: 'BTECH AF| RTL 9', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216385' },
+  { number: 266, name: 'BTECH AF| RTS 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216383' },
+  { number: 267, name: 'BTECH AF| EURONEWS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239764' },
+  { number: 268, name: 'BTECH AF| BFM TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239756' },
+  { number: 269, name: 'BTECH AF| TPMP', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216439' },
+  { number: 270, name: 'BTECH AF| TVC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/35515' },
+  { number: 271, name: 'BTECH AF| EQUINOXE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216417' },
+  { number: 272, name: 'BTECH AF| BETTER LIFE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/21000' },
+  { number: 273, name: 'BTECH AF| GABON TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216411' },
+  { number: 274, name: 'BTECH AF| GABON 1ERE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23419' },
+  { number: 275, name: 'BTECH AF| RTB', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216388' },
+  { number: 276, name: 'BTECH AF| RTG', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216387' },
+  { number: 277, name: 'BTECH AF| RTNC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216384' },
+  { number: 278, name: 'BTECH AF| TELE CONGO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239768' },
+  { number: 279, name: 'BTECH AF| ARTE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239767' },
+  { number: 280, name: 'BTECH AF| 13EME RUE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239766' },
+  { number: 281, name: 'BTECH AF| NRJ12', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239757' },
+  { number: 282, name: 'BTECH AF| TELESUD TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225108' },
+  { number: 283, name: 'BTECH AF| SUNU YEUF', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216381' },
+  { number: 284, name: 'BTECH AF| CANAL EVENEMENT AFRIQUE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225165' },
+  { number: 285, name: 'BTECH AF| MEDIA PRIME SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225137' },
+  { number: 286, name: 'BTECH AF| BENIE TV SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/27130' },
+  { number: 287, name: 'BTECH AF| SYFY', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216380' },
+  { number: 288, name: 'BTECH AF| TFM', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216377' },
+  { number: 289, name: 'BTECH AF| TFX', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216376' },
+  { number: 290, name: 'BTECH AF| MGG TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163019' },
+  { number: 291, name: 'BTECH AF| TREK', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216364' },
+  { number: 292, name: 'BTECH AF| TVT', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216362' },
+  { number: 293, name: 'BTECH AF| MABOKE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163001' },
+  { number: 294, name: 'BTECH AF| LIPTAKO TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163002' },
+  { number: 295, name: 'BTECH AF| IQRAA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163005' },
+  { number: 296, name: 'BTECH AF| BF1 TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163006' },
+  { number: 297, name: 'BTECH AF| ASFIYAHI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163007' },
+  { number: 298, name: 'BTECH AF| CSTAR', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163016' },
+  { number: 299, name: 'BTECH AF| TMC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163018' },
+  { number: 300, name: 'BTECH AF| USHUAÏA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163023' },
+  { number: 301, name: 'BTECH AF| BBC World News', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/35512' },
+  { number: 302, name: 'BTECH AF| LIFE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59240' },
+  { number: 303, name: 'BTECH AF| 3TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59285' },
+  { number: 304, name: 'BTECH AF| VISION 4 RCA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23399' },
+  { number: 305, name: 'BTECH AF| SERIE CLUB', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23403' },
+  { number: 306, name: 'BTECH AF| ONE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23409' },
+  { number: 307, name: "BTECH AF| MELODY D'AFRIQUE", url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23411' },
+  { number: 308, name: 'BTECH AF| LERAL TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23413' },
+  { number: 309, name: 'BTECH AF| DBS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23423' },
+  { number: 310, name: 'BTECH AF| 7INFO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59286' },
+  { number: 311, name: 'BTECH AF| Tele Pacific', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42900' },
+  { number: 312, name: 'BTECH AF| TeleKreol HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42903' },
+  { number: 313, name: 'BTECH AF| ORTC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42905' },
+  { number: 314, name: 'BTECH AF| MBC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/42908' },
+  { number: 315, name: 'BTECH AF| CDIRECT', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59212' },
+  { number: 316, name: 'BTECH AF| SARAOUNIA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163012' },
+  { number: 317, name: 'BTECH AF| SAVANE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401459607' },
+  { number: 318, name: 'BTECH AF| PACIS TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401459609' },
+  { number: 319, name: 'BTECH AF| BANTAMBA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59205' },
+  { number: 320, name: 'BTECH AF| BONFEREY', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59206' },
+  { number: 321, name: 'BTECH AF| BURKINA INFO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59208' },
+  { number: 322, name: 'BTECH AF| CIS TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59213' },
+  { number: 323, name: 'BTECH AF| CNBC AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59215' },
+  { number: 324, name: 'BTECH AF| CRTV NEWS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59216' },
+  { number: 325, name: 'BTECH AF| CVK', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59218' },
+  { number: 326, name: 'BTECH AF| DIGITAL CONGO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59219' },
+  { number: 327, name: 'BTECH AF| DOUNIA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59221' },
+  { number: 328, name: 'BTECH AF| DRTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59222' },
+  { number: 329, name: 'BTECH AF| ELECTRON TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59224' },
+  { number: 330, name: 'BTECH AF| EMCI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59225' },
+  { number: 331, name: 'BTECH AF| ESPACE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59226' },
+  { number: 332, name: 'BTECH AF| EVASION TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59227' },
+  { number: 333, name: 'BTECH AF| GABON CULTURE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59230' },
+  { number: 334, name: 'BTECH AF| ITV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59232' },
+  { number: 335, name: 'BTECH AF| JOLIBA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59234' },
+  { number: 336, name: 'BTECH AF| KALAC TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59235' },
+  { number: 337, name: 'BTECH AF| KC2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59236' },
+  { number: 338, name: 'BTECH AF| KTO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59237' },
+  { number: 339, name: 'BTECH AF| LA 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59238' },
+  { number: 340, name: 'BTECH AF| LAMP FALLTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59239' },
+  { number: 341, name: 'BTECH AF| LMTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59241' },
+  { number: 342, name: 'BTECH AF| MANDE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59244' },
+  { number: 343, name: 'BTECH AF| NCI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59249' },
+  { number: 344, name: 'BTECH AF| NYOTA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59252' },
+  { number: 345, name: 'BTECH AF| RAI ITALIA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59255' },
+  { number: 346, name: 'BTECH AF| RWANDA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59256' },
+  { number: 347, name: 'BTECH AF| SAHARA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59257' },
+  { number: 348, name: 'BTECH AF| SUD 1ERE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59262' },
+  { number: 349, name: 'BTECH AF| TELE 50', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59264' },
+  { number: 350, name: 'BTECH AF| TELE SAHEL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59265' },
+  { number: 351, name: 'BTECH AF| TGB', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59266' },
+  { number: 352, name: 'BTECH AF| TIVI5 MONDE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59267' },
+  { number: 353, name: 'BTECH AF| TM1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59269' },
+  { number: 354, name: 'BTECH AF| TV TOGO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59275' },
+  { number: 355, name: 'BTECH AF| RTD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59280' },
+  { number: 356, name: 'BTECH AF| RTI 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59282' },
+  { number: 357, name: 'BTECH AF| RTNB', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59283' },
+  { number: 358, name: 'BTECH AF| RTS 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59284' },
+  { number: 359, name: 'BTECH AF| AL BAYANE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59287' },
+  { number: 360, name: 'BTECH AF| ALAFIATV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59288' },
+  { number: 361, name: 'BTECH ✦●✦C+ AFRICA SPORT✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400232492' },
+  { number: 362, name: 'BTECH AF| CANAL+ SPORT 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216431' },
+  { number: 363, name: 'BTECH AF| CANAL+ SPORT 1 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163033' },
+  { number: 364, name: 'BTECH AF| CANAL+ SPORT 2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216430' },
+  { number: 365, name: 'BTECH AF| CANAL+ SPORT 2 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163032' },
+  { number: 366, name: 'BTECH AF| CANAL+ SPORT 3 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216429' },
+  { number: 367, name: 'BTECH AF| CANAL+ SPORT 3 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163031' },
+  { number: 368, name: 'BTECH AF| CANAL+ SPORT 4 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216428' },
+  { number: 369, name: 'BTECH AF| CANAL+ SPORT 4 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163030' },
+  { number: 370, name: 'BTECH AF| CANAL+ SPORT 5 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216427' },
+  { number: 371, name: 'BTECH AF| CANAL+ SPORT 5 SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163029' },
+  { number: 372, name: 'BTECH AF| CANAL+ PREMIERE LEAGUE HD LIVE-ONLEY', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/378288' },
+  { number: 373, name: 'BTECH AF| INFOSPORT+ HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239763' },
+  { number: 374, name: 'BTECH AF| EUROSPORT 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216415' },
+  { number: 375, name: 'BTECH AF| EUROSPORT 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216414' },
+  { number: 376, name: 'BTECH AF| RMC SPORT 1', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239747' },
+  { number: 377, name: 'BTECH AF| RMC SPORT 2', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239746' },
+  { number: 378, name: 'BTECH AF| RMC SPORT 3', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239745' },
+  { number: 379, name: 'BTECH AF| RMC SPORT 4', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216389' },
+  { number: 380, name: 'BTECH AF| AUTOMOTO SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216442' },
+  { number: 381, name: 'BTECH AF| CRTV SPORT', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59217' },
+  { number: 382, name: 'BTECH AF| NBA TV SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216398' },
+  { number: 383, name: 'BTECH ✦●✦C+ AFRICA ENTERTAINMENT✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401513841' },
+  { number: 384, name: 'BTECH AF| E! ENTERTAINMENT TELEVISION', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14486' },
+  { number: 385, name: 'BTECH AF| FASHION AFRICA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23421' },
+  { number: 386, name: 'BTECH AF| SCIENCE ET VIE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59259' },
+  { number: 387, name: 'BTECH AF| SOS DOCTEUR TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163011' },
+  { number: 388, name: 'BTECH AF| CRIME DISTRICT', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163021' },
+  { number: 389, name: 'BTECH AF| GAME ONE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216410' },
+  { number: 390, name: 'BTECH AF| ENGLISH CLUB TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216418' },
+  { number: 391, name: 'BTECH AF| ANIMAUX', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216445' },
+  { number: 392, name: 'BTECH AF| AFRICABLE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216446' },
+  { number: 393, name: 'BTECH AF| TLS AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401459608' },
+  { number: 394, name: 'BTECH ✦●✦C+ AFRICA MUSIC✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400232494' },
+  { number: 395, name: 'BTECH AF| TRACE URBAN', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216366' },
+  { number: 396, name: 'BTECH AF| TRACE URBAN AFRICA HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/473002' },
+  { number: 397, name: 'BTECH AF| TRACE KITOKO', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59203' },
+  { number: 398, name: 'BTECH AF| TRACE MZIKI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163024' },
+  { number: 399, name: 'BTECH AF| TRACE LATINA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216370' },
+  { number: 400, name: 'BTECH AF| TRACE GOSPEL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216371' },
+  { number: 401, name: 'BTECH AF| TRACE CARIBBEAN', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216372' },
+  { number: 402, name: 'BTECH AF| TRACE AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216373' },
+  { number: 403, name: 'BTECH AF| BBLACK AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216440' },
+  { number: 404, name: 'BTECH AF| MTV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216402' },
+  { number: 405, name: 'BTECH AF| MTV HITS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216401' },
+  { number: 406, name: 'BTECH AF| IVOIRE TV MUSIC SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59233' },
+  { number: 407, name: 'BTECH ✦●✦C+ AFRICA DOCUMENTRIES✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401513842' },
+  { number: 408, name: 'BTECH AF| DISCOVERY CHANNEL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216421' },
+  { number: 409, name: 'BTECH AF| DISCOVERY SCIENCE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239761' },
+  { number: 410, name: 'BTECH AF| INVESTIGATION DISCOVERY', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355045' },
+  { number: 411, name: 'BTECH AF| PLANETE+', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216390' },
+  { number: 412, name: 'BTECH AF| PLANETE+ CRIME', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23407' },
+  { number: 413, name: 'BTECH AF| PLANETE+ AVENTURE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23408' },
+  { number: 414, name: 'BTECH AF| NATIONAL GEOGRAPHIC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216399' },
+  { number: 415, name: 'BTECH AF| NAT GEO WILD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216400' },
+  { number: 416, name: 'BTECH AF| HISTOIRE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225149' },
+  { number: 417, name: 'BTECH AF| TOUTE L HISTOIRE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216374' },
+  { number: 418, name: 'BTECH AF| LOVE NATURE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59242' },
+  { number: 419, name: 'BTECH AF| CANAL+ DOCS SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163034' },
+  { number: 420, name: 'BTECH AF| CUISINES', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216422' },
+  { number: 421, name: 'BTECH AF| MUSEUM TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225131' },
+  { number: 422, name: 'BTECH ✦●✦C+ AFRICA CINEMA✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400232493' },
+  { number: 423, name: 'BTECH AF| NOLLYWOOD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216395' },
+  { number: 424, name: 'BTECH AF| NOLLYWOOD EPIC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216396' },
+  { number: 425, name: 'BTECH AF| CANAL+ CINEMA CENTRE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163050' },
+  { number: 426, name: 'BTECH AF| CANAL+ CINEMA OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216436' },
+  { number: 427, name: 'BTECH AF| CANAL+ ELLES CENTRE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163040' },
+  { number: 428, name: 'BTECH AF| CANAL+ ELLES OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216434' },
+  { number: 429, name: 'BTECH AF| CANAL+ POP OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163042' },
+  { number: 430, name: 'BTECH AF| CANAL+ POP CENTRE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/163044' },
+  { number: 431, name: 'BTECH AF| CANAL+ ACTION OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216438' },
+  { number: 432, name: 'BTECH AF| CANAL+ PREMIERE OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216432' },
+  { number: 433, name: 'BTECH AF| CANAL+ PREMIERE CENTRE HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216437' },
+  { number: 434, name: 'BTECH AF| CANAL+ FAMILY OUEST HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216433' },
+  { number: 435, name: 'BTECH AF| CANAL 2 MOVIES', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/59209' },
+  { number: 436, name: 'BTECH AF| VOX AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239771' },
+  { number: 437, name: 'BTECH AF| POLAR+', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239760' },
+  { number: 438, name: 'BTECH AF| CINE+ FRISSON', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400239758' },
+  { number: 439, name: 'BTECH AF| PARAMOUNT TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225126' },
+  { number: 440, name: 'BTECH AF| ACTION', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216447' },
+  { number: 441, name: 'BTECH AF| NOVELAS TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216394' },
+  { number: 442, name: 'BTECH AF| NOVELAS TV (IVOIRE)', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23410' },
+  { number: 443, name: 'BTECH AF| ZEE MAGIC', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216361' },
+  { number: 444, name: 'BTECH ✦●✦C+ AFRICA KIDS✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400232495' },
+  { number: 445, name: 'BTECH AF| DISNEY CHANNEL', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216420' },
+  { number: 446, name: 'BTECH AF| DISNEY JUNIOR', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216419' },
+  { number: 447, name: 'BTECH AF| CARTOON NETWORK Africa SA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/23424' },
+  { number: 448, name: 'BTECH AF| NICKELODEON', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216397' },
+  { number: 449, name: 'BTECH AF| NICKELODEON JR', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400225184' },
+  { number: 450, name: 'BTECH AF| TELETOON+', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216379' },
+  { number: 451, name: 'BTECH AF| CANAL C-JUNIOR', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/32040' },
+  { number: 452, name: 'BTECH AF| MANGAS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216403' },
+  { number: 453, name: 'BTECH AF| GULLI AFRICA', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216409' },
+  { number: 454, name: 'BTECH AF| LUDIKIDS', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216405' },
+  { number: 455, name: 'BTECH AF| J-ONE', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216407' },
+  { number: 456, name: 'BTECH AF| TIJI', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216375' },
+  { number: 457, name: 'BTECH AF| PIWI+', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400216391' },
+  { number: 458, name: 'BTECH ✦●✦ |AF| SENEGAL ✦●✦', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14218' },
+  { number: 459, name: 'BTECH SENEGAL| TFM HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14214' },
+  { number: 460, name: 'BTECH SENEGAL| RTS 1 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14215' },
+  { number: 461, name: 'BTECH SENEGAL| RTS2 HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14216' },
+  { number: 462, name: 'BTECH SENEGAL| SEN TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14210' },
+  { number: 463, name: 'BTECH SENEGAL| 2STV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14217' },
+  { number: 464, name: 'BTECH SENEGAL| SUNU YEUF HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/189837' },
+  { number: 465, name: 'BTECH SENEGAL| BICHRI TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14201' },
+  { number: 466, name: 'BTECH SENEGAL| 7TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14212' },
+  { number: 467, name: 'BTECH SENEGAL| RTF TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400161669' },
+  { number: 468, name: 'BTECH SENEGAL| AFRICA7 TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14187' },
+  { number: 469, name: 'BTECH SENEGAL| DTV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14211' },
+  { number: 470, name: 'BTECH SENEGAL| TFM RELIGIONS HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/355018' },
+  { number: 471, name: "BTECH SENEGAL| L'OBS TV HD", url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14191' },
+  { number: 472, name: 'BTECH SENEGAL| MOURIDE TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400161724' },
+  { number: 473, name: 'BTECH SENEGAL| A2I TV FHD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14474' },
+  { number: 474, name: 'BTECH SENEGAL| A2I TV RELIGION HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14198' },
+  { number: 475, name: 'BTECH SENEGAL| A2I MUSIC HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14200' },
+  { number: 476, name: 'BTECH SENEGAL| LAMP FALL TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14188' },
+  { number: 477, name: 'BTECH SENEGAL| TOUBA TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14206' },
+  { number: 478, name: 'BTECH SENEGAL| VISION 4 TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/400161721' },
+  { number: 479, name: 'BTECH SENEGAL| ALKHAYRIA CORAN TV SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/79853' },
+  { number: 480, name: 'BTECH SENEGAL| CTV AFRIQUE SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/79851' },
+  { number: 481, name: 'BTECH SENEGAL| WALF HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/14209' },
+  { number: 482, name: 'BTECH SENEGAL| LOUGA TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/79850' },
+  { number: 483, name: 'BTECH SENEGAL| MALIKA TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/79849' },
+  { number: 484, name: 'BTECH SENEGAL| TVS SENEGAL SD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/79843' },
+  { number: 485, name: 'BTECH SENEGAL| SUNU LABEL TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567522' },
+  { number: 486, name: 'BTECH SENEGAL| DNTV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567523' },
+  { number: 487, name: 'BTECH SENEGAL| YEGLE TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567524' },
+  { number: 488, name: 'BTECH SENEGAL| SANS LIMITES TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567525' },
+  { number: 489, name: 'BTECH SENEGAL| M7 TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567526' },
+  { number: 490, name: 'BTECH SENEGAL| SENWEB TV HD', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401567527' },
+  { number: 491, name: 'BTECH SENEGAL| MOURCHID TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747673' },
+  { number: 492, name: 'BTECH SENEGAL| tele-ecole', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747674' },
+  { number: 493, name: 'BTECH SENEGAL| TVS SALOUM', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747675' },
+  { number: 494, name: 'BTECH SENEGAL| AVA TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747676' },
+  { number: 495, name: 'BTECH SENEGAL| RFI TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747677' },
+  { number: 496, name: 'BTECH SENEGAL| RTJ TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747678' },
+  { number: 497, name: 'BTECH SENEGAL| bichrti tv', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747679' },
+  { number: 498, name: 'BTECH SENEGAL| Reflet TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747680' },
+  { number: 499, name: 'BTECH SENEGAL| DAKAR TV', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747681' },
+  { number: 500, name: 'BTECH SENEGAL| ANN', url: 'http://ypbmbfwd.mexamo.xyz:80/54RL5KJE/QVVXHK64/401747682' },
+];
+let currentIndex=0, hls=null;
+const video=document.getElementById("video"), grid=document.getElementById("grid");
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function status(msg){const e=document.getElementById("status");e.textContent=msg;e.style.display="block";clearTimeout(status.t);status.t=setTimeout(()=>e.style.display="none",2500)}
+function cleanUrl(u){return String(u||"").trim()}
+function play(i){if(!channels.length)return;currentIndex=(i+channels.length)%channels.length;const c=channels[currentIndex];document.getElementById("playerNo").textContent=`CH ${String(c.number).padStart(3,"0")}`;document.getElementById("playerName").textContent=c.name;document.title=`${c.name} — BTECH-TV WORLD PRO MAX`;
+document.querySelectorAll(".card").forEach(x=>x.classList.remove("active"));const card=document.querySelector(`.card[data-index="${currentIndex}"]`);if(card){card.classList.add("active");card.scrollIntoView({block:"nearest"})}
+const u=cleanUrl(c.url); if(hls){hls.destroy();hls=null} video.pause();video.removeAttribute("src");video.load();
+if(/\.m3u8($|\?)/i.test(u)&&window.Hls&&Hls.isSupported()){hls=new Hls();hls.loadSource(u);hls.attachMedia(video);hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));}
+else{video.src=u;video.play().catch(()=>{})}}
+function next(){play(currentIndex+1)} function prev(){play(currentIndex-1)}
+function toggleMute(){video.muted=!video.muted;status(video.muted?"Muted":"Sound on")}
+function toggleFullscreen(){const e=document.getElementById("playerContainer");if(document.fullscreenElement)document.exitFullscreen();else e.requestFullscreen?.()}
+async function togglePiP(){try{if(document.pictureInPictureElement)await document.exitPictureInPicture();else if(document.pictureInPictureEnabled&&video.readyState>=1)await video.requestPictureInPicture()}catch(e){status("PiP is not available for this stream.")}}
+function search(q){q=String(q||"").toLowerCase().trim();document.querySelectorAll(".card").forEach(card=>{const c=channels[+card.dataset.index];card.style.display=(!q||c.name.toLowerCase().includes(q)||String(c.number).includes(q))?"":"none"});document.getElementById("count").textContent=(q?document.querySelectorAll(".card:not([style*='display: none'])").length:500)+" channels"}
+function tool(name){status(name+" ready.")}
+function scanStreams(){tool("Stream scan")} function speedBoost(){tool("Speed Boost")} function clearRecents(){tool("Recents cleared")} function recordMode(){status("Record mode is ready for supported browser streams.")} function repairStreams(){tool("Stream repair")} function optimizeMemory(){tool("Memory optimization")}
+function makeMenu(id,items){document.getElementById(id).innerHTML=items.map(x=>`<button class="nav-btn" onclick="status('${x[2]} selected')">${x[1]} ${x[2]}</button>`).join("")}
+makeMenu("countryMenu",[["ng","🇳🇬","Nigeria"],["us","🇺🇸","USA"],["uk","🇬🇧","UK"],["in","🇮🇳","India"],["fr","🇫🇷","France"],["de","🇩🇪","Germany"],["za","🇿🇦","South Africa"],["ca","🇨🇦","Canada"],["au","🇦🇺","Australia"],["jp","🇯🇵","Japan"],["cn","🇨🇳","China"],["es","🇪🇸","Spain"],["it","🇮🇹","Italy"],["tr","🇹🇷","Turkey"],["mx","🇲🇽","Mexico"],["eg","🇪🇬","Egypt"],["al","🇦🇱","Albania"]]);
+makeMenu("categoryMenu",[["news","📰","News"],["sports","⚽","Sports"],["movies","🎬","Movies"],["music","🎵","Music"],["kids","👶","Kids"],["comedy","😂","Comedy"],["documentary","📚","Documentary"],["business","💼","Business"],["science","🔬","Science"],["travel","✈","Travel"]]);
+makeMenu("languageMenu",[["eng","🇬🇧","English"],["spa","🇪🇸","Spanish"],["ara","🇸🇦","Arabic"],["fra","🇫🇷","French"],["hin","🇮🇳","Hindi"],["zho","🇨🇳","Chinese"],["por","🇵🇹","Portuguese"]]);
+grid.querySelectorAll(".card").forEach(card=>card.addEventListener("click",()=>play(+card.dataset.index)));
+play(0);
+</script>
+</body>
+</html>

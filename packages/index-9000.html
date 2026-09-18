@@ -1,0 +1,1477 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050816" />
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX 9,000 Channel Package"
+    />
+
+    <title>BTECH-TV WORLD PRO MAX — 9,000 Channels</title>
+
+    <style>
+      :root {
+        --bg: #050816;
+        --panel: #0b1022;
+        --panel2: #0f1630;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #f5f7ff;
+        --muted: #9aa5c4;
+        --accent: #5ee7ff;
+        --accent2: #7c5cff;
+        --success: #35e58b;
+        --danger: #ff5577;
+        --shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+
+        background:
+          radial-gradient(
+            circle at 15% 10%,
+            rgba(94, 231, 255, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(124, 92, 255, 0.14),
+            transparent 30%
+          ),
+          linear-gradient(145deg, #050816, #070b19 55%, #050816);
+
+        overflow-x: hidden;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      /* HEADER */
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+
+        border-bottom: 1px solid var(--border);
+
+        background: rgba(5, 8, 22, 0.84);
+        backdrop-filter: blur(18px);
+      }
+
+      .header-inner {
+        min-height: 76px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 20px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 44px;
+        height: 44px;
+
+        object-fit: contain;
+
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+      }
+
+      .brand-text {
+        min-width: 0;
+      }
+
+      .brand-title {
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.7px;
+        white-space: nowrap;
+      }
+
+      .brand-subtitle {
+        margin-top: 3px;
+
+        color: var(--muted);
+
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+
+      .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        min-height: 42px;
+        padding: 0 16px;
+
+        border-radius: 12px;
+        border: 1px solid var(--border);
+
+        background: rgba(255, 255, 255, 0.04);
+
+        color: var(--text);
+
+        font-size: 13px;
+        font-weight: 800;
+
+        transition: 0.2s ease;
+      }
+
+      .back-btn:hover {
+        border-color: rgba(94, 231, 255, 0.45);
+        background: rgba(94, 231, 255, 0.08);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+
+      .hero {
+        padding: 74px 0 42px;
+        text-align: center;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 8px 13px;
+
+        border: 1px solid rgba(94, 231, 255, 0.24);
+        border-radius: 999px;
+
+        background: rgba(94, 231, 255, 0.07);
+
+        color: var(--accent);
+
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+
+      .badge::before {
+        content: "";
+
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: var(--success);
+
+        box-shadow: 0 0 14px rgba(53, 229, 139, 0.8);
+      }
+
+      .hero h1 {
+        margin-top: 24px;
+
+        font-size: clamp(58px, 11vw, 126px);
+        line-height: 0.86;
+
+        font-weight: 1000;
+        letter-spacing: -5px;
+
+        background: linear-gradient(
+          110deg,
+          #ffffff 10%,
+          var(--accent) 45%,
+          #ffffff 70%,
+          #a998ff 100%
+        );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        color: transparent;
+      }
+
+      .hero-label {
+        margin-top: 16px;
+
+        color: var(--muted);
+
+        font-size: clamp(16px, 2vw, 21px);
+        font-weight: 800;
+
+        letter-spacing: 5px;
+        text-transform: uppercase;
+      }
+
+      .hero-description {
+        max-width: 700px;
+
+        margin: 22px auto 0;
+
+        color: var(--muted);
+
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      /* MAIN GRID */
+
+      .main-grid {
+        display: grid;
+
+        grid-template-columns:
+          1.1fr
+          0.9fr;
+
+        gap: 22px;
+
+        margin-top: 25px;
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+
+        background:
+          linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0.015)
+          ),
+          var(--panel);
+
+        box-shadow: var(--shadow);
+      }
+
+      /* PACKAGE */
+
+      .package-card {
+        position: relative;
+
+        padding: 30px;
+
+        overflow: hidden;
+      }
+
+      .package-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 260px;
+        height: 260px;
+
+        right: -100px;
+        top: -100px;
+
+        border-radius: 50%;
+
+        background: rgba(94, 231, 255, 0.08);
+
+        filter: blur(4px);
+
+        pointer-events: none;
+      }
+
+      .package-top {
+        position: relative;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        gap: 20px;
+      }
+
+      .package-kicker {
+        color: var(--accent);
+
+        font-size: 11px;
+        font-weight: 900;
+
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+      }
+
+      .package-card h2 {
+        margin-top: 10px;
+
+        font-size: clamp(25px, 4vw, 38px);
+        line-height: 1.05;
+
+        letter-spacing: -1.3px;
+      }
+
+      .price-box {
+        flex: 0 0 auto;
+        text-align: right;
+      }
+
+      .price {
+        font-size: clamp(32px, 5vw, 48px);
+        line-height: 1;
+
+        font-weight: 1000;
+        letter-spacing: -2px;
+      }
+
+      .price-period {
+        margin-top: 6px;
+
+        color: var(--muted);
+
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .package-copy {
+        position: relative;
+
+        margin-top: 22px;
+
+        color: var(--muted);
+
+        line-height: 1.7;
+        font-size: 14px;
+      }
+
+      .activate-btn {
+        position: relative;
+
+        width: 100%;
+        min-height: 56px;
+
+        margin-top: 28px;
+
+        border: 0;
+        border-radius: 15px;
+
+        cursor: pointer;
+
+        color: #04101a;
+
+        background: linear-gradient(100deg, var(--accent), #8bf1ff, #a998ff);
+
+        box-shadow: 0 15px 35px rgba(94, 231, 255, 0.18);
+
+        font-size: 14px;
+        font-weight: 1000;
+
+        transition: 0.2s ease;
+      }
+
+      .activate-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow: 0 20px 45px rgba(94, 231, 255, 0.28);
+      }
+
+      .activate-btn:active {
+        transform: translateY(0);
+      }
+
+      .validity {
+        margin-top: 14px;
+
+        text-align: center;
+
+        color: var(--muted);
+
+        font-size: 12px;
+      }
+
+      .validity strong {
+        color: var(--success);
+      }
+
+      /* FEATURES */
+
+      .features-card {
+        padding: 30px;
+      }
+
+      .section-title {
+        font-size: 19px;
+        font-weight: 900;
+      }
+
+      .section-subtitle {
+        margin-top: 7px;
+
+        color: var(--muted);
+
+        font-size: 13px;
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 12px;
+
+        margin-top: 24px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+
+        gap: 13px;
+
+        padding: 14px;
+
+        border: 1px solid var(--border);
+        border-radius: 14px;
+
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .feature-icon {
+        width: 35px;
+        height: 35px;
+
+        flex: 0 0 35px;
+
+        display: grid;
+        place-items: center;
+
+        border-radius: 10px;
+
+        background: rgba(94, 231, 255, 0.08);
+
+        color: var(--accent);
+
+        font-size: 16px;
+        font-weight: 900;
+      }
+
+      .feature-text {
+        min-width: 0;
+      }
+
+      .feature-title {
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .feature-desc {
+        margin-top: 3px;
+
+        color: var(--muted);
+
+        font-size: 11px;
+      }
+
+      /* STATS */
+
+      .stats {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 14px;
+
+        margin-top: 22px;
+      }
+
+      .stat {
+        padding: 22px 15px;
+
+        text-align: center;
+
+        border: 1px solid var(--border);
+        border-radius: 18px;
+
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .stat-value {
+        font-size: 25px;
+
+        font-weight: 1000;
+
+        color: var(--accent);
+      }
+
+      .stat-label {
+        margin-top: 5px;
+
+        color: var(--muted);
+
+        font-size: 10px;
+        font-weight: 800;
+
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      /* PAYMENT */
+
+      .payment-card {
+        margin-top: 22px;
+
+        padding: 30px;
+      }
+
+      .payment-methods {
+        display: grid;
+
+        grid-template-columns: repeat(4, 1fr);
+
+        gap: 12px;
+
+        margin-top: 22px;
+      }
+
+      .payment-method {
+        min-height: 64px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 1px solid var(--border);
+        border-radius: 14px;
+
+        background: rgba(255, 255, 255, 0.025);
+
+        color: var(--text);
+
+        font-size: 12px;
+        font-weight: 900;
+
+        text-align: center;
+      }
+
+      .payment-note {
+        margin-top: 17px;
+
+        padding: 13px 15px;
+
+        border: 1px solid rgba(255, 193, 7, 0.17);
+        border-radius: 13px;
+
+        background: rgba(255, 193, 7, 0.05);
+
+        color: #c6cce0;
+
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      /* FOOTER */
+
+      footer {
+        padding: 45px 0 30px;
+
+        text-align: center;
+
+        color: var(--muted);
+
+        font-size: 11px;
+      }
+
+      .footer-brand {
+        color: var(--text);
+
+        font-weight: 900;
+      }
+
+      .footer-credit {
+        margin-top: 8px;
+
+        color: var(--accent);
+
+        font-weight: 800;
+      }
+
+      /* MODAL */
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+
+        z-index: 100;
+
+        display: none;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 18px;
+
+        background: rgba(0, 0, 0, 0.72);
+
+        backdrop-filter: blur(12px);
+      }
+
+      .modal-overlay.show {
+        display: flex;
+      }
+
+      .modal {
+        width: min(520px, 100%);
+
+        max-height: min(760px, calc(100vh - 36px));
+
+        overflow-y: auto;
+
+        border: 1px solid var(--border);
+        border-radius: 24px;
+
+        background: #090e20;
+
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.65);
+      }
+
+      .modal-header {
+        display: flex;
+
+        align-items: flex-start;
+        justify-content: space-between;
+
+        gap: 15px;
+
+        padding: 25px 25px 18px;
+
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-title {
+        font-size: 21px;
+        font-weight: 1000;
+      }
+
+      .modal-subtitle {
+        margin-top: 6px;
+
+        color: var(--muted);
+
+        font-size: 12px;
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+
+        flex: 0 0 36px;
+
+        border: 1px solid var(--border);
+        border-radius: 10px;
+
+        cursor: pointer;
+
+        color: var(--text);
+
+        background: rgba(255, 255, 255, 0.04);
+
+        font-size: 18px;
+      }
+
+      .modal-body {
+        padding: 25px;
+      }
+
+      .form-group {
+        margin-bottom: 17px;
+      }
+
+      .form-group label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #dce2f7;
+
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+
+        min-height: 48px;
+
+        padding: 0 14px;
+
+        border: 1px solid var(--border);
+        outline: none;
+
+        border-radius: 12px;
+
+        color: var(--text);
+
+        background: #070b19;
+
+        font-size: 13px;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: rgba(94, 231, 255, 0.55);
+
+        box-shadow: 0 0 0 3px rgba(94, 231, 255, 0.08);
+      }
+
+      .form-group select option {
+        color: #111;
+        background: #fff;
+      }
+
+      .submit-btn {
+        width: 100%;
+
+        min-height: 52px;
+
+        margin-top: 5px;
+
+        border: 0;
+        border-radius: 13px;
+
+        cursor: pointer;
+
+        color: #04101a;
+
+        background: linear-gradient(100deg, var(--accent), #a998ff);
+
+        font-size: 13px;
+        font-weight: 1000;
+      }
+
+      .form-note {
+        margin-top: 14px;
+
+        color: var(--muted);
+
+        text-align: center;
+
+        font-size: 10px;
+        line-height: 1.6;
+      }
+
+      .success-box {
+        display: none;
+
+        padding: 28px 5px;
+
+        text-align: center;
+      }
+
+      .success-icon {
+        width: 65px;
+        height: 65px;
+
+        margin: 0 auto 17px;
+
+        display: grid;
+        place-items: center;
+
+        border-radius: 50%;
+
+        background: rgba(53, 229, 139, 0.1);
+
+        border: 1px solid rgba(53, 229, 139, 0.25);
+
+        color: var(--success);
+
+        font-size: 30px;
+        font-weight: 1000;
+      }
+
+      .success-box h3 {
+        font-size: 21px;
+      }
+
+      .success-box p {
+        margin-top: 10px;
+
+        color: var(--muted);
+
+        line-height: 1.6;
+
+        font-size: 13px;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 850px) {
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .payment-methods {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 650px) {
+        .container {
+          width: min(100% - 22px, 1180px);
+        }
+
+        .header-inner {
+          min-height: 68px;
+        }
+
+        .brand-title {
+          font-size: 12px;
+        }
+
+        .brand-subtitle {
+          display: none;
+        }
+
+        .brand img {
+          width: 39px;
+          height: 39px;
+        }
+
+        .back-btn {
+          min-height: 38px;
+
+          padding: 0 11px;
+
+          font-size: 11px;
+        }
+
+        .hero {
+          padding: 52px 0 30px;
+        }
+
+        .hero h1 {
+          font-size: clamp(53px, 18vw, 90px);
+
+          letter-spacing: -4px;
+        }
+
+        .hero-label {
+          font-size: 13px;
+          letter-spacing: 3px;
+        }
+
+        .hero-description {
+          font-size: 13px;
+        }
+
+        .package-card,
+        .features-card,
+        .payment-card {
+          padding: 22px;
+          border-radius: 19px;
+        }
+
+        .package-top {
+          display: block;
+        }
+
+        .price-box {
+          margin-top: 22px;
+          text-align: left;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .modal-header,
+        .modal-body {
+          padding: 20px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .payment-methods {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .payment-method {
+          min-height: 56px;
+
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+
+    <header>
+      <div class="container header-inner">
+        <a class="brand" href="../index.html">
+          <img
+            src="../logo.png"
+            alt="BTECH-TV WORLD PRO MAX"
+            onerror="this.style.display = 'none'"
+          />
+
+          <div class="brand-text">
+            <div class="brand-title">BTECH-TV WORLD PRO MAX</div>
+
+            <div class="brand-subtitle">PREMIUM IPTV PACKAGE</div>
+          </div>
+        </a>
+
+        <a class="back-btn" href="../index.html"> ← Dashboard </a>
+      </div>
+    </header>
+
+    <!-- HERO -->
+
+    <section class="hero">
+      <div class="container">
+        <div class="badge">Package Available</div>
+
+        <h1>9,000</h1>
+
+        <div class="hero-label">Channels</div>
+
+        <p class="hero-description">
+          Unlock the BTECH-TV WORLD PRO MAX 9,000-channel package with 30-day
+          subscription validity and access to your selected channel limit.
+        </p>
+      </div>
+    </section>
+
+    <main class="container">
+      <!-- PACKAGE + FEATURES -->
+
+      <section class="main-grid">
+        <!-- PACKAGE CARD -->
+
+        <div class="card package-card">
+          <div class="package-top">
+            <div>
+              <div class="package-kicker">Premium Access</div>
+
+              <h2>9,000 Channel Package</h2>
+            </div>
+
+            <div class="price-box">
+              <div class="price">$94.99</div>
+
+              <div class="price-period">/ month</div>
+            </div>
+          </div>
+
+          <p class="package-copy">
+            Get access to a package limit of up to
+            <strong>9,000 channels</strong>. Your subscription remains active
+            for <strong>30 days</strong> from activation.
+          </p>
+
+          <button class="activate-btn" id="openModal" type="button">
+            Activate 9,000 Channels
+          </button>
+
+          <div class="validity">
+            Subscription validity:
+            <strong>30 Days</strong>
+          </div>
+        </div>
+
+        <!-- FEATURES CARD -->
+
+        <div class="card features-card">
+          <div class="section-title">Package Features</div>
+
+          <div class="section-subtitle">Built for high-volume IPTV access.</div>
+
+          <div class="feature-list">
+            <div class="feature">
+              <div class="feature-icon">✓</div>
+
+              <div class="feature-text">
+                <div class="feature-title">9,000 Channels</div>
+
+                <div class="feature-desc">Package channel limit</div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">⚡</div>
+
+              <div class="feature-text">
+                <div class="feature-title">Fast IPTV Dashboard</div>
+
+                <div class="feature-desc">Optimized channel browsing</div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">▶</div>
+
+              <div class="feature-text">
+                <div class="feature-title">Live Streaming</div>
+
+                <div class="feature-desc">Compatible live stream playback</div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">▣</div>
+
+              <div class="feature-text">
+                <div class="feature-title">30-Day Validity</div>
+
+                <div class="feature-desc">
+                  Active for 30 days after activation
+                </div>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">◆</div>
+
+              <div class="feature-text">
+                <div class="feature-title">Premium Access</div>
+
+                <div class="feature-desc">Unlock package features</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS -->
+
+      <section class="stats">
+        <div class="stat">
+          <div class="stat-value">9K</div>
+
+          <div class="stat-label">Channels</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">30</div>
+
+          <div class="stat-label">Days</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">$94.99</div>
+
+          <div class="stat-label">Monthly</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">HD</div>
+
+          <div class="stat-label">Streaming</div>
+        </div>
+      </section>
+
+      <!-- PAYMENT -->
+
+      <section class="card payment-card">
+        <div class="section-title">Available Payment Methods</div>
+
+        <div class="section-subtitle">
+          Select your preferred payment option during activation.
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-method">PAYSTACK</div>
+
+          <div class="payment-method">MONIEPOINT</div>
+
+          <div class="payment-method">PAYPAL</div>
+
+          <div class="payment-method">PAYPAD</div>
+        </div>
+
+        <div class="payment-note">
+          <strong>Demo activation:</strong>
+          This page currently performs a local browser activation using
+          localStorage. It does not process or verify real payments. Connect
+          your secure payment gateway and backend verification before using this
+          system for production payments.
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+
+    <footer>
+      <div class="container">
+        <div class="footer-brand">BTECH-TV WORLD PRO MAX</div>
+
+        <div>9,000 Channel Package • 30-Day Validity</div>
+
+        <div class="footer-credit">
+          Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN
+        </div>
+      </div>
+    </footer>
+
+    <!-- ACTIVATION MODAL -->
+
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <div class="modal-header">
+          <div>
+            <div class="modal-title" id="modalTitle">Activate Package</div>
+
+            <div class="modal-subtitle">
+              9,000 Channel Package — $94.99 / month
+            </div>
+          </div>
+
+          <button
+            class="close-btn"
+            id="closeModal"
+            type="button"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form id="activationForm">
+            <div class="form-group">
+              <label for="fullName"> Full Name </label>
+
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="email"> Email Address </label>
+
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="phone"> Phone Number </label>
+
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="paymentType"> Payment Type </label>
+
+              <select id="paymentType" name="paymentType" required>
+                <option value="">Select payment method</option>
+
+                <option value="Paystack">Paystack</option>
+
+                <option value="Moniepoint">Moniepoint</option>
+
+                <option value="PayPal">PayPal</option>
+
+                <option value="Paypad">Paypad</option>
+              </select>
+            </div>
+
+            <button class="submit-btn" type="submit">
+              Confirm 9,000 Channel Activation
+            </button>
+
+            <div class="form-note">
+              Demo activation only. Real payment processing requires secure
+              server-side gateway verification.
+            </div>
+          </form>
+
+          <!-- SUCCESS -->
+
+          <div class="success-box" id="successBox">
+            <div class="success-icon">✓</div>
+
+            <h3>Activation Successful</h3>
+
+            <p>
+              Your 9,000-channel package has been activated successfully for 30
+              days.
+            </p>
+
+            <p>Redirecting to the dashboard...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+
+      /* ==========================================
+       BTECH-TV 9,000 CHANNEL PACKAGE
+       ========================================== */
+
+      const PACKAGE = Object.freeze({
+        id: "9000",
+
+        name: "9,000 Channel Package",
+
+        channels: 9000,
+
+        price: 94.99,
+
+        currency: "USD",
+
+        validityDays: 30,
+      });
+
+      window.BTECH_PACKAGE = PACKAGE;
+
+      /* ==========================================
+       STORAGE KEYS
+       ========================================== */
+
+      const STORAGE = Object.freeze({
+        subscription: "btech_tv_subscription",
+
+        premium: "btech_tv_premium",
+
+        package: "btech_tv_package",
+
+        channelLimit: "btech_tv_channel_limit",
+
+        expires: "btech_tv_package_expires",
+      });
+
+      /* ==========================================
+       DOM ELEMENTS
+       ========================================== */
+
+      const modalOverlay = document.getElementById("modalOverlay");
+
+      const openModalButton = document.getElementById("openModal");
+
+      const closeModalButton = document.getElementById("closeModal");
+
+      const activationForm = document.getElementById("activationForm");
+
+      const successBox = document.getElementById("successBox");
+
+      /* ==========================================
+       OPEN MODAL
+       ========================================== */
+
+      function openModal() {
+        modalOverlay.classList.add("show");
+
+        modalOverlay.setAttribute("aria-hidden", "false");
+
+        document.body.style.overflow = "hidden";
+
+        setTimeout(() => {
+          document.getElementById("fullName")?.focus();
+        }, 50);
+      }
+
+      /* ==========================================
+       CLOSE MODAL
+       ========================================== */
+
+      function closeModal() {
+        modalOverlay.classList.remove("show");
+
+        modalOverlay.setAttribute("aria-hidden", "true");
+
+        document.body.style.overflow = "";
+      }
+
+      openModalButton.addEventListener("click", openModal);
+
+      closeModalButton.addEventListener("click", closeModal);
+
+      /* ==========================================
+       BACKDROP CLOSE
+       ========================================== */
+
+      modalOverlay.addEventListener("click", (event) => {
+        if (event.target === modalOverlay) {
+          closeModal();
+        }
+      });
+
+      /* ==========================================
+       ESCAPE KEY
+       ========================================== */
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modalOverlay.classList.contains("show")) {
+          closeModal();
+        }
+      });
+
+      /* ==========================================
+       EXPIRATION CHECK
+       ========================================== */
+
+      function clearExpiredSubscription() {
+        const expiresAt = Number(localStorage.getItem(STORAGE.expires) || 0);
+
+        if (expiresAt && Date.now() >= expiresAt) {
+          localStorage.removeItem(STORAGE.subscription);
+
+          localStorage.removeItem(STORAGE.premium);
+
+          localStorage.removeItem(STORAGE.package);
+
+          localStorage.removeItem(STORAGE.channelLimit);
+
+          localStorage.removeItem(STORAGE.expires);
+        }
+      }
+
+      clearExpiredSubscription();
+
+      /* ==========================================
+       ACTIVATION FORM
+       ========================================== */
+
+      activationForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const fullName = document.getElementById("fullName").value.trim();
+
+        const email = document.getElementById("email").value.trim();
+
+        const phone = document.getElementById("phone").value.trim();
+
+        const paymentType = document.getElementById("paymentType").value;
+
+        if (!fullName || !email || !phone || !paymentType) {
+          alert("Please complete all required fields.");
+
+          return;
+        }
+
+        const activatedAt = Date.now();
+
+        const expiresAt =
+          activatedAt + PACKAGE.validityDays * 24 * 60 * 60 * 1000;
+
+        const subscription = {
+          packageId: PACKAGE.id,
+
+          packageName: PACKAGE.name,
+
+          channels: PACKAGE.channels,
+
+          price: PACKAGE.price,
+
+          currency: PACKAGE.currency,
+
+          validityDays: PACKAGE.validityDays,
+
+          fullName,
+
+          email,
+
+          phone,
+
+          paymentType,
+
+          activatedAt,
+
+          expiresAt,
+
+          status: "active",
+        };
+
+        /* SAVE SUBSCRIPTION */
+
+        localStorage.setItem(
+          STORAGE.subscription,
+          JSON.stringify(subscription),
+        );
+
+        localStorage.setItem(STORAGE.premium, "true");
+
+        localStorage.setItem(STORAGE.package, PACKAGE.id);
+
+        localStorage.setItem(STORAGE.channelLimit, String(PACKAGE.channels));
+
+        localStorage.setItem(STORAGE.expires, String(expiresAt));
+
+        /* SUCCESS SCREEN */
+
+        activationForm.style.display = "none";
+
+        successBox.style.display = "block";
+
+        /* DASHBOARD REDIRECT */
+
+        setTimeout(() => {
+          window.location.href = "../index.html";
+        }, 1600);
+      });
+    </script>
+  </body>
+</html>

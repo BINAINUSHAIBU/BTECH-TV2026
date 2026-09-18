@@ -1,0 +1,1530 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+
+    <meta name="theme-color" content="#050816" />
+
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX - Choose your IPTV package"
+    />
+
+    <title>BTECH-TV WORLD PRO MAX | Packages</title>
+
+    <style>
+      :root {
+        --bg: #050816;
+        --bg2: #080d20;
+        --panel: rgba(13, 20, 43, 0.86);
+        --panel2: rgba(17, 27, 57, 0.92);
+        --border: rgba(120, 145, 255, 0.18);
+        --border-active: rgba(77, 208, 255, 0.55);
+        --text: #f4f7ff;
+        --muted: #9ba8c7;
+        --cyan: #42d9ff;
+        --blue: #5978ff;
+        --green: #3df2a4;
+        --yellow: #ffd166;
+        --danger: #ff637d;
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.38);
+        --radius: 22px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        background:
+          radial-gradient(
+            circle at 10% 10%,
+            rgba(66, 217, 255, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 90% 20%,
+            rgba(89, 120, 255, 0.14),
+            transparent 30%
+          ),
+          linear-gradient(135deg, var(--bg), var(--bg2));
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .page {
+        width: min(1450px, 100%);
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* =========================================================
+       HEADER
+    ========================================================= */
+
+      .topbar {
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 18px;
+
+        background: rgba(7, 12, 30, 0.78);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+
+        position: sticky;
+        top: 12px;
+        z-index: 100;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 0;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        padding: 5px;
+      }
+
+      .brand-text {
+        min-width: 0;
+      }
+
+      .brand-title {
+        font-size: 16px;
+        font-weight: 900;
+        letter-spacing: 0.7px;
+        white-space: nowrap;
+      }
+
+      .brand-subtitle {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .header-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        padding: 0 16px;
+
+        border: 1px solid var(--border);
+        border-radius: 12px;
+
+        background: rgba(255, 255, 255, 0.045);
+        color: var(--text);
+
+        font-size: 13px;
+        font-weight: 800;
+
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease,
+          background 0.2s ease;
+      }
+
+      .header-btn:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-active);
+        background: rgba(66, 217, 255, 0.08);
+      }
+
+      .header-btn.primary {
+        border-color: rgba(66, 217, 255, 0.4);
+        background: linear-gradient(
+          135deg,
+          rgba(66, 217, 255, 0.18),
+          rgba(89, 120, 255, 0.2)
+        );
+      }
+
+      /* =========================================================
+       HERO
+    ========================================================= */
+
+      .hero {
+        text-align: center;
+        padding: 72px 20px 42px;
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        padding: 8px 13px;
+        margin-bottom: 18px;
+
+        border: 1px solid rgba(66, 217, 255, 0.25);
+        border-radius: 999px;
+
+        background: rgba(66, 217, 255, 0.07);
+        color: var(--cyan);
+
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+
+      .hero-badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 15px rgba(61, 242, 164, 0.8);
+      }
+
+      .hero h1 {
+        max-width: 1000px;
+        margin: 0 auto;
+
+        font-size: clamp(34px, 6vw, 76px);
+        line-height: 0.98;
+        font-weight: 950;
+        letter-spacing: -3px;
+
+        background: linear-gradient(
+          135deg,
+          #ffffff 10%,
+          #9eeeff 48%,
+          #728cff 90%
+        );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero p {
+        max-width: 780px;
+        margin: 22px auto 0;
+
+        color: var(--muted);
+        font-size: clamp(14px, 2vw, 17px);
+        line-height: 1.75;
+      }
+
+      .trial-notice {
+        max-width: 720px;
+        margin: 28px auto 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+
+        padding: 14px 18px;
+
+        border: 1px solid rgba(61, 242, 164, 0.2);
+        border-radius: 15px;
+
+        background: rgba(61, 242, 164, 0.06);
+        color: #c8ffe8;
+
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .trial-notice strong {
+        color: var(--green);
+      }
+
+      /* =========================================================
+       STATUS
+    ========================================================= */
+
+      .status-panel {
+        display: none;
+        margin: 0 auto 28px;
+        max-width: 900px;
+
+        padding: 17px 20px;
+
+        border-radius: 17px;
+        border: 1px solid rgba(66, 217, 255, 0.2);
+        background: rgba(66, 217, 255, 0.055);
+      }
+
+      .status-panel.visible {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .status-title {
+        font-weight: 900;
+        font-size: 14px;
+      }
+
+      .status-description {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
+      /* =========================================================
+       SECTION
+    ========================================================= */
+
+      .section-header {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+
+        margin: 30px 0 18px;
+      }
+
+      .section-title {
+        font-size: 25px;
+        font-weight: 950;
+        letter-spacing: -0.7px;
+      }
+
+      .section-description {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .package-count {
+        color: var(--cyan);
+        font-size: 12px;
+        font-weight: 900;
+        white-space: nowrap;
+      }
+
+      /* =========================================================
+       PACKAGE GRID
+    ========================================================= */
+
+      .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 17px;
+      }
+
+      .package-card {
+        position: relative;
+        overflow: hidden;
+
+        min-height: 345px;
+
+        display: flex;
+        flex-direction: column;
+
+        padding: 23px;
+
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+
+        background: linear-gradient(
+          145deg,
+          rgba(21, 31, 65, 0.92),
+          rgba(9, 15, 35, 0.92)
+        );
+
+        box-shadow: 0 14px 45px rgba(0, 0, 0, 0.22);
+
+        transition:
+          transform 0.25s ease,
+          border-color 0.25s ease,
+          box-shadow 0.25s ease;
+      }
+
+      .package-card::before {
+        content: "";
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        top: -100px;
+        right: -80px;
+
+        border-radius: 50%;
+
+        background: rgba(66, 217, 255, 0.08);
+        filter: blur(10px);
+
+        pointer-events: none;
+      }
+
+      .package-card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(66, 217, 255, 0.42);
+        box-shadow:
+          0 25px 65px rgba(0, 0, 0, 0.32),
+          0 0 35px rgba(66, 217, 255, 0.07);
+      }
+
+      .package-card.featured {
+        border-color: rgba(66, 217, 255, 0.42);
+        box-shadow:
+          0 20px 65px rgba(0, 0, 0, 0.3),
+          0 0 35px rgba(66, 217, 255, 0.08);
+      }
+
+      .package-card.sports {
+        border-color: rgba(255, 209, 102, 0.38);
+      }
+
+      .popular {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+
+        padding: 6px 9px;
+
+        border-radius: 999px;
+
+        background: rgba(66, 217, 255, 0.12);
+        border: 1px solid rgba(66, 217, 255, 0.22);
+
+        color: var(--cyan);
+        font-size: 9px;
+        font-weight: 950;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .sports-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+
+        padding: 6px 9px;
+
+        border-radius: 999px;
+
+        background: rgba(255, 209, 102, 0.1);
+        border: 1px solid rgba(255, 209, 102, 0.24);
+
+        color: var(--yellow);
+        font-size: 9px;
+        font-weight: 950;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .package-icon {
+        width: 52px;
+        height: 52px;
+
+        display: grid;
+        place-items: center;
+
+        margin-bottom: 18px;
+
+        border-radius: 16px;
+
+        background: linear-gradient(
+          135deg,
+          rgba(66, 217, 255, 0.12),
+          rgba(89, 120, 255, 0.12)
+        );
+
+        border: 1px solid rgba(66, 217, 255, 0.18);
+
+        color: var(--cyan);
+        font-size: 12px;
+        font-weight: 950;
+      }
+
+      .package-name {
+        font-size: 18px;
+        font-weight: 950;
+      }
+
+      .package-channels {
+        margin-top: 6px;
+
+        color: var(--cyan);
+        font-size: 13px;
+        font-weight: 900;
+      }
+
+      .package-price {
+        display: flex;
+        align-items: baseline;
+        gap: 5px;
+
+        margin-top: 22px;
+      }
+
+      .package-price strong {
+        font-size: 31px;
+        line-height: 1;
+        font-weight: 950;
+        letter-spacing: -1px;
+      }
+
+      .package-price span {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .package-features {
+        display: grid;
+        gap: 9px;
+
+        margin: 21px 0;
+        padding-top: 17px;
+
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        color: #cbd4ea;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .feature::before {
+        content: "✓";
+
+        display: grid;
+        place-items: center;
+
+        flex: 0 0 auto;
+
+        width: 17px;
+        height: 17px;
+
+        border-radius: 50%;
+
+        background: rgba(61, 242, 164, 0.1);
+        color: var(--green);
+
+        font-size: 10px;
+        font-weight: 950;
+      }
+
+      .package-button {
+        width: 100%;
+        min-height: 45px;
+
+        margin-top: auto;
+
+        border: 1px solid rgba(66, 217, 255, 0.25);
+        border-radius: 13px;
+
+        background: linear-gradient(
+          135deg,
+          rgba(66, 217, 255, 0.13),
+          rgba(89, 120, 255, 0.16)
+        );
+
+        color: var(--text);
+
+        font-size: 12px;
+        font-weight: 950;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .package-button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(66, 217, 255, 0.55);
+        background: linear-gradient(
+          135deg,
+          rgba(66, 217, 255, 0.2),
+          rgba(89, 120, 255, 0.22)
+        );
+      }
+
+      /* =========================================================
+       SPORTS FEATURE
+    ========================================================= */
+
+      .sports-section {
+        margin-top: 35px;
+
+        padding: 28px;
+
+        border: 1px solid rgba(255, 209, 102, 0.17);
+        border-radius: 22px;
+
+        background: linear-gradient(
+          135deg,
+          rgba(255, 209, 102, 0.055),
+          rgba(66, 217, 255, 0.035)
+        );
+      }
+
+      .sports-section h2 {
+        font-size: 20px;
+        font-weight: 950;
+      }
+
+      .sports-section p {
+        max-width: 800px;
+        margin-top: 8px;
+
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .sports-points {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+
+        margin-top: 20px;
+      }
+
+      .sports-point {
+        padding: 16px;
+
+        border-radius: 15px;
+        border: 1px solid rgba(255, 209, 102, 0.12);
+        background: rgba(0, 0, 0, 0.13);
+      }
+
+      .sports-point strong {
+        display: block;
+        font-size: 12px;
+      }
+
+      .sports-point span {
+        display: block;
+        margin-top: 5px;
+
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      /* =========================================================
+       PAYMENT
+    ========================================================= */
+
+      .payment-section {
+        margin-top: 35px;
+        padding: 30px;
+
+        border: 1px solid var(--border);
+        border-radius: 22px;
+
+        background: rgba(10, 17, 39, 0.66);
+      }
+
+      .payment-title {
+        text-align: center;
+
+        font-size: 20px;
+        font-weight: 950;
+      }
+
+      .payment-description {
+        margin: 7px auto 0;
+        max-width: 700px;
+
+        text-align: center;
+
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      .payment-methods {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+
+        margin-top: 22px;
+      }
+
+      .payment-method {
+        min-height: 70px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+
+        border: 1px solid var(--border);
+        border-radius: 15px;
+
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .payment-method strong {
+        font-size: 13px;
+        font-weight: 950;
+      }
+
+      .payment-method span {
+        color: var(--muted);
+        font-size: 9px;
+        font-weight: 700;
+      }
+
+      /* =========================================================
+       FOOTER
+    ========================================================= */
+
+      footer {
+        margin-top: 45px;
+        padding: 30px 10px 35px;
+
+        text-align: center;
+
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.8;
+      }
+
+      footer strong {
+        color: var(--text);
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 12px;
+      }
+
+      .footer-links a:hover {
+        color: var(--cyan);
+      }
+
+      /* =========================================================
+       MOBILE
+    ========================================================= */
+
+      @media (max-width: 1180px) {
+        .packages-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 850px) {
+        .packages-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .payment-methods {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .sports-points {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 55px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page {
+          padding: 10px;
+        }
+
+        .topbar {
+          top: 6px;
+          padding: 11px;
+          border-radius: 16px;
+        }
+
+        .brand-logo {
+          width: 42px;
+          height: 42px;
+        }
+
+        .brand-title {
+          font-size: 13px;
+        }
+
+        .brand-subtitle {
+          font-size: 9px;
+        }
+
+        .header-actions {
+          gap: 6px;
+        }
+
+        .header-btn {
+          min-height: 38px;
+          padding: 0 10px;
+          font-size: 10px;
+        }
+
+        .hero {
+          padding: 45px 8px 30px;
+        }
+
+        .hero h1 {
+          letter-spacing: -1.8px;
+        }
+
+        .hero p {
+          font-size: 13px;
+        }
+
+        .packages-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .package-card {
+          min-height: auto;
+        }
+
+        .payment-section,
+        .sports-section {
+          padding: 20px;
+        }
+
+        .section-header {
+          align-items: flex-start;
+          flex-direction: column;
+          gap: 5px;
+        }
+      }
+
+      @media (max-width: 390px) {
+        .brand-subtitle {
+          display: none;
+        }
+
+        .header-btn.dashboard-label {
+          display: none;
+        }
+
+        .payment-methods {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- =======================================================
+         HEADER
+    ======================================================== -->
+
+      <header class="topbar">
+        <a class="brand" href="../index.html">
+          <img
+            src="../logo.png"
+            alt="BTECH-TV"
+            class="brand-logo"
+            onerror="this.style.display = 'none'"
+          />
+
+          <div class="brand-text">
+            <div class="brand-title">BTECH-TV WORLD PRO MAX</div>
+
+            <div class="brand-subtitle">Premium IPTV Packages</div>
+          </div>
+        </a>
+
+        <div class="header-actions">
+          <a href="../index.html" class="header-btn dashboard-label">
+            ← Dashboard
+          </a>
+
+          <a href="#packages" class="header-btn primary"> Packages </a>
+        </div>
+      </header>
+
+      <!-- =======================================================
+         HERO
+    ======================================================== -->
+
+      <section class="hero">
+        <div class="hero-badge">BTECH-TV PREMIUM ACCESS</div>
+
+        <h1>Choose Your Package</h1>
+
+        <p>
+          Select the BTECH-TV WORLD PRO MAX package that matches the number of
+          channels and features you want. Every package includes 30-day validity
+          and access to the supported IPTV platform.
+        </p>
+
+        <div class="trial-notice">
+          <span>FREE TRIAL:</span>
+          <strong>30 minutes</strong>
+          <span>then choose a package to continue.</span>
+        </div>
+      </section>
+
+      <!-- =======================================================
+         ACTIVE SUBSCRIPTION STATUS
+    ======================================================== -->
+
+      <section class="status-panel" id="subscriptionStatus">
+        <div>
+          <div class="status-title" id="subscriptionTitle">Active Package</div>
+
+          <div class="status-description" id="subscriptionDescription">
+            Your package is active.
+          </div>
+        </div>
+
+        <a href="../index.html" class="header-btn primary"> Open Dashboard </a>
+      </section>
+
+      <!-- =======================================================
+         PACKAGES
+    ======================================================== -->
+
+      <section id="packages">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Available Packages</div>
+
+            <div class="section-description">
+              Choose your preferred channel capacity.
+            </div>
+          </div>
+
+          <div class="package-count" id="packageCount">Loading packages...</div>
+        </div>
+
+        <div class="packages-grid" id="packagesGrid"></div>
+      </section>
+
+      <!-- =======================================================
+         LIVE SPORTS
+    ======================================================== -->
+
+      <section class="sports-section">
+        <h2>LIVE SPORTS PACKAGE FEATURE</h2>
+
+        <p>
+          Selected packages can include access to available live sports
+          programming. Sports availability depends on the channels and legally
+          authorized feeds configured in the BTECH-TV system.
+        </p>
+
+        <div class="sports-points">
+          <div class="sports-point">
+            <strong>LIVE SPORTS</strong>
+            <span>
+              Sports channels can be included in supported packages.
+            </span>
+          </div>
+
+          <div class="sports-point">
+            <strong>LIVE MATCH DATA</strong>
+            <span>
+              Match information can be displayed separately from video streams.
+            </span>
+          </div>
+
+          <div class="sports-point">
+            <strong>HLS PLAYER</strong>
+            <span>
+              Authorized HLS streams can be played through the existing BTECH-TV
+              player.
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+         PAYMENT METHODS
+    ======================================================== -->
+
+      <section class="payment-section">
+        <div class="payment-title">Supported Payment Types</div>
+
+        <div class="payment-description">
+          Payment selection and package activation are handled from the
+          individual package page.
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-method">
+            <strong>Paystack</strong>
+            <span>PAYMENT</span>
+          </div>
+
+          <div class="payment-method">
+            <strong>Moniepoint</strong>
+            <span>PAYMENT</span>
+          </div>
+
+          <div class="payment-method">
+            <strong>PayPal</strong>
+            <span>PAYMENT</span>
+          </div>
+
+          <div class="payment-method">
+            <strong>Paypad</strong>
+            <span>PAYMENT</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- =======================================================
+         FOOTER
+    ======================================================== -->
+
+      <footer>
+        <div class="footer-links">
+          <a href="../index.html"> Dashboard </a>
+
+          <a href="#packages"> Packages </a>
+        </div>
+
+        <div>
+          <strong>BTECH-TV WORLD PRO MAX</strong>
+          • Premium IPTV Platform
+        </div>
+
+        <div>30-Day Package Validity • Multiple Package Options</div>
+
+        <div>Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN</div>
+      </footer>
+    </div>
+
+    <!-- =========================================================
+       PACKAGE ENGINE
+  ========================================================== -->
+
+    <script>
+      "use strict";
+
+      /*
+      ==========================================================
+      BTECH-TV PACKAGE INDEX
+      ==========================================================
+
+      Package pages expected inside this folder:
+
+      index-500.html
+      index-1000.html
+      index-1500.html
+      ...
+      index-16000.html
+
+      Pricing formula:
+
+      500 channels   = $9.99
+      1000 channels  = $14.99
+      1500 channels  = $19.99
+      ...
+      16000 channels = $164.99
+
+      Formula:
+      (channels / 100) + 4.99
+
+      Existing package pages remain responsible for activation.
+    */
+
+      const BTECH_PACKAGE_CONFIG = Object.freeze({
+        minChannels: 500,
+
+        maxChannels: 16000,
+
+        step: 500,
+
+        validityDays: 30,
+
+        currency: "$",
+
+        subscriptionKey: "btech_tv_subscription",
+
+        premiumKey: "btech_tv_premium",
+
+        packageKey: "btech_tv_package",
+
+        channelLimitKey: "btech_tv_channel_limit",
+
+        expiresKey: "btech_tv_package_expires",
+
+        trialKey: "btech_tv_trial",
+      });
+
+      /* =========================================================
+       PACKAGE PRICE
+    ========================================================== */
+
+      function getPackagePrice(channels) {
+        return (channels / 100 + 4.99).toFixed(2);
+      }
+
+      /* =========================================================
+       PACKAGE NAME
+    ========================================================== */
+
+      function getPackageName(channels) {
+        if (channels === 500) {
+          return "Starter";
+        }
+
+        if (channels === 1000) {
+          return "Compact";
+        }
+
+        if (channels === 1500) {
+          return "Standard";
+        }
+
+        if (channels === 2000) {
+          return "Plus";
+        }
+
+        if (channels === 2500) {
+          return "Advanced";
+        }
+
+        if (channels === 3000) {
+          return "Premium";
+        }
+
+        if (channels === 4000) {
+          return "Premium Plus";
+        }
+
+        if (channels === 5000) {
+          return "Super";
+        }
+
+        if (channels === 6000) {
+          return "Super Plus";
+        }
+
+        if (channels === 8000) {
+          return "Ultra";
+        }
+
+        if (channels === 10000) {
+          return "Ultra Plus";
+        }
+
+        if (channels === 12000) {
+          return "Ultra Max";
+        }
+
+        if (channels === 14000) {
+          return "Super Premium";
+        }
+
+        if (channels === 15000) {
+          return "Super Premium Plus";
+        }
+
+        if (channels === 16000) {
+          return "Ultimate Sports";
+        }
+
+        return "BTECH-TV " + channels;
+      }
+
+      /* =========================================================
+       PACKAGE DESCRIPTION
+    ========================================================== */
+
+      function getPackageDescription(channels) {
+        if (channels === 16000) {
+          return "Ultimate channel capacity with Live Sports support.";
+        }
+
+        if (channels >= 10000) {
+          return "High-capacity premium IPTV package.";
+        }
+
+        if (channels >= 5000) {
+          return "Expanded IPTV channel package.";
+        }
+
+        return "Premium IPTV channel package.";
+      }
+
+      /* =========================================================
+       PACKAGE ICON
+    ========================================================== */
+
+      function getPackageIcon(channels) {
+        if (channels >= 15000) {
+          return "MAX";
+        }
+
+        if (channels >= 10000) {
+          return "ULTRA";
+        }
+
+        if (channels >= 5000) {
+          return "PRO";
+        }
+
+        return "TV";
+      }
+
+      /* =========================================================
+       BUILD PACKAGE LIST
+    ========================================================== */
+
+      function createPackageList() {
+        const packages = [];
+
+        for (
+          let channels = BTECH_PACKAGE_CONFIG.minChannels;
+          channels <= BTECH_PACKAGE_CONFIG.maxChannels;
+          channels += BTECH_PACKAGE_CONFIG.step
+        ) {
+          packages.push({
+            id: String(channels),
+
+            channels: channels,
+
+            name: getPackageName(channels),
+
+            price: getPackagePrice(channels),
+
+            description: getPackageDescription(channels),
+
+            liveSports: channels >= 16000,
+
+            url: "index-" + channels + ".html",
+          });
+        }
+
+        return packages;
+      }
+
+      /* =========================================================
+       PACKAGE CARD
+    ========================================================== */
+
+      function createPackageCard(pkg, index) {
+        const card = document.createElement("article");
+
+        card.className =
+          "package-card" +
+          (index === 15 ? " featured" : "") +
+          (pkg.liveSports ? " sports" : "");
+
+        const badge = pkg.liveSports
+          ? '<div class="sports-badge">LIVE SPORTS</div>'
+          : index === 8
+            ? '<div class="popular">POPULAR</div>'
+            : "";
+
+        card.innerHTML = `
+
+        ${badge}
+
+        <div class="package-icon">
+          ${getPackageIcon(pkg.channels)}
+        </div>
+
+        <div class="package-name">
+          ${pkg.name}
+        </div>
+
+        <div class="package-channels">
+          ${pkg.channels.toLocaleString()} Channels
+        </div>
+
+        <div class="package-price">
+          <strong>
+            ${BTECH_PACKAGE_CONFIG.currency}${pkg.price}
+          </strong>
+
+          <span>
+            / month
+          </span>
+        </div>
+
+        <div class="package-features">
+
+          <div class="feature">
+            ${pkg.channels.toLocaleString()} channel capacity
+          </div>
+
+          <div class="feature">
+            30-day validity
+          </div>
+
+          <div class="feature">
+            HD streaming support
+          </div>
+
+          <div class="feature">
+            Multi-category access
+          </div>
+
+          ${
+            pkg.liveSports
+              ? `
+                <div class="feature">
+                  Live Sports support
+                </div>
+              `
+              : ""
+          }
+
+        </div>
+
+        <a
+          href="${pkg.url}"
+          class="package-button"
+          aria-label="Select ${pkg.channels} channel package"
+        >
+          Select ${pkg.channels.toLocaleString()} Channels
+        </a>
+
+      `;
+
+        return card;
+      }
+
+      /* =========================================================
+       RENDER PACKAGES
+    ========================================================== */
+
+      function renderPackages() {
+        const grid = document.getElementById("packagesGrid");
+
+        const counter = document.getElementById("packageCount");
+
+        if (!grid) {
+          return;
+        }
+
+        const packages = createPackageList();
+
+        grid.innerHTML = "";
+
+        packages.forEach((pkg, index) => {
+          grid.appendChild(createPackageCard(pkg, index));
+        });
+
+        if (counter) {
+          counter.textContent = packages.length + " packages available";
+        }
+      }
+
+      /* =========================================================
+       SAFE LOCAL STORAGE
+    ========================================================== */
+
+      function safeGet(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* =========================================================
+       ACTIVE SUBSCRIPTION
+    ========================================================== */
+
+      function getSubscription() {
+        try {
+          const raw = safeGet(BTECH_PACKAGE_CONFIG.subscriptionKey);
+
+          if (!raw) {
+            return null;
+          }
+
+          return JSON.parse(raw);
+        } catch (error) {
+          return null;
+        }
+      }
+
+      /* =========================================================
+       CHECK ACTIVE PACKAGE
+    ========================================================== */
+
+      function hasActivePackage() {
+        const subscription = getSubscription();
+
+        if (!subscription) {
+          return false;
+        }
+
+        if (!subscription.expiresAt) {
+          return false;
+        }
+
+        const expiry = new Date(subscription.expiresAt).getTime();
+
+        return Number.isFinite(expiry) && expiry > Date.now();
+      }
+
+      /* =========================================================
+       SHOW SUBSCRIPTION STATUS
+    ========================================================== */
+
+      function showSubscriptionStatus() {
+        const panel = document.getElementById("subscriptionStatus");
+
+        const title = document.getElementById("subscriptionTitle");
+
+        const description = document.getElementById("subscriptionDescription");
+
+        if (!panel) {
+          return;
+        }
+
+        const subscription = getSubscription();
+
+        if (!subscription || !hasActivePackage()) {
+          panel.classList.remove("visible");
+
+          return;
+        }
+
+        const channels = Number(
+          subscription.channelLimit ||
+            subscription.channels ||
+            safeGet(BTECH_PACKAGE_CONFIG.channelLimitKey) ||
+            0,
+        );
+
+        const expiry = subscription.expiresAt
+          ? new Date(subscription.expiresAt)
+          : null;
+
+        panel.classList.add("visible");
+
+        if (title) {
+          title.textContent =
+            "Active Package: " +
+            (channels ? channels.toLocaleString() : "Premium") +
+            " Channels";
+        }
+
+        if (description) {
+          description.textContent = expiry
+            ? "Your subscription is active until " + expiry.toLocaleDateString()
+            : "Your premium package is active.";
+        }
+      }
+
+      /* =========================================================
+       EXPIRED PACKAGE CLEANUP
+    ========================================================== */
+
+      function cleanupExpiredSubscription() {
+        const subscription = getSubscription();
+
+        if (!subscription) {
+          return;
+        }
+
+        if (!subscription.expiresAt) {
+          return;
+        }
+
+        const expiry = new Date(subscription.expiresAt).getTime();
+
+        if (Number.isFinite(expiry) && expiry <= Date.now()) {
+          try {
+            localStorage.removeItem(BTECH_PACKAGE_CONFIG.subscriptionKey);
+
+            localStorage.removeItem(BTECH_PACKAGE_CONFIG.premiumKey);
+
+            localStorage.removeItem(BTECH_PACKAGE_CONFIG.packageKey);
+
+            localStorage.removeItem(BTECH_PACKAGE_CONFIG.channelLimitKey);
+
+            localStorage.removeItem(BTECH_PACKAGE_CONFIG.expiresKey);
+          } catch (error) {
+            console.warn("Could not clean expired package.", error);
+          }
+        }
+      }
+
+      /* =========================================================
+       INITIALIZE
+    ========================================================== */
+
+      function initializePackagesPage() {
+        cleanupExpiredSubscription();
+
+        renderPackages();
+
+        showSubscriptionStatus();
+      }
+
+      document.addEventListener("DOMContentLoaded", initializePackagesPage);
+    </script>
+  </body>
+</html>
