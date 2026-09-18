@@ -1,0 +1,308 @@
+/* =========================================================
+   BTECH-TV WORLD PRO MAX
+   APPLICATION LAYOUT
+   ---------------------------------------------------------
+   • The page itself does NOT scroll.
+   • Sidebar may scroll independently.
+   • Channel-wrapper is the controlled channel scroller.
+   ========================================================= */
+
+/* Prevent accidental page overflow */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* =========================================================
+   APP SHELL
+   ========================================================= */
+
+.app {
+  display: flex;
+  width: 100%;
+  height: 100dvh;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100dvh;
+  min-height: 0;
+
+  padding: 15px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+
+  flex: 0 0 280px;
+}
+
+/* =========================================================
+   MAIN APPLICATION AREA
+   ========================================================= */
+
+.main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+
+  width: 0;
+  min-width: 0;
+  min-height: 0;
+  height: 100dvh;
+
+  padding: 10px;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+
+  margin-bottom: 10px;
+
+  flex: 0 0 auto;
+}
+
+/* Search / left side */
+.topbar > * {
+  min-width: 0;
+}
+
+/* Live/status area */
+.topbar-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   PLAYER / SCREEN MONITOR
+   ========================================================= */
+
+.btech-screen-monitor {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  flex: 0 0 auto;
+
+  overflow: hidden;
+}
+
+.screen-monitor {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Player container */
+#btechPlayerContainer {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  overflow: hidden;
+}
+
+/* Video */
+#video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: 100%;
+
+  object-fit: contain;
+}
+
+/* =========================================================
+   CHANNEL DISPLAY
+   ========================================================= */
+
+.btech-channel-display {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+}
+
+/* Section containing channel count + wrapper */
+.channel-display-section {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   CONTROLLED CHANNEL SCROLLER
+   ========================================================= */
+
+.channel-wrapper {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================================
+   CHANNEL GRID
+   ========================================================= */
+
+.channels {
+  display: grid;
+
+  width: 100%;
+  min-width: 0;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(215px, 1fr));
+
+  gap: 10px;
+
+  padding: 2px 0 16px;
+}
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.sidebar,
+.channel-wrapper {
+  scrollbar-width: thin;
+}
+
+/* Chromium / WebKit scrollbar */
+.sidebar::-webkit-scrollbar,
+.channel-wrapper::-webkit-scrollbar {
+  width: 7px;
+}
+
+.sidebar::-webkit-scrollbar-track,
+.channel-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+.channel-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+}
+
+/* =========================================================
+   PREVENT FLEX CHILDREN FROM FORCING PAGE SCROLL
+   ========================================================= */
+
+.app,
+.main,
+.btech-channel-display,
+.channel-display-section,
+.channel-wrapper {
+  min-height: 0;
+}
+
+/* =========================================================
+   RESPONSIVE SIDEBAR
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    flex-basis: 240px;
+  }
+}
+
+@media (max-width: 800px) {
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+    flex-basis: 220px;
+    padding: 12px;
+  }
+
+  .main {
+    padding: 8px;
+  }
+
+  .topbar {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .channels {
+    grid-template-columns:
+      repeat(auto-fill, minmax(180px, 1fr));
+
+    gap: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    width: 190px;
+    min-width: 190px;
+    flex-basis: 190px;
+  }
+
+  .main {
+    padding: 6px;
+  }
+
+  .channels {
+    grid-template-columns:
+      repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
