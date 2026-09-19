@@ -10,7 +10,7 @@
     <meta name="theme-color" content="#050816" />
     <meta name="description" content="BTECH-TV WORLD PRO MAX - Ultra BTECH-TV World Engine X" />
     <meta name="application-name" content="BTECH-TV WORLD PRO MAX" />
-    <title>BTECH-TV WORLD PRO MAX | 500 Channel Package Dashboard</title>
+    <title>BTECH-TV WORLD PRO MAX | 100,000 Channel Package Dashboard</title>
     <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/layout.css" />
     <link rel="stylesheet" href="../css/responsive.css" />
@@ -57,14 +57,14 @@ body.package-dashboard-active #packageSelectorOverlay,
 body.package-dashboard-active #activationReceiptOverlay { display:none !important; }
 </style>
 <script>
-document.documentElement.dataset.packageDashboard = "500";
+document.documentElement.dataset.packageDashboard = "100000";
 document.addEventListener("DOMContentLoaded", function(){
   document.body.classList.add("package-dashboard-active");
   const pkg = window.BTECH_SELECTED_PACKAGE_DASHBOARD;
   const status = document.getElementById("subscriptionStatus");
   if (status && pkg) {
     const days = Math.max(0, Math.ceil((Number(pkg.expiryDate || new Date(pkg.expiresAt).getTime()) - Date.now()) / 86400000));
-    status.textContent = "500 CHANNELS • " + days + " DAYS";
+    status.textContent = "100,000 CHANNELS • " + days + " DAYS";
   }
   const timer = document.getElementById("trialTimer");
   if (timer) timer.hidden = true;

@@ -2,1138 +2,545 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
+    <!-- This site is hosted on Netlify.
+         Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+    <meta name="hosting-provider" content="Netlify" />
+    <meta name="netlify-deploy" content="https://netlify.new/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#050816" />
-    <meta
-      name="description"
-      content="BTECH-TV WORLD PRO MAX 9,500 Channel Package"
-    />
-
-    <title>BTECH-TV WORLD PRO MAX — 9,500 Channels</title>
-
-    <style>
-      :root {
-        --bg: #050816;
-        --panel: #0b1022;
-        --panel2: #0f1630;
-        --border: rgba(255, 255, 255, 0.1);
-        --text: #f5f7ff;
-        --muted: #9aa5c4;
-        --accent: #5ee7ff;
-        --accent2: #7c5cff;
-        --success: #35e58b;
-        --danger: #ff5577;
-        --shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        min-height: 100vh;
-        color: var(--text);
-        background:
-          radial-gradient(
-            circle at 15% 10%,
-            rgba(94, 231, 255, 0.14),
-            transparent 30%
-          ),
-          radial-gradient(
-            circle at 85% 15%,
-            rgba(124, 92, 255, 0.18),
-            transparent 32%
-          ),
-          linear-gradient(135deg, #050816 0%, #070b1c 50%, #050816 100%);
-        font-family: Arial, Helvetica, sans-serif;
-        overflow-x: hidden;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      button,
-      input,
-      select {
-        font: inherit;
-      }
-
-      .container {
-        width: min(1180px, calc(100% - 32px));
-        margin: 0 auto;
-      }
-
-      header {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        border-bottom: 1px solid var(--border);
-        background: rgba(5, 8, 22, 0.82);
-        backdrop-filter: blur(18px);
-      }
-
-      .header-inner {
-        min-height: 76px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-width: 0;
-      }
-
-      .brand img {
-        width: 46px;
-        height: 46px;
-        object-fit: contain;
-        border-radius: 12px;
-        flex-shrink: 0;
-      }
-
-      .brand-title {
-        font-size: 15px;
-        font-weight: 900;
-        letter-spacing: 0.8px;
-      }
-
-      .brand-subtitle {
-        margin-top: 3px;
-        color: var(--muted);
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.7px;
-      }
-
-      .back-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 42px;
-        padding: 0 16px;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.04);
-        color: var(--text);
-        font-size: 13px;
-        font-weight: 800;
-        transition: 0.2s ease;
-        white-space: nowrap;
-      }
-
-      .back-btn:hover {
-        border-color: rgba(94, 231, 255, 0.45);
-        background: rgba(94, 231, 255, 0.08);
-        transform: translateY(-1px);
-      }
-
-      .hero {
-        padding: 80px 0 46px;
-        text-align: center;
-      }
-
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 34px;
-        padding: 0 14px;
-        border: 1px solid rgba(94, 231, 255, 0.28);
-        border-radius: 999px;
-        background: rgba(94, 231, 255, 0.07);
-        color: var(--accent);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 1.6px;
-      }
-
-      .hero h1 {
-        margin-top: 18px;
-        font-size: clamp(64px, 12vw, 150px);
-        line-height: 0.88;
-        font-weight: 950;
-        letter-spacing: -7px;
-        background: linear-gradient(
-          135deg,
-          #ffffff 10%,
-          var(--accent) 48%,
-          #a88cff 90%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-
-      .hero-label {
-        margin-top: 16px;
-        color: #fff;
-        font-size: clamp(20px, 3vw, 30px);
-        font-weight: 900;
-        letter-spacing: 1px;
-      }
-
-      .hero p {
-        max-width: 730px;
-        margin: 17px auto 0;
-        color: var(--muted);
-        font-size: 15px;
-        line-height: 1.8;
-      }
-
-      .main {
-        padding-bottom: 50px;
-      }
-
-      .main-grid {
-        display: grid;
-        grid-template-columns: 1.05fr 0.95fr;
-        gap: 20px;
-      }
-
-      .card {
-        position: relative;
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        background:
-          linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.045),
-            rgba(255, 255, 255, 0.015)
-          ),
-          var(--panel);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-      }
-
-      .card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 10%;
-        width: 80%;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(94, 231, 255, 0.6),
-          transparent
-        );
-      }
-
-      .package-card {
-        padding: 34px;
-      }
-
-      .kicker {
-        color: var(--accent);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-      }
-
-      .package-card h2 {
-        margin-top: 12px;
-        font-size: clamp(26px, 4vw, 40px);
-        line-height: 1.05;
-      }
-
-      .price {
-        display: flex;
-        align-items: baseline;
-        gap: 7px;
-        margin-top: 25px;
-      }
-
-      .price strong {
-        font-size: clamp(42px, 6vw, 64px);
-        line-height: 1;
-        letter-spacing: -2px;
-      }
-
-      .price span {
-        color: var(--muted);
-        font-size: 14px;
-        font-weight: 700;
-      }
-
-      .package-description {
-        margin-top: 18px;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.75;
-      }
-
-      .activate-btn {
-        width: 100%;
-        min-height: 56px;
-        margin-top: 28px;
-        border: 0;
-        border-radius: 15px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #050816;
-        font-size: 14px;
-        font-weight: 950;
-        letter-spacing: 0.4px;
-        cursor: pointer;
-        box-shadow: 0 12px 35px rgba(94, 231, 255, 0.14);
-        transition: 0.2s ease;
-      }
-
-      .activate-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 18px 45px rgba(94, 231, 255, 0.22);
-      }
-
-      .validity {
-        margin-top: 15px;
-        color: var(--muted);
-        text-align: center;
-        font-size: 12px;
-      }
-
-      .features-card {
-        padding: 34px;
-      }
-
-      .features-card h3 {
-        font-size: 22px;
-      }
-
-      .features {
-        display: grid;
-        gap: 12px;
-        margin-top: 22px;
-      }
-
-      .feature {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        min-height: 66px;
-        padding: 12px 14px;
-        border: 1px solid var(--border);
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.025);
-      }
-
-      .feature-icon {
-        width: 39px;
-        height: 39px;
-        display: grid;
-        place-items: center;
-        flex-shrink: 0;
-        border-radius: 11px;
-        background: rgba(94, 231, 255, 0.08);
-        color: var(--accent);
-        font-size: 18px;
-      }
-
-      .feature strong {
-        display: block;
-        font-size: 14px;
-      }
-
-      .feature span {
-        display: block;
-        margin-top: 4px;
-        color: var(--muted);
-        font-size: 11px;
-      }
-
-      .stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-        margin-top: 20px;
-      }
-
-      .stat {
-        padding: 23px 15px;
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        background: var(--panel);
-        text-align: center;
-      }
-
-      .stat strong {
-        display: block;
-        color: #fff;
-        font-size: 27px;
-        font-weight: 950;
-      }
-
-      .stat span {
-        display: block;
-        margin-top: 7px;
-        color: var(--muted);
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-      }
-
-      .payment-card {
-        margin-top: 20px;
-        padding: 30px;
-      }
-
-      .payment-card h3 {
-        font-size: 22px;
-      }
-
-      .payment-card > p {
-        margin-top: 9px;
-        color: var(--muted);
-        font-size: 13px;
-      }
-
-      .payment-methods {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-        margin-top: 22px;
-      }
-
-      .payment-method {
-        min-height: 58px;
-        display: grid;
-        place-items: center;
-        padding: 10px;
-        border: 1px solid var(--border);
-        border-radius: 13px;
-        background: rgba(255, 255, 255, 0.025);
-        color: #fff;
-        font-size: 12px;
-        font-weight: 900;
-      }
-
-      .demo-note {
-        margin-top: 17px;
-        padding: 13px 15px;
-        border: 1px solid rgba(255, 193, 7, 0.18);
-        border-radius: 13px;
-        background: rgba(255, 193, 7, 0.05);
-        color: #d9ddef;
-        font-size: 11px;
-        line-height: 1.65;
-      }
-
-      footer {
-        padding: 25px 0 35px;
-        border-top: 1px solid var(--border);
-        text-align: center;
-      }
-
-      .footer-package {
-        color: var(--muted);
-        font-size: 11px;
-      }
-
-      .credit {
-        margin-top: 9px;
-        color: var(--accent);
-        font-size: 11px;
-        font-weight: 900;
-        letter-spacing: 0.6px;
-      }
-
-      /* MODAL */
-
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 18px;
-        background: rgba(0, 0, 0, 0.72);
-        backdrop-filter: blur(12px);
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        transition: 0.2s ease;
-      }
-
-      .modal-overlay.show {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-      }
-
-      .modal {
-        position: relative;
-        width: min(520px, 100%);
-        max-height: calc(100vh - 36px);
-        overflow-y: auto;
-        border: 1px solid var(--border);
-        border-radius: 23px;
-        background: var(--panel);
-        box-shadow: 0 35px 100px rgba(0, 0, 0, 0.65);
-        transform: translateY(18px) scale(0.98);
-        transition: 0.2s ease;
-      }
-
-      .modal-overlay.show .modal {
-        transform: translateY(0) scale(1);
-      }
-
-      .modal-head {
-        padding: 25px 25px 18px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .modal-head h2 {
-        padding-right: 35px;
-        font-size: 21px;
-        line-height: 1.3;
-      }
-
-      .modal-head p {
-        margin-top: 7px;
-        color: var(--muted);
-        font-size: 12px;
-      }
-
-      .close-btn {
-        position: absolute;
-        top: 18px;
-        right: 18px;
-        width: 35px;
-        height: 35px;
-        display: grid;
-        place-items: center;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        color: #fff;
-        cursor: pointer;
-        font-size: 18px;
-      }
-
-      .modal-body {
-        padding: 24px 25px 25px;
-      }
-
-      .field {
-        margin-bottom: 15px;
-      }
-
-      .field label {
-        display: block;
-        margin-bottom: 7px;
-        color: #dce2f7;
-        font-size: 11px;
-        font-weight: 800;
-      }
-
-      .field input,
-      .field select {
-        width: 100%;
-        min-height: 48px;
-        padding: 0 13px;
-        outline: none;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: #070c1d;
-        color: #fff;
-        transition: 0.2s ease;
-      }
-
-      .field input:focus,
-      .field select:focus {
-        border-color: rgba(94, 231, 255, 0.55);
-        box-shadow: 0 0 0 3px rgba(94, 231, 255, 0.07);
-      }
-
-      .field input::placeholder {
-        color: #64708f;
-      }
-
-      .submit-btn {
-        width: 100%;
-        min-height: 52px;
-        margin-top: 6px;
-        border: 0;
-        border-radius: 13px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #050816;
-        font-size: 13px;
-        font-weight: 950;
-        cursor: pointer;
-      }
-
-      .modal-note {
-        margin-top: 13px;
-        color: var(--muted);
-        text-align: center;
-        font-size: 10px;
-        line-height: 1.6;
-      }
-
-      .success-box {
-        display: none;
-        padding: 26px;
-        text-align: center;
-      }
-
-      .success-icon {
-        width: 62px;
-        height: 62px;
-        margin: 0 auto 16px;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        background: rgba(53, 229, 139, 0.1);
-        color: var(--success);
-        font-size: 29px;
-        font-weight: 900;
-      }
-
-      .success-box h3 {
-        font-size: 21px;
-      }
-
-      .success-box p {
-        margin-top: 9px;
-        color: var(--muted);
-        font-size: 12px;
-        line-height: 1.7;
-      }
-
-      @media (max-width: 850px) {
-        .main-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .stats {
-          grid-template-columns: repeat(2, 1fr);
-        }
-
-        .payment-methods {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 560px) {
-        .container {
-          width: min(100% - 20px, 1180px);
-        }
-
-        .header-inner {
-          min-height: 68px;
-        }
-
-        .brand img {
-          width: 40px;
-          height: 40px;
-        }
-
-        .brand-title {
-          font-size: 12px;
-        }
-
-        .brand-subtitle {
-          font-size: 8px;
-        }
-
-        .back-btn {
-          min-height: 38px;
-          padding: 0 11px;
-          font-size: 11px;
-        }
-
-        .hero {
-          padding: 58px 0 35px;
-        }
-
-        .hero h1 {
-          font-size: 72px;
-          letter-spacing: -4px;
-        }
-
-        .hero p {
-          font-size: 13px;
-        }
-
-        .package-card,
-        .features-card,
-        .payment-card {
-          padding: 22px;
-          border-radius: 19px;
-        }
-
-        .stats {
-          gap: 10px;
-        }
-
-        .stat {
-          padding: 19px 10px;
-        }
-
-        .stat strong {
-          font-size: 23px;
-        }
-
-        .payment-methods {
-          gap: 9px;
-        }
-
-        .modal-body,
-        .modal-head {
-          padding-left: 19px;
-          padding-right: 19px;
-        }
-      }
-    </style>
-  </head>
-
+    <meta name="description" content="BTECH-TV WORLD PRO MAX - Ultra BTECH-TV World Engine X" />
+    <meta name="application-name" content="BTECH-TV WORLD PRO MAX" />
+    <title>BTECH-TV WORLD PRO MAX | 9,500 Channel Package Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+  
+<script>
+"use strict";
+(function () {
+  const path = location.pathname.replace(/\\/g, "/");
+  const match = path.match(/\/packages\/index-(\d+)\.html$/i);
+  if (!match) return;
+  const expected = Number(match[1]);
+
+  function getActive() {
+    try {
+      const raw = localStorage.getItem("btech_active_package") ||
+                  localStorage.getItem("btech_tv_subscription_v5") ||
+                  localStorage.getItem("btech_tv_subscription");
+      if (!raw) return null;
+      const p = JSON.parse(raw);
+      if (!p || Number(p.channels) !== expected) return null;
+      const expiry = Number(p.expiryDate || p.expiresAt);
+      if (!Number.isFinite(expiry)) return null;
+      const time = expiry > 1e12 ? expiry : new Date(p.expiresAt).getTime();
+      if (!Number.isFinite(time) || time <= Date.now()) return null;
+      return p;
+    } catch (_) { return null; }
+  }
+
+  const active = getActive();
+  if (!active) {
+    location.replace("../index.html");
+    return;
+  }
+
+  window.BTECH_SELECTED_PACKAGE_DASHBOARD = active;
+})();
+</script>
+
+
+<style>
+body.package-dashboard-active #packageSelectorOverlay,
+body.package-dashboard-active #activationReceiptOverlay { display:none !important; }
+</style>
+<script>
+document.documentElement.dataset.packageDashboard = "9500";
+document.addEventListener("DOMContentLoaded", function(){
+  document.body.classList.add("package-dashboard-active");
+  const pkg = window.BTECH_SELECTED_PACKAGE_DASHBOARD;
+  const status = document.getElementById("subscriptionStatus");
+  if (status && pkg) {
+    const days = Math.max(0, Math.ceil((Number(pkg.expiryDate || new Date(pkg.expiresAt).getTime()) - Date.now()) / 86400000));
+    status.textContent = "9,500 CHANNELS • " + days + " DAYS";
+  }
+  const timer = document.getElementById("trialTimer");
+  if (timer) timer.hidden = true;
+});
+</script>
+<style id="btechPlayerControlsStyles">
+/* BTECH-TV WORLD PRO MAX - single canonical player controls */
+.btech-requested-ui{display:block!important;width:100%!important;min-height:92px!important;margin:12px 0!important;padding:10px!important;box-sizing:border-box!important;position:relative!important;z-index:10000!important;clear:both!important;visibility:visible!important;opacity:1!important;text-align:center!important}
+.btech-requested-ui .btech-quality,.btech-requested-ui .btech-live-title,.btech-requested-ui .btech-credit{display:block!important;visibility:visible!important;opacity:1!important}
+.btech-requested-ui .btech-quality{margin-bottom:8px!important;font-weight:800!important}
+.btech-requested-ui .btech-controls{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;min-height:42px!important;position:relative!important;z-index:10001!important}
+.btech-requested-ui .btech-controls button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:82px!important;min-height:36px!important;padding:7px 12px!important;border-radius:8px!important;cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:10002!important;visibility:visible!important;opacity:1!important}
+.btech-requested-ui .btech-live-title{margin-top:10px!important;font-weight:900!important}
+.btech-requested-ui .btech-credit{margin-top:7px!important;font-size:.9rem!important}
+</style>
+</head>
   <body>
-    <!-- HEADER -->
-    <header>
-      <div class="container header-inner">
-        <a class="brand" href="../index.html">
-          <img
-            src="../logo.png"
-            alt="BTECH-TV WORLD PRO MAX"
-            onerror="this.style.display = 'none'"
-          />
+  <div class="app" id="app">
+  <!-- ===================================== SIDEBAR ====================================== -->
+  <aside class="sidebar" aria-label="BTECH-TV navigation">
+    <div class="logo">BTECH-TV PRO MAX</div>
+    <div class="sub">Ultra BTECH-TV World Engine X</div>
 
-          <div class="brand-text">
-            <div class="brand-title">BTECH-TV WORLD PRO MAX</div>
+    <div class="menu-title">🌍 Countries</div>
+    <div id="countryMenu"></div>
 
-            <div class="brand-subtitle">PREMIUM IPTV PACKAGE</div>
-          </div>
-        </a>
+    <div class="menu-title">🎬 Categories</div>
+    <div id="categoryMenu"></div>
 
-        <a class="back-btn" href="../index.html"> ← Dashboard </a>
+    <div class="menu-title">🗣 Languages</div>
+    <div id="languageMenu"></div>
+
+    <div class="menu-title">🔥 Tools</div>
+    <button class="nav-btn" type="button" onclick="scanStreams()">📡 Scan</button>
+    <button class="nav-btn" type="button" onclick="speedBoost()">⚡ Boost</button>
+    <button class="nav-btn" type="button" onclick="togglePiP()">📺 PiP</button>
+    <button class="nav-btn" type="button" onclick="clearRecents()">🗑 Recents</button>
+    <button class="nav-btn" type="button" onclick="recordMode()">⏺ Record</button>
+    <button class="nav-btn" type="button" onclick="loadUltra()">🚀 Ultra Feeds</button>
+    <button class="nav-btn" type="button" onclick="repairStreams()">🛠 Repair</button>
+    <button class="nav-btn" type="button" onclick="optimizeMemory()">🧠 Optimize</button>
+  </aside>
+
+  <!-- ===================================== MAIN CONTENT ====================================== -->
+  <main class="main">
+    <!-- ===================================== TOP BAR ====================================== -->
+    <header class="topbar">
+      <div class="search-box">
+        <input id="channelSearchInput" type="search" oninput="search(this.value)"
+          placeholder="Search BTECH-TV World..." aria-label="Search BTECH-TV World"
+          autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="topbar-status">
+        <div class="btech-trial-bar" id="btechTrialBar"><span class="trial-label">PACKAGE</span><strong class="trial-time" id="subscriptionStatus">ACTIVE</strong></div>
+        <div class="live">🔴 BTECH-TV LIVE</div>
       </div>
     </header>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container">
-        <div class="badge">PACKAGE AVAILABLE</div>
-
-        <h1>9,500</h1>
-
-        <div class="hero-label">Channels</div>
-
-        <p>
-          Upgrade to the BTECH-TV WORLD PRO MAX 9,500-channel premium package
-          and enjoy powerful live IPTV access with a 30-day package validity.
-        </p>
+    <!-- ===================================== STATISTICS ====================================== -->
+    <section class="hero" aria-label="BTECH-TV statistics">
+      <h3>BTECH-TV World PRO MAX SYSTEM</h3>
+      <div class="stats">
+        <div class="stat">📺 <strong id="total">0</strong><span>TOTAL</span></div>
+        <div class="stat">⭐ <strong id="fav">0</strong><span>FAV</span></div>
+        <div class="stat">⚫ <strong id="dead">0</strong><span>DEAD</span></div>
+        <div class="stat">🌍 <strong id="live">0</strong><span>LIVE</span></div>
       </div>
     </section>
 
-    <!-- MAIN -->
-    <main class="main">
-      <div class="container">
-        <div class="main-grid">
-          <!-- PACKAGE -->
-          <section class="card package-card">
-            <div class="kicker">PREMIUM ACCESS</div>
+    <!-- ===================================== VIDEO PLAYER ====================================== -->
+    <section class="btech-screen-monitor screen-monitor" aria-label="BTECH-TV fixed screen monitor">
+      <div class="player-container" id="btechPlayerContainer" data-watermark-enabled="true"
+        aria-label="BTECH-TV live video player">
+        <video id="video" controls autoplay muted playsinline preload="metadata"
+          aria-label="BTECH-TV live stream"></video>
 
-            <h2>9,500 Channel Package</h2>
-
-            <div class="price">
-              <strong>$99.99</strong>
-              <span>/ month</span>
-            </div>
-
-            <p class="package-description">
-              Get access to the 9,500-channel package with live IPTV streaming,
-              premium dashboard access and 30-day validity.
-            </p>
-
-            <button class="activate-btn" id="openModal" type="button">
-              Activate 9,500 Channels
-            </button>
-
-            <div class="validity">✓ 30-Day Package Validity</div>
-          </section>
-
-          <!-- FEATURES -->
-          <section class="card features-card">
-            <h3>Package Features</h3>
-
-            <div class="features">
-              <div class="feature">
-                <div class="feature-icon">📺</div>
-
-                <div>
-                  <strong>9,500 Channels</strong>
-                  <span>Large global IPTV channel selection</span>
-                </div>
-              </div>
-
-              <div class="feature">
-                <div class="feature-icon">⚡</div>
-
-                <div>
-                  <strong>Fast IPTV Dashboard</strong>
-                  <span>Optimized interface for quick navigation</span>
-                </div>
-              </div>
-
-              <div class="feature">
-                <div class="feature-icon">▶</div>
-
-                <div>
-                  <strong>Live Streaming</strong>
-                  <span>Watch available live IPTV streams</span>
-                </div>
-              </div>
-
-              <div class="feature">
-                <div class="feature-icon">📅</div>
-
-                <div>
-                  <strong>30-Day Validity</strong>
-                  <span>Package remains active for 30 days</span>
-                </div>
-              </div>
-
-              <div class="feature">
-                <div class="feature-icon">★</div>
-
-                <div>
-                  <strong>Premium Access</strong>
-                  <span>Unlock premium package functionality</span>
-                </div>
-              </div>
-            </div>
-          </section>
+        <div id="btechPlayerWatermark" class="btech-player-watermark" aria-hidden="true">
+          <img id="btechWatermarkLogo" src="../logo.png" alt="" draggable="false" onerror="this.hidden=true" />
+          <div class="btech-watermark-text">
+            <strong>BTECH-TV</strong><span>WORLD PRO MAX</span>
+          </div>
         </div>
 
-        <!-- STATS -->
-        <section class="stats">
-          <div class="stat">
-            <strong>9.5K</strong>
-            <span>Channels</span>
-          </div>
-
-          <div class="stat">
-            <strong>30</strong>
-            <span>Days</span>
-          </div>
-
-          <div class="stat">
-            <strong>$99.99</strong>
-            <span>Monthly</span>
-          </div>
-
-          <div class="stat">
-            <strong>HD</strong>
-            <span>Streaming</span>
-          </div>
-        </section>
-
-        <!-- PAYMENT -->
-        <section class="card payment-card">
-          <h3>Payment Methods</h3>
-
-          <p>Select your preferred payment method during package activation.</p>
-
-          <div class="payment-methods">
-            <div class="payment-method">Paystack</div>
-
-            <div class="payment-method">Moniepoint</div>
-
-            <div class="payment-method">PayPal</div>
-
-            <div class="payment-method">Paypad</div>
-          </div>
-
-          <div class="demo-note">
-            <strong>Demo activation:</strong>
-            This package page currently uses local browser activation for
-            testing. Connect your real payment gateway and server-side payment
-            verification before using it for production payments.
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="container">
-        <div class="footer-package">
-          9,500 Channel Package • 30-Day Validity
+        <div id="btechPlayerLiveBadge" class="btech-player-live-badge" aria-hidden="true">
+          <span></span> LIVE
         </div>
 
-        <div class="credit">
-          Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN
+        <div id="btechPlayerChannelOverlay" class="btech-player-channel-overlay" aria-live="polite">
+          <strong id="btechPlayerChannelNumber">CH 000</strong>
+          <span id="btechPlayerChannelName">No channel selected</span>
+        </div>
+
+        <div id="btechFullscreenHint" class="btech-fullscreen-hint" aria-hidden="true">
+          BTECH-TV WORLD PRO MAX
         </div>
       </div>
-    </footer>
 
-    <!-- ACTIVATION MODAL -->
-    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
-      <div
-        class="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-      >
-        <button
-          class="close-btn"
-          id="closeModal"
-          type="button"
-          aria-label="Close"
-        >
-          ×
+      <!-- QUALITY -->
+      <div class="quality-selector">
+        <button type="button" aria-label="Current stream quality">
+          Quality: <span data-current-quality>auto</span>
         </button>
-
-        <div class="modal-head">
-          <h2 id="modalTitle">9,500 Channel Package — $99.99 / month</h2>
-
-          <p>Complete the information below to activate your package.</p>
-        </div>
-
-        <div class="modal-body">
-          <form id="activationForm">
-            <div class="field">
-              <label for="fullName"> Full Name </label>
-
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                placeholder="Enter your full name"
-                autocomplete="name"
-                required
-              />
-            </div>
-
-            <div class="field">
-              <label for="email"> Email Address </label>
-
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter your email address"
-                autocomplete="email"
-                required
-              />
-            </div>
-
-            <div class="field">
-              <label for="phone"> Phone Number </label>
-
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="Enter your phone number"
-                autocomplete="tel"
-                required
-              />
-            </div>
-
-            <div class="field">
-              <label for="paymentType"> Payment Type </label>
-
-              <select id="paymentType" name="paymentType" required>
-                <option value="">Select payment method</option>
-
-                <option value="Paystack">Paystack</option>
-
-                <option value="Moniepoint">Moniepoint</option>
-
-                <option value="PayPal">PayPal</option>
-
-                <option value="Paypad">Paypad</option>
-              </select>
-            </div>
-
-            <button class="submit-btn" type="submit">
-              Confirm 9,500 Channel Activation
-            </button>
-
-            <div class="modal-note">
-              Demo activation only. No real payment is processed by this
-              browser-only page.
-            </div>
-          </form>
-
-          <!-- SUCCESS -->
-          <div class="success-box" id="successBox">
-            <div class="success-icon">✓</div>
-
-            <h3>Package Activated</h3>
-
-            <p>
-              Your 9,500-channel package has been activated successfully for 30
-              days.
-            </p>
-          </div>
-        </div>
+        <div data-quality-menu></div>
       </div>
+
+      <!-- PLAYER CONTROLS: canonical requested UI -->
+      <div class="btech-requested-ui" aria-label="BTECH-TV player controls">
+        <div class="btech-quality">Quality: auto</div>
+        <div class="btech-controls">
+          <button type="button" class="btech-control-next">▶ Next</button>
+          <button type="button" class="btech-control-prev">◀ Prev</button>
+          <button type="button" class="btech-control-mute">🔊 Mute</button>
+          <button type="button" class="btech-control-fullscreen">⛶ Fullscreen</button>
+          <button type="button" class="btech-control-global">🚀 Global</button>
+        </div>
+        <div class="btech-live-title">BTECH-TV LIVE CHANNELS</div>
+        <div class="btech-credit">Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN</div>
+      </div>
+
+      <!-- LEGACY/INLINE CONTROL COMPATIBILITY -->
+      <div class="controls" aria-label="BTECH-TV controls">
+        <button type="button" onclick="next()">▶ Next</button>
+        <button type="button" onclick="prev()">◀ Prev</button>
+        <button type="button" onclick="toggleMute()">🔊 Mute</button>
+        <button type="button" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+        <button type="button" onclick="loadUltra()">🚀 Global</button>
+        <div class="designer-credit">Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN</div>
+      </div>
+    </section>
+
+    <!-- ===================================== CHANNEL LIST ====================================== -->
+    <section class="btech-channel-display channel-display-section" aria-labelledby="channelDisplayTitle">
+      <div class="channel-display-header">
+        <h2 id="channelDisplayTitle">BTECH-TV LIVE CHANNELS</h2>
+        <span id="channelCountLabel">0 channels</span>
+      </div>
+      <div class="channel-wrapper" id="channelWrapper" tabindex="0"
+        aria-label="Scrollable BTECH-TV channel list">
+        <div class="channels" id="grid" aria-live="polite" aria-label="Live TV channels"></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+    <script src="../data/channels.js" defer></script>
+
+<script src="../js/config.js" defer></script>
+<script src="../js/state.js" defer></script>
+
+<script src="../js/trial.js" defer></script>
+
+<script src="../js/player.js" defer></script>
+<script src="../js/channels.js" defer></script>
+
+<script src="../js/package-access.js" defer></script>
+<script src="../js/packages.js" defer></script>
+
+<script src="../js/ui.js" defer></script>
+<script src="../js/app.js" defer></script>
+<!-- PACKAGE SELECTOR -->
+<div
+  id="packageSelectorOverlay"
+  class="package-selector-overlay"
+  hidden
+  aria-modal="true"
+  role="dialog"
+  aria-labelledby="packageSelectorTitle"
+>
+
+  <div class="package-selector">
+
+    <div class="package-selector-header">
+
+      <div>
+        <span class="package-label">
+          BTECH-TV WORLD PRO MAX
+        </span>
+
+        <h2 id="packageSelectorTitle">
+          Choose Your Package
+        </h2>
+
+        <p>
+          Your free trial has expired.
+          Select a channel package to continue.
+        </p>
+      </div>
+
     </div>
 
-    <script>
-      "use strict";
+    <div class="package-selector-body">
 
-      const PACKAGE = Object.freeze({
-        id: "9500",
-        name: "9,500 Channel Package",
-        channels: 9500,
-        price: 99.99,
-        currency: "USD",
-        validityDays: 30,
-      });
+      <!-- PACKAGE -->
+      <div class="package-field">
 
-      window.BTECH_PACKAGE = PACKAGE;
+        <label for="packageSelect">
+          Channel Package
+        </label>
 
-      const STORAGE = Object.freeze({
-        subscription: "btech_tv_subscription",
-        premium: "btech_tv_premium",
-        package: "btech_tv_package",
-        channelLimit: "btech_tv_channel_limit",
-        expires: "btech_tv_package_expires",
-      });
+        <select
+          id="packageSelect"
+          autocomplete="off"
+        >
 
-      const modalOverlay = document.getElementById("modalOverlay");
+          <option value="">
+            Select Package
+          </option>
 
-      const openModalButton = document.getElementById("openModal");
+        </select>
 
-      const closeModalButton = document.getElementById("closeModal");
+      </div>
 
-      const activationForm = document.getElementById("activationForm");
+      <!-- AUTO DETAILS -->
+      <div
+        id="selectedPackageDetails"
+        class="selected-package-details"
+        hidden
+      >
 
-      const successBox = document.getElementById("successBox");
+        <div class="package-detail">
+          <span>Package</span>
+          <strong id="selectedPackageName">
+            —
+          </strong>
+        </div>
 
-      function openModal() {
-        modalOverlay.classList.add("show");
+        <div class="package-detail">
+          <span>Channels</span>
+          <strong id="selectedPackageChannels">
+            —
+          </strong>
+        </div>
 
-        modalOverlay.setAttribute("aria-hidden", "false");
+        <div class="package-detail">
+          <span>Price</span>
+          <strong id="selectedPackagePrice">
+            —
+          </strong>
+        </div>
 
-        document.body.style.overflow = "hidden";
+        <div class="package-detail">
+          <span>Validity</span>
+          <strong id="selectedPackageValidity">
+            30 Days
+          </strong>
+        </div>
 
-        setTimeout(() => {
-          document.getElementById("fullName")?.focus();
-        }, 50);
-      }
+      </div>
 
-      function closeModal() {
-        modalOverlay.classList.remove("show");
+      <!-- USER DETAILS -->
+      <div class="activation-form">
 
-        modalOverlay.setAttribute("aria-hidden", "true");
+        <div class="package-field">
 
-        document.body.style.overflow = "";
-      }
+          <label for="activationName">
+            Full Name
+          </label>
 
-      openModalButton.addEventListener("click", openModal);
+          <input
+            id="activationName"
+            type="text"
+            placeholder="Enter full name"
+            autocomplete="name"
+          />
 
-      closeModalButton.addEventListener("click", closeModal);
+        </div>
 
-      modalOverlay.addEventListener("click", (event) => {
-        if (event.target === modalOverlay) {
-          closeModal();
-        }
-      });
+        <div class="package-field">
 
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && modalOverlay.classList.contains("show")) {
-          closeModal();
-        }
-      });
+          <label for="activationEmail">
+            Email
+          </label>
 
-      function clearExpiredSubscription() {
-        const expiresAt = Number(localStorage.getItem(STORAGE.expires) || 0);
+          <input
+            id="activationEmail"
+            type="email"
+            placeholder="Enter email"
+            autocomplete="email"
+          />
 
-        if (expiresAt && Date.now() >= expiresAt) {
-          localStorage.removeItem(STORAGE.subscription);
+        </div>
 
-          localStorage.removeItem(STORAGE.premium);
+        <div class="package-field">
 
-          localStorage.removeItem(STORAGE.package);
+          <label for="activationPhone">
+            Phone
+          </label>
 
-          localStorage.removeItem(STORAGE.channelLimit);
+          <input
+            id="activationPhone"
+            type="tel"
+            placeholder="Enter phone number"
+            autocomplete="tel"
+          />
 
-          localStorage.removeItem(STORAGE.expires);
-        }
-      }
+        </div>
 
-      clearExpiredSubscription();
+      </div>
 
-      activationForm.addEventListener("submit", (event) => {
-        event.preventDefault();
+      <!-- DEMO ACTIVATION -->
+      <button
+        id="activatePackageBtn"
+        class="activate-package-btn"
+        type="button"
+        disabled
+      >
+        Activate Selected Package
+      </button>
 
-        const fullName = document.getElementById("fullName").value.trim();
+      <div
+        id="activationMessage"
+        class="activation-message"
+        aria-live="polite"
+      ></div>
 
-        const email = document.getElementById("email").value.trim();
+    </div>
 
-        const phone = document.getElementById("phone").value.trim();
+  </div>
 
-        const paymentType = document.getElementById("paymentType").value;
+</div>
+<!-- PACKAGE ACTIVATION RECEIPT -->
+<div
+  id="activationReceiptOverlay"
+  class="activation-receipt-overlay"
+  hidden
+  aria-modal="true"
+  role="dialog"
+  aria-labelledby="activationReceiptTitle"
+>
+  <div class="activation-receipt">
 
-        if (!fullName || !email || !phone || !paymentType) {
-          alert("Please complete all required fields.");
+    <div class="receipt-success">
+      ✓
+    </div>
 
-          return;
-        }
+    <h2 id="activationReceiptTitle">
+      Package Activated
+    </h2>
 
-        const activatedAt = Date.now();
+    <p class="receipt-subtitle">
+      Your BTECH-TV package has been activated successfully.
+    </p>
 
-        const expiresAt =
-          activatedAt + PACKAGE.validityDays * 24 * 60 * 60 * 1000;
+    <div class="receipt-details">
 
-        const subscription = {
-          packageId: PACKAGE.id,
-          packageName: PACKAGE.name,
-          channels: PACKAGE.channels,
-          price: PACKAGE.price,
-          currency: PACKAGE.currency,
-          validityDays: PACKAGE.validityDays,
-          fullName,
-          email,
-          phone,
-          paymentType,
-          activatedAt,
-          expiresAt,
-          status: "active",
-        };
+      <div>
+        <span>Customer</span>
+        <strong id="receiptName">—</strong>
+      </div>
 
-        localStorage.setItem(
-          STORAGE.subscription,
-          JSON.stringify(subscription),
-        );
+      <div>
+        <span>Email</span>
+        <strong id="receiptEmail">—</strong>
+      </div>
 
-        localStorage.setItem(STORAGE.premium, "true");
+      <div>
+        <span>Phone</span>
+        <strong id="receiptPhone">—</strong>
+      </div>
 
-        localStorage.setItem(STORAGE.package, PACKAGE.id);
+      <div>
+        <span>Package</span>
+        <strong id="receiptPackage">—</strong>
+      </div>
 
-        localStorage.setItem(STORAGE.channelLimit, String(PACKAGE.channels));
+      <div>
+        <span>Channels</span>
+        <strong id="receiptChannels">—</strong>
+      </div>
 
-        localStorage.setItem(STORAGE.expires, String(expiresAt));
+      <div>
+        <span>Price</span>
+        <strong id="receiptPrice">—</strong>
+      </div>
 
-        activationForm.style.display = "none";
+      <div>
+        <span>Validity</span>
+        <strong id="receiptValidity">—</strong>
+      </div>
 
-        successBox.style.display = "block";
+      <div>
+        <span>Activation Date</span>
+        <strong id="receiptActivationDate">—</strong>
+      </div>
 
-        setTimeout(() => {
-          window.location.href = "../index.html";
-        }, 1600);
-      });
-    </script>
-  </body>
+      <div>
+        <span>Expiry Date</span>
+        <strong id="receiptExpiryDate">—</strong>
+      </div>
+
+      <div>
+        <span>Activation Type</span>
+        <strong id="receiptType">DEMO</strong>
+      </div>
+
+    </div>
+
+    <button
+      id="continueToDashboardBtn"
+      class="continue-dashboard-btn"
+      type="button"
+    >
+      Continue to Dashboard
+    </button>
+
+  </div>
+</div>
+  
+<script>
+(function () {
+  function findVideo() {
+    return document.querySelector('video');
+  }
+  document.addEventListener('click', function (e) {
+    const next = e.target.closest('.btech-control-next');
+    const prev = e.target.closest('.btech-control-prev');
+    const mute = e.target.closest('.btech-control-mute');
+    const fs = e.target.closest('.btech-control-fullscreen');
+    const globalBtn = e.target.closest('.btech-control-global');
+    const video = findVideo();
+
+    if (next && typeof window.nextChannel === 'function') window.nextChannel();
+    if (prev && typeof window.prevChannel === 'function') window.prevChannel();
+    if (mute && video) {
+      video.muted = !video.muted;
+      mute.textContent = video.muted ? '🔇 Unmute' : '🔊 Mute';
+    }
+    if (fs) {
+      const target = document.querySelector('#btechPlayerContainer, video');
+      if (target && document.fullscreenElement) document.exitFullscreen();
+      else if (target && target.requestFullscreen) target.requestFullscreen();
+    }
+    if (globalBtn) {
+      if (typeof window.globalMode === 'function') window.globalMode();
+      else if (typeof window.toggleGlobal === 'function') window.toggleGlobal();
+    }
+  });
+})();
+</script>
+
+
+<script>
+(function () {
+  function updateBtechLiveCount() {
+    const count = document.getElementById('btech-live-count');
+    if (!count) return;
+    const candidates = document.querySelectorAll(
+      '.channel-card, .channel-item, .channel, [data-channel], .channel-wrapper > *'
+    );
+    let visible = 0;
+    candidates.forEach(function (el) {
+      const s = getComputedStyle(el);
+      if (s.display !== 'none' && s.visibility !== 'hidden') visible++;
+    });
+    const loaded = Math.max(visible, document.querySelectorAll('video').length ? visible : 0);
+    count.textContent = visible + ' displayed • ' + loaded + ' loaded';
+  }
+  updateBtechLiveCount();
+  setInterval(updateBtechLiveCount, 1000);
+})();
+</script>
+<script id="btechControlsScript">
+(function(){
+  "use strict";
+  function video(){return document.getElementById("video")||document.querySelector("#btechPlayerContainer video,video");}
+  function callFirst(names){for(const n of names){if(typeof window[n]==="function"){try{window[n]();return true}catch(e){console.warn("BTECH-TV:",n,e)}}}return false;}
+  document.addEventListener("click",function(e){
+    const b=e.target.closest(".btech-requested-ui button"); if(!b)return;
+    e.preventDefault(); e.stopPropagation();
+    if(b.classList.contains("btech-control-next")){callFirst(["next","nextChannel","playNext"]);return;}
+    if(b.classList.contains("btech-control-prev")){callFirst(["prev","prevChannel","playPrev"]);return;}
+    if(b.classList.contains("btech-control-mute")){const v=video();if(!v)return;v.muted=!v.muted;b.textContent=v.muted?"🔇 Unmute":"🔊 Mute";return;}
+    if(b.classList.contains("btech-control-fullscreen")){const t=document.getElementById("btechPlayerContainer")||video();if(document.fullscreenElement){document.exitFullscreen().catch(function(){})}else if(t&&t.requestFullscreen){t.requestFullscreen().catch(function(){})}return;}
+    if(b.classList.contains("btech-control-global")){callFirst(["loadUltra","globalMode","toggleGlobal","loadGlobal"]);}
+  },true);
+})();
+</script>
+</body>
 </html>

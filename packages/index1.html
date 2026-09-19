@@ -621,7 +621,71 @@
         }
       }
     </style>
-  </head>
+  <style id="btechPlayerControlsStyles">
+
+/* ===== BTECH-TV WORLD PRO MAX: player controls ===== */
+.btech-requested-ui {
+  display: block !important;
+  width: 100% !important;
+  min-height: 92px !important;
+  margin: 12px 0 !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  clear: both !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  text-align: center !important;
+}
+.btech-requested-ui .btech-quality,
+.btech-requested-ui .btech-live-title,
+.btech-requested-ui .btech-credit {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.btech-requested-ui .btech-quality {
+  margin-bottom: 8px !important;
+  font-weight: 800 !important;
+}
+.btech-requested-ui .btech-controls {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-height: 42px !important;
+  position: relative !important;
+  z-index: 10001 !important;
+}
+.btech-requested-ui .btech-controls button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 82px !important;
+  min-height: 36px !important;
+  padding: 7px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10002 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.btech-requested-ui .btech-live-title {
+  margin-top: 10px !important;
+  font-weight: 900 !important;
+}
+.btech-requested-ui .btech-credit {
+  margin-top: 7px !important;
+  font-size: .9rem !important;
+}
+
+</style>
+</head>
 
   <body>
     <!-- HEADER -->
@@ -723,7 +787,19 @@
         </div>
       </section>
       ```
-    </main>
+    <div class="btech-requested-ui" aria-label="BTECH-TV player controls">
+  <div class="btech-quality">Quality: auto</div>
+  <div class="btech-controls">
+    <button type="button" class="btech-control-next">▶ Next</button>
+    <button type="button" class="btech-control-prev">◀ Prev</button>
+    <button type="button" class="btech-control-mute">🔊 Mute</button>
+    <button type="button" class="btech-control-fullscreen">⛶ Fullscreen</button>
+    <button type="button" class="btech-control-global">🚀 Global</button>
+  </div>
+  <div class="btech-live-title">BTECH-TV LIVE CHANNELS</div>
+  <div class="btech-credit">Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN</div>
+</div>
+</main>
 
     <footer>
       ``` BTECH-TV WORLD PRO MAX
@@ -1084,5 +1160,124 @@
 
       renderPackages();
     </script>
-  </body>
+  
+
+
+
+<script>
+(function () {
+  function findVideo() {
+    return document.querySelector('video');
+  }
+  document.addEventListener('click', function (e) {
+    const next = e.target.closest('.btech-control-next');
+    const prev = e.target.closest('.btech-control-prev');
+    const mute = e.target.closest('.btech-control-mute');
+    const fs = e.target.closest('.btech-control-fullscreen');
+    const globalBtn = e.target.closest('.btech-control-global');
+    const video = findVideo();
+
+    if (next && typeof window.nextChannel === 'function') window.nextChannel();
+    if (prev && typeof window.prevChannel === 'function') window.prevChannel();
+    if (mute && video) {
+      video.muted = !video.muted;
+      mute.textContent = video.muted ? '🔇 Unmute' : '🔊 Mute';
+    }
+    if (fs) {
+      const target = document.querySelector('#btechPlayerContainer, video');
+      if (target && document.fullscreenElement) document.exitFullscreen();
+      else if (target && target.requestFullscreen) target.requestFullscreen();
+    }
+    if (globalBtn) {
+      if (typeof window.globalMode === 'function') window.globalMode();
+      else if (typeof window.toggleGlobal === 'function') window.toggleGlobal();
+    }
+  });
+})();
+</script>
+
+
+<script>
+(function () {
+  function updateBtechLiveCount() {
+    const count = document.getElementById('btech-live-count');
+    if (!count) return;
+    const candidates = document.querySelectorAll(
+      '.channel-card, .channel-item, .channel, [data-channel], .channel-wrapper > *'
+    );
+    let visible = 0;
+    candidates.forEach(function (el) {
+      const s = getComputedStyle(el);
+      if (s.display !== 'none' && s.visibility !== 'hidden') visible++;
+    });
+    const loaded = Math.max(visible, document.querySelectorAll('video').length ? visible : 0);
+    count.textContent = visible + ' displayed • ' + loaded + ' loaded';
+  }
+  updateBtechLiveCount();
+  setInterval(updateBtechLiveCount, 1000);
+})();
+</script>
+
+
+<script id="btechControlsScript">
+(function () {
+  "use strict";
+
+  function getVideo() {
+    return document.getElementById("video") ||
+           document.querySelector("#btechPlayerContainer video, video");
+  }
+
+  function callFirst(names) {
+    for (const name of names) {
+      if (typeof window[name] === "function") {
+        try { window[name](); return true; } catch (e) { console.warn("BTECH-TV:", name, e); }
+      }
+    }
+    return false;
+  }
+
+  document.addEventListener("click", function (event) {
+    const button = event.target.closest(".btech-requested-ui button");
+    if (!button) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (button.classList.contains("btech-control-next")) {
+      callFirst(["next", "nextChannel", "playNext"]);
+      return;
+    }
+
+    if (button.classList.contains("btech-control-prev")) {
+      callFirst(["prev", "prevChannel", "playPrev"]);
+      return;
+    }
+
+    if (button.classList.contains("btech-control-mute")) {
+      const video = getVideo();
+      if (!video) return;
+      video.muted = !video.muted;
+      button.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+      return;
+    }
+
+    if (button.classList.contains("btech-control-fullscreen")) {
+      const target = document.getElementById("btechPlayerContainer") || getVideo();
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(function () {});
+      } else if (target && target.requestFullscreen) {
+        target.requestFullscreen().catch(function () {});
+      }
+      return;
+    }
+
+    if (button.classList.contains("btech-control-global")) {
+      callFirst(["loadUltra", "globalMode", "toggleGlobal", "loadGlobal"]);
+    }
+  }, true);
+})();
+</script>
+
+</body>
 </html>

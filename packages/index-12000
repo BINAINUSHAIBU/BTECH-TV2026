@@ -1,0 +1,1141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#050816" />
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX 12,000 Channel Package"
+    />
+
+    <title>BTECH-TV WORLD PRO MAX — 12,000 Channels</title>
+
+    <style>
+      :root {
+        --bg: #050816;
+        --panel: #0b1022;
+        --panel2: #0f1630;
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #f5f7ff;
+        --muted: #9aa5c4;
+        --accent: #5ee7ff;
+        --accent2: #7c5cff;
+        --success: #35e58b;
+        --danger: #ff5577;
+        --shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+        background:
+          radial-gradient(
+            circle at 15% 10%,
+            rgba(94, 231, 255, 0.12),
+            transparent 30%
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(124, 92, 255, 0.16),
+            transparent 32%
+          ),
+          linear-gradient(135deg, #050816, #080d1d 45%, #050816);
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 40px;
+      }
+
+      /* HEADER */
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 14px 18px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(11, 16, 34, 0.72);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border);
+      }
+
+      .brand-text {
+        min-width: 0;
+      }
+
+      .brand-title {
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
+      }
+
+      .brand-subtitle {
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+        white-space: nowrap;
+      }
+
+      .dashboard-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 11px 15px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 800;
+        transition: 0.2s ease;
+      }
+
+      .dashboard-link:hover {
+        border-color: rgba(94, 231, 255, 0.45);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        margin-top: 28px;
+        padding: 55px 35px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(94, 231, 255, 0.08),
+            rgba(124, 92, 255, 0.1)
+          ),
+          rgba(11, 16, 34, 0.78);
+        box-shadow: var(--shadow);
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 280px;
+        height: 280px;
+        top: -150px;
+        left: -110px;
+        border-radius: 50%;
+        background: rgba(94, 231, 255, 0.12);
+        filter: blur(10px);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        right: -130px;
+        bottom: -170px;
+        border-radius: 50%;
+        background: rgba(124, 92, 255, 0.15);
+        filter: blur(10px);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px;
+        border: 1px solid rgba(94, 231, 255, 0.28);
+        border-radius: 999px;
+        color: var(--accent);
+        background: rgba(94, 231, 255, 0.07);
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 1.2px;
+      }
+
+      .badge::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--success);
+        box-shadow: 0 0 12px var(--success);
+      }
+
+      .channel-number {
+        margin-top: 22px;
+        font-size: clamp(58px, 11vw, 128px);
+        line-height: 0.9;
+        font-weight: 1000;
+        letter-spacing: -5px;
+        background: linear-gradient(
+          135deg,
+          #ffffff,
+          var(--accent),
+          #ffffff,
+          #b8aaff
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .channel-label {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+      }
+
+      .hero-title {
+        margin-top: 25px;
+        font-size: clamp(25px, 4vw, 42px);
+        font-weight: 950;
+      }
+
+      .hero-description {
+        max-width: 680px;
+        margin: 13px auto 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 14px;
+      }
+
+      .price {
+        margin-top: 25px;
+        font-size: 31px;
+        font-weight: 950;
+      }
+
+      .price span {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .activate-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 52px;
+        margin-top: 26px;
+        padding: 0 27px;
+        border: 0;
+        border-radius: 15px;
+        color: #041018;
+        background: linear-gradient(135deg, var(--accent), #a3f3ff);
+        box-shadow: 0 14px 35px rgba(94, 231, 255, 0.18);
+        font-size: 14px;
+        font-weight: 950;
+        transition: 0.2s ease;
+      }
+
+      .activate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 42px rgba(94, 231, 255, 0.27);
+      }
+
+      /* CONTENT */
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .card {
+        padding: 25px;
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        background: rgba(11, 16, 34, 0.78);
+        box-shadow: var(--shadow);
+      }
+
+      .card h2 {
+        font-size: 19px;
+        margin-bottom: 8px;
+      }
+
+      .card-description {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .features {
+        display: grid;
+        gap: 11px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.025);
+      }
+
+      .feature-icon {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+        border-radius: 9px;
+        background: rgba(94, 231, 255, 0.08);
+        color: var(--accent);
+        font-size: 15px;
+      }
+
+      .feature-text {
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .feature-text small {
+        display: block;
+        margin-top: 3px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      /* STATS */
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .stat {
+        padding: 20px 15px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: rgba(11, 16, 34, 0.78);
+      }
+
+      .stat-value {
+        font-size: 22px;
+        font-weight: 950;
+      }
+
+      .stat-label {
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+      }
+
+      /* PAYMENT */
+
+      .payment-card {
+        margin-top: 18px;
+      }
+
+      .payment-methods {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .payment-method {
+        padding: 17px 12px;
+        text-align: center;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.025);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      .payment-method span {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 21px;
+      }
+
+      .demo-note {
+        margin-top: 16px;
+        padding: 13px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 13px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.025);
+        font-size: 11px;
+        line-height: 1.6;
+      }
+
+      /* FOOTER */
+
+      footer {
+        margin-top: 24px;
+        padding: 20px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.7;
+      }
+
+      footer strong {
+        color: var(--text);
+      }
+
+      /* MODAL */
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(12px);
+      }
+
+      .modal.show {
+        display: flex;
+      }
+
+      .modal-box {
+        width: min(520px, 100%);
+        max-height: calc(100vh - 36px);
+        overflow-y: auto;
+        padding: 25px;
+        border: 1px solid var(--border);
+        border-radius: 23px;
+        background: linear-gradient(
+          145deg,
+          rgba(15, 22, 48, 0.98),
+          rgba(7, 11, 27, 0.98)
+        );
+        box-shadow: 0 30px 100px rgba(0, 0, 0, 0.65);
+      }
+
+      .modal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 22px;
+      }
+
+      .modal-head h2 {
+        font-size: 21px;
+        line-height: 1.35;
+      }
+
+      .modal-head p {
+        margin-top: 5px;
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .close-btn {
+        width: 36px;
+        height: 36px;
+        flex: 0 0 36px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.05);
+        font-size: 19px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        color: #dfe5fa;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        height: 47px;
+        padding: 0 13px;
+        outline: none;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: rgba(94, 231, 255, 0.5);
+        box-shadow: 0 0 0 3px rgba(94, 231, 255, 0.06);
+      }
+
+      .form-group select option {
+        color: #111;
+      }
+
+      .submit-btn {
+        width: 100%;
+        min-height: 50px;
+        margin-top: 5px;
+        border: 0;
+        border-radius: 13px;
+        color: #041018;
+        background: linear-gradient(135deg, var(--accent), #a3f3ff);
+        font-size: 13px;
+        font-weight: 950;
+      }
+
+      .success-box {
+        display: none;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid rgba(53, 229, 139, 0.25);
+        border-radius: 15px;
+        background: rgba(53, 229, 139, 0.06);
+      }
+
+      .success-box.show {
+        display: block;
+      }
+
+      .success-icon {
+        font-size: 35px;
+        margin-bottom: 10px;
+      }
+
+      .success-box h3 {
+        color: var(--success);
+        font-size: 18px;
+      }
+
+      .success-box p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+
+      /* MOBILE */
+
+      @media (max-width: 800px) {
+        .content-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .payment-methods {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .page {
+          width: min(100% - 20px, 1180px);
+          padding-top: 10px;
+        }
+
+        header {
+          padding: 11px;
+        }
+
+        .brand img {
+          width: 42px;
+          height: 42px;
+        }
+
+        .brand-title {
+          font-size: 12px;
+        }
+
+        .brand-subtitle {
+          font-size: 9px;
+        }
+
+        .dashboard-link {
+          padding: 9px 10px;
+          font-size: 11px;
+        }
+
+        .hero {
+          margin-top: 12px;
+          padding: 42px 18px;
+          border-radius: 21px;
+        }
+
+        .channel-number {
+          letter-spacing: -3px;
+        }
+
+        .channel-label {
+          font-size: 13px;
+          letter-spacing: 3px;
+        }
+
+        .hero-description {
+          font-size: 12px;
+        }
+
+        .price {
+          font-size: 27px;
+        }
+
+        .activate-btn {
+          width: 100%;
+        }
+
+        .card {
+          padding: 20px;
+        }
+
+        .modal-box {
+          padding: 20px;
+          border-radius: 19px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="page">
+      <!-- HEADER -->
+      <header>
+        <a class="brand" href="../index.html">
+          <img
+            src="../logo.png"
+            alt="BTECH-TV WORLD PRO MAX Logo"
+            onerror="this.style.display = 'none'"
+          />
+
+          <div class="brand-text">
+            <div class="brand-title">BTECH-TV WORLD PRO MAX</div>
+
+            <div class="brand-subtitle">Premium IPTV Package System</div>
+          </div>
+        </a>
+
+        <a class="dashboard-link" href="../index.html"> ← Dashboard </a>
+      </header>
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="badge">PACKAGE AVAILABLE</div>
+
+          <div class="channel-number">12,000</div>
+
+          <div class="channel-label">Channels</div>
+
+          <h1 class="hero-title">12,000 Channel Package</h1>
+
+          <p class="hero-description">
+            Unlock up to 12,000 IPTV channels with the BTECH-TV WORLD PRO MAX
+            premium package. Your activation remains valid for 30 days.
+          </p>
+
+          <div class="price">
+            $124.99
+            <span>/ month</span>
+          </div>
+
+          <button class="activate-btn" id="openActivation" type="button">
+            Activate 12,000 Channels
+          </button>
+        </div>
+      </section>
+
+      <!-- CONTENT -->
+      <section class="content-grid">
+        <div class="card">
+          <h2>Package Features</h2>
+
+          <p class="card-description">
+            The 12,000-channel package provides a large channel allowance for
+            the BTECH-TV WORLD PRO MAX IPTV dashboard.
+          </p>
+
+          <div class="features">
+            <div class="feature">
+              <div class="feature-icon">📺</div>
+              <div class="feature-text">
+                12,000 Channels
+                <small> Maximum package channel allowance </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-text">
+                Fast IPTV Dashboard
+                <small> Designed for efficient channel browsing </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">🌍</div>
+              <div class="feature-text">
+                Global Channel Access
+                <small> Browse channels from multiple countries </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">📡</div>
+              <div class="feature-text">
+                Live Streaming Support
+                <small> Compatible with supported IPTV streams </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">🗓️</div>
+              <div class="feature-text">
+                30-Day Validity
+                <small> Activation validity period </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Package Summary</h2>
+
+          <p class="card-description">
+            Everything included in this subscription package.
+          </p>
+
+          <div class="features">
+            <div class="feature">
+              <div class="feature-icon">✓</div>
+              <div class="feature-text">
+                Premium Access
+                <small> Premium status enabled after activation </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">12K</div>
+              <div class="feature-text">
+                Channel Limit
+                <small> 12,000 channels </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">30</div>
+              <div class="feature-text">
+                Validity
+                <small> 30 days from activation </small>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="feature-icon">$</div>
+              <div class="feature-text">
+                Monthly Price
+                <small> $124.99 USD </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section class="stats">
+        <div class="stat">
+          <div class="stat-value">12K</div>
+          <div class="stat-label">Channels</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">30</div>
+          <div class="stat-label">Days</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">$124.99</div>
+          <div class="stat-label">Monthly</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">HD</div>
+          <div class="stat-label">Streaming</div>
+        </div>
+      </section>
+
+      <!-- PAYMENT -->
+      <section class="card payment-card">
+        <h2>Available Payment Methods</h2>
+
+        <p class="card-description">
+          Select your preferred payment type during activation.
+        </p>
+
+        <div class="payment-methods">
+          <div class="payment-method">
+            <span>💳</span>
+            Paystack
+          </div>
+
+          <div class="payment-method">
+            <span>🏦</span>
+            Moniepoint
+          </div>
+
+          <div class="payment-method">
+            <span>🌐</span>
+            PayPal
+          </div>
+
+          <div class="payment-method">
+            <span>💰</span>
+            Paypad
+          </div>
+        </div>
+
+        <div class="demo-note">
+          <strong>Demo activation notice:</strong>
+          This page currently uses local browser activation for testing. It does
+          not process or verify real payments. Connect the appropriate payment
+          gateway and secure server-side verification before using this system
+          in production.
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <div>12,000 Channel Package • 30-Day Validity</div>
+
+        <div>
+          Design by
+          <strong>BINAINU SHAIBU</strong>
+          |
+          <strong>BTECH WEBSITE DESIGN</strong>
+        </div>
+      </footer>
+    </main>
+
+    <!-- ACTIVATION MODAL -->
+    <div class="modal" id="activationModal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-head">
+          <div>
+            <h2>12,000 Channel Package</h2>
+
+            <p>$124.99 / month</p>
+          </div>
+
+          <button
+            class="close-btn"
+            id="closeActivation"
+            type="button"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+
+        <form id="activationForm">
+          <div class="form-group">
+            <label for="fullName"> Full Name </label>
+
+            <input
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email"> Email Address </label>
+
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email address"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone"> Phone Number </label>
+
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="Enter your phone number"
+              autocomplete="tel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="paymentType"> Payment Type </label>
+
+            <select id="paymentType" name="paymentType" required>
+              <option value="">Select payment method</option>
+
+              <option value="Paystack">Paystack</option>
+
+              <option value="Moniepoint">Moniepoint</option>
+
+              <option value="PayPal">PayPal</option>
+
+              <option value="Paypad">Paypad</option>
+            </select>
+          </div>
+
+          <button class="submit-btn" type="submit">
+            Confirm 12,000 Channel Activation
+          </button>
+        </form>
+
+        <div class="success-box" id="successBox">
+          <div class="success-icon">✓</div>
+
+          <h3>Activation Successful</h3>
+
+          <p>
+            Your 12,000-channel package has been activated successfully for 30
+            days.
+          </p>
+
+          <p>Returning to the BTECH-TV WORLD PRO MAX dashboard...</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      "use strict";
+
+      const PACKAGE = Object.freeze({
+        id: "12000",
+        name: "12,000 Channel Package",
+        channels: 12000,
+        price: 124.99,
+        currency: "USD",
+        validityDays: 30,
+      });
+
+      window.BTECH_PACKAGE = PACKAGE;
+
+      const STORAGE = Object.freeze({
+        subscription: "btech_tv_subscription",
+        premium: "btech_tv_premium",
+        package: "btech_tv_package",
+        channelLimit: "btech_tv_channel_limit",
+        expires: "btech_tv_package_expires",
+      });
+
+      const modal = document.getElementById("activationModal");
+
+      const openButton = document.getElementById("openActivation");
+
+      const closeButton = document.getElementById("closeActivation");
+
+      const form = document.getElementById("activationForm");
+
+      const successBox = document.getElementById("successBox");
+
+      function openModal() {
+        modal.classList.add("show");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+
+        setTimeout(() => {
+          document.getElementById("fullName")?.focus();
+        }, 50);
+      }
+
+      function closeModal() {
+        modal.classList.remove("show");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      function clearExpiredSubscription() {
+        const expiresAt = Number(localStorage.getItem(STORAGE.expires) || 0);
+
+        if (expiresAt && Date.now() >= expiresAt) {
+          localStorage.removeItem(STORAGE.subscription);
+
+          localStorage.removeItem(STORAGE.premium);
+
+          localStorage.removeItem(STORAGE.package);
+
+          localStorage.removeItem(STORAGE.channelLimit);
+
+          localStorage.removeItem(STORAGE.expires);
+        }
+      }
+
+      function activatePackage(data) {
+        const activatedAt = Date.now();
+
+        const expiresAt =
+          activatedAt + PACKAGE.validityDays * 24 * 60 * 60 * 1000;
+
+        const subscription = {
+          packageId: PACKAGE.id,
+          packageName: PACKAGE.name,
+          channels: PACKAGE.channels,
+          price: PACKAGE.price,
+          currency: PACKAGE.currency,
+          validityDays: PACKAGE.validityDays,
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone,
+          paymentType: data.paymentType,
+          activatedAt,
+          expiresAt,
+          status: "active",
+        };
+
+        localStorage.setItem(
+          STORAGE.subscription,
+          JSON.stringify(subscription),
+        );
+
+        localStorage.setItem(STORAGE.premium, "true");
+
+        localStorage.setItem(STORAGE.package, PACKAGE.id);
+
+        localStorage.setItem(STORAGE.channelLimit, String(PACKAGE.channels));
+
+        localStorage.setItem(STORAGE.expires, String(expiresAt));
+
+        return subscription;
+      }
+
+      openButton.addEventListener("click", openModal);
+
+      closeButton.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("show")) {
+          closeModal();
+        }
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+
+        const data = {
+          fullName: String(formData.get("fullName") || "").trim(),
+
+          email: String(formData.get("email") || "").trim(),
+
+          phone: String(formData.get("phone") || "").trim(),
+
+          paymentType: String(formData.get("paymentType") || "").trim(),
+        };
+
+        if (!data.fullName || !data.email || !data.phone || !data.paymentType) {
+          return;
+        }
+
+        activatePackage(data);
+
+        form.style.display = "none";
+        successBox.classList.add("show");
+
+        setTimeout(() => {
+          window.location.href = "../index.html";
+        }, 1600);
+      });
+
+      clearExpiredSubscription();
+    </script>
+  </body>
+</html>
