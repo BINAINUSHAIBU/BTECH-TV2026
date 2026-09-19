@@ -1,7 +1,35 @@
-# BTECH-TV WORLD PRO MAX — Version 3 — Selected Package Flow
+# BTECH-TV WORLD PRO MAX
 
-Flow: index.html → 3-minute trial → trial expired → package dropdown → customer details → payment method → activation → packages/<selected-package>/index.html → selected numeric package dashboard.
+Separated project structure:
 
-Selected package folders: starter, compact, standard, plus, advanced, premium, btech-tv-3500, premium-plus, btech-tv-4500, btech-tv-5000, super-btech-tv-5500, super-plus, btech-tv-6500, btech-tv-7000, btech-tv-7500, ultra, btech-tv-8500, btech-tv-9000, btech-tv-9500, ultra-plus, btech-tv-10500, btech-tv-11000, btech-tv-11500, ultra-max, btech-tv-12500, btech-tv-13000, btech-tv-13500, super-premium, btech-tv-14500, super-premium-plus, btech-tv-15500, ultimate-sports.
+```text
+BTECH-TV-WORLD-PRO-MAX/
+├── index.html
+├── css/
+│   ├── layout.css
+│   ├── responsive.css
+│   └── style.css
+├── data/
+│   └── channels.js
+├── js/
+│   ├── app.js
+│   ├── channels.js
+│   ├── config.js
+│   ├── player.js
+│   ├── state.js
+│   └── ui.js
+└── packages/
+    ├── premium/index.html
+    ├── super-compact-plus/index.html
+    ├── super-premium/index.html
+    ├── super-premium-compact-plus/index.html
+    └── super-premium-plus/index.html
+```
 
-Payment buttons are demo/test-flow controls only; connect a real payment provider/backend before accepting real payments.
+## Scrolling rule
+
+Only `.channel-wrapper` has vertical scrolling. The main dashboard, player/monitor, and channel display container do not receive page-level scrolling.
+
+## Important
+
+The Paystack library is included, but production payment processing must be connected to a verified server-side transaction flow before accepting real payments.

@@ -8,6 +8,70 @@
 <style>
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#050816;color:#fff}body{min-height:100vh;padding:24px;display:flex;align-items:center;justify-content:center}.wrap{width:min(760px,100%)}.card{background:#0d1324;border:1px solid #1d2b4f;border-radius:18px;box-shadow:0 20px 70px rgba(0,0,0,.45);padding:28px}.brand{font-size:12px;font-weight:900;letter-spacing:.08em;color:#8ea2d9}.step{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:999px;background:#152445;color:#00d4ff;font-size:10px;font-weight:900}.stepTitle{color:#00d4ff;margin:10px 0 6px}.sub{color:#8ea2d9;font-size:13px;line-height:1.5}.field{margin:16px 0}.field label{display:block;margin-bottom:7px;color:#8ea2d9;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.field input,.field select{display:block;width:100%;height:48px;padding:12px;border:1px solid #38527e;border-radius:9px;background:#101a31;color:#fff;font:inherit;font-size:15px;outline:none;appearance:auto;-webkit-appearance:auto;pointer-events:auto;user-select:text;-webkit-user-select:text}.field input:focus,.field select:focus{border-color:#00d4ff;box-shadow:0 0 0 2px rgba(0,212,255,.14)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.summary{padding:14px;border:1px solid #1d2b4f;border-radius:10px;background:#101a31;margin:10px 0 16px}.summary strong{color:#00d4ff}.actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:18px}button{height:46px;padding:0 17px;border-radius:9px;border:1px solid #294268;background:#152445;color:#fff;font-weight:900;cursor:pointer}button.primary{background:#00d4ff;color:#001018;border-color:#00d4ff}button:disabled{opacity:.45;cursor:not-allowed}.message{min-height:20px;color:#ff8585;font-size:12px;margin-top:10px}.payment,.receipt{display:none}.payment.show,.receipt.show{display:block}.methods{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}.method.selected{border-color:#00d4ff;box-shadow:0 0 0 1px #00d4ff}.receiptGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0}.receiptGrid div{padding:11px;border:1px solid #1d2b4f;border-radius:8px;background:#101a31}.receiptGrid small{display:block;color:#8ea2d9;font-size:10px;margin-bottom:4px}.receiptGrid strong{font-size:12px;word-break:break-word}@media(max-width:600px){body{padding:12px}.card{padding:20px}.grid,.methods,.receiptGrid{grid-template-columns:1fr}}
 </style>
+<style id="btechPlayerControlsStyles">
+
+/* ===== BTECH-TV WORLD PRO MAX: player controls ===== */
+.btech-requested-ui {
+  display: block !important;
+  width: 100% !important;
+  min-height: 92px !important;
+  margin: 12px 0 !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  clear: both !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  text-align: center !important;
+}
+.btech-requested-ui .btech-quality,
+.btech-requested-ui .btech-live-title,
+.btech-requested-ui .btech-credit {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.btech-requested-ui .btech-quality {
+  margin-bottom: 8px !important;
+  font-weight: 800 !important;
+}
+.btech-requested-ui .btech-controls {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  min-height: 42px !important;
+  position: relative !important;
+  z-index: 10001 !important;
+}
+.btech-requested-ui .btech-controls button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 82px !important;
+  min-height: 36px !important;
+  padding: 7px 12px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 10002 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.btech-requested-ui .btech-live-title {
+  margin-top: 10px !important;
+  font-weight: 900 !important;
+}
+.btech-requested-ui .btech-credit {
+  margin-top: 7px !important;
+  font-size: .9rem !important;
+}
+
+</style>
 </head>
 <body>
 <main class="wrap"><section class="card">
@@ -23,24 +87,103 @@
 </form></div>
 <div id="step2" class="payment"><div class="step">STEP 2 OF 3 · PAYMENT</div><h2 class="stepTitle">Payment</h2><p class="sub">Select a test/demo payment method to continue.</p><div id="paymentSummary" class="summary"></div><div class="methods"><button type="button" class="method" data-method="Paystack Test">Paystack Test</button><button type="button" class="method" data-method="Moniepoint Demo">Moniepoint Demo</button><button type="button" class="method" data-method="PayPal Demo">PayPal Demo</button><button type="button" class="method" data-method="Paypad Demo">Paypad Demo</button></div><div id="message2" class="message"></div><div class="actions"><button type="button" id="backBtn">BACK</button><button type="button" id="confirmBtn" class="primary" disabled>CONFIRM PAYMENT</button></div></div>
 <div id="step3" class="receipt"><div class="step">STEP 3 OF 3 · ACTIVATED</div><h2 class="stepTitle">Package activated</h2><p class="sub">Your selected package has been activated.</p><div id="receiptGrid" class="receiptGrid"></div><div class="actions"><button id="dashboardBtn" class="primary" type="button">CONTINUE TO SELECTED PACKAGE DASHBOARD</button></div></div>
-</section></main>
+</section><div class="btech-requested-ui" aria-label="BTECH-TV player controls">
+  <div class="btech-quality">Quality: auto</div>
+  <div class="btech-controls">
+    <button type="button" class="btech-control-next">▶ Next</button>
+    <button type="button" class="btech-control-prev">◀ Prev</button>
+    <button type="button" class="btech-control-mute">🔊 Mute</button>
+    <button type="button" class="btech-control-fullscreen">⛶ Fullscreen</button>
+    <button type="button" class="btech-control-global">🚀 Global</button>
+  </div>
+  <div class="btech-live-title">BTECH-TV LIVE CHANNELS</div>
+  <div class="btech-credit">Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN</div>
+</div>
+</main>
 <script src="js/config.js"></script>
+
+
+
 <script>
-(function(){
-'use strict';
-const C=window.BTECH_CONFIG||{};const packages=Array.isArray(C.packages)?C.packages.map(p=>({...p,id:String(p.id),channels:Number(p.channels),price:Number(p.price),duration:Number(p.duration)||30,currency:p.currency||C.currency||'USD'})):[];
-const slugs={"500":"starter","1000":"Compact","1500":"Standard","2000":"Plus","2500":"Advanced","3000":"premium","3500":"btech-tv-3500","4000":"premium-plus","4500":"btech-tv-4500","5000":"btech-tv-5000","5500":"super-btech-tv-5500","6000":"super-plus","6500":"btech-tv-6500","7000":"btech-tv-7000","7500":"btech-tv-7500","8000":"ultra","8500":"btech-tv-8500","9000":"btech-tv-9000","9500":"btech-tv-9500","10000":"ultra-plus","10500":"btech-tv-10500","11000":"btech-tv-11000","11500":"btech-tv-11500","12000":"ultra-max","12500":"btech-tv-12500","13000":"btech-tv-13000","13500":"btech-tv-13500","14000":"super-premium","14500":"btech-tv-14500","15000":"super-premium-plus","15500":"btech-tv-15500","16000":"ultimate-sports"};
-const $=id=>document.getElementById(id), sel=$('packageSelect'), form=$('checkoutForm'), name=$('fullName'),email=$('email'),phone=$('phone'),summary=$('summary'),pn=$('packageName'),pi=$('packageInfo');let selected=null,payment='';
-const money=p=>`${p.currency==='USD'?'$':p.currency+' '}${p.price.toFixed(2)}`;
-packages.forEach(p=>{const o=document.createElement('option');o.value=p.id;o.textContent=`${p.channels.toLocaleString()} Channels — ${money(p)} — ${p.duration} Days`;sel.appendChild(o)});
-function current(){return packages.find(p=>p.id===sel.value)||null}function valid(){const ph=phone.value.replace(/[+()\s-]/g,'');return !!(current()&&name.value.trim()&&/^\S+@\S+\.\S+$/.test(email.value.trim())&&ph.length>=7)}
-function render(){const p=current();summary.hidden=!p;if(p){pn.textContent=`${p.name||'BTECH-TV'} — ${p.channels.toLocaleString()} Channels`;pi.textContent=`${money(p)} · ${p.duration} Days`}}
-sel.addEventListener('change',render);render();
-form.addEventListener('submit',e=>{e.preventDefault();const p=current();if(!valid()){$('message1').textContent='Please select a package and enter your full name, valid email, and phone number.';return}selected=p;$('message1').textContent='';$('step1').style.display='none';$('step2').classList.add('show');$('paymentSummary').innerHTML=`<strong>${p.name}</strong> · ${p.channels.toLocaleString()} Channels · ${money(p)} · ${p.duration} Days<br><span>Customer: ${name.value.trim()}</span>`});
-document.querySelectorAll('[data-method]').forEach(b=>b.addEventListener('click',()=>{payment=b.dataset.method;document.querySelectorAll('[data-method]').forEach(x=>x.classList.toggle('selected',x===b));$('confirmBtn').disabled=false}));
-$('backBtn').addEventListener('click',()=>{$('step2').classList.remove('show');$('step1').style.display='block'});
-$('confirmBtn').addEventListener('click',()=>{if(!selected||!payment)return;const now=new Date();const exp=new Date(now.getTime()+selected.duration*86400000);const data={id:selected.id,package:selected.name,channels:selected.channels,price:selected.price,currency:selected.currency,customer:{name:name.value.trim(),email:email.value.trim(),phone:phone.value.trim()},paymentMethod:payment,activatedAt:now.toISOString(),expiresAt:exp.toISOString()};localStorage.setItem('btech_active_package',JSON.stringify(data));localStorage.setItem('btech_tv_subscription_v5',JSON.stringify(data));localStorage.removeItem('btech_tv_trial_v5');$('step2').classList.remove('show');$('step3').classList.add('show');$('receiptGrid').innerHTML=`<div><small>Full Name</small><strong>${data.customer.name}</strong></div><div><small>Email</small><strong>${data.customer.email}</strong></div><div><small>Phone</small><strong>${data.customer.phone}</strong></div><div><small>Package</small><strong>${data.package}</strong></div><div><small>Channels</small><strong>${data.channels.toLocaleString()}</strong></div><div><small>Price</small><strong>${money(selected)}</strong></div><div><small>Payment</small><strong>${payment}</strong></div><div><small>Expires</small><strong>${exp.toLocaleString()}</strong></div>`});
-$('dashboardBtn').addEventListener('click',()=>{window.location.href=`packages/${slugs[selected.id]||('package-'+selected.channels)}/index.html`});
+(function () {
+  function updateBtechLiveCount() {
+    const count = document.getElementById('btech-live-count');
+    if (!count) return;
+    const candidates = document.querySelectorAll(
+      '.channel-card, .channel-item, .channel, [data-channel], .channel-wrapper > *'
+    );
+    let visible = 0;
+    candidates.forEach(function (el) {
+      const s = getComputedStyle(el);
+      if (s.display !== 'none' && s.visibility !== 'hidden') visible++;
+    });
+    const loaded = Math.max(visible, document.querySelectorAll('video').length ? visible : 0);
+    count.textContent = visible + ' displayed • ' + loaded + ' loaded';
+  }
+  updateBtechLiveCount();
+  setInterval(updateBtechLiveCount, 1000);
 })();
 </script>
+
+
+<script id="btechControlsScript">
+(function () {
+  "use strict";
+
+  function getVideo() {
+    return document.getElementById("video") ||
+           document.querySelector("#btechPlayerContainer video, video");
+  }
+
+  function callFirst(names) {
+    for (const name of names) {
+      if (typeof window[name] === "function") {
+        try { window[name](); return true; } catch (e) { console.warn("BTECH-TV:", name, e); }
+      }
+    }
+    return false;
+  }
+
+  document.addEventListener("click", function (event) {
+    const button = event.target.closest(".btech-requested-ui button");
+    if (!button) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (button.classList.contains("btech-control-next")) {
+      callFirst(["next", "nextChannel", "playNext"]);
+      return;
+    }
+
+    if (button.classList.contains("btech-control-prev")) {
+      callFirst(["prev", "prevChannel", "playPrev"]);
+      return;
+    }
+
+    if (button.classList.contains("btech-control-mute")) {
+      const video = getVideo();
+      if (!video) return;
+      video.muted = !video.muted;
+      button.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+      return;
+    }
+
+    if (button.classList.contains("btech-control-fullscreen")) {
+      const target = document.getElementById("btechPlayerContainer") || getVideo();
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(function () {});
+      } else if (target && target.requestFullscreen) {
+        target.requestFullscreen().catch(function () {});
+      }
+      return;
+    }
+
+    if (button.classList.contains("btech-control-global")) {
+      callFirst(["loadUltra", "globalMode", "toggleGlobal", "loadGlobal"]);
+    }
+  }, true);
+})();
+</script>
+
 </body></html>
