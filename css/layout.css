@@ -306,3 +306,40 @@ body {
       repeat(auto-fill, minmax(160px, 1fr));
   }
 }
+
+/* BTECH-TV WORLD PRO MAX requested player UI */
+.btech-requested-ui {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 12px 0;
+  padding: 10px;
+  border-radius: 10px;
+}
+.btech-requested-ui .btech-quality {
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.btech-requested-ui .btech-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.btech-requested-ui .btech-controls button {
+  cursor: pointer;
+  min-height: 36px;
+  padding: 7px 12px;
+  border-radius: 7px;
+  border: 1px solid currentColor;
+  background: transparent;
+  font: inherit;
+}
+.btech-requested-ui .btech-live-title {
+  margin-top: 12px;
+  font-weight: 700;
+}
+.btech-requested-ui .btech-credit {
+  margin-top: 8px;
+  font-size: .9rem;
+  opacity: .8;
+}
