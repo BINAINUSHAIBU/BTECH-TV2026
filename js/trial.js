@@ -98,15 +98,13 @@
   }
 
   function showPackageSelector() {
-    const selector = document.getElementById("packageSelectorOverlay");
+    document.body.classList.add("package-selection-active");
 
-    if (!selector) {
+    // New checkout replaces the old package selector overlay.
+    if (typeof window.openPackageCheckout === "function") {
+      window.openPackageCheckout();
       return;
     }
-
-    selector.hidden = false;
-
-    document.body.classList.add("package-selection-active");
 
     if (typeof window.openPackageSelector === "function") {
       window.openPackageSelector();
@@ -153,19 +151,15 @@
     updateDisplay(remaining);
   }
 
-  function hasActivePackage() {
-    try {
-      const key = CONFIG.storage?.activePackage || "btech_active_package";
-      const raw = localStorage.getItem(key);
-      if (!raw) return false;
-      const pkg = JSON.parse(raw);
-      return !!(pkg && Number(pkg.expiryDate) > Date.now());
-    } catch (_) { return false; }
-  }
-
   function startTimer() {
-    if (hasActivePackage()) {
-      if (timer !== null) { clearInterval(timer); timer = null; }
+    if (window.BTECH_PACKAGE_ACCESS &&
+        typeof window.BTECH_PACKAGE_ACCESS.isPackageActive === "function" &&
+        window.BTECH_PACKAGE_ACCESS.isPackageActive()) {
+      updateDisplay(0);
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
       return;
     }
     if (timer !== null) {

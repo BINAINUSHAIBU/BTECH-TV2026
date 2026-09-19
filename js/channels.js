@@ -75,7 +75,7 @@ function getBtechChannelLimit() {
     });
 
     const count = document.getElementById("channelCountLabel");
-    if (count) count.textContent = `${state.filtered.length} channels`;
+    if (count) count.textContent = `${state.filtered.length} displayed • ${state.all.length} loaded`;
   }
 
   function updateStats() {
@@ -91,10 +91,9 @@ function getBtechChannelLimit() {
   }
 
   function setChannels(channels) {
-    state.all = Array.isArray(channels)
-      ? channels.slice(0, BTECH_CONFIG.maxChannels)
-      : [];
-
+    const packageLimit = getBtechChannelLimit();
+    const source = Array.isArray(channels) ? channels : [];
+    state.all = source.slice(0, Math.min(BTECH_CONFIG.maxChannels, packageLimit));
     state.filtered = [...state.all];
     state.currentIndex = 0;
 

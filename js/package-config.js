@@ -1,17 +1,15 @@
 "use strict";
 
 window.BTECH_PACKAGE = Object.freeze({
-  id: "14500",
-  name: "BTECH-TV WORLD PRO MAX — 14,500 Channels",
-  displayName: "14,500 Channels",
-  channelLimit: 14500,
-  channels: 14500,
-  price: 149.99,
+  id: "infinite-ultimate-max",
+  name: "BTECH-TV INFINITE ULTIMATE MAX",
+  displayName: "5,000,000 Channels",
+  channelLimit: 5000000,
+  price: 2999.99,
   currency: "USD",
-  duration: 30,
-  validityDays: 30,
+
   features: [
-    "14,500 Live TV Channels",
+    "5,000,000+ Live TV Channels",
     "Worldwide Channel Coverage",
     "Global Sports Networks",
     "Movies & Entertainment",
@@ -19,6 +17,7 @@ window.BTECH_PACKAGE = Object.freeze({
     "Music & Radio",
     "Kids & Family Channels",
     "Documentary & Educational Channels",
+    "Religious Channels",
     "Multi-Language Channels",
     "Unlimited Favorites",
     "Recently Watched History",
@@ -29,11 +28,20 @@ window.BTECH_PACKAGE = Object.freeze({
     "Intelligent Stream Repair",
     "Global Ultra Feeds",
     "Automatic Stream Recovery",
+    "Advanced Memory Optimization",
     "Advanced Streaming Engine",
     "Enhanced Stream Stability",
     "Multi-Source Feed Support",
+    "Maximum Channel Processing",
     "Advanced Feed Management",
+    "Global Feed Distribution",
     "Intelligent Channel Indexing",
-    "30-Day Subscription Validity"
-  ]
+    "Ultimate Max Performance",
+    "Advanced Global Analytics",
+    "Intelligent Channel Management",
+    "Extreme Feed Processing",
+    "Advanced Session Management",
+    "Maximum Feed Optimization",
+    "Enterprise-Scale Channel Engine",
+  ],
 });
