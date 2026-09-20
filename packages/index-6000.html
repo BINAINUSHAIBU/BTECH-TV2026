@@ -6,9 +6,15 @@
          Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
     <meta name="hosting-provider" content="Netlify" />
     <meta name="netlify-deploy" content="https://netlify.new/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#050816" />
-    <meta name="description" content="BTECH-TV WORLD PRO MAX - Ultra BTECH-TV World Engine X" />
+    <meta
+      name="description"
+      content="BTECH-TV WORLD PRO MAX - Ultra BTECH-TV World Engine X"
+    />
     <meta name="application-name" content="BTECH-TV WORLD PRO MAX" />
     <title>BTECH-TV WORLD PRO MAX | 6,000 Channel Package Dashboard</title>
     <link rel="stylesheet" href="../css/style.css" />
@@ -16,531 +22,671 @@
     <link rel="stylesheet" href="../css/responsive.css" />
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://js.paystack.co/v1/inline.js"></script>
-  
-<script>
-"use strict";
-(function () {
-  const path = location.pathname.replace(/\\/g, "/");
-  const match = path.match(/\/packages\/index-(\d+)\.html$/i);
-  if (!match) return;
-  const expected = Number(match[1]);
 
-  function getActive() {
-    try {
-      const raw = localStorage.getItem("btech_active_package") ||
-                  localStorage.getItem("btech_tv_subscription_v5") ||
-                  localStorage.getItem("btech_tv_subscription");
-      if (!raw) return null;
-      const p = JSON.parse(raw);
-      if (!p || Number(p.channels) !== expected) return null;
-      const expiry = Number(p.expiryDate || p.expiresAt);
-      if (!Number.isFinite(expiry)) return null;
-      const time = expiry > 1e12 ? expiry : new Date(p.expiresAt).getTime();
-      if (!Number.isFinite(time) || time <= Date.now()) return null;
-      return p;
-    } catch (_) { return null; }
-  }
+    <script>
+      "use strict";
+      (function () {
+        const path = location.pathname.replace(/\\/g, "/");
+        const match = path.match(/\/packages\/index-(\d+)\.html$/i);
+        if (!match) return;
+        const expected = Number(match[1]);
 
-  const active = getActive();
-  if (!active) {
-    location.replace("../index.html");
-    return;
-  }
+        function getActive() {
+          try {
+            const raw =
+              localStorage.getItem("btech_active_package") ||
+              localStorage.getItem("btech_tv_subscription_v5") ||
+              localStorage.getItem("btech_tv_subscription");
+            if (!raw) return null;
+            const p = JSON.parse(raw);
+            if (!p || Number(p.channels) !== expected) return null;
+            const expiry = Number(p.expiryDate || p.expiresAt);
+            if (!Number.isFinite(expiry)) return null;
+            const time =
+              expiry > 1e12 ? expiry : new Date(p.expiresAt).getTime();
+            if (!Number.isFinite(time) || time <= Date.now()) return null;
+            return p;
+          } catch (_) {
+            return null;
+          }
+        }
 
-  window.BTECH_SELECTED_PACKAGE_DASHBOARD = active;
-})();
-</script>
+        const active = getActive();
+        if (!active) {
+          location.replace("../index.html");
+          return;
+        }
 
+        window.BTECH_SELECTED_PACKAGE_DASHBOARD = active;
+      })();
+    </script>
 
-<style>
-body.package-dashboard-active #packageSelectorOverlay,
-body.package-dashboard-active #activationReceiptOverlay { display:none !important; }
-</style>
-<script>
-document.documentElement.dataset.packageDashboard = "6000";
-document.addEventListener("DOMContentLoaded", function(){
-  document.body.classList.add("package-dashboard-active");
-  const pkg = window.BTECH_SELECTED_PACKAGE_DASHBOARD;
-  const status = document.getElementById("subscriptionStatus");
-  if (status && pkg) {
-    const days = Math.max(0, Math.ceil((Number(pkg.expiryDate || new Date(pkg.expiresAt).getTime()) - Date.now()) / 86400000));
-    status.textContent = "6,000 CHANNELS • " + days + " DAYS";
-  }
-  const timer = document.getElementById("trialTimer");
-  if (timer) timer.hidden = true;
-});
-</script>
-<style id="btechPlayerControlsStyles">
-/* BTECH-TV WORLD PRO MAX - single canonical player controls */
-.btech-requested-ui{display:block!important;width:100%!important;min-height:92px!important;margin:12px 0!important;padding:10px!important;box-sizing:border-box!important;position:relative!important;z-index:10000!important;clear:both!important;visibility:visible!important;opacity:1!important;text-align:center!important}
-.btech-requested-ui .btech-quality,.btech-requested-ui .btech-live-title,.btech-requested-ui .btech-credit{display:block!important;visibility:visible!important;opacity:1!important}
-.btech-requested-ui .btech-quality{margin-bottom:8px!important;font-weight:800!important}
-.btech-requested-ui .btech-controls{display:flex!important;flex-wrap:wrap!important;align-items:center!important;justify-content:center!important;gap:8px!important;width:100%!important;min-height:42px!important;position:relative!important;z-index:10001!important}
-.btech-requested-ui .btech-controls button{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:82px!important;min-height:36px!important;padding:7px 12px!important;border-radius:8px!important;cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:10002!important;visibility:visible!important;opacity:1!important}
-.btech-requested-ui .btech-live-title{margin-top:10px!important;font-weight:900!important}
-.btech-requested-ui .btech-credit{margin-top:7px!important;font-size:.9rem!important}
-</style>
-</head>
+    <style>
+      body.package-dashboard-active #packageSelectorOverlay,
+      body.package-dashboard-active #activationReceiptOverlay {
+        display: none !important;
+      }
+    </style>
+    <script>
+      document.documentElement.dataset.packageDashboard = "6000";
+      document.addEventListener("DOMContentLoaded", function () {
+        document.body.classList.add("package-dashboard-active");
+        const pkg = window.BTECH_SELECTED_PACKAGE_DASHBOARD;
+        const status = document.getElementById("subscriptionStatus");
+        if (status && pkg) {
+          const days = Math.max(
+            0,
+            Math.ceil(
+              (Number(pkg.expiryDate || new Date(pkg.expiresAt).getTime()) -
+                Date.now()) /
+                86400000,
+            ),
+          );
+          status.textContent = "6,000 CHANNELS • " + days + " DAYS";
+        }
+        const timer = document.getElementById("trialTimer");
+        if (timer) timer.hidden = true;
+      });
+    </script>
+    <style id="btechPlayerControlsStyles">
+      /* BTECH-TV WORLD PRO MAX - single canonical player controls */
+      .btech-requested-ui {
+        display: block !important;
+        width: 100% !important;
+        min-height: 92px !important;
+        margin: 12px 0 !important;
+        padding: 10px !important;
+        box-sizing: border-box !important;
+        position: relative !important;
+        z-index: 10000 !important;
+        clear: both !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        text-align: center !important;
+      }
+      .btech-requested-ui .btech-quality,
+      .btech-requested-ui .btech-live-title,
+      .btech-requested-ui .btech-credit {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      .btech-requested-ui .btech-quality {
+        margin-bottom: 8px !important;
+        font-weight: 800 !important;
+      }
+      .btech-requested-ui .btech-controls {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        min-height: 42px !important;
+        position: relative !important;
+        z-index: 10001 !important;
+      }
+      .btech-requested-ui .btech-controls button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 82px !important;
+        min-height: 36px !important;
+        padding: 7px 12px !important;
+        border-radius: 8px !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        position: relative !important;
+        z-index: 10002 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      .btech-requested-ui .btech-live-title {
+        margin-top: 10px !important;
+        font-weight: 900 !important;
+      }
+      .btech-requested-ui .btech-credit {
+        margin-top: 7px !important;
+        font-size: 0.9rem !important;
+      }
+    </style>
+  </head>
   <body>
-  <div class="app" id="app">
-  <!-- ===================================== SIDEBAR ====================================== -->
-  <aside class="sidebar" aria-label="BTECH-TV navigation">
-    <div class="logo">BTECH-TV PRO MAX</div>
-    <div class="sub">Ultra BTECH-TV World Engine X</div>
+    <div class="app" id="app">
+      <!-- ===================================== SIDEBAR ====================================== -->
+      <aside class="sidebar" aria-label="BTECH-TV navigation">
+        <div class="logo">BTECH-TV PRO MAX</div>
+        <div class="sub">Ultra BTECH-TV World Engine X</div>
 
-    <div class="menu-title">🌍 Countries</div>
-    <div id="countryMenu"></div>
+        <div class="menu-title">🌍 Countries</div>
+        <div id="countryMenu"></div>
 
-    <div class="menu-title">🎬 Categories</div>
-    <div id="categoryMenu"></div>
+        <div class="menu-title">🎬 Categories</div>
+        <div id="categoryMenu"></div>
 
-    <div class="menu-title">🗣 Languages</div>
-    <div id="languageMenu"></div>
+        <div class="menu-title">🗣 Languages</div>
+        <div id="languageMenu"></div>
 
-    <div class="menu-title">🔥 Tools</div>
-    <button class="nav-btn" type="button" onclick="scanStreams()">📡 Scan</button>
-    <button class="nav-btn" type="button" onclick="speedBoost()">⚡ Boost</button>
-    <button class="nav-btn" type="button" onclick="togglePiP()">📺 PiP</button>
-    <button class="nav-btn" type="button" onclick="clearRecents()">🗑 Recents</button>
-    <button class="nav-btn" type="button" onclick="recordMode()">⏺ Record</button>
-    <button class="nav-btn" type="button" onclick="loadUltra()">🚀 Ultra Feeds</button>
-    <button class="nav-btn" type="button" onclick="repairStreams()">🛠 Repair</button>
-    <button class="nav-btn" type="button" onclick="optimizeMemory()">🧠 Optimize</button>
-  </aside>
-
-  <!-- ===================================== MAIN CONTENT ====================================== -->
-  <main class="main">
-    <!-- ===================================== TOP BAR ====================================== -->
-    <header class="topbar">
-      <div class="search-box">
-        <input id="channelSearchInput" type="search" oninput="search(this.value)"
-          placeholder="Search BTECH-TV World..." aria-label="Search BTECH-TV World"
-          autocomplete="off" spellcheck="false" />
-      </div>
-      <div class="topbar-status">
-        <div class="btech-trial-bar" id="btechTrialBar"><span class="trial-label">PACKAGE</span><strong class="trial-time" id="subscriptionStatus">ACTIVE</strong></div>
-        <div class="live">🔴 BTECH-TV LIVE</div>
-      </div>
-    </header>
-
-    <!-- ===================================== STATISTICS ====================================== -->
-    <section class="hero" aria-label="BTECH-TV statistics">
-      <h3>BTECH-TV World PRO MAX SYSTEM</h3>
-      <div class="stats">
-        <div class="stat">📺 <strong id="total">0</strong><span>TOTAL</span></div>
-        <div class="stat">⭐ <strong id="fav">0</strong><span>FAV</span></div>
-        <div class="stat">⚫ <strong id="dead">0</strong><span>DEAD</span></div>
-        <div class="stat">🌍 <strong id="live">0</strong><span>LIVE</span></div>
-      </div>
-    </section>
-
-    <!-- ===================================== VIDEO PLAYER ====================================== -->
-    <section class="btech-screen-monitor screen-monitor" aria-label="BTECH-TV fixed screen monitor">
-      <div class="player-container" id="btechPlayerContainer" data-watermark-enabled="true"
-        aria-label="BTECH-TV live video player">
-        <video id="video" controls autoplay muted playsinline preload="metadata"
-          aria-label="BTECH-TV live stream"></video>
-
-        <div id="btechPlayerWatermark" class="btech-player-watermark" aria-hidden="true">
-          <img id="btechWatermarkLogo" src="../logo.png" alt="" draggable="false" onerror="this.hidden=true" />
-          <div class="btech-watermark-text">
-            <strong>BTECH-TV</strong><span>WORLD PRO MAX</span>
-          </div>
-        </div>
-
-        <div id="btechPlayerLiveBadge" class="btech-player-live-badge" aria-hidden="true">
-          <span></span> LIVE
-        </div>
-
-        <div id="btechPlayerChannelOverlay" class="btech-player-channel-overlay" aria-live="polite">
-          <strong id="btechPlayerChannelNumber">CH 000</strong>
-          <span id="btechPlayerChannelName">No channel selected</span>
-        </div>
-
-        <div id="btechFullscreenHint" class="btech-fullscreen-hint" aria-hidden="true">
-          BTECH-TV WORLD PRO MAX
-        </div>
-      </div>
-
-      <!-- QUALITY -->
-      <div class="quality-selector">
-        <button type="button" aria-label="Current stream quality">
-          Quality: <span data-current-quality>auto</span>
+        <div class="menu-title">🔥 Tools</div>
+        <button class="nav-btn" type="button" onclick="scanStreams()">
+          📡 Scan
         </button>
-        <div data-quality-menu></div>
-      </div>
+        <button class="nav-btn" type="button" onclick="speedBoost()">
+          ⚡ Boost
+        </button>
+        <button class="nav-btn" type="button" onclick="togglePiP()">
+          📺 PiP
+        </button>
+        <button class="nav-btn" type="button" onclick="clearRecents()">
+          🗑 Recents
+        </button>
+        <button class="nav-btn" type="button" onclick="recordMode()">
+          ⏺ Record
+        </button>
+        <button class="nav-btn" type="button" onclick="loadUltra()">
+          🚀 Ultra Feeds
+        </button>
+        <button class="nav-btn" type="button" onclick="repairStreams()">
+          🛠 Repair
+        </button>
+        <button class="nav-btn" type="button" onclick="optimizeMemory()">
+          🧠 Optimize
+        </button>
+      </aside>
 
-      <!-- PLAYER CONTROLS: canonical requested UI -->
-      <div class="btech-requested-ui" aria-label="BTECH-TV player controls">
-        <div class="btech-quality">Quality: auto</div>
-        <div class="btech-controls">
-          <button type="button" class="btech-control-next">▶ Next</button>
-          <button type="button" class="btech-control-prev">◀ Prev</button>
-          <button type="button" class="btech-control-mute">🔊 Mute</button>
-          <button type="button" class="btech-control-fullscreen">⛶ Fullscreen</button>
-          <button type="button" class="btech-control-global">🚀 Global</button>
-        </div>
-        <div class="btech-live-title">BTECH-TV LIVE CHANNELS</div>
-        <div class="btech-credit">Design by BINAINU SHAIBU | BTECH WEBSITE DESIGN</div>
-      </div>
+      <!-- ===================================== MAIN CONTENT ====================================== -->
+      <main class="main">
+        <!-- ===================================== TOP BAR ====================================== -->
+        <header class="topbar">
+          <div class="search-box">
+            <input
+              id="channelSearchInput"
+              type="search"
+              oninput="search(this.value)"
+              placeholder="Search BTECH-TV World..."
+              aria-label="Search BTECH-TV World"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="topbar-status">
+            <div class="btech-trial-bar" id="btechTrialBar">
+              <span class="trial-label">PACKAGE</span
+              ><strong class="trial-time" id="subscriptionStatus"
+                >ACTIVE</strong
+              >
+            </div>
+            <div class="live">🔴 BTECH-TV LIVE</div>
+          </div>
+        </header>
 
-      <!-- LEGACY/INLINE CONTROL COMPATIBILITY -->
-      <div class="controls" aria-label="BTECH-TV controls">
-        <button type="button" onclick="next()">▶ Next</button>
-        <button type="button" onclick="prev()">◀ Prev</button>
-        <button type="button" onclick="toggleMute()">🔊 Mute</button>
-        <button type="button" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-        <button type="button" onclick="loadUltra()">🚀 Global</button>
-        <div class="designer-credit">Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN</div>
-      </div>
-    </section>
+        <!-- ===================================== STATISTICS ====================================== -->
+        <section class="hero" aria-label="BTECH-TV statistics">
+          <h3>BTECH-TV World PRO MAX SYSTEM</h3>
+          <div class="stats">
+            <div class="stat">
+              📺 <strong id="total">0</strong><span>TOTAL</span>
+            </div>
+            <div class="stat">
+              ⭐ <strong id="fav">0</strong><span>FAV</span>
+            </div>
+            <div class="stat">
+              ⚫ <strong id="dead">0</strong><span>DEAD</span>
+            </div>
+            <div class="stat">
+              🌍 <strong id="live">0</strong><span>LIVE</span>
+            </div>
+          </div>
+        </section>
 
-    <!-- ===================================== CHANNEL LIST ====================================== -->
-    <section class="btech-channel-display channel-display-section" aria-labelledby="channelDisplayTitle">
-      <div class="channel-display-header">
-        <h2 id="channelDisplayTitle">BTECH-TV LIVE CHANNELS</h2>
-        <span id="channelCountLabel">0 channels</span>
-      </div>
-      <div class="channel-wrapper" id="channelWrapper" tabindex="0"
-        aria-label="Scrollable BTECH-TV channel list">
-        <div class="channels" id="grid" aria-live="polite" aria-label="Live TV channels"></div>
-      </div>
-    </section>
-  </main>
-</div>
+        <!-- ===================================== VIDEO PLAYER ====================================== -->
+        <section
+          class="btech-screen-monitor screen-monitor"
+          aria-label="BTECH-TV fixed screen monitor"
+        >
+          <div
+            class="player-container"
+            id="btechPlayerContainer"
+            data-watermark-enabled="true"
+            aria-label="BTECH-TV live video player"
+          >
+            <video
+              id="video"
+              controls
+              autoplay
+              muted
+              playsinline
+              preload="metadata"
+              aria-label="BTECH-TV live stream"
+            ></video>
+
+            <div
+              id="btechPlayerWatermark"
+              class="btech-player-watermark"
+              aria-hidden="true"
+            >
+              <img
+                id="btechWatermarkLogo"
+                src="../logo.png"
+                alt=""
+                draggable="false"
+                onerror="this.hidden = true"
+              />
+              <div class="btech-watermark-text">
+                <strong>BTECH-TV</strong><span>WORLD PRO MAX</span>
+              </div>
+            </div>
+
+            <div
+              id="btechPlayerLiveBadge"
+              class="btech-player-live-badge"
+              aria-hidden="true"
+            >
+              <span></span> LIVE
+            </div>
+
+            <div
+              id="btechPlayerChannelOverlay"
+              class="btech-player-channel-overlay"
+              aria-live="polite"
+            >
+              <strong id="btechPlayerChannelNumber">CH 000</strong>
+              <span id="btechPlayerChannelName">No channel selected</span>
+            </div>
+
+            <div
+              id="btechFullscreenHint"
+              class="btech-fullscreen-hint"
+              aria-hidden="true"
+            >
+              BTECH-TV WORLD PRO MAX
+            </div>
+          </div>
+
+          <!-- QUALITY -->
+          <div class="quality-selector">
+            <button type="button" aria-label="Current stream quality">
+              Quality: <span data-current-quality>auto</span>
+            </button>
+            <div data-quality-menu></div>
+          </div>
+
+          <!-- LEGACY/INLINE CONTROL COMPATIBILITY -->
+          <div class="controls" aria-label="BTECH-TV controls">
+            <button type="button" onclick="next()">▶ Next</button>
+            <button type="button" onclick="prev()">◀ Prev</button>
+            <button type="button" onclick="toggleMute()">🔊 Mute</button>
+            <button type="button" onclick="toggleFullscreen()">
+              ⛶ Fullscreen
+            </button>
+            <button type="button" onclick="loadUltra()">🚀 Global</button>
+            <div class="designer-credit">
+              Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================== CHANNEL LIST ====================================== -->
+        <section
+          class="btech-channel-display channel-display-section"
+          aria-labelledby="channelDisplayTitle"
+        >
+          <div class="channel-display-header">
+            <h2 id="channelDisplayTitle">BTECH-TV LIVE CHANNELS</h2>
+            <span id="channelCountLabel">0 channels</span>
+          </div>
+          <div
+            class="channel-wrapper"
+            id="channelWrapper"
+            tabindex="0"
+            aria-label="Scrollable BTECH-TV channel list"
+          >
+            <div
+              class="channels"
+              id="grid"
+              aria-live="polite"
+              aria-label="Live TV channels"
+            ></div>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="../data/channels.js" defer></script>
 
-<script src="../js/config.js" defer></script>
-<script src="../js/state.js" defer></script>
+    <script src="../js/config.js" defer></script>
+    <script src="../js/state.js" defer></script>
 
-<script src="../js/trial.js" defer></script>
+    <script src="../js/trial.js" defer></script>
 
-<script src="../js/player.js" defer></script>
-<script src="../js/channels.js" defer></script>
+    <script src="../js/player.js" defer></script>
+    <script src="../js/channels.js" defer></script>
 
-<script src="../js/package-access.js" defer></script>
-<script src="../js/packages.js" defer></script>
+    <script src="../js/package-access.js" defer></script>
+    <script src="../js/packages.js" defer></script>
 
-<script src="../js/ui.js" defer></script>
-<script src="../js/app.js" defer></script>
-<!-- PACKAGE SELECTOR -->
-<div
-  id="packageSelectorOverlay"
-  class="package-selector-overlay"
-  hidden
-  aria-modal="true"
-  role="dialog"
-  aria-labelledby="packageSelectorTitle"
->
-
-  <div class="package-selector">
-
-    <div class="package-selector-header">
-
-      <div>
-        <span class="package-label">
-          BTECH-TV WORLD PRO MAX
-        </span>
-
-        <h2 id="packageSelectorTitle">
-          Choose Your Package
-        </h2>
-
-        <p>
-          Your free trial has expired.
-          Select a channel package to continue.
-        </p>
-      </div>
-
-    </div>
-
-    <div class="package-selector-body">
-
-      <!-- PACKAGE -->
-      <div class="package-field">
-
-        <label for="packageSelect">
-          Channel Package
-        </label>
-
-        <select
-          id="packageSelect"
-          autocomplete="off"
-        >
-
-          <option value="">
-            Select Package
-          </option>
-
-        </select>
-
-      </div>
-
-      <!-- AUTO DETAILS -->
-      <div
-        id="selectedPackageDetails"
-        class="selected-package-details"
-        hidden
-      >
-
-        <div class="package-detail">
-          <span>Package</span>
-          <strong id="selectedPackageName">
-            —
-          </strong>
-        </div>
-
-        <div class="package-detail">
-          <span>Channels</span>
-          <strong id="selectedPackageChannels">
-            —
-          </strong>
-        </div>
-
-        <div class="package-detail">
-          <span>Price</span>
-          <strong id="selectedPackagePrice">
-            —
-          </strong>
-        </div>
-
-        <div class="package-detail">
-          <span>Validity</span>
-          <strong id="selectedPackageValidity">
-            30 Days
-          </strong>
-        </div>
-
-      </div>
-
-      <!-- USER DETAILS -->
-      <div class="activation-form">
-
-        <div class="package-field">
-
-          <label for="activationName">
-            Full Name
-          </label>
-
-          <input
-            id="activationName"
-            type="text"
-            placeholder="Enter full name"
-            autocomplete="name"
-          />
-
-        </div>
-
-        <div class="package-field">
-
-          <label for="activationEmail">
-            Email
-          </label>
-
-          <input
-            id="activationEmail"
-            type="email"
-            placeholder="Enter email"
-            autocomplete="email"
-          />
-
-        </div>
-
-        <div class="package-field">
-
-          <label for="activationPhone">
-            Phone
-          </label>
-
-          <input
-            id="activationPhone"
-            type="tel"
-            placeholder="Enter phone number"
-            autocomplete="tel"
-          />
-
-        </div>
-
-      </div>
-
-      <!-- DEMO ACTIVATION -->
-      <button
-        id="activatePackageBtn"
-        class="activate-package-btn"
-        type="button"
-        disabled
-      >
-        Activate Selected Package
-      </button>
-
-      <div
-        id="activationMessage"
-        class="activation-message"
-        aria-live="polite"
-      ></div>
-
-    </div>
-
-  </div>
-
-</div>
-<!-- PACKAGE ACTIVATION RECEIPT -->
-<div
-  id="activationReceiptOverlay"
-  class="activation-receipt-overlay"
-  hidden
-  aria-modal="true"
-  role="dialog"
-  aria-labelledby="activationReceiptTitle"
->
-  <div class="activation-receipt">
-
-    <div class="receipt-success">
-      ✓
-    </div>
-
-    <h2 id="activationReceiptTitle">
-      Package Activated
-    </h2>
-
-    <p class="receipt-subtitle">
-      Your BTECH-TV package has been activated successfully.
-    </p>
-
-    <div class="receipt-details">
-
-      <div>
-        <span>Customer</span>
-        <strong id="receiptName">—</strong>
-      </div>
-
-      <div>
-        <span>Email</span>
-        <strong id="receiptEmail">—</strong>
-      </div>
-
-      <div>
-        <span>Phone</span>
-        <strong id="receiptPhone">—</strong>
-      </div>
-
-      <div>
-        <span>Package</span>
-        <strong id="receiptPackage">—</strong>
-      </div>
-
-      <div>
-        <span>Channels</span>
-        <strong id="receiptChannels">—</strong>
-      </div>
-
-      <div>
-        <span>Price</span>
-        <strong id="receiptPrice">—</strong>
-      </div>
-
-      <div>
-        <span>Validity</span>
-        <strong id="receiptValidity">—</strong>
-      </div>
-
-      <div>
-        <span>Activation Date</span>
-        <strong id="receiptActivationDate">—</strong>
-      </div>
-
-      <div>
-        <span>Expiry Date</span>
-        <strong id="receiptExpiryDate">—</strong>
-      </div>
-
-      <div>
-        <span>Activation Type</span>
-        <strong id="receiptType">DEMO</strong>
-      </div>
-
-    </div>
-
-    <button
-      id="continueToDashboardBtn"
-      class="continue-dashboard-btn"
-      type="button"
+    <script src="../js/ui.js" defer></script>
+    <script src="../js/app.js" defer></script>
+    <!-- PACKAGE SELECTOR -->
+    <div
+      id="packageSelectorOverlay"
+      class="package-selector-overlay"
+      hidden
+      aria-modal="true"
+      role="dialog"
+      aria-labelledby="packageSelectorTitle"
     >
-      Continue to Dashboard
-    </button>
+      <div class="package-selector">
+        <div class="package-selector-header">
+          <div>
+            <span class="package-label"> BTECH-TV WORLD PRO MAX </span>
 
-  </div>
-</div>
-  
-<script>
-(function () {
-  function findVideo() {
-    return document.querySelector('video');
-  }
-  document.addEventListener('click', function (e) {
-    const next = e.target.closest('.btech-control-next');
-    const prev = e.target.closest('.btech-control-prev');
-    const mute = e.target.closest('.btech-control-mute');
-    const fs = e.target.closest('.btech-control-fullscreen');
-    const globalBtn = e.target.closest('.btech-control-global');
-    const video = findVideo();
+            <h2 id="packageSelectorTitle">Choose Your Package</h2>
 
-    if (next && typeof window.nextChannel === 'function') window.nextChannel();
-    if (prev && typeof window.prevChannel === 'function') window.prevChannel();
-    if (mute && video) {
-      video.muted = !video.muted;
-      mute.textContent = video.muted ? '🔇 Unmute' : '🔊 Mute';
-    }
-    if (fs) {
-      const target = document.querySelector('#btechPlayerContainer, video');
-      if (target && document.fullscreenElement) document.exitFullscreen();
-      else if (target && target.requestFullscreen) target.requestFullscreen();
-    }
-    if (globalBtn) {
-      if (typeof window.globalMode === 'function') window.globalMode();
-      else if (typeof window.toggleGlobal === 'function') window.toggleGlobal();
-    }
-  });
-})();
-</script>
+            <p>
+              Your free trial has expired. Select a channel package to continue.
+            </p>
+          </div>
+        </div>
 
+        <div class="package-selector-body">
+          <!-- PACKAGE -->
+          <div class="package-field">
+            <label for="packageSelect"> Channel Package </label>
 
-<script>
-(function () {
-  function updateBtechLiveCount() {
-    const count = document.getElementById('btech-live-count');
-    if (!count) return;
-    const candidates = document.querySelectorAll(
-      '.channel-card, .channel-item, .channel, [data-channel], .channel-wrapper > *'
-    );
-    let visible = 0;
-    candidates.forEach(function (el) {
-      const s = getComputedStyle(el);
-      if (s.display !== 'none' && s.visibility !== 'hidden') visible++;
-    });
-    const loaded = Math.max(visible, document.querySelectorAll('video').length ? visible : 0);
-    count.textContent = visible + ' displayed • ' + loaded + ' loaded';
-  }
-  updateBtechLiveCount();
-  setInterval(updateBtechLiveCount, 1000);
-})();
-</script>
-<script id="btechControlsScript">
-(function(){
-  "use strict";
-  function video(){return document.getElementById("video")||document.querySelector("#btechPlayerContainer video,video");}
-  function callFirst(names){for(const n of names){if(typeof window[n]==="function"){try{window[n]();return true}catch(e){console.warn("BTECH-TV:",n,e)}}}return false;}
-  document.addEventListener("click",function(e){
-    const b=e.target.closest(".btech-requested-ui button"); if(!b)return;
-    e.preventDefault(); e.stopPropagation();
-    if(b.classList.contains("btech-control-next")){callFirst(["next","nextChannel","playNext"]);return;}
-    if(b.classList.contains("btech-control-prev")){callFirst(["prev","prevChannel","playPrev"]);return;}
-    if(b.classList.contains("btech-control-mute")){const v=video();if(!v)return;v.muted=!v.muted;b.textContent=v.muted?"🔇 Unmute":"🔊 Mute";return;}
-    if(b.classList.contains("btech-control-fullscreen")){const t=document.getElementById("btechPlayerContainer")||video();if(document.fullscreenElement){document.exitFullscreen().catch(function(){})}else if(t&&t.requestFullscreen){t.requestFullscreen().catch(function(){})}return;}
-    if(b.classList.contains("btech-control-global")){callFirst(["loadUltra","globalMode","toggleGlobal","loadGlobal"]);}
-  },true);
-})();
-</script>
-</body>
+            <select id="packageSelect" autocomplete="off">
+              <option value="">Select Package</option>
+            </select>
+          </div>
+
+          <!-- AUTO DETAILS -->
+          <div
+            id="selectedPackageDetails"
+            class="selected-package-details"
+            hidden
+          >
+            <div class="package-detail">
+              <span>Package</span>
+              <strong id="selectedPackageName"> — </strong>
+            </div>
+
+            <div class="package-detail">
+              <span>Channels</span>
+              <strong id="selectedPackageChannels"> — </strong>
+            </div>
+
+            <div class="package-detail">
+              <span>Price</span>
+              <strong id="selectedPackagePrice"> — </strong>
+            </div>
+
+            <div class="package-detail">
+              <span>Validity</span>
+              <strong id="selectedPackageValidity"> 30 Days </strong>
+            </div>
+          </div>
+
+          <!-- USER DETAILS -->
+          <div class="activation-form">
+            <div class="package-field">
+              <label for="activationName"> Full Name </label>
+
+              <input
+                id="activationName"
+                type="text"
+                placeholder="Enter full name"
+                autocomplete="name"
+              />
+            </div>
+
+            <div class="package-field">
+              <label for="activationEmail"> Email </label>
+
+              <input
+                id="activationEmail"
+                type="email"
+                placeholder="Enter email"
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="package-field">
+              <label for="activationPhone"> Phone </label>
+
+              <input
+                id="activationPhone"
+                type="tel"
+                placeholder="Enter phone number"
+                autocomplete="tel"
+              />
+            </div>
+          </div>
+
+          <!-- DEMO ACTIVATION -->
+          <button
+            id="activatePackageBtn"
+            class="activate-package-btn"
+            type="button"
+            disabled
+          >
+            Activate Selected Package
+          </button>
+
+          <div
+            id="activationMessage"
+            class="activation-message"
+            aria-live="polite"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <!-- PACKAGE ACTIVATION RECEIPT -->
+    <div
+      id="activationReceiptOverlay"
+      class="activation-receipt-overlay"
+      hidden
+      aria-modal="true"
+      role="dialog"
+      aria-labelledby="activationReceiptTitle"
+    >
+      <div class="activation-receipt">
+        <div class="receipt-success">✓</div>
+
+        <h2 id="activationReceiptTitle">Package Activated</h2>
+
+        <p class="receipt-subtitle">
+          Your BTECH-TV package has been activated successfully.
+        </p>
+
+        <div class="receipt-details">
+          <div>
+            <span>Customer</span>
+            <strong id="receiptName">—</strong>
+          </div>
+
+          <div>
+            <span>Email</span>
+            <strong id="receiptEmail">—</strong>
+          </div>
+
+          <div>
+            <span>Phone</span>
+            <strong id="receiptPhone">—</strong>
+          </div>
+
+          <div>
+            <span>Package</span>
+            <strong id="receiptPackage">—</strong>
+          </div>
+
+          <div>
+            <span>Channels</span>
+            <strong id="receiptChannels">—</strong>
+          </div>
+
+          <div>
+            <span>Price</span>
+            <strong id="receiptPrice">—</strong>
+          </div>
+
+          <div>
+            <span>Validity</span>
+            <strong id="receiptValidity">—</strong>
+          </div>
+
+          <div>
+            <span>Activation Date</span>
+            <strong id="receiptActivationDate">—</strong>
+          </div>
+
+          <div>
+            <span>Expiry Date</span>
+            <strong id="receiptExpiryDate">—</strong>
+          </div>
+
+          <div>
+            <span>Activation Type</span>
+            <strong id="receiptType">DEMO</strong>
+          </div>
+        </div>
+
+        <button
+          id="continueToDashboardBtn"
+          class="continue-dashboard-btn"
+          type="button"
+        >
+          Continue to Dashboard
+        </button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        function findVideo() {
+          return document.querySelector("video");
+        }
+        document.addEventListener("click", function (e) {
+          const next = e.target.closest(".btech-control-next");
+          const prev = e.target.closest(".btech-control-prev");
+          const mute = e.target.closest(".btech-control-mute");
+          const fs = e.target.closest(".btech-control-fullscreen");
+          const globalBtn = e.target.closest(".btech-control-global");
+          const video = findVideo();
+
+          if (next && typeof window.nextChannel === "function")
+            window.nextChannel();
+          if (prev && typeof window.prevChannel === "function")
+            window.prevChannel();
+          if (mute && video) {
+            video.muted = !video.muted;
+            mute.textContent = video.muted ? "🔇 Unmute" : "🔊 Mute";
+          }
+          if (fs) {
+            const target = document.querySelector(
+              "#btechPlayerContainer, video",
+            );
+            if (target && document.fullscreenElement) document.exitFullscreen();
+            else if (target && target.requestFullscreen)
+              target.requestFullscreen();
+          }
+          if (globalBtn) {
+            if (typeof window.globalMode === "function") window.globalMode();
+            else if (typeof window.toggleGlobal === "function")
+              window.toggleGlobal();
+          }
+        });
+      })();
+    </script>
+
+    <script>
+      (function () {
+        function updateBtechLiveCount() {
+          const count = document.getElementById("btech-live-count");
+          if (!count) return;
+          const candidates = document.querySelectorAll(
+            ".channel-card, .channel-item, .channel, [data-channel], .channel-wrapper > *",
+          );
+          let visible = 0;
+          candidates.forEach(function (el) {
+            const s = getComputedStyle(el);
+            if (s.display !== "none" && s.visibility !== "hidden") visible++;
+          });
+          const loaded = Math.max(
+            visible,
+            document.querySelectorAll("video").length ? visible : 0,
+          );
+          count.textContent = visible + " displayed • " + loaded + " loaded";
+        }
+        updateBtechLiveCount();
+        setInterval(updateBtechLiveCount, 1000);
+      })();
+    </script>
+    <script id="btechControlsScript">
+      (function () {
+        "use strict";
+        function video() {
+          return (
+            document.getElementById("video") ||
+            document.querySelector("#btechPlayerContainer video,video")
+          );
+        }
+        function callFirst(names) {
+          for (const n of names) {
+            if (typeof window[n] === "function") {
+              try {
+                window[n]();
+                return true;
+              } catch (e) {
+                console.warn("BTECH-TV:", n, e);
+              }
+            }
+          }
+          return false;
+        }
+        document.addEventListener(
+          "click",
+          function (e) {
+            const b = e.target.closest(".btech-requested-ui button");
+            if (!b) return;
+            e.preventDefault();
+            e.stopPropagation();
+            if (b.classList.contains("btech-control-next")) {
+              callFirst(["next", "nextChannel", "playNext"]);
+              return;
+            }
+            if (b.classList.contains("btech-control-prev")) {
+              callFirst(["prev", "prevChannel", "playPrev"]);
+              return;
+            }
+            if (b.classList.contains("btech-control-mute")) {
+              const v = video();
+              if (!v) return;
+              v.muted = !v.muted;
+              b.textContent = v.muted ? "🔇 Unmute" : "🔊 Mute";
+              return;
+            }
+            if (b.classList.contains("btech-control-fullscreen")) {
+              const t =
+                document.getElementById("btechPlayerContainer") || video();
+              if (document.fullscreenElement) {
+                document.exitFullscreen().catch(function () {});
+              } else if (t && t.requestFullscreen) {
+                t.requestFullscreen().catch(function () {});
+              }
+              return;
+            }
+            if (b.classList.contains("btech-control-global")) {
+              callFirst([
+                "loadUltra",
+                "globalMode",
+                "toggleGlobal",
+                "loadGlobal",
+              ]);
+            }
+          },
+          true,
+        );
+      })();
+    </script>
+  </body>
 </html>
