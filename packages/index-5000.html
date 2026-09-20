@@ -161,32 +161,29 @@ document.addEventListener("DOMContentLoaded", function(){
           BTECH-TV WORLD PRO MAX
         </div>
       </div>
+  <!-- QUALITY -->
+          <div class="quality-selector">
+            <button type="button" aria-label="Current stream quality">
+              Quality: <span data-current-quality>auto</span>
+            </button>
+            <div data-quality-menu></div>
+          </div>
 
-      <!-- QUALITY -->
-      <div class="quality-selector">
-        <button type="button" aria-label="Current stream quality">
-          Quality: <span data-current-quality>auto</span>
-        </button>
-        <div data-quality-menu></div>
-      </div>
+          <!-- LEGACY/INLINE CONTROL COMPATIBILITY -->
+          <div class="controls" aria-label="BTECH-TV controls">
+            <button type="button" onclick="next()">▶ Next</button>
+            <button type="button" onclick="prev()">◀ Prev</button>
+            <button type="button" onclick="toggleMute()">🔊 Mute</button>
+            <button type="button" onclick="toggleFullscreen()">
+              ⛶ Fullscreen
+            </button>
+            <button type="button" onclick="loadUltra()">🚀 Global</button>
+            <div class="designer-credit">
+              Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN
+            </div>
+          </div>
+        </section>
 
-      <!-- PLAYER CONTROLS: canonical requested UI -->
-      <div class="btech-requested-ui" aria-label="BTECH-TV player controls">
-        <div class="btech-quality">Quality: auto</div>
-        <div class="btech-controls">
-         
-          
-
-      <!-- LEGACY/INLINE CONTROL COMPATIBILITY -->
-      <div class="controls" aria-label="BTECH-TV controls">
-        <button type="button" onclick="next()">▶ Next</button>
-        <button type="button" onclick="prev()">◀ Prev</button>
-        <button type="button" onclick="toggleMute()">🔊 Mute</button>
-        <button type="button" onclick="toggleFullscreen()">⛶ Fullscreen</button>
-        <button type="button" onclick="loadUltra()">🚀 Global</button>
-        <div class="designer-credit">Design by <span>BINAINU SHAIBU</span> | BTECH WEBSITE DESIGN</div>
-      </div>
-    </section>
 
     <!-- ===================================== CHANNEL LIST ====================================== -->
     <section class="btech-channel-display channel-display-section" aria-labelledby="channelDisplayTitle">
